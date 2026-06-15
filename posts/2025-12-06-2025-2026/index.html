@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="2025于我是很平淡的一年——好吧，它可能比去年更平淡一点。 写在前面 天气又转凉了，每年这时候流感都会找上我来。躺在床上想着也学不了什么东西了（其实是生病给了我休息的借口）于是就来照例把今年的总结写完。 记得年初，我的前桌告诉我，21世纪已经过去了四分之一。我想，作为千禧一代，我都人生居然也过完四">
+<meta property="og:type" content="article">
+<meta property="og:title" content="2025-2026 年终总结">
+<meta property="og:url" content="https://lamentxu.top/posts/2025-12-06-2025-2026/index.html">
+<meta property="og:site_name" content="LamentXU">
+<meta property="og:description" content="2025于我是很平淡的一年——好吧，它可能比去年更平淡一点。 写在前面 天气又转凉了，每年这时候流感都会找上我来。躺在床上想着也学不了什么东西了（其实是生病给了我休息的借口）于是就来照例把今年的总结写完。 记得年初，我的前桌告诉我，21世纪已经过去了四分之一。我想，作为千禧一代，我都人生居然也过完四">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/19302512/01.jpg">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/19302512/02.png">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/19302512/03.jpg">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/19302512/04.jpg">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/19302512/05.jpg">
+<meta property="article:published_time" content="2025-12-06T12:01:00.000Z">
+<meta property="article:modified_time" content="2025-12-06T12:01:00.000Z">
+<meta property="article:author" content="LamentXU">
+<meta property="article:tag" content="CTF">
+<meta property="article:tag" content="Pwn">
+<meta property="article:tag" content="Web Security">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://lamentxu.top/images/migrated/19302512/01.jpg">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/cnblogs-avatar.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/cnblogs-avatar.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/cnblogs-avatar.png">
+        
+      
+    
+    <!-- title -->
+    <title>2025-2026 年终总结</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+      <link rel="alternate" href="/atom.xml" title="LamentXU" type="application/atom+xml" />
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 8.1.2"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="顶部" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/about/">关于</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a href="/search/">搜索</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="上一篇" href="/posts/2025-12-10-19328800/"><i class="fa-solid fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="下一篇" href="/posts/2025-10-21-2025-web-wp/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="返回顶部" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="分享文章" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://lamentxu.top/posts/2025-12-06-2025-2026/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://lamentxu.top/posts/2025-12-06-2025-2026/&text=2025-2026 年终总结"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://lamentxu.top/posts/2025-12-06-2025-2026/&title=2025-2026 年终总结"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://lamentxu.top/posts/2025-12-06-2025-2026/&is_video=false&description=2025-2026 年终总结"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=2025-2026 年终总结&body=Check out this article: https://lamentxu.top/posts/2025-12-06-2025-2026/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://lamentxu.top/posts/2025-12-06-2025-2026/&title=2025-2026 年终总结"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://lamentxu.top/posts/2025-12-06-2025-2026/&title=2025-2026 年终总结"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://lamentxu.top/posts/2025-12-06-2025-2026/&title=2025-2026 年终总结"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://lamentxu.top/posts/2025-12-06-2025-2026/&title=2025-2026 年终总结"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://lamentxu.top/posts/2025-12-06-2025-2026/&name=2025-2026 年终总结&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://lamentxu.top/posts/2025-12-06-2025-2026/&t=2025-2026 年终总结"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    
+    
+      <div id="toc">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%86%99%E5%9C%A8%E5%89%8D%E9%9D%A2"><span class="toc-number">1.</span> <span class="toc-text">写在前面</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%9F%AD%E6%9A%82%E8%80%8C%E7%BE%8E%E5%A5%BD%E7%9A%84%E9%AB%98%E4%B8%AD%E7%94%9F%E6%B4%BB"><span class="toc-number">2.</span> <span class="toc-text">短暂而美好的高中生活</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9C%9F%E4%B8%AD-%E6%9C%9F%E6%9C%AB-%E6%9C%9F%E4%B8%AD-%E6%9C%9F%E6%9C%AB"><span class="toc-number">2.1.</span> <span class="toc-text">期中 期末 期中 期末</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%96%87%E5%AD%A6%E7%BF%BB%E8%AF%91"><span class="toc-number">2.2.</span> <span class="toc-text">文学翻译</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%90%89%E4%BB%96"><span class="toc-number">2.3.</span> <span class="toc-text">吉他</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%91%8A%E5%88%AB"><span class="toc-number">2.4.</span> <span class="toc-text">告别</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%BD%93%E4%B8%8B%E6%98%AF%E6%88%91%E5%96%9C%E6%AC%A2%E7%9A%84%E6%97%A5%E5%AD%90"><span class="toc-number">3.</span> <span class="toc-text">当下是我喜欢的日子</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BC%80%E6%BA%90"><span class="toc-number">3.1.</span> <span class="toc-text">开源</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Typhon"><span class="toc-number">3.1.1.</span> <span class="toc-text">Typhon</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#cpython"><span class="toc-number">3.1.2.</span> <span class="toc-text">cpython</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#CTF"><span class="toc-number">3.2.</span> <span class="toc-text">CTF</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#W-M-V-N"><span class="toc-number">3.2.1.</span> <span class="toc-text">W&amp;M &amp; V&amp;N</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%87%BA%E9%A2%98"><span class="toc-number">3.2.2.</span> <span class="toc-text">出题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BB%93%E6%9D%9F%E4%BA%86%EF%BC%9F"><span class="toc-number">3.2.3.</span> <span class="toc-text">结束了？</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%90%8E%E9%9D%A2%E7%9A%84%E8%AF%9D"><span class="toc-number">3.3.</span> <span class="toc-text">后面的话</span></a></li></ol></li></ol>
+      </div>
+    
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        2025-2026 年终总结
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">LamentXU</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2025-12-06T12:01:00.000Z" class="dt-published" itemprop="datePublished">2025-12-06</time>
+        
+        (Updated: <time datetime="2025-12-06T12:01:00.000Z" class="dt-updated" itemprop="dateModified">2025-12-06</time>)
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fa-solid fa-archive"></i>
+        <a class="category-link" href="/categories/CTF/">CTF</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fa-solid fa-tag"></i>
+        <a class="p-category" href="/tags/CTF/" rel="tag">CTF</a>, <a class="p-category" href="/tags/Pwn/" rel="tag">Pwn</a>, <a class="p-category" href="/tags/Web-Security/" rel="tag">Web Security</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <p>2025于我是很平淡的一年——好吧，它可能比<a target="_blank" rel="noopener" href="https://www.cnblogs.com/LAMENTXU/p/18691608">去年</a>更平淡一点。</p>
+<h1 id="写在前面"><a href="#写在前面" class="headerlink" title="写在前面"></a>写在前面</h1><p>天气又转凉了，每年这时候流感都会找上我来。躺在床上想着也学不了什么东西了（其实是生病给了我休息的借口）于是就来照例把今年的总结写完。</p>
+<p>记得年初，我的前桌告诉我，21世纪已经过去了四分之一。我想，作为千禧一代，我都人生居然也过完四分之一了。嘻，逝者如斯夫，如是而已。</p>
+<p>2025说是平淡，但也发生了很重大的转折。从家门口的高中，到离家二三十公里的机构，一年而已。然而，就连家门口的高中部，也在我离开的那一瞬间为初中部所霸占，而灰溜溜地搬到赤湾去了——人面不知何处去，现在连桃花也不见了。</p>
+<h1 id="短暂而美好的高中生活"><a href="#短暂而美好的高中生活" class="headerlink" title="短暂而美好的高中生活"></a>短暂而美好的高中生活</h1><p>我是港户，因而在大陆读两年高中，再在高三回机构准备香港高考（DSE）的命运是写死的。2025年上半年是我在北京师范大学南山附属中学的最后半年。作为初中，高中都在这里就读的长达五年的“钉子户”，那里于我自然充满了不舍。</p>
+<h2 id="期中-期末-期中-期末"><a href="#期中-期末-期中-期末" class="headerlink" title="期中 期末 期中 期末"></a>期中 期末 期中 期末</h2><p>高中生活考试是主旋律。我因为港考，就不用学生物。于是每次考试之前都要猛猛补生物。于是每次考试我生物能否及格就成了看点之一（虽然大多数情况下我还是能在平均分上面的）</p>
+<p>我在普高的学习总体大差不差吧。依着个半学不学的生物能勉强贴在年纪前50，也是我们班的分数线。北师大附中嘛，只要你一次考出前50就要滚出重点班了（笑）所以我也叫“弘毅守门员”（弘毅班是我们的理科重点班）</p>
+<p>一个时代过去的标志，就是这个时代被浪漫化了。不知道为什么。我好像只有在离开高中了才开始怀念那时的生活。仿佛所有的压力都不曾存在一般。也许当这个时代被浪漫化了，也就代表着他真正过去了吧。</p>
+<h2 id="文学翻译"><a href="#文学翻译" class="headerlink" title="文学翻译"></a>文学翻译</h2><p>我一直很喜欢翻译。然而直到我开始翻译技术文档之前我都是一个文学翻译的爱好者。我的翻译很矛盾，我喜欢翻译一些有译文的书籍，这样我自己翻译完之后，就能对着原来的翻译看，争个高下出来。我只翻我感兴趣的书籍，从英文到中文，几年来时不时有兴致了就翻一些《堂吉诃德》<em>Don Quijote de la Mancha</em> 的文本（原著是西班牙语，我是从西班牙语翻译成的英文书里再翻译成中文）。</p>
+<p>记得我离开高中的那一天，我的同学还来教我用十几种语言骂人的办法。我知道是在打趣。然而到现在也很难忘记当时教的 <em>Mierda</em> 和 <em>Hijo de puta</em> 嗯……也是我第一次说别的语言的话了。哦，还有 <em>Сука блядь</em></p>
+<h2 id="吉他"><a href="#吉他" class="headerlink" title="吉他"></a>吉他</h2><p>年中开始到年末这段时间把琴捡起来了。</p>
+<p>想想小时候被家里人逼着学琴，勉强搞到个什么民谣吉他的什么级。那会还抱怨来着。现在真是多亏了有以前的技能啊。</p>
+<p>今年练熟了《心做し》和《lemon》。因为偏爱《堂吉诃德》这本书，也就把《英雄主义》也弹了。记得我七八岁的时候《加州旅馆》，《Tears in Heaven》都是相当熟练的，现在还得慢慢回忆了。</p>
+<p>周杰伦的歌也没少弹。年初学校的文艺展演练了《晴天》。后面又慢慢把《青花瓷》，《七里香》也补上了。</p>
+<h2 id="告别"><a href="#告别" class="headerlink" title="告别"></a>告别</h2><p>我记得是七月初吧。那会是我在高中的最后一天。印象里班里给我开了个追悼会一样的东西。给我人头换成了黑白当背景，再照例请几个老师同学上去讲话完事。</p>
+<blockquote>
+<p>哈哈，我几把谁。</p>
+</blockquote>
+<p>下图是该天的黑板：</p>
+<p><img src="/images/migrated/19302512/01.jpg" alt="mmexport1748616425624.jpg"></p>
+<p>这是我最可爱的同学们啊！</p>
+<p>我一直是甜食的重度成瘾者。因此几乎每天都要带着一杯全糖奶茶去学校。自从离开高中后，我为了戒干脆就换喝咖啡了。结果呢，又长了个咖啡杯在手上。</p>
+<p>另外同桌送了我一本库尔特·冯内古特的《第五号屠宰场》。好看。</p>
+<h1 id="当下是我喜欢的日子"><a href="#当下是我喜欢的日子" class="headerlink" title="当下是我喜欢的日子"></a>当下是我喜欢的日子</h1><p>最近在忙什么呢？从高中出来之后也就标志着正式脱离了大陆这套高考的体系，开始朝香港的那一套进军了。其实也不过就是从一座监狱换到了另一座监狱。熟悉的单休，考试，排名，还是那些东西。</p>
+<h2 id="开源"><a href="#开源" class="headerlink" title="开源"></a>开源</h2><h3 id="Typhon"><a href="#Typhon" class="headerlink" title="Typhon"></a>Typhon</h3><p>我从初中开始就很喜欢自己写点工具啥的。然而从几个月前吧，发现 pyjail 有自动化的可能，就索性写了个能用的东西出来。最后也收获了一些用户。这竟是我目前为止最成功的开源项目了。相关可以看<a target="_blank" rel="noopener" href="https://www.cnblogs.com/LAMENTXU/articles/19101758">这篇博客</a></p>
+<h3 id="cpython"><a href="#cpython" class="headerlink" title="cpython"></a>cpython</h3><p>从半年前我就开始给 cpython 做贡献了。算是……附庸风雅吧。第一次应该是在uuid这里，具体可以看<a target="_blank" rel="noopener" href="https://www.cnblogs.com/LAMENTXU/articles/18921150">这篇博客</a>。而后也算给 cpython 大大小小修了点 bug，改了改文档。混了一个在 3.14+ 里 ACKS 文件里的署名。</p>
+<p>另外也从文学翻译转型开始给 cpython 翻译文档了，从英文到繁体中文。这种能使自己所擅长的东西发光的感觉真的很不错。也混了个该翻译项目里 TRANSLATOR 的署名。</p>
+<h2 id="CTF"><a href="#CTF" class="headerlink" title="CTF"></a>CTF</h2><h3 id="W-M-V-N"><a href="#W-M-V-N" class="headerlink" title="W&amp;M &amp; V&amp;N"></a>W&amp;M &amp; V&amp;N</h3><p>今年一年都在跟 V&amp;N 的师傅们打，一次都没落下，属于是 web 的稳定输出位了。最后也是拿到了很多好成绩。</p>
+<p>记得年中，我们作为 W&amp;M 的子队，在 ACTF 中拿到 4th。这是队史 XCTF 分站赛最高成绩。<br><img src="/images/migrated/19302512/02.png" alt="image"><br>记得今年是我们第一年进入 XCTF final。记得<code>gets</code>✌在 live solo 环节拿了二等奖。<br>记得今年是我们强网拟态第一次进线下。<br>记得今年是我们强网杯第一次有打进线下的成绩。<br>……</p>
+<p>V&amp;N 里有很多 web 强手。我不喜欢 CTF 本身，很不喜欢。尤其是在 XCTF 这种高难度的竞赛下，这种东西简直就是折磨。我喜欢的是深夜里与 V&amp;N 师傅通话一起解题互相鼓励的感觉，是解出题目后满屏的tql。</p>
+<p>这里感谢<code>q1uf3ng</code>和<code>PuH4ck3rX</code>能基本每个晚上都会在语音通话里陪我奋战到底。谢谢你们。</p>
+<p>年末也是成功的进 W&amp;M 了。嗯……因为之前一直在联队打，有些弱项就一直没学，到后面没精力了想学也学不动了。于是为了面试准备了半个月的弱项（java，xss，云安全）结果到头来面试一个都没问到。</p>
+<p>所以我现在也可以名正言顺的庆祝 W&amp;M 的成绩了：强网杯一等奖+强网拟态赛会总冠军！</p>
+<p><img src="/images/migrated/19302512/03.jpg" alt="Image\_1764403314831.jpg"></p>
+<p>只能说<code>q1uf3ng</code>太帅了，web 扛把子。有他在我可以当一辈子挂件。</p>
+<p>我因为高考吧，还有港户碍着，就只负责线上的输出了。每天就看着别人得志，抑或是遗憾。无论怎样心中都挺羡慕的。只能说等我考完，又是一条好汉。</p>
+<blockquote>
+<p>哈哈，我几把谁。</p>
+</blockquote>
+<p>年中跟<code>jerrythepro123</code>一起还去了个极客少年挑战营，跟<code>ZianTT</code>，<code>纸豪</code>这样的小黑客们见面：</p>
+<p><img src="/images/migrated/19302512/04.jpg" alt="Image\_1756634706758.jpg"></p>
+<p>那天晚上是这辈子第一次喝醉。感觉没想象中那么差。</p>
+<p>在深圳，同 V&amp;N 的 pwn 手<code>jerrythepro123</code>和腾讯✌华哥的聚会。</p>
+<p><img src="/images/migrated/19302512/05.jpg" alt="IMG\_20250802\_194723.jpg"></p>
+<h3 id="出题"><a href="#出题" class="headerlink" title="出题"></a>出题</h3><p>今年出了不少题。总的来说质量还行吧，至少都尽力出好了。</p>
+<ul>
+<li>XYCTF</li>
+<li>LILCTF</li>
+<li>ISCTF</li>
+<li>MiniVN</li>
+<li>…</li>
+</ul>
+<p>唯一的遗憾其实是 XYCTF。那会人还比较青涩，也不太懂出题。比赛呢，出题人也很少。就被硬顶着出了好多好多，其中整了一堆烂活。</p>
+<blockquote>
+<p>就搞一个东西，把一个东西搞好，最好不过了。相反，什么都做反而容易什么都搞不好。</p>
+</blockquote>
+<h3 id="结束了？"><a href="#结束了？" class="headerlink" title="结束了？"></a>结束了？</h3><p>直到明年我的考试结束，我大概不会再打任何 CTF 竞赛了。这可以算是一个小结。我向来不喜欢搞友链这种东西，但是在最后的最后，我想感谢一直以来陪我走过的师傅们。</p>
+<blockquote>
+<p>本来这里有一串长长的名单的。但是写了一半发现。要感谢的人太多了。索性直接不写了。</p>
+</blockquote>
+<h2 id="后面的话"><a href="#后面的话" class="headerlink" title="后面的话"></a>后面的话</h2><p>写到这里已经乏了，外卖也到了。就不写了。过会还得吃药。</p>
+<p>希望新的一年里：</p>
+<ul>
+<li>搞好学习</li>
+<li>幸福，快乐</li>
+<li>珍惜善人，远离烂人</li>
+</ul>
+<p>内心强大的人的自我价值不受他人眼光定义。新的一年里，希望成绩上，技术上都能越来越好。至于其他人怎么说，说就是了。</p>
+<blockquote>
+<p>乘风破浪会有时，直挂云帆济沧海。</p>
+</blockquote>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">首页</a></li>
+        
+          <li><a href="/about/">关于</a></li>
+        
+          <li><a href="/archives/">归档</a></li>
+        
+          <li><a href="/search/">搜索</a></li>
+        
+      </ul>
+    </div>
+
+    
+    
+      <div id="toc-footer" style="display: none">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%86%99%E5%9C%A8%E5%89%8D%E9%9D%A2"><span class="toc-number">1.</span> <span class="toc-text">写在前面</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%9F%AD%E6%9A%82%E8%80%8C%E7%BE%8E%E5%A5%BD%E7%9A%84%E9%AB%98%E4%B8%AD%E7%94%9F%E6%B4%BB"><span class="toc-number">2.</span> <span class="toc-text">短暂而美好的高中生活</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9C%9F%E4%B8%AD-%E6%9C%9F%E6%9C%AB-%E6%9C%9F%E4%B8%AD-%E6%9C%9F%E6%9C%AB"><span class="toc-number">2.1.</span> <span class="toc-text">期中 期末 期中 期末</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%96%87%E5%AD%A6%E7%BF%BB%E8%AF%91"><span class="toc-number">2.2.</span> <span class="toc-text">文学翻译</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%90%89%E4%BB%96"><span class="toc-number">2.3.</span> <span class="toc-text">吉他</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%91%8A%E5%88%AB"><span class="toc-number">2.4.</span> <span class="toc-text">告别</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%BD%93%E4%B8%8B%E6%98%AF%E6%88%91%E5%96%9C%E6%AC%A2%E7%9A%84%E6%97%A5%E5%AD%90"><span class="toc-number">3.</span> <span class="toc-text">当下是我喜欢的日子</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BC%80%E6%BA%90"><span class="toc-number">3.1.</span> <span class="toc-text">开源</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Typhon"><span class="toc-number">3.1.1.</span> <span class="toc-text">Typhon</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#cpython"><span class="toc-number">3.1.2.</span> <span class="toc-text">cpython</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#CTF"><span class="toc-number">3.2.</span> <span class="toc-text">CTF</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#W-M-V-N"><span class="toc-number">3.2.1.</span> <span class="toc-text">W&amp;M &amp; V&amp;N</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%87%BA%E9%A2%98"><span class="toc-number">3.2.2.</span> <span class="toc-text">出题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BB%93%E6%9D%9F%E4%BA%86%EF%BC%9F"><span class="toc-number">3.2.3.</span> <span class="toc-text">结束了？</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%90%8E%E9%9D%A2%E7%9A%84%E8%AF%9D"><span class="toc-number">3.3.</span> <span class="toc-text">后面的话</span></a></li></ol></li></ol>
+      </div>
+    
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://lamentxu.top/posts/2025-12-06-2025-2026/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://lamentxu.top/posts/2025-12-06-2025-2026/&text=2025-2026 年终总结"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://lamentxu.top/posts/2025-12-06-2025-2026/&title=2025-2026 年终总结"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://lamentxu.top/posts/2025-12-06-2025-2026/&is_video=false&description=2025-2026 年终总结"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=2025-2026 年终总结&body=Check out this article: https://lamentxu.top/posts/2025-12-06-2025-2026/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://lamentxu.top/posts/2025-12-06-2025-2026/&title=2025-2026 年终总结"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://lamentxu.top/posts/2025-12-06-2025-2026/&title=2025-2026 年终总结"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://lamentxu.top/posts/2025-12-06-2025-2026/&title=2025-2026 年终总结"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://lamentxu.top/posts/2025-12-06-2025-2026/&title=2025-2026 年终总结"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://lamentxu.top/posts/2025-12-06-2025-2026/&name=2025-2026 年终总结&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://lamentxu.top/posts/2025-12-06-2025-2026/&t=2025-2026 年终总结"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        
+          <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2024-2026
+    LamentXU
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/about/">关于</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a href="/search/">搜索</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板！\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功！");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>

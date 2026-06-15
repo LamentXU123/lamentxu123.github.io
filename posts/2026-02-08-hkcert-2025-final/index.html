@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="于是我终于决定缺席了第三次模拟考试，同我唯一的一位老队友一起踏上了追逐梦想的舞台。在这里，由两个高中生组成的队伍，最终在以四个大学生组成的队伍中在香港最大的网络安全竞赛中夺得亚军。 从此，我的高中，就再没有了遗憾。我可以，也本就应该，有昂首阔步的信念，迎接高考，以及成年的自己。 遗憾贯穿人生始终，也">
+<meta property="og:type" content="article">
+<meta property="og:title" content="HKCERT 2025 final 感想">
+<meta property="og:url" content="https://lamentxu.top/posts/2026-02-08-hkcert-2025-final/index.html">
+<meta property="og:site_name" content="LamentXU">
+<meta property="og:description" content="于是我终于决定缺席了第三次模拟考试，同我唯一的一位老队友一起踏上了追逐梦想的舞台。在这里，由两个高中生组成的队伍，最终在以四个大学生组成的队伍中在香港最大的网络安全竞赛中夺得亚军。 从此，我的高中，就再没有了遗憾。我可以，也本就应该，有昂首阔步的信念，迎接高考，以及成年的自己。 遗憾贯穿人生始终，也">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/19592941/01.jpg">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/19592941/02.png">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/19592941/03.png">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/19592941/04.png">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/19592941/05.png">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/19592941/06.jpg">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/19592941/07.jpg">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/19592941/08.jpg">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/19592941/09.jpg">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/19592941/10.jpg">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/19592941/11.jpg">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/19592941/12.jpg">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/19592941/13.jpg">
+<meta property="article:published_time" content="2026-02-08T15:08:00.000Z">
+<meta property="article:modified_time" content="2026-02-08T15:08:00.000Z">
+<meta property="article:author" content="LamentXU">
+<meta property="article:tag" content="CTF">
+<meta property="article:tag" content="Pwn">
+<meta property="article:tag" content="Web Security">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://lamentxu.top/images/migrated/19592941/01.jpg">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/cnblogs-avatar.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/cnblogs-avatar.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/cnblogs-avatar.png">
+        
+      
+    
+    <!-- title -->
+    <title>HKCERT 2025 final 感想</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+      <link rel="alternate" href="/atom.xml" title="LamentXU" type="application/atom+xml" />
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 8.1.2"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="顶部" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/about/">关于</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a href="/search/">搜索</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="上一篇" href="/posts/2026-03-04-ctfai/"><i class="fa-solid fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="下一篇" href="/posts/2025-12-22-hkcert-2025-web-wp/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="返回顶部" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="分享文章" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://lamentxu.top/posts/2026-02-08-hkcert-2025-final/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://lamentxu.top/posts/2026-02-08-hkcert-2025-final/&text=HKCERT 2025 final 感想"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://lamentxu.top/posts/2026-02-08-hkcert-2025-final/&title=HKCERT 2025 final 感想"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://lamentxu.top/posts/2026-02-08-hkcert-2025-final/&is_video=false&description=HKCERT 2025 final 感想"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=HKCERT 2025 final 感想&body=Check out this article: https://lamentxu.top/posts/2026-02-08-hkcert-2025-final/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://lamentxu.top/posts/2026-02-08-hkcert-2025-final/&title=HKCERT 2025 final 感想"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://lamentxu.top/posts/2026-02-08-hkcert-2025-final/&title=HKCERT 2025 final 感想"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://lamentxu.top/posts/2026-02-08-hkcert-2025-final/&title=HKCERT 2025 final 感想"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://lamentxu.top/posts/2026-02-08-hkcert-2025-final/&title=HKCERT 2025 final 感想"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://lamentxu.top/posts/2026-02-08-hkcert-2025-final/&name=HKCERT 2025 final 感想&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://lamentxu.top/posts/2026-02-08-hkcert-2025-final/&t=HKCERT 2025 final 感想"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    
+    
+      <div id="toc">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%AB%9E%E8%B5%9B"><span class="toc-number">1.</span> <span class="toc-text">竞赛</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%9D%E8%B5%9B"><span class="toc-number">1.1.</span> <span class="toc-text">初赛</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%86%B3%E8%B5%9B"><span class="toc-number">1.2.</span> <span class="toc-text">决赛</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%B5%9B%E5%90%8E"><span class="toc-number">1.3.</span> <span class="toc-text">赛后</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-number">2.</span> <span class="toc-text">总结</span></a></li></ol>
+      </div>
+    
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        HKCERT 2025 final 感想
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">LamentXU</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2026-02-08T15:08:00.000Z" class="dt-published" itemprop="datePublished">2026-02-08</time>
+        
+        (Updated: <time datetime="2026-02-08T15:08:00.000Z" class="dt-updated" itemprop="dateModified">2026-02-08</time>)
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fa-solid fa-archive"></i>
+        <a class="category-link" href="/categories/CTF/">CTF</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fa-solid fa-tag"></i>
+        <a class="p-category" href="/tags/CTF/" rel="tag">CTF</a>, <a class="p-category" href="/tags/Pwn/" rel="tag">Pwn</a>, <a class="p-category" href="/tags/Web-Security/" rel="tag">Web Security</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <p>于是我终于决定缺席了第三次模拟考试，同我唯一的一位老队友一起踏上了追逐梦想的舞台。在这里，由两个高中生组成的队伍，最终在以四个大学生组成的队伍中在香港最大的网络安全竞赛中夺得亚军。</p>
+<p><img src="/images/migrated/19592941/01.jpg" alt="Image\_1770559829292\_872"></p>
+<p>从此，我的高中，就再没有了遗憾。我可以，也本就应该，有昂首阔步的信念，迎接高考，以及成年的自己。</p>
+<p>遗憾贯穿人生始终，也正因如此，使那几次本就为数不多的成功显得熠熠生辉。故事的结尾，如同故事的开端一般，由我们开启，也由我们结束。</p>
+<h1 id="竞赛"><a href="#竞赛" class="headerlink" title="竞赛"></a>竞赛</h1><h2 id="初赛"><a href="#初赛" class="headerlink" title="初赛"></a>初赛</h2><p>我和 jerrythepro 最初打算报名这场比赛时本就是抱着玩一玩的心态来的。毕竟同为高中生，彼时的我们有更重的压力和任务在身。同时，虽然我们都是香港户籍，但 jerrythepro 并不在香港读书，我们也因此报名不了属于中学生的赛道，也只能在公开组同大学生们竞争。</p>
+<p>然而初赛，我们还是相约至少打好第一波题目。我记得，那是我第一次逃课出去打 CTF，也就慌慌张张地打出了一份答卷。<br><img src="/images/migrated/19592941/02.png" alt="968fe568d37e2ec4ea32d1cf3fb2af7a"><br>Jerry 呢，与往常一样，在香港的公开组中豪取 3 个 pwn 一血。可以说，我们的第一波打的远比想象中容易。（队名：EICS1）</p>
+<p><img src="/images/migrated/19592941/03.png" alt="fcc28878e371491bef0b3f453eda7e59"></p>
+<p>然而后面的题目我们由于要上学，就只能且做且珍惜了。最后，我们以第四名的成绩勉强进入决赛轮。</p>
+<p><img src="/images/migrated/19592941/04.png" alt="88350921b9c34d85699842174099ec61"></p>
+<p>两天后呢，Jerry 已经得到大学的通知书了。我们于是出去吃了顿饭庆祝，也提到了决赛的事。</p>
+<p><img src="/images/migrated/19592941/05.png" alt="image"></p>
+<p>再三思考过后，我们还是决定参加公开组的决赛。</p>
+<h2 id="决赛"><a href="#决赛" class="headerlink" title="决赛"></a>决赛</h2><p>决赛前一天，我的港澳台通行证消失了。真的消失了。我当时在深圳湾口岸凭着 2025 年 11 月 25 日试点的人脸识别的方式过的关。真是虚惊一场。</p>
+<p>在酒店是与我所在的国际联合战队 W&amp;M 的队员拼房的（l4n, q1uf3ng, inkey）jerry 也来了。备赛了一晚上，我们一起去附近的维多利亚港散步。</p>
+<p><img src="/images/migrated/19592941/06.jpg" alt="Image\_1770561303457\_742"></p>
+<p>我已经忘记上次这么开心是什么时候了。</p>
+<p>何夜无月，何处无竹柏？真的，这是我到现在所能欣赏的，最漂亮的 <em>Victora Harbour</em>。</p>
+<p>第二天，坐上决赛的专巴，比赛开始。但是，在第 0 轮开始之际，我和 jerry 的网络还没有配置完成，我们就这样在比赛的前 20 分钟没法打输出，也就迎来了最差开局——倒数第一。</p>
+<p>终于我们连上了内网（由于网络路由优先级很诡异，我处于一种内网与外网二者不可得兼的状态。。）反击开始。很快我找出了 babypython 一题打全场的漏洞一下子刷到了第三名，随后 Jerry 也开始发力，凭借着又一个 pwn 的打全场的漏洞，我们在中午成功将比赛逆转，成为了 rank 1。</p>
+<p><img src="/images/migrated/19592941/07.jpg" alt="wx\_camera\_1770356456909"></p>
+<p>然而下午，我的情况就开始糟糕了。JAVA 一向是我的弱项，下午新上的 JAVA 的一个最基本的洞是 Lua 沙箱中的不出网的 curl 参数注入。然而我最终还是没做出来，甚至没 patch 好。或者说，我根本不会 patch。</p>
+<p>由于第一次打 AWD，我根本不知道如何分析 checker 的行为。运维删马的时候也手忙脚乱的。可以说，我的防守做的简直是非常差。我们本因此输掉比赛。但偏偏我们的攻击又很好——三个 web 题，我有两个 web 一血。Jerry 的 pwn，更是能稳定每轮出全场 7 个 flag。即使只有两个人，防守人数严重不足的我们居然还能靠攻击分弥补防守分…… 最后我们干脆直接 down 掉了所有 web 服务，只靠攻击来弥补每轮扣的 150 分。这样，我们拿到了亚军。</p>
+<p><img src="/images/migrated/19592941/08.jpg" alt="mmexport1770375127243"></p>
+<p>W&amp;M，当然，毫无疑问的国际组冠军，即使他们只有三个人。</p>
+<p>就这样，我们创造了奇迹。</p>
+<p><img src="/images/migrated/19592941/09.jpg" alt="a24431832880df001a059a8a37074f1f"></p>
+<p>以防你不知道，上图中五个人有三个成年人是国际组冠军，有两个未成年人是公开组亚军。</p>
+<h2 id="赛后"><a href="#赛后" class="headerlink" title="赛后"></a>赛后</h2><p>赛后我们一起去吃了 HK 最正宗的海鲜大排档。太好吃了。（其实是我这个 native 带错了路最后歪打正着的hh）</p>
+<p><img src="/images/migrated/19592941/10.jpg" alt="mmexport1770562611884"></p>
+<p>夜游香港</p>
+<p><img src="/images/migrated/19592941/11.jpg" alt="mmexport1770562655627"></p>
+<p>打比赛的时候随便拍的</p>
+<p><img src="/images/migrated/19592941/12.jpg" alt="mmexport1770562650094"></p>
+<p>HK 的野猪</p>
+<p><img src="/images/migrated/19592941/13.jpg" alt="Image\_1770561300741\_379"></p>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>我依稀记得两年前，是 Jerry 来找我到时候，我才知道 CTF 这个东西。那天高一的我绝对不会想到两年后，站在赛场上的依然只有我们，但只有我们，也就够了。</p>
+<p>这是我们高中的最后一场比赛。从此，我的老队友大概要去美国读大学咯（唉）。比赛结束后，我说，这是我们的最后一场比赛。他说，defcon 再见。好。</p>
+<p>V&amp;NCTF 结束后我就一直在想，AI 如此发达的时代下还要我们做什么呢？我如今找到了答案。</p>
+<p>我要看鹰击长空，鱼翔潜底；我要问苍茫大地，谁主沉浮。当我下次踏上 CTF 的赛场时，必不能再身穿校服，也不会再有买桂花同载酒的少年的心气。然而，我已经没有遗憾。即使亚军，我们以如此劣势踏上赛场的一刻，我就已经感受到成长。</p>
+<p>鲁莽和怯懦的折中是勇气。但如果硬要我选一个，我会选鲁莽。因为鲁莽，比怯懦更接近勇敢。</p>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">首页</a></li>
+        
+          <li><a href="/about/">关于</a></li>
+        
+          <li><a href="/archives/">归档</a></li>
+        
+          <li><a href="/search/">搜索</a></li>
+        
+      </ul>
+    </div>
+
+    
+    
+      <div id="toc-footer" style="display: none">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%AB%9E%E8%B5%9B"><span class="toc-number">1.</span> <span class="toc-text">竞赛</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%9D%E8%B5%9B"><span class="toc-number">1.1.</span> <span class="toc-text">初赛</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%86%B3%E8%B5%9B"><span class="toc-number">1.2.</span> <span class="toc-text">决赛</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%B5%9B%E5%90%8E"><span class="toc-number">1.3.</span> <span class="toc-text">赛后</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-number">2.</span> <span class="toc-text">总结</span></a></li></ol>
+      </div>
+    
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://lamentxu.top/posts/2026-02-08-hkcert-2025-final/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://lamentxu.top/posts/2026-02-08-hkcert-2025-final/&text=HKCERT 2025 final 感想"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://lamentxu.top/posts/2026-02-08-hkcert-2025-final/&title=HKCERT 2025 final 感想"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://lamentxu.top/posts/2026-02-08-hkcert-2025-final/&is_video=false&description=HKCERT 2025 final 感想"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=HKCERT 2025 final 感想&body=Check out this article: https://lamentxu.top/posts/2026-02-08-hkcert-2025-final/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://lamentxu.top/posts/2026-02-08-hkcert-2025-final/&title=HKCERT 2025 final 感想"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://lamentxu.top/posts/2026-02-08-hkcert-2025-final/&title=HKCERT 2025 final 感想"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://lamentxu.top/posts/2026-02-08-hkcert-2025-final/&title=HKCERT 2025 final 感想"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://lamentxu.top/posts/2026-02-08-hkcert-2025-final/&title=HKCERT 2025 final 感想"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://lamentxu.top/posts/2026-02-08-hkcert-2025-final/&name=HKCERT 2025 final 感想&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://lamentxu.top/posts/2026-02-08-hkcert-2025-final/&t=HKCERT 2025 final 感想"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        
+          <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2024-2026
+    LamentXU
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/about/">关于</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a href="/search/">搜索</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板！\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功！");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>

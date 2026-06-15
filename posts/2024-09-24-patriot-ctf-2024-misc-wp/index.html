@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="User Name Score LamentTyphon 922 Dragonkeep 846 Jerrythepro123 500 sanmu 1312 6s6 200 p3cd0wn 100 我们队web佬的wp：https:&#x2F;&#x2F;dragonkeeep.top&#x2F;category&#x2F;PatriotC">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Patriot CTF 2024 MISC 部分 wp">
+<meta property="og:url" content="https://lamentxu.top/posts/2024-09-24-patriot-ctf-2024-misc-wp/index.html">
+<meta property="og:site_name" content="LamentXU">
+<meta property="og:description" content="User Name Score LamentTyphon 922 Dragonkeep 846 Jerrythepro123 500 sanmu 1312 6s6 200 p3cd0wn 100 我们队web佬的wp：https:&#x2F;&#x2F;dragonkeeep.top&#x2F;category&#x2F;PatriotC">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/18430083/01.jpg">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/18430083/02.png">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/18430083/03.png">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/18430083/04.png">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/18430083/05.webp">
+<meta property="article:published_time" content="2024-09-24T14:23:00.000Z">
+<meta property="article:modified_time" content="2024-09-24T14:23:00.000Z">
+<meta property="article:author" content="LamentXU">
+<meta property="article:tag" content="CTF">
+<meta property="article:tag" content="Pwn">
+<meta property="article:tag" content="Reverse">
+<meta property="article:tag" content="Web Security">
+<meta property="article:tag" content="Writeup">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://lamentxu.top/images/migrated/18430083/01.jpg">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/cnblogs-avatar.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/cnblogs-avatar.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/cnblogs-avatar.png">
+        
+      
+    
+    <!-- title -->
+    <title>Patriot CTF 2024 MISC 部分 wp</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+      <link rel="alternate" href="/atom.xml" title="LamentXU" type="application/atom+xml" />
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 8.1.2"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="顶部" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/about/">关于</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a href="/search/">搜索</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="上一篇" href="/posts/2024-10-01-ctf-web-python1pythonssti/"><i class="fa-solid fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="下一篇" href="/posts/2024-09-04-csctf-2024-eics1-web-wp/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="返回顶部" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="分享文章" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://lamentxu.top/posts/2024-09-24-patriot-ctf-2024-misc-wp/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://lamentxu.top/posts/2024-09-24-patriot-ctf-2024-misc-wp/&text=Patriot CTF 2024 MISC 部分 wp"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://lamentxu.top/posts/2024-09-24-patriot-ctf-2024-misc-wp/&title=Patriot CTF 2024 MISC 部分 wp"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://lamentxu.top/posts/2024-09-24-patriot-ctf-2024-misc-wp/&is_video=false&description=Patriot CTF 2024 MISC 部分 wp"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Patriot CTF 2024 MISC 部分 wp&body=Check out this article: https://lamentxu.top/posts/2024-09-24-patriot-ctf-2024-misc-wp/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://lamentxu.top/posts/2024-09-24-patriot-ctf-2024-misc-wp/&title=Patriot CTF 2024 MISC 部分 wp"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://lamentxu.top/posts/2024-09-24-patriot-ctf-2024-misc-wp/&title=Patriot CTF 2024 MISC 部分 wp"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://lamentxu.top/posts/2024-09-24-patriot-ctf-2024-misc-wp/&title=Patriot CTF 2024 MISC 部分 wp"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://lamentxu.top/posts/2024-09-24-patriot-ctf-2024-misc-wp/&title=Patriot CTF 2024 MISC 部分 wp"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://lamentxu.top/posts/2024-09-24-patriot-ctf-2024-misc-wp/&name=Patriot CTF 2024 MISC 部分 wp&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://lamentxu.top/posts/2024-09-24-patriot-ctf-2024-misc-wp/&t=Patriot CTF 2024 MISC 部分 wp"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    
+    
+      <div id="toc">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Misc"><span class="toc-number">1.</span> <span class="toc-text">Misc</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Emoji-Stack"><span class="toc-number">1.1.</span> <span class="toc-text">Emoji Stack</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Making-Baking-Pancakes"><span class="toc-number">1.2.</span> <span class="toc-text">Making Baking Pancakes</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#RTL-Warm-up"><span class="toc-number">1.3.</span> <span class="toc-text">RTL Warm up</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Really-Only-Echo"><span class="toc-number">1.4.</span> <span class="toc-text">Really Only Echo</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#RTL-Easy"><span class="toc-number">1.5.</span> <span class="toc-text">RTL Easy</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Emoji-Stack-v2"><span class="toc-number">1.6.</span> <span class="toc-text">Emoji Stack v2</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%86%99%E5%9C%A8%E5%90%8E%E9%9D%A2"><span class="toc-number">2.</span> <span class="toc-text">写在后面</span></a></li></ol>
+      </div>
+    
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        Patriot CTF 2024 MISC 部分 wp
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">LamentXU</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2024-09-24T14:23:00.000Z" class="dt-published" itemprop="datePublished">2024-09-24</time>
+        
+        (Updated: <time datetime="2024-09-24T14:23:00.000Z" class="dt-updated" itemprop="dateModified">2024-09-24</time>)
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fa-solid fa-archive"></i>
+        <a class="category-link" href="/categories/CTF/">CTF</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fa-solid fa-tag"></i>
+        <a class="p-category" href="/tags/CTF/" rel="tag">CTF</a>, <a class="p-category" href="/tags/Pwn/" rel="tag">Pwn</a>, <a class="p-category" href="/tags/Reverse/" rel="tag">Reverse</a>, <a class="p-category" href="/tags/Web-Security/" rel="tag">Web Security</a>, <a class="p-category" href="/tags/Writeup/" rel="tag">Writeup</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <p><img src="/images/migrated/18430083/01.jpg"></p>
+<table>
+<thead>
+<tr>
+<th>User Name</th>
+<th>Score</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>LamentTyphon</td>
+<td>922</td>
+</tr>
+<tr>
+<td>Dragonkeep</td>
+<td>846</td>
+</tr>
+<tr>
+<td>Jerrythepro123</td>
+<td>500</td>
+</tr>
+<tr>
+<td>sanmu</td>
+<td>1312</td>
+</tr>
+<tr>
+<td>6s6</td>
+<td>200</td>
+</tr>
+<tr>
+<td>p3cd0wn</td>
+<td>100</td>
+</tr>
+</tbody></table>
+<p>我们队web佬的wp：<a target="_blank" rel="noopener" href="https://dragonkeeep.top/category/PatriotCTF-WEB-WP/">https://dragonkeeep.top/category/PatriotCTF-WEB-WP/</a></p>
+<p>有佬带，我做为web菜狗自然就灵活就业去解misc了（bushi）</p>
+<p><strong><a target="_blank" rel="noopener" href="https://www.cnblogs.com/LAMENTXU#1">Misc</a></strong></p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/LAMENTXU#1.1">Emoji Stack</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/LAMENTXU#1.2">Making Baking Pancakes</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/LAMENTXU#1.3">RTL Warm up</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/LAMENTXU#1.4">Really Only Echo</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/LAMENTXU#1.5">RTL Easy</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/LAMENTXU#1.6">Emoji Stack V2</a></li>
+</ul>
+<p><strong><a target="_blank" rel="noopener" href="https://www.cnblogs.com/LAMENTXU#2">写在后面</a></strong></p>
+<h1 id="Misc"><a href="#Misc" class="headerlink" title="Misc"></a>Misc</h1><h2 id="Emoji-Stack"><a href="#Emoji-Stack" class="headerlink" title="Emoji Stack"></a>Emoji Stack</h2><p>难度：Easy，对我的难度：Easy</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">Welcome to Emoji Stack, the brand new stack based emoji language! Instead of other stack based turing machines that use difficult to read and challenging characters like + - and [], Emoji Stack uses our proprietary patent pending emoji system.</span><br><span class="line"></span><br><span class="line">The details of our implentation is below:</span><br><span class="line"></span><br><span class="line">👉: Move the stack pointer one cell to the right</span><br><span class="line">👈: Move the stack pointer one cell to the lef</span><br><span class="line">👍: Increment the current cell by one, bounded by 255</span><br><span class="line">👎: Decrement the current cell by one, bounded by 0</span><br><span class="line">💬: Print the ASCII value of the current cell</span><br><span class="line">🔁##: Repeat the previous instruction 0x## times</span><br><span class="line">The Emoji Stack is 256 cells long, with each cell supporting a value between 0 - 255.</span><br></pre></td></tr></table></figure>
+
+<p>省流：brainfuck，直接Ctrl+F替换就行</p>
+<p>唯一与brainfuck不同的是🔁替代了[]，需要在循环结束的时候多写一个]很麻烦</p>
+<p>手搓interpreter：</p>
+<p>interpreter.py</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">str=&#x27;&#x27;#换成题目附件</span><br><span class="line">arr=[]</span><br><span class="line"></span><br><span class="line">for i in range(len(str)):</span><br><span class="line">    if str[i].isnumeric():</span><br><span class="line">        continue</span><br><span class="line">    elif str[i]==&quot;🔁&quot;:</span><br><span class="line">        arr.pop()</span><br><span class="line">        arr.append(str[i-1]+str[i]+str[i+1]+str[i+2])</span><br><span class="line">    else:</span><br><span class="line">        arr.append(str[i])</span><br><span class="line"></span><br><span class="line">cell=[0 for i in range(256)]</span><br><span class="line">ptr=0</span><br><span class="line"></span><br><span class="line">for i in range(len(arr)):</span><br><span class="line">    if arr[i]==&quot;👉&quot;:</span><br><span class="line">        ptr+=1</span><br><span class="line">    if arr[i]==&quot;👈&quot;:</span><br><span class="line">        ptr-=1</span><br><span class="line">    if arr[i]==&quot;👍&quot;:</span><br><span class="line">        cell[ptr]+=1</span><br><span class="line">    if len(arr[i])==4:</span><br><span class="line">        for j in range(int(arr[i][2]+arr[i][3],16)+1):</span><br><span class="line">            if arr[i][0] == &quot;👉&quot;:</span><br><span class="line">                ptr += 1</span><br><span class="line">            if arr[i][0] == &quot;👈&quot;:</span><br><span class="line">                ptr -= 1</span><br><span class="line">            if arr[i][0] == &quot;👍&quot;:</span><br><span class="line">                cell[ptr] += 1</span><br><span class="line">    if arr[i]==&quot;💬&quot;:</span><br><span class="line">        print(chr(cell[ptr]),end=&quot;&quot;)</span><br></pre></td></tr></table></figure>
+
+<p><strong>CACI{TUR!NG_!5_R011!NG_!N_H!5_GR@V3}</strong></p>
+<h2 id="Making-Baking-Pancakes"><a href="#Making-Baking-Pancakes" class="headerlink" title="Making Baking Pancakes"></a>Making Baking Pancakes</h2><p>难度：Easy，对我的难度：Beginner</p>
+<p>好tm简单的题，不懂为什么这么少解</p>
+<p>nc连接，发现challenge内容为：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">Welcome to the pancake shop!</span><br><span class="line">Pancakes have layers, we need you to get through them all to get our secret pancake mix formula.</span><br><span class="line">This server will require you to complete 1000 challenge-responses.</span><br><span class="line">A response can be created by doing the following:</span><br><span class="line">1. Base64 decoding the challenge once (will output (encoded|n))</span><br><span class="line">2. Decoding the challenge n more times.</span><br><span class="line">3. Send (decoded|current challenge iteration)</span><br><span class="line">Example response for challenge 485/1000: e9208047e544312e6eac685e4e1f7e20|485</span><br><span class="line">Good luck!</span><br></pre></td></tr></table></figure>
+
+<p>评：弱智题目</p>
+<p>拿到之后先进行一次base64解码，读出base64和解码次数。解码完成之后加上challenge的次数传上去</p>
+<p>搓exp，出flag</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">from base64 import b64decode as de</span><br><span class="line">import warnings</span><br><span class="line">from tqdm import tqdm</span><br><span class="line">warnings.defaultaction = &quot;ignore&quot;</span><br><span class="line">from pwn import *</span><br><span class="line">c = remote(&#x27;chal.pctf.competitivecyber.club&#x27;, 9001)</span><br><span class="line">c.recvuntil(&#x27;Good luck!&#x27;)</span><br><span class="line">for j in tqdm(range(1002)): #这里是因为有两个\n所以跑两个空循环，不是很会用pwntools别骂了</span><br><span class="line">    k = j-2</span><br><span class="line">    a = c.recvline().decode()</span><br><span class="line">    if a == &#x27;\n&#x27;:</span><br><span class="line">        continue</span><br><span class="line">    a = a.split(&#x27;: &#x27;)[1]</span><br><span class="line">    a1 = de(a).decode()</span><br><span class="line">    basestring, times = a1.split(&#x27;|&#x27;)</span><br><span class="line">    for i in range(int(times)):</span><br><span class="line">        basestring = de(basestring)</span><br><span class="line">    c.sendline(basestring+b&#x27;|&#x27;+str(k).encode())</span><br><span class="line">c.interactive()</span><br></pre></td></tr></table></figure>
+
+<p>输出</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">(999/1000) &gt;&gt; Wow you did it, you&#x27;ve earned our formula!</span><br><span class="line">DO NOT SHARE:</span><br><span class="line">pctf&#123;store_bought_pancake_batter_fa82370&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>pctf{store_bought_pancake_batter_fa82370}</strong></p>
+<h2 id="RTL-Warm-up"><a href="#RTL-Warm-up" class="headerlink" title="RTL Warm up"></a>RTL Warm up</h2><p>难度：Begginer，对我的难度：Begginer</p>
+<p>提取所有b开头的内容（即为二进制内容）</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">b01010000</span><br><span class="line">b01000011</span><br><span class="line">b01010100</span><br><span class="line">b01000110</span><br><span class="line">b01111011</span><br><span class="line">b01010010</span><br><span class="line">b01010100</span><br><span class="line">b01001100</span><br><span class="line">b01011111</span><br><span class="line">b01101001</span><br><span class="line">b00100100</span><br><span class="line">b01011111</span><br><span class="line">b01000100</span><br><span class="line">b01000000</span><br><span class="line">b01000100</span><br><span class="line">b01011111</span><br><span class="line">b00110000</span><br><span class="line">b01000110</span><br><span class="line">b01011111</span><br><span class="line">b01001000</span><br><span class="line">b01000000</span><br><span class="line">b01110010</span><br><span class="line">b01100100</span><br><span class="line">b01110111</span><br><span class="line">b01000000</span><br><span class="line">b01110010</span><br><span class="line">b00110011</span><br><span class="line">b01111101</span><br></pre></td></tr></table></figure>
+
+<p>二进制序列是8位ASCII码，转化为char（ascii）</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line">def binary_to_ascii(binary_string):</span><br><span class="line">    # Remove the &#x27;b&#x27; prefix and convert the binary string to decimal</span><br><span class="line">    decimal_value = int(binary_string, 2)</span><br><span class="line">    # Convert decimal to ASCII character</span><br><span class="line">    return chr(decimal_value)</span><br><span class="line"></span><br><span class="line">binary_values = [</span><br><span class="line">    &quot;01010000&quot;,  # P</span><br><span class="line">    &quot;01000011&quot;,  # C</span><br><span class="line">    &quot;01010100&quot;,  # T</span><br><span class="line">    &quot;01000110&quot;,  # F</span><br><span class="line">    &quot;01111011&quot;,  # &#123;</span><br><span class="line">    &quot;01010010&quot;,  # R</span><br><span class="line">    &quot;01010100&quot;,  # T</span><br><span class="line">    &quot;01001100&quot;,  # L</span><br><span class="line">    &quot;01011111&quot;,  # _</span><br><span class="line">    &quot;01101001&quot;,  # i</span><br><span class="line">    &quot;00100100&quot;,  # $</span><br><span class="line">    &quot;01011111&quot;,  # _</span><br><span class="line">    &quot;01000100&quot;,  # D</span><br><span class="line">    &quot;01000000&quot;,  # @</span><br><span class="line">    &quot;01000100&quot;,  # D</span><br><span class="line">    &quot;01011111&quot;,  # _</span><br><span class="line">    &quot;00110000&quot;,  # 0</span><br><span class="line">    &quot;01000110&quot;,  # F</span><br><span class="line">    &quot;01011111&quot;,  # _</span><br><span class="line">    &quot;01001000&quot;,  # H</span><br><span class="line">    &quot;01000000&quot;,  # @</span><br><span class="line">    &quot;01110010&quot;,  # r</span><br><span class="line">    &quot;01100100&quot;,  # d</span><br><span class="line">    &quot;01110111&quot;,  # w</span><br><span class="line">    &quot;01000000&quot;,  # @</span><br><span class="line">    &quot;01110010&quot;,  # r</span><br><span class="line">    &quot;00110011&quot;,  # 3</span><br><span class="line">    &quot;01111101&quot;   # &#125;</span><br><span class="line">]</span><br><span class="line"></span><br><span class="line">ascii_characters = [binary_to_ascii(bv) for bv in binary_values]</span><br><span class="line"></span><br><span class="line">print(&quot;&quot;.join(ascii_characters)) </span><br></pre></td></tr></table></figure>
+
+<p><strong>PCTF{RTL_i$_D@D_0F_H@rdw@r3}</strong></p>
+<h2 id="Really-Only-Echo"><a href="#Really-Only-Echo" class="headerlink" title="Really Only Echo"></a>Really Only Echo</h2><p>难度：easy，对我的难度：Beginner</p>
+<p>CN CTFER最喜欢的Linux RCE</p>
+<p>对老外来说这题可能有easy难度，但是对于天天搞这些的CN CTFER的话太基础了</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br></pre></td><td class="code"><pre><span class="line">#!/usr/bin/python3</span><br><span class="line"></span><br><span class="line">import os,pwd,re</span><br><span class="line">import socketserver, signal</span><br><span class="line">import subprocess</span><br><span class="line"></span><br><span class="line">listen = 3333</span><br><span class="line"></span><br><span class="line">blacklist = os.popen(&quot;ls /bin&quot;).read().split(&quot;\n&quot;)</span><br><span class="line">blacklist.remove(&quot;echo&quot;)</span><br><span class="line">#print(blacklist)</span><br><span class="line"></span><br><span class="line">def filter_check(command):</span><br><span class="line">    user_input = command</span><br><span class="line">    parsed = command.split()</span><br><span class="line">    #Must begin with echo</span><br><span class="line">    if not &quot;echo&quot; in parsed:</span><br><span class="line">        return False</span><br><span class="line">    else:</span><br><span class="line">        if &quot;&gt;&quot; in parsed:</span><br><span class="line">            #print(&quot;HEY! No moving things around.&quot;)</span><br><span class="line">            req.sendall(b&quot;HEY! No moving things around.\n\n&quot;)</span><br><span class="line">            return False</span><br><span class="line">        else:</span><br><span class="line">            parsed = command.replace(&quot;$&quot;, &quot; &quot;).replace(&quot;(&quot;, &quot; &quot;).replace(&quot;)&quot;, &quot; &quot;).replace(&quot;|&quot;,&quot; &quot;).replace(&quot;&amp;&quot;, &quot; &quot;).replace(&quot;;&quot;,&quot; &quot;).replace(&quot;&lt;&quot;,&quot; &quot;).replace(&quot;&gt;&quot;,&quot; &quot;).replace(&quot;`&quot;,&quot; &quot;).split()</span><br><span class="line">            #print(parsed)</span><br><span class="line">            for i in range(len(parsed)):</span><br><span class="line">                if parsed[i] in blacklist:</span><br><span class="line">                    return False</span><br><span class="line">            return True</span><br><span class="line"></span><br><span class="line">def backend(req):</span><br><span class="line">    req.sendall(b&#x27;This is shell made to use only the echo command.\n&#x27;)</span><br><span class="line">    while True:</span><br><span class="line">        #print(&quot;\nThis is shell made to use only the echo command.&quot;)</span><br><span class="line">        req.sendall(b&#x27;Please input command: &#x27;)</span><br><span class="line">        user_input = req.recv(4096).strip(b&#x27;\n&#x27;).decode()</span><br><span class="line">        print(user_input)</span><br><span class="line">        #Check input</span><br><span class="line">        if user_input:</span><br><span class="line">            if filter_check(user_input):</span><br><span class="line">                output = os.popen(user_input).read()</span><br><span class="line">                req.sendall((output + &#x27;\n&#x27;).encode())</span><br><span class="line">            else:</span><br><span class="line">                #print(&quot;Those commands don&#x27;t work.&quot;)</span><br><span class="line">                req.sendall(b&quot;HEY! I said only echo works.\n\n&quot;)</span><br><span class="line">        else:</span><br><span class="line">            #print(&quot;Why no command?&quot;)</span><br><span class="line">            req.sendall(b&quot;Where\&#x27;s the command.\n\n&quot;)</span><br><span class="line"></span><br><span class="line">class incoming(socketserver.BaseRequestHandler):</span><br><span class="line">    def handle(self):</span><br><span class="line">        signal.alarm(1500)</span><br><span class="line">        req = self.request</span><br><span class="line">        backend(req)</span><br><span class="line"></span><br><span class="line">class ReusableTCPServer(socketserver.ForkingMixIn, socketserver.TCPServer):</span><br><span class="line">    pass</span><br><span class="line"></span><br><span class="line">def main():</span><br><span class="line">    uid = pwd.getpwnam(&#x27;ctf&#x27;)[2]</span><br><span class="line">    os.setuid(uid)</span><br><span class="line">    socketserver.TCPServer.allow_reuse_address = True</span><br><span class="line">    server = ReusableTCPServer((&quot;0.0.0.0&quot;, listen), incoming)</span><br><span class="line">    server.serve_forever()</span><br><span class="line"></span><br><span class="line">if __name__ == &#x27;__main__&#x27;:</span><br><span class="line">    main()</span><br></pre></td></tr></table></figure>
+
+<p>很吓人对吧？读完代码之后发现：</p>
+<ul>
+<li>不能使用所有linux命令</li>
+<li>必须以echo开头</li>
+<li>过滤了$, (, ), `无法内联执行</li>
+<li>过滤了&gt;, &lt;无法重定向</li>
+</ul>
+<p>怎么打都行，解法比我拿的分多（bushi）</p>
+<p>一一对应一下过滤：</p>
+<ul>
+<li>使用’’绕过字符串匹配，如：ca’’t</li>
+<li>就以echo开头，但是用%0a可以在执行完echo之后执行别的命令</li>
+<li>不需要内联执行</li>
+<li>不需要重定向</li>
+</ul>
+<p>首先，先看看flag在不在当前目录下</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">echo *</span><br></pre></td></tr></table></figure>
+
+<p><img src="/images/migrated/18430083/02.png"></p>
+<p>出题人还是太善良了，甚至不用回根目录（不过没有过滤&#x2F;和.如果要回还是回得去的）</p>
+<p>直接用linux下的换行符秒杀（%0a有与;相似的功能，可以另起一行执行命令）</p>
+<p><img src="/images/migrated/18430083/03.png"></p>
+<p><strong>PCTF{echo_is_such_a_versatile_command}</strong></p>
+<h2 id="RTL-Easy"><a href="#RTL-Easy" class="headerlink" title="RTL Easy"></a>RTL Easy</h2><p>难度：Easy，对我的难度：Easy</p>
+<p>不是，这题318分啊？</p>
+<p>top.v</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br><span class="line">227</span><br><span class="line">228</span><br><span class="line">229</span><br><span class="line">230</span><br><span class="line">231</span><br><span class="line">232</span><br><span class="line">233</span><br><span class="line">234</span><br><span class="line">235</span><br><span class="line">236</span><br><span class="line">237</span><br><span class="line">238</span><br><span class="line">239</span><br><span class="line">240</span><br><span class="line">241</span><br><span class="line">242</span><br><span class="line">243</span><br><span class="line">244</span><br><span class="line">245</span><br><span class="line">246</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">module top (</span><br><span class="line">    clock,</span><br><span class="line">    din,</span><br><span class="line">    dout</span><br><span class="line">);</span><br><span class="line"></span><br><span class="line">  // Module arguments</span><br><span class="line">  input wire clock;</span><br><span class="line">  input wire [7:0] din;</span><br><span class="line">  output reg [7:0] dout;</span><br><span class="line"></span><br><span class="line">  // Stub signals</span><br><span class="line">  reg pulser$clock;</span><br><span class="line">  reg pulser$enable;</span><br><span class="line">  wire pulser$pulse;</span><br><span class="line"></span><br><span class="line">  // Local signals</span><br><span class="line">  reg [9:0] temp;</span><br><span class="line"></span><br><span class="line">  // Sub module instances</span><br><span class="line">  top$pulser pulser (</span><br><span class="line">      .clock (pulser$clock),</span><br><span class="line">      .enable(pulser$enable),</span><br><span class="line">      .pulse (pulser$pulse)</span><br><span class="line">  );</span><br><span class="line"></span><br><span class="line">  // Update code</span><br><span class="line">  always @(*) begin</span><br><span class="line">    pulser$enable = 1&#x27;b1;</span><br><span class="line">    pulser$clock = clock;</span><br><span class="line">    temp = ((din) &amp; 10&#x27;h3ff) &lt;&lt; 32&#x27;h2 ^ 32&#x27;ha;</span><br><span class="line">    dout = ((temp &gt;&gt; 32&#x27;h2) &amp; 8&#x27;hff);</span><br><span class="line">  end</span><br><span class="line"></span><br><span class="line">endmodule  // top</span><br><span class="line"></span><br><span class="line">module top$pulser (</span><br><span class="line">    clock,</span><br><span class="line">    enable,</span><br><span class="line">    pulse</span><br><span class="line">);</span><br><span class="line"></span><br><span class="line">  // Module arguments</span><br><span class="line">  input wire clock;</span><br><span class="line">  input wire enable;</span><br><span class="line">  output reg pulse;</span><br><span class="line"></span><br><span class="line">  // Stub signals</span><br><span class="line">  reg  strobe$enable;</span><br><span class="line">  wire strobe$strobe;</span><br><span class="line">  reg  strobe$clock;</span><br><span class="line">  reg  shot$trigger;</span><br><span class="line">  wire shot$active;</span><br><span class="line">  reg  shot$clock;</span><br><span class="line">  wire shot$fired;</span><br><span class="line"></span><br><span class="line">  // Sub module instances</span><br><span class="line">  top$pulser$strobe strobe (</span><br><span class="line">      .enable(strobe$enable),</span><br><span class="line">      .strobe(strobe$strobe),</span><br><span class="line">      .clock (strobe$clock)</span><br><span class="line">  );</span><br><span class="line">  top$pulser$shot shot (</span><br><span class="line">      .trigger(shot$trigger),</span><br><span class="line">      .active (shot$active),</span><br><span class="line">      .clock  (shot$clock),</span><br><span class="line">      .fired  (shot$fired)</span><br><span class="line">  );</span><br><span class="line"></span><br><span class="line">  // Update code</span><br><span class="line">  always @(*) begin</span><br><span class="line">    strobe$clock = clock;</span><br><span class="line">    shot$clock = clock;</span><br><span class="line">    strobe$enable = enable;</span><br><span class="line">    shot$trigger = strobe$strobe;</span><br><span class="line">    pulse = shot$active;</span><br><span class="line">  end</span><br><span class="line"></span><br><span class="line">endmodule  // top$pulser</span><br><span class="line"></span><br><span class="line">module top$pulser$shot (</span><br><span class="line">    trigger,</span><br><span class="line">    active,</span><br><span class="line">    clock,</span><br><span class="line">    fired</span><br><span class="line">);</span><br><span class="line"></span><br><span class="line">  // Module arguments</span><br><span class="line">  input wire trigger;</span><br><span class="line">  output reg active;</span><br><span class="line">  input wire clock;</span><br><span class="line">  output reg fired;</span><br><span class="line"></span><br><span class="line">  // Constant declarations</span><br><span class="line">  localparam duration = 32&#x27;h17d7840;</span><br><span class="line"></span><br><span class="line">  // Stub signals</span><br><span class="line">  reg [31:0] counter$d;</span><br><span class="line">  wire [31:0] counter$q;</span><br><span class="line">  reg counter$clock;</span><br><span class="line">  reg state$d;</span><br><span class="line">  wire state$q;</span><br><span class="line">  reg state$clock;</span><br><span class="line"></span><br><span class="line">  // Sub module instances</span><br><span class="line">  top$pulser$shot$counter counter (</span><br><span class="line">      .d(counter$d),</span><br><span class="line">      .q(counter$q),</span><br><span class="line">      .clock(counter$clock)</span><br><span class="line">  );</span><br><span class="line">  top$pulser$shot$state state (</span><br><span class="line">      .d(state$d),</span><br><span class="line">      .q(state$q),</span><br><span class="line">      .clock(state$clock)</span><br><span class="line">  );</span><br><span class="line"></span><br><span class="line">  // Update code</span><br><span class="line">  always @(*) begin</span><br><span class="line">    counter$clock = clock;</span><br><span class="line">    state$clock = clock;</span><br><span class="line">    counter$d = counter$q;</span><br><span class="line">    state$d = state$q;</span><br><span class="line">    if (state$q) begin</span><br><span class="line">      counter$d = counter$q + 32&#x27;h1;</span><br><span class="line">    end</span><br><span class="line">    fired = 1&#x27;b0;</span><br><span class="line">    if (state$q &amp;&amp; (counter$q == duration)) begin</span><br><span class="line">      state$d = 1&#x27;b0;</span><br><span class="line">      fired   = 1&#x27;b1;</span><br><span class="line">    end</span><br><span class="line">    active = state$q;</span><br><span class="line">    if (trigger) begin</span><br><span class="line">      state$d   = 1&#x27;b1;</span><br><span class="line">      counter$d = 32&#x27;h0;</span><br><span class="line">    end</span><br><span class="line">  end</span><br><span class="line"></span><br><span class="line">endmodule  // top$pulser$shot</span><br><span class="line"></span><br><span class="line">module top$pulser$shot$counter (</span><br><span class="line">    d,</span><br><span class="line">    q,</span><br><span class="line">    clock</span><br><span class="line">);</span><br><span class="line"></span><br><span class="line">  // Module arguments</span><br><span class="line">  input wire [31:0] d;</span><br><span class="line">  output reg [31:0] q;</span><br><span class="line">  input wire clock;</span><br><span class="line"></span><br><span class="line">  // Update code (custom)</span><br><span class="line">  initial begin</span><br><span class="line">    q = 32&#x27;h0;</span><br><span class="line">  end</span><br><span class="line"></span><br><span class="line">  always @(posedge clock) begin</span><br><span class="line">    q &lt;= d;</span><br><span class="line">  end</span><br><span class="line"></span><br><span class="line">endmodule  // top$pulser$shot$counter</span><br><span class="line"></span><br><span class="line">module top$pulser$shot$state (</span><br><span class="line">    d,</span><br><span class="line">    q,</span><br><span class="line">    clock</span><br><span class="line">);</span><br><span class="line"></span><br><span class="line">  // Module arguments</span><br><span class="line">  input wire d;</span><br><span class="line">  output reg q;</span><br><span class="line">  input wire clock;</span><br><span class="line"></span><br><span class="line">  // Update code (custom)</span><br><span class="line">  initial begin</span><br><span class="line">    q = 1&#x27;h0;</span><br><span class="line">  end</span><br><span class="line"></span><br><span class="line">  always @(posedge clock) begin</span><br><span class="line">    q &lt;= d;</span><br><span class="line">  end</span><br><span class="line"></span><br><span class="line">endmodule  // top$pulser$shot$state</span><br><span class="line"></span><br><span class="line">module top$pulser$strobe (</span><br><span class="line">    enable,</span><br><span class="line">    strobe,</span><br><span class="line">    clock</span><br><span class="line">);</span><br><span class="line"></span><br><span class="line">  // Module arguments</span><br><span class="line">  input wire enable;</span><br><span class="line">  output reg strobe;</span><br><span class="line">  input wire clock;</span><br><span class="line"></span><br><span class="line">  // Constant declarations</span><br><span class="line">  localparam threshold = 32&#x27;h5f5e100;</span><br><span class="line"></span><br><span class="line">  // Stub signals</span><br><span class="line">  reg [31:0] counter$d;</span><br><span class="line">  wire [31:0] counter$q;</span><br><span class="line">  reg counter$clock;</span><br><span class="line"></span><br><span class="line">  // Sub module instances</span><br><span class="line">  top$pulser$strobe$counter counter (</span><br><span class="line">      .d(counter$d),</span><br><span class="line">      .q(counter$q),</span><br><span class="line">      .clock(counter$clock)</span><br><span class="line">  );</span><br><span class="line"></span><br><span class="line">  // Update code</span><br><span class="line">  always @(*) begin</span><br><span class="line">    counter$clock = clock;</span><br><span class="line">    counter$d = counter$q;</span><br><span class="line">    if (enable) begin</span><br><span class="line">      counter$d = counter$q + 32&#x27;h1;</span><br><span class="line">    end</span><br><span class="line">    strobe = enable &amp; (counter$q == threshold);</span><br><span class="line">    if (strobe) begin</span><br><span class="line">      counter$d = 32&#x27;h1;</span><br><span class="line">    end</span><br><span class="line">  end</span><br><span class="line"></span><br><span class="line">endmodule  // top$pulser$strobe</span><br><span class="line"></span><br><span class="line">module top$pulser$strobe$counter (</span><br><span class="line">    d,</span><br><span class="line">    q,</span><br><span class="line">    clock</span><br><span class="line">);</span><br><span class="line"></span><br><span class="line">  // Module arguments</span><br><span class="line">  input wire [31:0] d;</span><br><span class="line">  output reg [31:0] q;</span><br><span class="line">  input wire clock;</span><br><span class="line"></span><br><span class="line">  // Update code (custom)</span><br><span class="line">  initial begin</span><br><span class="line">    q = 32&#x27;h0;</span><br><span class="line">  end</span><br><span class="line"></span><br><span class="line">  always @(posedge clock) begin</span><br><span class="line">    q &lt;= d;</span><br><span class="line">  end</span><br><span class="line"></span><br><span class="line">endmodule  // top$pulser$strobe$counter</span><br></pre></td></tr></table></figure>
+
+<p>读.v文件，注意到：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">temp = ((din) &amp; 10&#x27;h3ff) &lt;&lt; 32&#x27;h2 ^ 32&#x27;ha;</span><br><span class="line">dout = ((temp &gt;&gt; 32&#x27;h2) &amp; 8&#x27;hff);</span><br></pre></td></tr></table></figure>
+
+<p>看.svg，获取输出</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">0h52,0h41,0h56,0h44,0h79,0h4a,0h42,0h70,0h66,0h5d,0h47,0h6c,0h61,0h70,0h7b,0h72,0h76,0h6b,0h6d,0h6c,0h5d,0h6b,0h71,0h5d,0h31,0h63,0h71,0h7b</span><br></pre></td></tr></table></figure>
+
+<p>搓exp直接出</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">def calculate_din(dout_values):</span><br><span class="line">    din_values = []</span><br><span class="line">    </span><br><span class="line">    for dout in dout_values:</span><br><span class="line"></span><br><span class="line">        dout_int = int(dout, 16)</span><br><span class="line"></span><br><span class="line">        temp = dout_int &lt;&lt; 2</span><br><span class="line">        </span><br><span class="line">        din = (temp ^ 0xA) &gt;&gt; 2</span><br><span class="line">        din_values.append(din)  # Store as integer for ASCII conversion</span><br><span class="line"></span><br><span class="line">    return din_values</span><br><span class="line"></span><br><span class="line">def din_to_ascii(din_values):</span><br><span class="line">    ascii_chars = [chr(din) for din in din_values]</span><br><span class="line">    return ascii_chars</span><br><span class="line"></span><br><span class="line">dout_values = [</span><br><span class="line">    &#x27;0x52&#x27;, &#x27;0x41&#x27;, &#x27;0x56&#x27;, &#x27;0x44&#x27;, &#x27;0x79&#x27;, </span><br><span class="line">    &#x27;0x4A&#x27;, &#x27;0x42&#x27;, &#x27;0x70&#x27;, &#x27;0x66&#x27;, &#x27;0x5D&#x27;, </span><br><span class="line">    &#x27;0x47&#x27;, &#x27;0x6C&#x27;, &#x27;0x61&#x27;, &#x27;0x70&#x27;, &#x27;0x7B&#x27;, </span><br><span class="line">    &#x27;0x72&#x27;, &#x27;0x76&#x27;, &#x27;0x6B&#x27;, &#x27;0x6D&#x27;, &#x27;0x6C&#x27;, </span><br><span class="line">    &#x27;0x5D&#x27;, &#x27;0x6B&#x27;, &#x27;0x71&#x27;, &#x27;0x5D&#x27;, &#x27;0x31&#x27;, </span><br><span class="line">    &#x27;0x63&#x27;, &#x27;0x71&#x27;, &#x27;0x7B&#x27;</span><br><span class="line">]</span><br><span class="line"></span><br><span class="line">din_values = calculate_din(dout_values)</span><br><span class="line"></span><br><span class="line">ascii_chars = din_to_ascii(din_values)</span><br><span class="line"></span><br><span class="line">for dout, din, ascii_char in zip(dout_values, din_values, ascii_chars):</span><br><span class="line">    print(f&quot;dout: &#123;dout&#125;, din: &#123;din&#125;, ASCII: &#x27;&#123;ascii_char&#125;&#x27;&quot;)</span><br></pre></td></tr></table></figure>
+
+<p><strong>PCTF{H@rd_Encryption_is_3asy}</strong></p>
+<h2 id="Emoji-Stack-v2"><a href="#Emoji-Stack-v2" class="headerlink" title="Emoji Stack v2"></a>Emoji Stack v2</h2><p>难度：Medium，对我的难度：Hard</p>
+<p>与v1一致不过多了几个东西</p>
+<p>要注意的是，用的是raster scan顺序</p>
+<p><img src="/images/migrated/18430083/04.png"></p>
+<p>ChatGPT改一下秒了(exp是discord上的。我的出了一点问题，开ticket主办方跟我说No Hints! You’ve got it，一整个无语住了。最后发现是没用raster scan顺序存XD)</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br></pre></td><td class="code"><pre><span class="line">from PIL import Image </span><br><span class="line">import cv2</span><br><span class="line">import  numpy as np</span><br><span class="line"></span><br><span class="line">class Interpreter:</span><br><span class="line"></span><br><span class="line">    def __init__(self, rom):</span><br><span class="line">        self.stack = cv2.imread(&quot;initial_state.png&quot;, 0)</span><br><span class="line">        self.sp_x = 0 </span><br><span class="line">        self.sp_y = 0</span><br><span class="line">        self.last_jz = 0</span><br><span class="line">        self.ip = 0</span><br><span class="line">        self.prec = &quot;&quot;</span><br><span class="line">        self.rom = rom</span><br><span class="line"></span><br><span class="line">    def exec(self,a):</span><br><span class="line">        if a == &quot;👆&quot;:</span><br><span class="line">            self.sp_y = (self.sp_y + 1) % 255</span><br><span class="line">        elif a == &quot;👇&quot;:</span><br><span class="line">            self.sp_y = (self.sp_y - 1) % 255</span><br><span class="line">        elif a == &quot;👉&quot;:</span><br><span class="line">            self.sp_x = (self.sp_x + 1) % 255</span><br><span class="line">        elif a == &quot;👈&quot;:</span><br><span class="line">            self.sp_x = (self.sp_x - 1) % 255</span><br><span class="line">        elif a == &quot;👍&quot;:</span><br><span class="line">            if self.stack[self.sp_y][self.sp_x] &lt; 255:</span><br><span class="line">                self.stack[self.sp_y, self.sp_x] =  self.stack[self.sp_y, self.sp_x] + 1</span><br><span class="line">        elif a == &quot;👎&quot;: </span><br><span class="line">            if self.stack[self.sp_y][self.sp_x] &gt; 0:</span><br><span class="line">                self.stack[self.sp_y, self.sp_x] =  self.stack[self.sp_y, self.sp_x] - 1</span><br><span class="line">        elif a == &#x27;🫸&#x27;:</span><br><span class="line">            if self.stack[self.sp_y, self.sp_x] == 0:</span><br><span class="line">                depth = 1</span><br><span class="line">                while depth != 0:</span><br><span class="line">                    self.ip += 1</span><br><span class="line">                    if self.rom[self.ip] == &#x27;🫸&#x27;:</span><br><span class="line">                        depth += 1</span><br><span class="line">                    elif self.rom[self.ip] == &#x27;🫷&#x27;:</span><br><span class="line">                        depth -= 1</span><br><span class="line">        elif a == &#x27;🫷&#x27;:</span><br><span class="line">            if self.stack[self.sp_y, self.sp_x] != 0:</span><br><span class="line">                depth = 1</span><br><span class="line">                while depth != 0:</span><br><span class="line">                    self.ip -= 1</span><br><span class="line">                    if self.rom[self.ip] == &#x27;🫷&#x27;:</span><br><span class="line">                        depth += 1</span><br><span class="line">                    elif self.rom[self.ip] == &#x27;🫸&#x27;:</span><br><span class="line">                        depth -= 1</span><br><span class="line">        elif a == &quot;💬&quot;:</span><br><span class="line">            print(chr(self.stack[self.sp_y, self.sp_x]),end=&quot;&quot;)</span><br><span class="line">        elif a == &quot;🔁&quot;:</span><br><span class="line">        base12_mapping = &#123;&#x27;🕛&#x27;: 0, &#x27;🕐&#x27;: 1, &#x27;🕑&#x27;: 2, &#x27;🕒&#x27;: 3, &#x27;🕓&#x27;: 4, &#x27;🕔&#x27;: 5, &#x27;🕕&#x27;: 6, &#x27;🕖&#x27;: 7, &#x27;🕗&#x27;: 8, &#x27;🕘&#x27;: 9, &#x27;🕙&#x27;: &#x27;a&#x27;, &#x27;🕚&#x27;: &#x27;b&#x27;&#125;</span><br><span class="line">        a = base12_mapping[self.rom[self.ip + 1]]</span><br><span class="line">        b = base12_mapping[self.rom[self.ip + 2]]</span><br><span class="line">        c = base12_mapping[self.rom[self.ip + 3]]</span><br><span class="line">        times = int(str(a) + str(b) + str(c), 12)</span><br><span class="line">        for _ in range(times):</span><br><span class="line">        self.exec(self.prec)</span><br><span class="line">        self.ip += 3</span><br><span class="line">        else:</span><br><span class="line">            print(&quot;&gt;&gt;&gt;&quot;, ord(a), &quot;&lt;&lt;&lt;&quot;)</span><br><span class="line"></span><br><span class="line">    def run(self):</span><br><span class="line">        while self.ip &lt; len(self.rom):</span><br><span class="line">            self.exec(self.rom[self.ip])</span><br><span class="line">            self.prec = self.rom[self.ip]</span><br><span class="line">            self.ip += 1</span><br><span class="line">        return -1</span><br><span class="line">    </span><br><span class="line"></span><br><span class="line">file = open(&quot;program.txt&quot;,&quot;r&quot;)</span><br><span class="line">rom = file.read()</span><br><span class="line">file.close()</span><br><span class="line">interpreter = Interpreter(rom)</span><br><span class="line"></span><br><span class="line">interpreter.run()</span><br><span class="line"></span><br><span class="line">cv2.imwrite(&quot;flag.png&quot;,interpreter.stack)</span><br></pre></td></tr></table></figure>
+
+<p>出：</p>
+<p><img src="/images/migrated/18430083/05.webp"></p>
+<p>好恐怖啊（bushi）</p>
+<p><strong>PCTF{3MOJ!&#x3D;&#x3D;G00D!}</strong></p>
+<h1 id="写在后面"><a href="#写在后面" class="headerlink" title="写在后面"></a>写在后面</h1><p>这次虽然名次不是很理想，但依然是我印象里最好的一次CTF体验。主要是队友之间真正地开始有了合作，让我有了一种队伍的归属感。说句心里话，CTF作为小众爱好（大学学网安的不算），能找到如此志同道合的队友跟我一起做我喜欢做的事情，我是何其幸运啊。作为高中生，我只能CTF for fun，大部分国内的大赛我都不配参加。我能找到一群人陪我打国外的CTF，跟我交流技术，让我在孤独了几年的兴趣爱好上第一次有了同伴，即使菜我也很开心了（我菜，我队友全tql）。我发自内心地感谢我的队友们，谢谢你们给了我如此的幸福。</p>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">首页</a></li>
+        
+          <li><a href="/about/">关于</a></li>
+        
+          <li><a href="/archives/">归档</a></li>
+        
+          <li><a href="/search/">搜索</a></li>
+        
+      </ul>
+    </div>
+
+    
+    
+      <div id="toc-footer" style="display: none">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Misc"><span class="toc-number">1.</span> <span class="toc-text">Misc</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Emoji-Stack"><span class="toc-number">1.1.</span> <span class="toc-text">Emoji Stack</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Making-Baking-Pancakes"><span class="toc-number">1.2.</span> <span class="toc-text">Making Baking Pancakes</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#RTL-Warm-up"><span class="toc-number">1.3.</span> <span class="toc-text">RTL Warm up</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Really-Only-Echo"><span class="toc-number">1.4.</span> <span class="toc-text">Really Only Echo</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#RTL-Easy"><span class="toc-number">1.5.</span> <span class="toc-text">RTL Easy</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Emoji-Stack-v2"><span class="toc-number">1.6.</span> <span class="toc-text">Emoji Stack v2</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%86%99%E5%9C%A8%E5%90%8E%E9%9D%A2"><span class="toc-number">2.</span> <span class="toc-text">写在后面</span></a></li></ol>
+      </div>
+    
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://lamentxu.top/posts/2024-09-24-patriot-ctf-2024-misc-wp/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://lamentxu.top/posts/2024-09-24-patriot-ctf-2024-misc-wp/&text=Patriot CTF 2024 MISC 部分 wp"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://lamentxu.top/posts/2024-09-24-patriot-ctf-2024-misc-wp/&title=Patriot CTF 2024 MISC 部分 wp"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://lamentxu.top/posts/2024-09-24-patriot-ctf-2024-misc-wp/&is_video=false&description=Patriot CTF 2024 MISC 部分 wp"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Patriot CTF 2024 MISC 部分 wp&body=Check out this article: https://lamentxu.top/posts/2024-09-24-patriot-ctf-2024-misc-wp/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://lamentxu.top/posts/2024-09-24-patriot-ctf-2024-misc-wp/&title=Patriot CTF 2024 MISC 部分 wp"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://lamentxu.top/posts/2024-09-24-patriot-ctf-2024-misc-wp/&title=Patriot CTF 2024 MISC 部分 wp"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://lamentxu.top/posts/2024-09-24-patriot-ctf-2024-misc-wp/&title=Patriot CTF 2024 MISC 部分 wp"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://lamentxu.top/posts/2024-09-24-patriot-ctf-2024-misc-wp/&title=Patriot CTF 2024 MISC 部分 wp"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://lamentxu.top/posts/2024-09-24-patriot-ctf-2024-misc-wp/&name=Patriot CTF 2024 MISC 部分 wp&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://lamentxu.top/posts/2024-09-24-patriot-ctf-2024-misc-wp/&t=Patriot CTF 2024 MISC 部分 wp"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        
+          <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2024-2026
+    LamentXU
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/about/">关于</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a href="/search/">搜索</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板！\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功！");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>

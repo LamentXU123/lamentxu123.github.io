@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="vsCTF里一道很棒的web题~ 本来就菜，加上我的前端安全水平又是入门级别，这种题做起来还是很费劲的。慢慢学吧 题目附件 其中后端代码： const http &#x3D; require(&#39;http&#39;); const fs &#x3D; require(&#39;fs&#39;); const pa">
+<meta property="og:type" content="article">
+<meta property="og:title" content="vsCTF 2024 web spinner wp">
+<meta property="og:url" content="https://lamentxu.top/posts/2024-06-19-vsctf-2024-web-spinner-wp/index.html">
+<meta property="og:site_name" content="LamentXU">
+<meta property="og:description" content="vsCTF里一道很棒的web题~ 本来就菜，加上我的前端安全水平又是入门级别，这种题做起来还是很费劲的。慢慢学吧 题目附件 其中后端代码： const http &#x3D; require(&#39;http&#39;); const fs &#x3D; require(&#39;fs&#39;); const pa">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/18256028/01.png">
+<meta property="article:published_time" content="2024-06-19T05:25:00.000Z">
+<meta property="article:modified_time" content="2024-06-19T05:25:00.000Z">
+<meta property="article:author" content="LamentXU">
+<meta property="article:tag" content="Web Security">
+<meta property="article:tag" content="Writeup">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://lamentxu.top/images/migrated/18256028/01.png">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/cnblogs-avatar.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/cnblogs-avatar.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/cnblogs-avatar.png">
+        
+      
+    
+    <!-- title -->
+    <title>vsCTF 2024 web spinner wp</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+      <link rel="alternate" href="/atom.xml" title="LamentXU" type="application/atom+xml" />
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 8.1.2"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="顶部" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/about/">关于</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a href="/search/">搜索</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="上一篇" href="/posts/2024-06-25-wanictf-2024-eics1-forensics-wp/"><i class="fa-solid fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="下一篇" href="/posts/2024-06-16-vsctf-2024-re-awa-jelly-wp/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="返回顶部" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="分享文章" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://lamentxu.top/posts/2024-06-19-vsctf-2024-web-spinner-wp/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://lamentxu.top/posts/2024-06-19-vsctf-2024-web-spinner-wp/&text=vsCTF 2024 web spinner wp"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://lamentxu.top/posts/2024-06-19-vsctf-2024-web-spinner-wp/&title=vsCTF 2024 web spinner wp"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://lamentxu.top/posts/2024-06-19-vsctf-2024-web-spinner-wp/&is_video=false&description=vsCTF 2024 web spinner wp"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=vsCTF 2024 web spinner wp&body=Check out this article: https://lamentxu.top/posts/2024-06-19-vsctf-2024-web-spinner-wp/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://lamentxu.top/posts/2024-06-19-vsctf-2024-web-spinner-wp/&title=vsCTF 2024 web spinner wp"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://lamentxu.top/posts/2024-06-19-vsctf-2024-web-spinner-wp/&title=vsCTF 2024 web spinner wp"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://lamentxu.top/posts/2024-06-19-vsctf-2024-web-spinner-wp/&title=vsCTF 2024 web spinner wp"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://lamentxu.top/posts/2024-06-19-vsctf-2024-web-spinner-wp/&title=vsCTF 2024 web spinner wp"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://lamentxu.top/posts/2024-06-19-vsctf-2024-web-spinner-wp/&name=vsCTF 2024 web spinner wp&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://lamentxu.top/posts/2024-06-19-vsctf-2024-web-spinner-wp/&t=vsCTF 2024 web spinner wp"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    
+    
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        vsCTF 2024 web spinner wp
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">LamentXU</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2024-06-19T05:25:00.000Z" class="dt-published" itemprop="datePublished">2024-06-19</time>
+        
+        (Updated: <time datetime="2024-06-19T05:25:00.000Z" class="dt-updated" itemprop="dateModified">2024-06-19</time>)
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fa-solid fa-archive"></i>
+        <a class="category-link" href="/categories/Notes/">Notes</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fa-solid fa-tag"></i>
+        <a class="p-category" href="/tags/Web-Security/" rel="tag">Web Security</a>, <a class="p-category" href="/tags/Writeup/" rel="tag">Writeup</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <p>vsCTF里一道很棒的web题~</p>
+<p>本来就菜，加上我的前端安全水平又是入门级别，这种题做起来还是很费劲的。慢慢学吧</p>
+<p><a target="_blank" rel="noopener" href="https://files.cnblogs.com/files/blogs/820580/spinner.zip">题目附件</a></p>
+<p>其中后端代码：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br></pre></td><td class="code"><pre><span class="line">const http = require(&#x27;http&#x27;);</span><br><span class="line">const fs = require(&#x27;fs&#x27;);</span><br><span class="line">const path = require(&#x27;path&#x27;);</span><br><span class="line">const WebSocket = require(&#x27;ws&#x27;);</span><br><span class="line"></span><br><span class="line">const server = http.createServer((req, res) =&gt; &#123;</span><br><span class="line">    if (req.method === &#x27;GET&#x27; &amp;&amp; req.url === &#x27;/&#x27;) &#123;</span><br><span class="line">        fs.readFile(path.join(__dirname, &#x27;index.html&#x27;), (err, data) =&gt; &#123;</span><br><span class="line">            if (err) &#123;</span><br><span class="line">                res.writeHead(500);</span><br><span class="line">                res.end();</span><br><span class="line">            &#125; else &#123;</span><br><span class="line">                res.writeHead(200, &#123; &#x27;Content-Type&#x27;: &#x27;text/html&#x27; &#125;);</span><br><span class="line">                res.end(data);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">        res.writeHead(404);</span><br><span class="line">        res.end(&#x27;Not Found&#x27;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">const wss = new WebSocket.Server(&#123; server &#125;);</span><br><span class="line"></span><br><span class="line">const clients = new Map();</span><br><span class="line"></span><br><span class="line">wss.on(&#x27;connection&#x27;, (ws) =&gt; &#123;</span><br><span class="line">    const clientData = &#123;</span><br><span class="line">        spins: 0,</span><br><span class="line">        cumulativeAngle: 0,</span><br><span class="line">        lastAngle: null,</span><br><span class="line">        touchedPoints: []</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    clients.set(ws, clientData);</span><br><span class="line"></span><br><span class="line">    ws.on(&#x27;message&#x27;, (message) =&gt; &#123;</span><br><span class="line">        const data = JSON.parse(message);</span><br><span class="line">        const client = clients.get(ws);</span><br><span class="line"></span><br><span class="line">        if (client) &#123;</span><br><span class="line">            const &#123; x, y, centerX, centerY &#125; = data;</span><br><span class="line"></span><br><span class="line">            if (client.touchedPoints.some(point =&gt; point.x === x &amp;&amp; point.y === y)) &#123;</span><br><span class="line">                return;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            client.touchedPoints.push(&#123; x, y &#125;);</span><br><span class="line"></span><br><span class="line">            const currentAngle = Math.atan2(y - centerY, x - centerX) * (180 / Math.PI);</span><br><span class="line"></span><br><span class="line">            if (client.lastAngle !== null) &#123;</span><br><span class="line">                let delta = currentAngle - client.lastAngle;</span><br><span class="line">                if (delta &gt; 180) delta -= 360;</span><br><span class="line">                if (delta &lt; -180) delta += 360;</span><br><span class="line">                client.cumulativeAngle += delta;</span><br><span class="line"></span><br><span class="line">                while (Math.abs(client.cumulativeAngle) &gt;= 360) &#123;</span><br><span class="line">                    client.cumulativeAngle -= 360 * Math.sign(client.cumulativeAngle);</span><br><span class="line">                    client.spins += 1;</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">                ws.send(JSON.stringify(&#123; spins: client.spins &#125;));</span><br><span class="line"></span><br><span class="line">                if (client.spins &gt;= 9999) &#123;</span><br><span class="line">                    ws.send(JSON.stringify(&#123; message: process.env.FLAG ?? &quot;vsctf&#123;test_flag&#125;&quot; &#125;));</span><br><span class="line">                    client.spins = 0;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            client.lastAngle = currentAngle;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line">    ws.on(&#x27;close&#x27;, () =&gt; &#123;</span><br><span class="line">        clients.delete(ws);</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">const PORT = process.env.PORT || 8080;</span><br><span class="line">server.listen(PORT, () =&gt; &#123;</span><br><span class="line">    console.log(`Server is running on http://localhost:$&#123;PORT&#125;`);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>直接进行一个代码的读</p>
+<p>发现其主要功能是建立一个websocket，然后通过传输用户鼠标位置计算用户鼠标转了多少圈，如果圈数&gt;&#x3D;9999圈就输出flag</p>
+<p>最坑的是，每次鼠标位置还要不一样才算数，所以越到后面越慢</p>
+<p>因此，手打是不可能手打的，9999圈怕不是要打到比赛结束</p>
+<p>接下来看前端代码</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">const centerX = window.innerWidth / 2;</span><br><span class="line">const centerY = window.innerHeight / 2;</span><br><span class="line">const centerPoint = document.getElementById(&#x27;centerPoint&#x27;);</span><br><span class="line">const spinCountDiv = document.getElementById(&#x27;spinCount&#x27;);</span><br><span class="line">centerPoint.style.left = centerX - 5 + &#x27;px&#x27;;</span><br><span class="line">centerPoint.style.top = centerY - 5 + &#x27;px&#x27;;</span><br><span class="line"></span><br><span class="line">const socket = new WebSocket(`wss://$&#123;window.location.host&#125;/ws`);</span><br><span class="line"></span><br><span class="line">socket.addEventListener(&#x27;open&#x27;, () =&gt; &#123;</span><br><span class="line">    console.log(&#x27;connected&#x27;);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">socket.addEventListener(&#x27;message&#x27;, (event) =&gt; &#123;</span><br><span class="line">    const data = JSON.parse(event.data);</span><br><span class="line">    if (data.spins !== undefined) &#123;</span><br><span class="line">        spinCountDiv.textContent = `$&#123;data.spins&#125;`;</span><br><span class="line">    &#125;</span><br><span class="line">    if (data.message) &#123;</span><br><span class="line">        alert(data.message);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">document.addEventListener(&#x27;mousemove&#x27;, (event) =&gt; &#123;</span><br><span class="line">    const &#123; clientX, clientY &#125; = event;</span><br><span class="line">    const message = &#123;</span><br><span class="line">        x: clientX,</span><br><span class="line">        y: clientY,</span><br><span class="line">        centerX: centerX,</span><br><span class="line">        centerY: centerY</span><br><span class="line">    &#125;;</span><br><span class="line">    socket.send(JSON.stringify(message));</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>注意到每次旋转的centerX和centerY在初始化的时候就是定死的</p>
+<p>先写一个函数，能发送正确格式的鼠标位置信息</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">function stimulate(angle) &#123;</span><br><span class="line">    return &#123;</span><br><span class="line">        x: centerX+Math.cos(Math.PI*2*angle/360);,</span><br><span class="line">        y: centerY+Math.sin(Math.PI*2*angle/360);,</span><br><span class="line">        centerX: centerX,</span><br><span class="line">        centerY: centerY</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这样x和y就就可以直接由centerX+angle（旋转角度）算出来，即模拟了一次正常的鼠标位点</p>
+<p>接下来重复执行这个代码,使得angle每次转90度，转4次就是一圈（4*90&#x3D;360）</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">for (let angle = 0; angle &lt;= 360.0; angle += 90.0) &#123;</span><br><span class="line">    socket.send(JSON.stringify(stimulate(angle)));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这样就模拟了一圈</p>
+<p>再套个外循环，循环10000次，这样就能转10000圈</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">  for (let i = 0; i &lt; 10000; i += 1) &#123;</span><br><span class="line">    for (let angle = 0; angle &lt;= 360.0; angle += 90.0) &#123;</span><br><span class="line">        socket.send(JSON.stringify(stimulate(angle)));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>然而……转了半天只有一圈</p>
+<p>回去看后端代码，发现每次鼠标位置还要不一样才算数，而上面的代码一直在转一样的圈</p>
+<p><img src="/images/migrated/18256028/01.png"></p>
+<p>于是，我们可以通过改变圆的半径（如把半径从1逐渐变大）或者改变鼠标每一次的角度（如把单次旋转从90度开始下降或上升）来越过这个限制</p>
+<p>这里，我们通过改变圆的半径实现</p>
+<p>重写stimulate函数，增加一个参数R控制半径</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">function stimulate(angle, R) &#123;</span><br><span class="line">    return &#123;</span><br><span class="line">        x: centerX+Math.cos(Math.PI*2*angle/360) * R,</span><br><span class="line">        y: centerY+Math.sin(Math.PI*2*angle/360) * R,</span><br><span class="line">        centerX: centerX,</span><br><span class="line">        centerY: centerY</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>外循环的时候将R设为循环变量</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">for (let r= 1; r&lt;= 1000; r += 0.1) &#123;</span><br><span class="line">    for (let angle = 0; angle &lt;= 360.0; angle += 90.0) &#123;</span><br><span class="line">        socket.send(JSON.stringify(stimulate(angle, r)));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这样我们将循环10000次（可以增多个数，避免网络问题丢失几次）即转了10000圈，每次半径增加0.1</p>
+<p>最终再控制台运行如下脚本即可：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">function stimulate(angle, R) &#123;</span><br><span class="line">    return &#123;</span><br><span class="line">        x: centerX+Math.cos(Math.PI*2*angle/360) * R,</span><br><span class="line">        y: centerY+Math.sin(Math.PI*2*angle/360) * R,</span><br><span class="line">        centerX: centerX,</span><br><span class="line">        centerY: centerY</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">for (let r= 1; r&lt;= 1000; r += 0.1) &#123;</span><br><span class="line">    for (let angle = 0; angle &lt;= 360.0; angle += 90.0) &#123;</span><br><span class="line">        socket.send(JSON.stringify(stimulate(angle, r)));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>最终flag：vsctf{i_ran_out_of_flag_ideas_so_have_this_random_string_2CSJzbfeWqVBnwU5q8}</p>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">首页</a></li>
+        
+          <li><a href="/about/">关于</a></li>
+        
+          <li><a href="/archives/">归档</a></li>
+        
+          <li><a href="/search/">搜索</a></li>
+        
+      </ul>
+    </div>
+
+    
+    
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://lamentxu.top/posts/2024-06-19-vsctf-2024-web-spinner-wp/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://lamentxu.top/posts/2024-06-19-vsctf-2024-web-spinner-wp/&text=vsCTF 2024 web spinner wp"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://lamentxu.top/posts/2024-06-19-vsctf-2024-web-spinner-wp/&title=vsCTF 2024 web spinner wp"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://lamentxu.top/posts/2024-06-19-vsctf-2024-web-spinner-wp/&is_video=false&description=vsCTF 2024 web spinner wp"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=vsCTF 2024 web spinner wp&body=Check out this article: https://lamentxu.top/posts/2024-06-19-vsctf-2024-web-spinner-wp/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://lamentxu.top/posts/2024-06-19-vsctf-2024-web-spinner-wp/&title=vsCTF 2024 web spinner wp"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://lamentxu.top/posts/2024-06-19-vsctf-2024-web-spinner-wp/&title=vsCTF 2024 web spinner wp"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://lamentxu.top/posts/2024-06-19-vsctf-2024-web-spinner-wp/&title=vsCTF 2024 web spinner wp"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://lamentxu.top/posts/2024-06-19-vsctf-2024-web-spinner-wp/&title=vsCTF 2024 web spinner wp"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://lamentxu.top/posts/2024-06-19-vsctf-2024-web-spinner-wp/&name=vsCTF 2024 web spinner wp&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://lamentxu.top/posts/2024-06-19-vsctf-2024-web-spinner-wp/&t=vsCTF 2024 web spinner wp"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2024-2026
+    LamentXU
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/about/">关于</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a href="/search/">搜索</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板！\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功！");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>

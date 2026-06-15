@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="今天，我怀着激动的心情发布 secpipw（以下简称 spip） 的 pre-release，ver 0.7.1。这篇文章，我们来详细介绍一下这个工具。它的官网在：https:&#x2F;&#x2F;spip.lamentxu.top&#x2F;zh-cn 。文档在：https:&#x2F;&#x2F;spip.lamentxu.top&#x2F;zh-cn">
+<meta property="og:type" content="article">
+<meta property="og:title" content="secpipw: 轻量，免费，强大，无摩擦的 PyPI 供应链投毒防护利器">
+<meta property="og:url" content="https://lamentxu.top/posts/2026-05-29-secpipw-pypi/index.html">
+<meta property="og:site_name" content="LamentXU">
+<meta property="og:description" content="今天，我怀着激动的心情发布 secpipw（以下简称 spip） 的 pre-release，ver 0.7.1。这篇文章，我们来详细介绍一下这个工具。它的官网在：https:&#x2F;&#x2F;spip.lamentxu.top&#x2F;zh-cn 。文档在：https:&#x2F;&#x2F;spip.lamentxu.top&#x2F;zh-cn">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2026-05-29T15:41:00.000Z">
+<meta property="article:modified_time" content="2026-05-29T15:41:00.000Z">
+<meta property="article:author" content="LamentXU">
+<meta property="article:tag" content="Web Security">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/cnblogs-avatar.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/cnblogs-avatar.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/cnblogs-avatar.png">
+        
+      
+    
+    <!-- title -->
+    <title>secpipw: 轻量，免费，强大，无摩擦的 PyPI 供应链投毒防护利器</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+      <link rel="alternate" href="/atom.xml" title="LamentXU" type="application/atom+xml" />
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 8.1.2"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="顶部" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/about/">关于</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a href="/search/">搜索</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="上一篇" href="/posts/2026-06-02-20259045/"><i class="fa-solid fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="下一篇" href="/posts/2026-05-06-leetcode/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="返回顶部" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="分享文章" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://lamentxu.top/posts/2026-05-29-secpipw-pypi/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://lamentxu.top/posts/2026-05-29-secpipw-pypi/&text=secpipw: 轻量，免费，强大，无摩擦的 PyPI 供应链投毒防护利器"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://lamentxu.top/posts/2026-05-29-secpipw-pypi/&title=secpipw: 轻量，免费，强大，无摩擦的 PyPI 供应链投毒防护利器"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://lamentxu.top/posts/2026-05-29-secpipw-pypi/&is_video=false&description=secpipw: 轻量，免费，强大，无摩擦的 PyPI 供应链投毒防护利器"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=secpipw: 轻量，免费，强大，无摩擦的 PyPI 供应链投毒防护利器&body=Check out this article: https://lamentxu.top/posts/2026-05-29-secpipw-pypi/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://lamentxu.top/posts/2026-05-29-secpipw-pypi/&title=secpipw: 轻量，免费，强大，无摩擦的 PyPI 供应链投毒防护利器"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://lamentxu.top/posts/2026-05-29-secpipw-pypi/&title=secpipw: 轻量，免费，强大，无摩擦的 PyPI 供应链投毒防护利器"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://lamentxu.top/posts/2026-05-29-secpipw-pypi/&title=secpipw: 轻量，免费，强大，无摩擦的 PyPI 供应链投毒防护利器"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://lamentxu.top/posts/2026-05-29-secpipw-pypi/&title=secpipw: 轻量，免费，强大，无摩擦的 PyPI 供应链投毒防护利器"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://lamentxu.top/posts/2026-05-29-secpipw-pypi/&name=secpipw: 轻量，免费，强大，无摩擦的 PyPI 供应链投毒防护利器&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://lamentxu.top/posts/2026-05-29-secpipw-pypi/&t=secpipw: 轻量，免费，强大，无摩擦的 PyPI 供应链投毒防护利器"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    
+    
+      <div id="toc">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#spip-%E7%AE%80%E4%BB%8B"><span class="toc-number">1.</span> <span class="toc-text">spip 简介</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%A7%A3%E5%86%B3%E4%BA%86%E4%BB%80%E4%B9%88%E9%97%AE%E9%A2%98"><span class="toc-number">1.1.</span> <span class="toc-text">解决了什么问题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#spip-%E7%9A%84%E4%BC%98%E5%8A%BF"><span class="toc-number">1.2.</span> <span class="toc-text">spip 的优势</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%8A%80%E6%9C%AF%E5%8E%9F%E7%90%86"><span class="toc-number">2.</span> <span class="toc-text">技术原理</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8A%A5%E8%AD%A6%E6%9C%BA%E5%88%B6"><span class="toc-number">2.1.</span> <span class="toc-text">报警机制</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A3%80%E6%9F%A5%E4%BA%86%E4%BB%80%E4%B9%88%EF%BC%8C%E4%BB%A5%E5%8F%8A%E4%B8%BA%E4%BB%80%E4%B9%88%E6%A3%80%E6%9F%A5"><span class="toc-number">2.2.</span> <span class="toc-text">检查了什么，以及为什么检查</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%9E%E7%8E%B0%E6%96%B9%E5%BC%8F"><span class="toc-number">2.3.</span> <span class="toc-text">实现方式</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-number">3.</span> <span class="toc-text">总结</span></a></li></ol>
+      </div>
+    
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        secpipw: 轻量，免费，强大，无摩擦的 PyPI 供应链投毒防护利器
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">LamentXU</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2026-05-29T15:41:00.000Z" class="dt-published" itemprop="datePublished">2026-05-29</time>
+        
+        (Updated: <time datetime="2026-05-29T15:41:00.000Z" class="dt-updated" itemprop="dateModified">2026-05-29</time>)
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fa-solid fa-archive"></i>
+        <a class="category-link" href="/categories/Notes/">Notes</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fa-solid fa-tag"></i>
+        <a class="p-category" href="/tags/Web-Security/" rel="tag">Web Security</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <p>今天，我怀着激动的心情发布 secpipw（以下简称 spip） 的 pre-release，ver 0.7.1。这篇文章，我们来详细介绍一下这个工具。它的官网在：<a target="_blank" rel="noopener" href="https://spip.lamentxu.top/zh-cn">https://spip.lamentxu.top/zh-cn</a> 。文档在：<a target="_blank" rel="noopener" href="https://spip.lamentxu.top/zh-cn/docs">https://spip.lamentxu.top/zh-cn/docs</a> 。<br>源代码在 <a target="_blank" rel="noopener" href="https://github.com/LamentXU123/secured_pip">https://github.com/LamentXU123/secured_pip</a> 。</p>
+<p>这个工具将会在二零二六年六月初进行 stable release。</p>
+<h1 id="spip-简介"><a href="#spip-简介" class="headerlink" title="spip 简介"></a>spip 简介</h1><p>spip 是一个 pip 的包装器。它于原版 pip 的行为完全一致，唯独在 install 上略有区别。我可以很自豪地说，<strong>它能在你感受不到它的存在的前提下，防御住目前已知的所有供应链投毒攻击方式</strong></p>
+<h2 id="解决了什么问题"><a href="#解决了什么问题" class="headerlink" title="解决了什么问题"></a>解决了什么问题</h2><p>供应链投毒一直是网络安全里永恒的话题。现在市面上对此的解决方案，有成熟却性能开销大的 GuardDog，也有完全依赖付费 socket API 的 sfw。它们的问题在于：成熟如 GuardDog 的太笨重，不适合进入 CI 反而适合安全研究员静态解析。若对每一个 pip install 的下载产物（包括各种依赖）都跑一次 GuardDog 无疑会拖慢安装进度；而 sfw 虽然轻量，却是完全依靠付费的 socket API 完成，对于日常开发者而言，无疑又是一次经济负担。</p>
+<p>spip 解决了这个问题。它通过给 pip 的安装器上钩子，将安全检查完美地融合到了 pip install 的下载和安装流程中去。同时，你几乎感受不到任何性能损失。spip 完全免费提供给所有人。</p>
+<p>当代，很多独立开发者的 CI 服务器被攻击导致 secret key 泄露，造成严重后果。如果安装了 spip，这样的风险会大大降低，同时<strong>不需要付费，不需要额外的性能开支，也不需要学习和配置</strong>。只有一次的 <code>pip install spip</code> 再设置一次别名，你就可以接着用 pip，却在无形中获得一层至关重要的保护网</p>
+<h2 id="spip-的优势"><a href="#spip-的优势" class="headerlink" title="spip 的优势"></a>spip 的优势</h2><ul>
+<li>轻量。你感受不到它的存在。</li>
+<li>0 迁移或学习成本。你不需要任何配置，开箱即用。</li>
+<li>免费。spip 在 MIT 协议下开源。任何人都可以使用，修改或再分发。</li>
+<li>强大。经过测试可以完美防御如 LiteLLM，colorama 等知名攻击事件。</li>
+</ul>
+<h1 id="技术原理"><a href="#技术原理" class="headerlink" title="技术原理"></a>技术原理</h1><h2 id="报警机制"><a href="#报警机制" class="headerlink" title="报警机制"></a>报警机制</h2><p>secpipw 提供三种不同等级的报警</p>
+<ul>
+<li>LOW，只输出信息。</li>
+<li>MEDIUM，会询问开发者是否要继续安装。在 CI 流水线上，这意味着停止安装。</li>
+<li>HIGH，停止安装。</li>
+</ul>
+<p>你可以使用 <code>--sensitivity &lt;level&gt;</code> 的形式调整敏感度。目前是最低的敏感度，即为默认配置。<br>你可以使用 <code>--ignore-warning</code> 这样即使出现通常会暂停、询问或阻断安装的 warning，也继续安装。</p>
+<p>更多参数，请参考：<a target="_blank" rel="noopener" href="https://spip.lamentxu.top/zh-cn/docs/parameters.html">https://spip.lamentxu.top/zh-cn/docs/parameters.html</a></p>
+<h2 id="检查了什么，以及为什么检查"><a href="#检查了什么，以及为什么检查" class="headerlink" title="检查了什么，以及为什么检查"></a>检查了什么，以及为什么检查</h2><p>请参考：<a target="_blank" rel="noopener" href="https://spip.lamentxu.top/zh-cn/docs/checks.html">https://spip.lamentxu.top/zh-cn/docs/checks.html</a></p>
+<p>检查主要分为三类</p>
+<ul>
+<li>元数据（metadata）检查。例如包的存活时间，发布作者（是否变化）等。</li>
+<li>安装前检查。这是通过解析下载下来的 wheel 文件，检查该版本于本地记录的（如有）的上个版本的 diff，有没有新增的 .pth 文件，或 setup.py 的入口有没有改变等。</li>
+<li>安装后检查。例如是否含有以 import 语句开头的 .pth 文件等。</li>
+</ul>
+<h2 id="实现方式"><a href="#实现方式" class="headerlink" title="实现方式"></a>实现方式</h2><p>当你敲下 pip install 时，你实际上做了：</p>
+<ol>
+<li>Resolve。这个阶段，pip 将会生成一个下载计划（Install Plan）里面包括了所有此次下载需要下载的内容。相当于梳理了依赖关系并整理出了要下载什么。</li>
+<li>Download。下载。</li>
+<li>Install。安装。</li>
+</ol>
+<p>我们分别在这三个步骤中<strong>插入</strong>检查。这样就不会影响到原来的下载。在第一步之后，我们利用解析下来的元数据，做一次检查。第二步，即下载完成后安装开始前，我们解析 wheel 文件与过去对比。第三步安装落盘之后，我们做一次简单的静态检测。</p>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>综上，spip 适用于 CI 流水线和个人开发者的主机上，可以低成本地上一个尽可能安全的保护网，防护供应链投毒攻击。</p>
+<p>将来，如果本项目有不错的反响，我们会支持 pipx，uv，和 conda 环境。</p>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">首页</a></li>
+        
+          <li><a href="/about/">关于</a></li>
+        
+          <li><a href="/archives/">归档</a></li>
+        
+          <li><a href="/search/">搜索</a></li>
+        
+      </ul>
+    </div>
+
+    
+    
+      <div id="toc-footer" style="display: none">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#spip-%E7%AE%80%E4%BB%8B"><span class="toc-number">1.</span> <span class="toc-text">spip 简介</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%A7%A3%E5%86%B3%E4%BA%86%E4%BB%80%E4%B9%88%E9%97%AE%E9%A2%98"><span class="toc-number">1.1.</span> <span class="toc-text">解决了什么问题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#spip-%E7%9A%84%E4%BC%98%E5%8A%BF"><span class="toc-number">1.2.</span> <span class="toc-text">spip 的优势</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%8A%80%E6%9C%AF%E5%8E%9F%E7%90%86"><span class="toc-number">2.</span> <span class="toc-text">技术原理</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8A%A5%E8%AD%A6%E6%9C%BA%E5%88%B6"><span class="toc-number">2.1.</span> <span class="toc-text">报警机制</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A3%80%E6%9F%A5%E4%BA%86%E4%BB%80%E4%B9%88%EF%BC%8C%E4%BB%A5%E5%8F%8A%E4%B8%BA%E4%BB%80%E4%B9%88%E6%A3%80%E6%9F%A5"><span class="toc-number">2.2.</span> <span class="toc-text">检查了什么，以及为什么检查</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%9E%E7%8E%B0%E6%96%B9%E5%BC%8F"><span class="toc-number">2.3.</span> <span class="toc-text">实现方式</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-number">3.</span> <span class="toc-text">总结</span></a></li></ol>
+      </div>
+    
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://lamentxu.top/posts/2026-05-29-secpipw-pypi/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://lamentxu.top/posts/2026-05-29-secpipw-pypi/&text=secpipw: 轻量，免费，强大，无摩擦的 PyPI 供应链投毒防护利器"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://lamentxu.top/posts/2026-05-29-secpipw-pypi/&title=secpipw: 轻量，免费，强大，无摩擦的 PyPI 供应链投毒防护利器"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://lamentxu.top/posts/2026-05-29-secpipw-pypi/&is_video=false&description=secpipw: 轻量，免费，强大，无摩擦的 PyPI 供应链投毒防护利器"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=secpipw: 轻量，免费，强大，无摩擦的 PyPI 供应链投毒防护利器&body=Check out this article: https://lamentxu.top/posts/2026-05-29-secpipw-pypi/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://lamentxu.top/posts/2026-05-29-secpipw-pypi/&title=secpipw: 轻量，免费，强大，无摩擦的 PyPI 供应链投毒防护利器"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://lamentxu.top/posts/2026-05-29-secpipw-pypi/&title=secpipw: 轻量，免费，强大，无摩擦的 PyPI 供应链投毒防护利器"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://lamentxu.top/posts/2026-05-29-secpipw-pypi/&title=secpipw: 轻量，免费，强大，无摩擦的 PyPI 供应链投毒防护利器"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://lamentxu.top/posts/2026-05-29-secpipw-pypi/&title=secpipw: 轻量，免费，强大，无摩擦的 PyPI 供应链投毒防护利器"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://lamentxu.top/posts/2026-05-29-secpipw-pypi/&name=secpipw: 轻量，免费，强大，无摩擦的 PyPI 供应链投毒防护利器&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://lamentxu.top/posts/2026-05-29-secpipw-pypi/&t=secpipw: 轻量，免费，强大，无摩擦的 PyPI 供应链投毒防护利器"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        
+          <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2024-2026
+    LamentXU
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/about/">关于</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a href="/search/">搜索</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板！\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功！");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>

@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="路径穿越 -- Path Traversal 0x01 成因 我们来看一段代码： from flask import Flask, request, render_template, send_file app &#x3D; Flask(__name__) @app.get(&quot;&#x2F;&lt;path:f">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CTF web漏洞合集 Python篇（2）python中的路径穿越">
+<meta property="og:url" content="https://lamentxu.top/posts/2024-10-03-ctf-web-python2python/index.html">
+<meta property="og:site_name" content="LamentXU">
+<meta property="og:description" content="路径穿越 -- Path Traversal 0x01 成因 我们来看一段代码： from flask import Flask, request, render_template, send_file app &#x3D; Flask(__name__) @app.get(&quot;&#x2F;&lt;path:f">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/18442193/01.png">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/18442193/02.png">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/18442193/03.png">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/18442193/04.png">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/18442193/05.png">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/18442193/06.png">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/18442193/07.png">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/18442193/08.png">
+<meta property="article:published_time" content="2024-10-03T12:16:00.000Z">
+<meta property="article:modified_time" content="2024-10-03T12:16:00.000Z">
+<meta property="article:author" content="LamentXU">
+<meta property="article:tag" content="CTF">
+<meta property="article:tag" content="Crypto">
+<meta property="article:tag" content="PHP">
+<meta property="article:tag" content="Python">
+<meta property="article:tag" content="Web Security">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://lamentxu.top/images/migrated/18442193/01.png">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/cnblogs-avatar.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/cnblogs-avatar.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/cnblogs-avatar.png">
+        
+      
+    
+    <!-- title -->
+    <title>CTF web漏洞合集 Python篇（2）python中的路径穿越</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+      <link rel="alternate" href="/atom.xml" title="LamentXU" type="application/atom+xml" />
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 8.1.2"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="顶部" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/about/">关于</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a href="/search/">搜索</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="上一篇" href="/posts/2024-10-07-ironctf-2024-web-eics1-wp/"><i class="fa-solid fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="下一篇" href="/posts/2024-10-01-ctf-web-python1pythonssti/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="返回顶部" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="分享文章" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://lamentxu.top/posts/2024-10-03-ctf-web-python2python/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://lamentxu.top/posts/2024-10-03-ctf-web-python2python/&text=CTF web漏洞合集 Python篇（2）python中的路径穿越"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://lamentxu.top/posts/2024-10-03-ctf-web-python2python/&title=CTF web漏洞合集 Python篇（2）python中的路径穿越"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://lamentxu.top/posts/2024-10-03-ctf-web-python2python/&is_video=false&description=CTF web漏洞合集 Python篇（2）python中的路径穿越"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=CTF web漏洞合集 Python篇（2）python中的路径穿越&body=Check out this article: https://lamentxu.top/posts/2024-10-03-ctf-web-python2python/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://lamentxu.top/posts/2024-10-03-ctf-web-python2python/&title=CTF web漏洞合集 Python篇（2）python中的路径穿越"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://lamentxu.top/posts/2024-10-03-ctf-web-python2python/&title=CTF web漏洞合集 Python篇（2）python中的路径穿越"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://lamentxu.top/posts/2024-10-03-ctf-web-python2python/&title=CTF web漏洞合集 Python篇（2）python中的路径穿越"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://lamentxu.top/posts/2024-10-03-ctf-web-python2python/&title=CTF web漏洞合集 Python篇（2）python中的路径穿越"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://lamentxu.top/posts/2024-10-03-ctf-web-python2python/&name=CTF web漏洞合集 Python篇（2）python中的路径穿越&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://lamentxu.top/posts/2024-10-03-ctf-web-python2python/&t=CTF web漏洞合集 Python篇（2）python中的路径穿越"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    
+    
+      <div id="toc">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%B7%AF%E5%BE%84%E7%A9%BF%E8%B6%8A-%E2%80%93-Path-Traversal"><span class="toc-number">1.</span> <span class="toc-text">路径穿越 – Path Traversal</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#0x01-%E6%88%90%E5%9B%A0"><span class="toc-number">1.1.</span> <span class="toc-text">0x01 成因</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x02-%E6%BC%8F%E6%B4%9E%E7%89%B9%E5%BE%81"><span class="toc-number">1.2.</span> <span class="toc-text">0x02 漏洞特征</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x03-%E5%88%A9%E7%94%A8"><span class="toc-number">1.3.</span> <span class="toc-text">0x03 利用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x04-%E5%B8%B8%E8%A7%81%E9%98%B2%E6%8A%A4%E5%8F%8A%E7%BB%95%E8%BF%87"><span class="toc-number">1.4.</span> <span class="toc-text">0x04 常见防护及绕过</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9B%BF%E6%8D%A2%E4%B8%BA%E7%A9%BA"><span class="toc-number">1.4.1.</span> <span class="toc-text">..&#x2F;替换为空</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#windows%E4%B8%8B%E7%A6%81%E6%AD%A2"><span class="toc-number">1.4.2.</span> <span class="toc-text">windows下禁止&#x2F;..</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#windows%E4%B8%8B%E7%A6%81%E6%AD%A2-1"><span class="toc-number">1.4.3.</span> <span class="toc-text">windows下禁止..&#x2F;</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%A6%81%E6%AD%A2-%E5%92%8C"><span class="toc-number">1.4.4.</span> <span class="toc-text">禁止..&#x2F;..&#x2F;和\</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#00%E6%88%AA%E6%96%AD%EF%BC%88php%E7%89%88%E6%9C%AC%EF%BC%9C5-3-4%EF%BC%89"><span class="toc-number">1.4.5.</span> <span class="toc-text">%00截断（php版本＜5.3.4）</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x05-%E4%BE%8B%E9%A2%98"><span class="toc-number">1.5.</span> <span class="toc-text">0x05 例题</span></a></li></ol></li></ol>
+      </div>
+    
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        CTF web漏洞合集 Python篇（2）python中的路径穿越
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">LamentXU</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2024-10-03T12:16:00.000Z" class="dt-published" itemprop="datePublished">2024-10-03</time>
+        
+        (Updated: <time datetime="2024-10-03T12:16:00.000Z" class="dt-updated" itemprop="dateModified">2024-10-03</time>)
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fa-solid fa-archive"></i>
+        <a class="category-link" href="/categories/CTF/">CTF</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fa-solid fa-tag"></i>
+        <a class="p-category" href="/tags/CTF/" rel="tag">CTF</a>, <a class="p-category" href="/tags/Crypto/" rel="tag">Crypto</a>, <a class="p-category" href="/tags/PHP/" rel="tag">PHP</a>, <a class="p-category" href="/tags/Python/" rel="tag">Python</a>, <a class="p-category" href="/tags/Web-Security/" rel="tag">Web Security</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <h1 id="路径穿越-–-Path-Traversal"><a href="#路径穿越-–-Path-Traversal" class="headerlink" title="路径穿越 – Path Traversal"></a>路径穿越 – Path Traversal</h1><h2 id="0x01-成因"><a href="#0x01-成因" class="headerlink" title="0x01 成因"></a>0x01 成因</h2><p>我们来看一段代码：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">from flask import Flask, request, render_template, send_file</span><br><span class="line">app = Flask(__name__)</span><br><span class="line"></span><br><span class="line">@app.get(&quot;/&lt;path:file_path&gt;&quot;)</span><br><span class="line">def download_file(file_path: str):</span><br><span class="line">    return send_file(file_path)</span><br><span class="line">if __name__ == &#x27;__main__&#x27;:</span><br><span class="line">    app.run()</span><br></pre></td></tr></table></figure>
+
+<p>若本地目录下有一个examples.txt，访问<a target="_blank" rel="noopener" href="http://localhost:8000/example.txt%E5%8D%B3%E5%8F%AF%E4%B8%8B%E8%BD%BDexample.txt">http://localhost:8000/example.txt即可下载example.txt</a></p>
+<p>然而，这段代码有一个很明显的安全问题：输入的路径中可以带有..&#x2F;，也就是说，可以回到上级目录。若传入参数：file&#x3D;&#x2F;flag即可直接获取根目录下的flag</p>
+<p>同样的，我们来看一段教程：</p>
+<p><a target="_blank" rel="noopener" href="https://geek-docs.com/python/python-ask-answer/53_python_download_file_using_fastapi.html#:~:text=Python%20%E4%BD%BF%E7%94%A8">https://geek-docs.com/python/python-ask-answer/53_python_download_file_using_fastapi.html#:~:text&#x3D;Python 使用</a></p>
+<p>中有这样一段代码</p>
+<p><img src="/images/migrated/18442193/01.png"></p>
+<p>若本地目录下有一个examples.txt，访问<a target="_blank" rel="noopener" href="http://localhost:8000/download/_file?file%5C_path=example.txt%E5%8D%B3%E5%8F%AF%E4%B8%8B%E8%BD%BD%EF%BC%8C%E7%84%B6%E8%80%8C%E7%9B%B8%E5%90%8C%E7%9A%84%E6%98%AF%EF%BC%8C%E5%BD%93%E7%94%A8%E6%88%B7%E4%BC%A0%E5%85%A5%E5%B8%A6../%E4%BE%9D%E7%84%B6%E5%8F%AF%E4%BB%A5%E5%9B%9E%E5%88%B0%E4%BB%BB%E6%84%8F%E4%B8%8A%E7%BA%A7%E7%9B%AE%E5%BD%95">http://localhost:8000/download\_file?file\_path=example.txt即可下载，然而相同的是，当用户传入带../依然可以回到任意上级目录</a></p>
+<p><strong>显然，这个漏洞是在发生文件下载操作的时候可能触发，原理是将用户的输入直接拼接到将要下载的文件的路径里。若用户传入带’..&#x2F;‘的参数，就可以回到任意上级目录，在已知目标文件路径的前提下实现任意文件下载</strong></p>
+<p><img src="/images/migrated/18442193/02.png"></p>
+<h2 id="0x02-漏洞特征"><a href="#0x02-漏洞特征" class="headerlink" title="0x02 漏洞特征"></a>0x02 漏洞特征</h2><p><strong>存在将用户输入直接（或存在可能绕过的过滤）拼接到即将下载给用户的文件路径中的行为</strong></p>
+<p>漏洞必须带有以下特征：</p>
+<ul>
+<li>存在类似send_file功能的函数（即：存在下载功能）</li>
+<li>下载文件路径可控</li>
+<li>拥有足够的权限</li>
+</ul>
+<p>此时路径穿越漏洞就成立了</p>
+<p><strong>POC: 漏洞处传入: <code>../../../../../../../../etc/passwd</code>，若返回文件内容则确诊路径穿越</strong></p>
+<h2 id="0x03-利用"><a href="#0x03-利用" class="headerlink" title="0x03 利用"></a>0x03 利用</h2><p>确诊路径穿越后，迅速查看题目中的docker file，看看flag文件的路径，直接获取即可</p>
+<p>然而，有些题目会将flag放到一些秘密路径里，这时就需要<strong>爆破路径</strong>或者<strong>其他漏洞获取</strong></p>
+<p><strong>注意：含有..&#x2F;的URL在浏览器传入时浏览器会自动给你“优化”掉（GET中的参数不会，如果直接出现在URL路径里就会），要用burp传包</strong></p>
+<p><strong>所以我们可以进行一个总结</strong></p>
+<p>当发现有文件读取的功能点时。先尝试能不能直接&#x2F;etc&#x2F;passwd（不要一上来就..&#x2F;）如果不能，再进行穿越。尝试..&#x2F;..&#x2F;..&#x2F;..&#x2F;..&#x2F;..&#x2F;..&#x2F;etc&#x2F;passwd</p>
+<p>随后，我们尝试读取&#x2F;flag，若读不到，读取线程文件&#x2F;proc&#x2F;self&#x2F;cmdline或proc&#x2F;1&#x2F;cmdline获取源码路径（如果是flask app的话），随后读取源码进行进一步审计</p>
+<h2 id="0x04-常见防护及绕过"><a href="#0x04-常见防护及绕过" class="headerlink" title="0x04 常见防护及绕过"></a>0x04 常见防护及绕过</h2><h3 id="替换为空"><a href="#替换为空" class="headerlink" title="..&#x2F;替换为空"></a>..&#x2F;替换为空</h3><p>一种最蠢的过滤就是直接将用户输入中的..&#x2F;替换成空，如：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">from flask import Flask, request, render_template, send_file</span><br><span class="line">app = Flask(__name__)</span><br><span class="line"></span><br><span class="line">@app.get(&quot;/&lt;path:file_path&gt;&quot;)</span><br><span class="line">def download_file(file_path: str):</span><br><span class="line">    if &#x27;../&#x27; in file_path:</span><br><span class="line">        file_path = file_path.replace(&#x27;../&#x27;, &#x27;&#x27;)</span><br><span class="line">    return send_file(file_path)</span><br><span class="line">if __name__ == &#x27;__main__&#x27;:</span><br><span class="line">    app.run()</span><br></pre></td></tr></table></figure>
+
+<p>看似安全的防护措施实际上有一个很简单的绕过方法：双写绕过 —— 使用….&#x2F;&#x2F;代替..&#x2F;</p>
+<p>这样..&#x2F;被替换一次后还剩一个..&#x2F;依然可以完成路径穿越</p>
+<p><img src="/images/migrated/18442193/03.png"></p>
+<h3 id="windows下禁止"><a href="#windows下禁止" class="headerlink" title="windows下禁止&#x2F;.."></a>windows下禁止&#x2F;..</h3><p>同样看起来相当安全的过滤</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">from flask import Flask, request, render_template, send_file</span><br><span class="line">app = Flask(__name__)</span><br><span class="line"></span><br><span class="line">@app.get(&quot;/&lt;path:file_path&gt;&quot;)</span><br><span class="line">def download_file(file_path: str):</span><br><span class="line">    if &#x27;/..&#x27; in file_path:</span><br><span class="line">        return &#x27;Invalid path&#x27;</span><br><span class="line">    return send_file(file_path)</span><br><span class="line">if __name__ == &#x27;__main__&#x27;:</span><br><span class="line">    app.run()</span><br></pre></td></tr></table></figure>
+
+<p>各位可以看一下有什么思路</p>
+<p>答案其实很简单，我们可以祭出windows下路径穿越的神器：%5C（正反斜杠）</p>
+<p><img src="/images/migrated/18442193/04.png"></p>
+<p>windows下<code>/%5C..</code>在路径解析的时候会将\忽略，这个漏洞在open函数中也奏效，即：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">from flask import Flask, request, render_template, send_file</span><br><span class="line">app = Flask(__name__)</span><br><span class="line"></span><br><span class="line">@app.get(&quot;/&lt;path:file_path&gt;&quot;)</span><br><span class="line">def download_file(file_path: str):</span><br><span class="line">    if &#x27;/..&#x27; in file_path:</span><br><span class="line">        return &#x27;Invalid path&#x27;</span><br><span class="line">    with open(file_path, &#x27;r&#x27;) as f:</span><br><span class="line">        return f.read()</span><br><span class="line">if __name__ == &#x27;__main__&#x27;:</span><br><span class="line">    app.run()</span><br></pre></td></tr></table></figure>
+
+<h3 id="windows下禁止-1"><a href="#windows下禁止-1" class="headerlink" title="windows下禁止..&#x2F;"></a>windows下禁止..&#x2F;</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">from flask import Flask, request, render_template, send_file</span><br><span class="line">app = Flask(__name__)</span><br><span class="line"></span><br><span class="line">@app.get(&quot;/&lt;path:file_path&gt;&quot;)</span><br><span class="line">def download_file(file_path: str):</span><br><span class="line">    if &#x27;../&#x27; in file_path:</span><br><span class="line">        return &#x27;Invalid path&#x27;</span><br><span class="line">    with open(file_path, &#x27;r&#x27;) as f:</span><br><span class="line">        return f.read()</span><br><span class="line">if __name__ == &#x27;__main__&#x27;:</span><br><span class="line">    app.run()</span><br></pre></td></tr></table></figure>
+
+<p>与上一个一样，使用正反斜杠绕过</p>
+<p><img src="/images/migrated/18442193/05.png"></p>
+<h3 id="禁止-和"><a href="#禁止-和" class="headerlink" title="禁止..&#x2F;..&#x2F;和\"></a>禁止..&#x2F;..&#x2F;和\</h3><p>省流：正反斜杠G了</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">from flask import Flask, request, render_template, send_file</span><br><span class="line">app = Flask(__name__)</span><br><span class="line"></span><br><span class="line">@app.get(&quot;/&lt;path:file_path&gt;&quot;)</span><br><span class="line">def download_file(file_path: str):</span><br><span class="line">    if &#x27;../../&#x27; in file_path or &#x27;\\&#x27; in file_path:</span><br><span class="line">        return &#x27;Invalid path&#x27;</span><br><span class="line">    with open(file_path, &#x27;r&#x27;) as f:</span><br><span class="line">        return f.read()</span><br><span class="line">if __name__ == &#x27;__main__&#x27;:</span><br><span class="line">    app.run()</span><br></pre></td></tr></table></figure>
+
+<p>这里禁止的是..&#x2F;..&#x2F;，可以使用..&#x2F;.&#x2F;..&#x2F;.&#x2F;代替（&#x2F;.&#x2F;代表同级目录，穿越漏洞不会受到影响。）人类的创造力是无限的</p>
+<p><img src="/images/migrated/18442193/06.png"></p>
+<p>同样的：禁止..&#x2F;..和\也可以用这个绕过</p>
+<p>这个好像还挺罕见的。小本本记下来了，哪天我有机会出题就出这个（（</p>
+<h3 id="00截断（php版本＜5-3-4）"><a href="#00截断（php版本＜5-3-4）" class="headerlink" title="%00截断（php版本＜5.3.4）"></a>%00截断（php版本＜5.3.4）</h3><p>如果程序试图在用户的输入后面拼接后缀，如：<code>.jpg</code>仅限于php版本＜5.3.4时可以用%00截断（C语言特性）</p>
+<p>由于本篇文章讨论python中的路径穿越，不多做解释</p>
+<p>在某些情况下，问号符也有相同的效果</p>
+<h2 id="0x05-例题"><a href="#0x05-例题" class="headerlink" title="0x05 例题"></a>0x05 例题</h2><p>【BuckeyeCTF 2024】SSFS</p>
+<p>附件app.py：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br></pre></td><td class="code"><pre><span class="line">from flask import Flask, request, render_template, send_file</span><br><span class="line">from uuid import uuid4</span><br><span class="line">import os</span><br><span class="line">import hashlib</span><br><span class="line"></span><br><span class="line">app = Flask(__name__)</span><br><span class="line">app.config[&#x27;MAX_CONTENT_LENGTH&#x27;] = 1024 * 1024 # 1MB</span><br><span class="line"></span><br><span class="line">file_exts = &#123;&#125;</span><br><span class="line"></span><br><span class="line">@app.route(&#x27;/&#x27;)</span><br><span class="line">def index():</span><br><span class="line">    return render_template(&#x27;index.html&#x27;)</span><br><span class="line"></span><br><span class="line">def clear_uploads():</span><br><span class="line">    upload_dir = &#x27;uploads&#x27;</span><br><span class="line">    if not os.path.exists(upload_dir):</span><br><span class="line">        os.mkdir(upload_dir)</span><br><span class="line"></span><br><span class="line">    files = os.listdir(upload_dir)</span><br><span class="line">    if len(files) &gt; 50:</span><br><span class="line">        for file in files:</span><br><span class="line">            os.remove(os.path.join(upload_dir, file))</span><br><span class="line"></span><br><span class="line">@app.route(&#x27;/upload&#x27;, methods=[&#x27;POST&#x27;])</span><br><span class="line">def upload():</span><br><span class="line">    file = request.files[&#x27;file&#x27;]</span><br><span class="line">    ext = file.filename.split(&#x27;.&#x27;)[-1]</span><br><span class="line"></span><br><span class="line">    if not file:</span><br><span class="line">        return &#123;&#x27;status&#x27;: &#x27;error&#x27;, &#x27;message&#x27;: &#x27;No file uploaded&#x27;&#125;</span><br><span class="line">    </span><br><span class="line">    if ext not in [&#x27;png&#x27;, &#x27;jpg&#x27;, &#x27;jpeg&#x27;, &#x27;gif&#x27;, &#x27;bmp&#x27;, &#x27;webp&#x27;]:</span><br><span class="line">        return &#123;&#x27;status&#x27;: &#x27;error&#x27;, &#x27;message&#x27;: &#x27;Invalid file type&#x27;&#125;</span><br><span class="line">    </span><br><span class="line">    clear_uploads()</span><br><span class="line"></span><br><span class="line">    file_id = str(uuid4())</span><br><span class="line">    file_exts[file_id] = ext</span><br><span class="line"></span><br><span class="line">    os.makedirs(&#x27;uploads&#x27;, exist_ok=True)</span><br><span class="line">    </span><br><span class="line">    with open(f&#x27;uploads/&#123;file_id&#125;&#x27;, &#x27;wb&#x27;) as f:</span><br><span class="line">        f.write(file.read())</span><br><span class="line"></span><br><span class="line">    return &#123;&#x27;status&#x27;: &#x27;success&#x27;, &#x27;message&#x27;: &#x27;File uploaded successfully&#x27;, &#x27;id&#x27;: file_id&#125;</span><br><span class="line"></span><br><span class="line">@app.route(&#x27;/search/&lt;path:file_id&gt;&#x27;)</span><br><span class="line">def search(file_id):</span><br><span class="line">    if not os.path.exists(&#x27;uploads/&#x27; + file_id):</span><br><span class="line">        return &#123;&#x27;status&#x27;: &#x27;error&#x27;, &#x27;message&#x27;: &#x27;File not found&#x27;&#125;, 404</span><br><span class="line"></span><br><span class="line">    return &#123;&#x27;status&#x27;: &#x27;success&#x27;, &#x27;message&#x27;: &#x27;File found&#x27;, &#x27;id&#x27;: file_id&#125;</span><br><span class="line"></span><br><span class="line">def filter_file_id(file_id : str):</span><br><span class="line">    if len(file_id) &gt; 36: # uuid4 length</span><br><span class="line">        return None</span><br><span class="line">    </span><br><span class="line">    return file_id</span><br><span class="line"></span><br><span class="line">@app.route(&#x27;/download/&lt;path:file_id&gt;&#x27;)</span><br><span class="line">def download(file_id):</span><br><span class="line">    file_id = filter_file_id(file_id)</span><br><span class="line"></span><br><span class="line">    if file_id is None:</span><br><span class="line">        return &#123;&#x27;status&#x27;: &#x27;error&#x27;, &#x27;message&#x27;: &#x27;Invalid file id&#x27;&#125;, 400</span><br><span class="line"></span><br><span class="line">    if not os.path.exists(&#x27;uploads/&#x27; + file_id):</span><br><span class="line">        return &#123;&#x27;status&#x27;: &#x27;error&#x27;, &#x27;message&#x27;: &#x27;File not found&#x27;&#125;, 404</span><br><span class="line">    </span><br><span class="line">    if not os.path.isfile(&#x27;uploads/&#x27; + file_id):</span><br><span class="line">        return &#123;&#x27;status&#x27;: &#x27;error&#x27;, &#x27;message&#x27;: &#x27;Invalid file id&#x27;&#125;, 400</span><br><span class="line"></span><br><span class="line">    return send_file(&#x27;uploads/&#x27; + file_id, download_name=f&quot;&#123;file_id&#125;.&#123;file_exts.get(file_id, &#x27;UNK&#x27;)&#125;&quot;)</span><br><span class="line"></span><br><span class="line">if __name__ == &#x27;__main__&#x27;:</span><br><span class="line">    app.run(debug=True)</span><br></pre></td></tr></table></figure>
+
+<p>注意到：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">return send_file(&#x27;uploads/&#x27; + file_id, download_name=f&quot;&#123;file_id&#125;.</span><br></pre></td></tr></table></figure>
+
+<p>下载，用户输入直接拼接，有权限，无过滤。</p>
+<p>如上文，速览dockerfile</p>
+<p><img src="/images/migrated/18442193/07.png"></p>
+<p>注意到</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">COPY flag.txt /flag.txt</span><br></pre></td></tr></table></figure>
+
+<p>打路径穿越即可</p>
+<p><img src="/images/migrated/18442193/08.png"></p>
+<p><strong>bctf{4lw4y5_35c4p3_ur_p4th5}</strong></p>
+<p>最近是又要写作业又要补习又要码博客又要腾时间CTF还要复习期中，国庆属于是拉满了</p>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">首页</a></li>
+        
+          <li><a href="/about/">关于</a></li>
+        
+          <li><a href="/archives/">归档</a></li>
+        
+          <li><a href="/search/">搜索</a></li>
+        
+      </ul>
+    </div>
+
+    
+    
+      <div id="toc-footer" style="display: none">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%B7%AF%E5%BE%84%E7%A9%BF%E8%B6%8A-%E2%80%93-Path-Traversal"><span class="toc-number">1.</span> <span class="toc-text">路径穿越 – Path Traversal</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#0x01-%E6%88%90%E5%9B%A0"><span class="toc-number">1.1.</span> <span class="toc-text">0x01 成因</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x02-%E6%BC%8F%E6%B4%9E%E7%89%B9%E5%BE%81"><span class="toc-number">1.2.</span> <span class="toc-text">0x02 漏洞特征</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x03-%E5%88%A9%E7%94%A8"><span class="toc-number">1.3.</span> <span class="toc-text">0x03 利用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x04-%E5%B8%B8%E8%A7%81%E9%98%B2%E6%8A%A4%E5%8F%8A%E7%BB%95%E8%BF%87"><span class="toc-number">1.4.</span> <span class="toc-text">0x04 常见防护及绕过</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9B%BF%E6%8D%A2%E4%B8%BA%E7%A9%BA"><span class="toc-number">1.4.1.</span> <span class="toc-text">..&#x2F;替换为空</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#windows%E4%B8%8B%E7%A6%81%E6%AD%A2"><span class="toc-number">1.4.2.</span> <span class="toc-text">windows下禁止&#x2F;..</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#windows%E4%B8%8B%E7%A6%81%E6%AD%A2-1"><span class="toc-number">1.4.3.</span> <span class="toc-text">windows下禁止..&#x2F;</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%A6%81%E6%AD%A2-%E5%92%8C"><span class="toc-number">1.4.4.</span> <span class="toc-text">禁止..&#x2F;..&#x2F;和\</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#00%E6%88%AA%E6%96%AD%EF%BC%88php%E7%89%88%E6%9C%AC%EF%BC%9C5-3-4%EF%BC%89"><span class="toc-number">1.4.5.</span> <span class="toc-text">%00截断（php版本＜5.3.4）</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x05-%E4%BE%8B%E9%A2%98"><span class="toc-number">1.5.</span> <span class="toc-text">0x05 例题</span></a></li></ol></li></ol>
+      </div>
+    
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://lamentxu.top/posts/2024-10-03-ctf-web-python2python/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://lamentxu.top/posts/2024-10-03-ctf-web-python2python/&text=CTF web漏洞合集 Python篇（2）python中的路径穿越"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://lamentxu.top/posts/2024-10-03-ctf-web-python2python/&title=CTF web漏洞合集 Python篇（2）python中的路径穿越"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://lamentxu.top/posts/2024-10-03-ctf-web-python2python/&is_video=false&description=CTF web漏洞合集 Python篇（2）python中的路径穿越"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=CTF web漏洞合集 Python篇（2）python中的路径穿越&body=Check out this article: https://lamentxu.top/posts/2024-10-03-ctf-web-python2python/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://lamentxu.top/posts/2024-10-03-ctf-web-python2python/&title=CTF web漏洞合集 Python篇（2）python中的路径穿越"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://lamentxu.top/posts/2024-10-03-ctf-web-python2python/&title=CTF web漏洞合集 Python篇（2）python中的路径穿越"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://lamentxu.top/posts/2024-10-03-ctf-web-python2python/&title=CTF web漏洞合集 Python篇（2）python中的路径穿越"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://lamentxu.top/posts/2024-10-03-ctf-web-python2python/&title=CTF web漏洞合集 Python篇（2）python中的路径穿越"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://lamentxu.top/posts/2024-10-03-ctf-web-python2python/&name=CTF web漏洞合集 Python篇（2）python中的路径穿越&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://lamentxu.top/posts/2024-10-03-ctf-web-python2python/&t=CTF web漏洞合集 Python篇（2）python中的路径穿越"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        
+          <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2024-2026
+    LamentXU
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/about/">关于</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a href="/search/">搜索</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板！\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功！");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>

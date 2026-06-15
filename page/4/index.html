@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="LamentXU 的 CTF、Web 安全与开发笔记">
+<meta property="og:type" content="website">
+<meta property="og:title" content="LamentXU">
+<meta property="og:url" content="https://lamentxu.top/page/4/index.html">
+<meta property="og:site_name" content="LamentXU">
+<meta property="og:description" content="LamentXU 的 CTF、Web 安全与开发笔记">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:author" content="LamentXU">
+<meta property="article:tag" content="CTF, Web Security, PHP, Python, Writeup">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/cnblogs-avatar.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/cnblogs-avatar.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/cnblogs-avatar.png">
+        
+      
+    
+    <!-- title -->
+    <title>LamentXU</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+      <link rel="alternate" href="/atom.xml" title="LamentXU" type="application/atom+xml" />
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 8.1.2"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+    <div class="content index py4 h-card">
+        
+          <header id="header">
+  <a class="u-url u-uid" href="/">
+  
+    
+      <img id="logo" alt class="u-logo" src="/images/cnblogs-avatar.png" />
+    
+  
+    <div id="title">
+      <h1 class="p-name">LamentXU</h1>
+    </div>
+  </a>
+  <div id="nav">
+    <ul>
+      <li class="icon">
+        <a href="#" aria-label="目录"><i class="fa-solid fa-bars fa-2x"></i></a>
+      </li>
+      <!--
+     --><li><a href="/">首页</a></li><!--
+   --><!--
+     --><li><a href="/about/">关于</a></li><!--
+   --><!--
+     --><li><a href="/archives/">归档</a></li><!--
+   --><!--
+     --><li><a href="/search/">搜索</a></li><!--
+   -->
+    </ul>
+  </div>
+</header>
+
+        
+        <section id="about" class="p-note">
+  
+    <h1 id="Greetings"><a href="#Greetings" class="headerlink" title="Greetings"></a>Greetings</h1><p>Hello. Hello. Hello. </p>
+<p>你好。我是 Weilin Du，aka LamentXU。我今年 17 岁，来自中国香港。很高兴认识你。</p>
+<p>这里有我从 2024 年开始的所有技术文章。然而，我在软件开发领域的兴趣是 ~2019 开始的。不过无妨，有时候我也不太希望给你看到一个幼稚的我。</p>
+<p>我会一些语言：普通话，粤语，英文；C，C++，C#, python，php 和 (Visual) Basic。我是网络安全和游戏开发的业余爱好者。以后，我想以软件开发作为职业。</p>
+<p>好了。我是：</p>
+<h2 id="php-内核维护者"><a href="#php-内核维护者" class="headerlink" title="php 内核维护者"></a>php 内核维护者</h2><p>php 语言是世界闻名的服务端变成语言。它由一个 core 和 几十个 ext 组成。这个 ext 类似于 python 的标准库，属于 core 的工具箱供人们使用。</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/php/php-src/blob/master/EXTENSIONS#L354">我维护着 php 语言的 intl 库</a>。这个库名是 international 的缩写。即，为世界各地的人提供支持。</p>
+<p>你一定不知道 intl 这个库是做什么的。但是，只要你以 php 语言开发网页，你说不定用过我维护的代码。只要实现 i18n 的功能，你必然绕不开利用 intl。</p>
+<p>说起来，我十分享受维护这样一个语言中必不可少的部分。我对 php 语言的所有贡献，可以在 <a target="_blank" rel="noopener" href="https://github.com/php/php-src/commits?author=LamentXU123">Github commit history</a> 里找到。</p>
+<h2 id="W-M-V-N-CTF-战队队员"><a href="#W-M-V-N-CTF-战队队员" class="headerlink" title="W&amp;M &amp; V&amp;N CTF 战队队员"></a>W&amp;M &amp; V&amp;N CTF 战队队员</h2><p>虽然我主要的代码都是 C 语言，但是相比二进制，我更喜欢 web 安全。我从 2024 年开始参与 CTF 竞赛，与 W&amp;M 和 V&amp;N 战队的师傅拿过不少奖项。</p>
+<p>这里就不列举了。但是，本博客正是以记录 CTF 竞赛为主要目的建立的。因此，你可以通过查看我过去的文章了解我这方面的兴趣。</p>
+<h2 id="文档翻译爱好者"><a href="#文档翻译爱好者" class="headerlink" title="文档翻译爱好者"></a>文档翻译爱好者</h2><p>我很喜欢翻译文档。python 文档中有不少繁中文档是我翻译的，如 <a target="_blank" rel="noopener" href="https://docs.python.org/zh-tw/3.14/library/http.cookiejar.html#module-http.cookiejar">http.cookiejar</a> 这一整个库的文档。</p>
+<p>当然还有很多大大小小项目的文档翻译，就不一一列举了。</p>
+<h2 id="开源社区活跃者"><a href="#开源社区活跃者" class="headerlink" title="开源社区活跃者"></a>开源社区活跃者</h2><p>我经常在开源社区贡献代码。我从 2022 年开始就开发了很多自己的玩具项目，也给 cpython，php 这种开源项目写过点东西。可以参考我的 <a target="_blank" rel="noopener" href="https://github.com/LamentXU123">github 账号</a></p>
+<h2 id="指弹爱好者"><a href="#指弹爱好者" class="headerlink" title="指弹爱好者"></a>指弹爱好者</h2><p>我弹了好多年吉他了。民谣十级。到现在基本成为我唯一一个放松爱好了 :)</p>
+<h2 id="棋类运动爱好者"><a href="#棋类运动爱好者" class="headerlink" title="棋类运动爱好者"></a>棋类运动爱好者</h2><p>我围棋是业余 2 段。其他棋类偶尔也玩玩，但是没有受过正规教育。</p>
+<hr>
+<p>好了，以上就是我的全部了。我不用社交媒体。联系我最方便的办法是通过邮箱：<a href="mailto:&#x77;&#101;&#x69;&#x6c;&#105;&#x6e;&#100;&#117;&#x40;&#112;&#104;&#x70;&#46;&#x6e;&#101;&#116;">weilindu@php.net</a></p>
+
+  
+  
+    <p>
+      在这里找到我：
+      
+      
+      
+        
+        
+          <a class="icon u-url" target="_blank" rel="noopener me" href="https://github.com/LamentXU" aria-label="GitHub" title="GitHub">
+            <i class="fa-brands fa-github"></i><!--
+      ---></a><!--
+    ---><!--
+    --->， 
+        
+      
+        
+        
+          <a class="icon u-email" target="_blank" rel="noopener" href="mailto:weilindu@php.net" aria-label="Email" title="Email">
+            <i class="fa-solid fa-envelope"></i><!--
+      ---></a>
+        <!--
+    ---> 和 
+        
+      
+        
+        
+          <a class="icon" target="_blank" rel="noopener" href="/atom.xml" aria-label="RSS" title="RSS">
+            <i class="fa-solid fa-rss"></i>
+          </a>
+        <!--
+    --->.
+        
+      
+    </p>
+  
+</section>
+
+
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2024-2026
+    LamentXU
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/about/">关于</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a href="/search/">搜索</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>
