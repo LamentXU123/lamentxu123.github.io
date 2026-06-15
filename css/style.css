@@ -1082,6 +1082,62 @@ body {
 .project-list .project-item p {
   display: inline;
 }
+#friends {
+  margin-top: 2rem;
+}
+.friends-description {
+  color: #908d8d;
+}
+.friend-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 0.75rem;
+  padding: 0;
+  list-style: none;
+}
+.friend-item {
+  margin: 0;
+}
+.friend-link {
+  display: flex;
+  align-items: center;
+  min-height: 72px;
+  padding: 0.75rem;
+  border: 1px dotted #908d8d;
+  border-radius: 4px;
+  background-image: none !important;
+  gap: 0.75rem;
+}
+.friend-link:hover {
+  border-color: #d480aa;
+  background-image: none !important;
+}
+.friend-avatar {
+  flex: 0 0 40px;
+  width: 40px;
+  height: 40px;
+  border: 1px solid #908d8d;
+  border-radius: 50%;
+  background: #212326;
+  object-fit: cover;
+}
+.friend-content {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  gap: 2px;
+}
+.friend-name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-weight: 600;
+}
+.friend-desc {
+  color: #908d8d;
+  font-size: 0.85rem;
+  line-height: 1.4;
+}
 article header .posttitle {
   margin-top: 0;
   margin-bottom: 0;
