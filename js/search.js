@@ -58,7 +58,7 @@ var searchFunc = function(path, searchId, contentId) {
         return {
           title: $("title", this).text(),
           content: $("content", this).text(),
-          url: $("link", this).attr("href")
+          url: $("url", this).text() || $("link", this).attr("href") || ""
         };
       }).get();
 
@@ -106,7 +106,7 @@ var searchFunc = function(path, searchId, contentId) {
             });
           }
           // show search results
-          if (matches > 0) {
+          if (matches > 0 && dataUrl) {
             var searchResult = {};
             searchResult.rank = matches;
             searchResult.str = "<li><a href='"+ dataUrl +"' class='search-result-title'>"+ dataTitle +"</a>";

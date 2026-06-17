@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="LamentXU 的开发笔记">
+<meta property="og:type" content="website">
+<meta property="og:title" content="LamentXU">
+<meta property="og:url" content="https://lamentxu.top/categories/php-dev/index.html">
+<meta property="og:site_name" content="LamentXU">
+<meta property="og:description" content="LamentXU 的开发笔记">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:author" content="LamentXU">
+<meta property="article:tag" content="CTF, Web Security, PHP, Python, Writeup">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/cnblogs-avatar.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/cnblogs-avatar.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/cnblogs-avatar.png">
+        
+      
+    
+    <!-- title -->
+    <title>分类: php 语言开发日志</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+      <link rel="alternate" href="/atom.xml" title="LamentXU" type="application/atom+xml" />
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 8.1.2"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+    <div class="content index py4 ">
+        
+          <header id="header">
+  <a class="u-url u-uid" href="/">
+  
+    
+      <img id="logo" alt class="u-logo" src="/images/cnblogs-avatar.png" />
+    
+  
+    <div id="title">
+      <h1 class="p-name">LamentXU</h1>
+    </div>
+  </a>
+  <div id="nav">
+    <ul>
+      <li class="icon">
+        <a href="#" aria-label="目录"><i class="fa-solid fa-bars fa-2x"></i></a>
+      </li>
+      <!--
+     --><li><a href="/">首页</a></li><!--
+   --><!--
+     --><li><a href="/categories/php-dev/">php 语言开发日志</a></li><!--
+   --><!--
+     --><li><a href="/categories/tech/">其他技术文章</a></li><!--
+   --><!--
+     --><li><a href="/categories/miscellany/">杂七杂八的文字</a></li><!--
+   --><!--
+     --><li><a href="/search/">搜索</a></li><!--
+   -->
+    </ul>
+  </div>
+</header>
+
+        
+        
+
+
+
+  
+  
+  
+    <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+      <header>
+        
+    <h1 class="posttitle p-name" itemprop="name headline">
+        PHP 内核开发的一些备忘录
+    </h1>
+
+
+
+        <div class="meta">
+          <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            <span class="p-name" itemprop="name">LamentXU</span>
+          </span>
+          
+    <div class="postdate">
+      
+        
+          <time datetime="2026-04-23T15:26:00.000Z" class="dt-published" itemprop="datePublished">2026-04-23</time>
+        
+      
+    </div>
+
+
+          
+            <div class="article-category">
+              <i class="fa-solid fa-archive"></i>
+              <a class="category-link" href="/categories/php-dev/">php 语言开发日志</a>
+            </div>
+          
+          
+            <div class="article-tag">
+              <i class="fa-solid fa-tag"></i>
+              <a class="p-category" href="/tags/PHP/" rel="tag">PHP</a>, <a class="p-category" href="/tags/Web-Security/" rel="tag">Web Security</a>
+            </div>
+          
+        </div>
+      </header>
+      
+
+      <div class="content e-content" itemprop="articleBody">
+        <h1 id="本人已经没有力气维护这篇文章了，所以大量内容已经过期。如果你想看我对-php-内核的贡献，可以看：https-github-com-php-php-src-commits-author-LamentXU123"><a href="#本人已经没有力气维护这篇文章了，所以大量内容已经过期。如果你想看我对-php-内核的贡献，可以看：https-github-com-php-php-src-commits-author-LamentXU123" class="headerlink" title="本人已经没有力气维护这篇文章了，所以大量内容已经过期。如果你想看我对 php 内核的贡献，可以看：https://github.com/php/php-src/commits?author=LamentXU123"></a>本人已经没有力气维护这篇文章了，所以大量内容已经过期。如果你想看我对 php 内核的贡献，可以看：<a target="_blank" rel="noopener" href="https://github.com/php/php-src/commits?author=LamentXU123">https://github.com/php/php-src/commits?author=LamentXU123</a></h1><p>我从事 php 语言的内核开发一年多了。一直有很多想法和经验总是忘记。遂写一篇类似与小记的博客记录一下。</p>
+<p>我正在经历极其严重的存在主义危机……我不知道活着的意义是什么，我不知道我有什么用……哈哈。</p>
+<p>AI 时代，没有人在意你对某一个“衰落”的语言的热爱。人们只想怎么把手里的 token 变成白花花的银子。</p>
+<p>我想提醒大家。Amateur （adj.业余的）在当今意味着不专业，暗示着低水平。但他的拉丁词源，意味着热爱。这样的情感是多么强大的 AI 智能体都无法取得的。</p>
+<p>请停止使用功利的眼光看待一切…… 请使那些，在 AI agent 的循环自慰下逐渐腐蚀和麻木的灵魂远离我们引以为傲的开源社区。TiA。</p>
+<h1 id="DONE"><a href="#DONE" class="headerlink" title="DONE"></a>DONE</h1><p>以下是我对 PHP 做的改动（不包含性能优化，重构以及 bugfix，仅为明显的行为改动）</p>
+<h2 id="PHP-8-6"><a href="#PHP-8-6" class="headerlink" title="PHP 8.6"></a>PHP 8.6</h2><h3 id="RFC"><a href="#RFC" class="headerlink" title="RFC"></a>RFC</h3><ul>
+<li><input checked="" disabled="" type="checkbox"> php 的 <code>trim</code>，<code>ltrim</code>，<code>rtrim</code>，<code>chop</code> 函数应支持 form feed。<a target="_blank" rel="noopener" href="https://php.watch/versions/8.6/trim-form-feed">PHP.WATCH</a>, <a target="_blank" rel="noopener" href="https://wiki.php.net/rfc/trim_form_feed">RFC</a></li>
+<li><input disabled="" type="checkbox"> deprecate 掉 <code>metaphone</code> 函数。<a target="_blank" rel="noopener" href="https://wiki.php.net/rfc/deprecate-metaphone">RFC</a></li>
+</ul>
+<h3 id="安全漏洞"><a href="#安全漏洞" class="headerlink" title="安全漏洞"></a>安全漏洞</h3><ul>
+<li><input disabled="" type="checkbox"> SOAP client 解析 HTTP 请求的 array index 值时有 signed integer overflow。</li>
+<li><input disabled="" type="checkbox"> <em>等待披露</em></li>
+<li><input disabled="" type="checkbox"> <em>等待披露</em></li>
+</ul>
+<h3 id="其他重大改动"><a href="#其他重大改动" class="headerlink" title="其他重大改动"></a>其他重大改动</h3><ul>
+<li><input checked="" disabled="" type="checkbox"> 在 PHP 运算中 ** &#x2F; &lt;&lt; &#x2F; &gt;&gt; 三个运算符对 float 运算时可能出现精度丢失的情况下输出 deprecate 信息。</li>
+<li><input checked="" disabled="" type="checkbox"> 在 phar 文件中支持添加以 .phar 为名称前缀（但名称不完全等于 .phar）的文件夹</li>
+</ul>
+<h3 id="其他微小改动"><a href="#其他微小改动" class="headerlink" title="其他微小改动"></a>其他微小改动</h3><ul>
+<li><input checked="" disabled="" type="checkbox"> 当 <code>linkinfo</code> 的参数为空字符串时，抛出 ValueError。</li>
+<li><input checked="" disabled="" type="checkbox"> 当 <code>getenv</code> 的第一个参数包含 NUL 时，抛出 ValueError。</li>
+<li><input checked="" disabled="" type="checkbox"> 当 <code>putenv</code> 的参数包含 NUL 时，抛出 ValueError。</li>
+<li><input checked="" disabled="" type="checkbox"> 当 <code>zip/deflate_init</code> 的 <code>$options</code> 中任意项不为 long 时，抛出 TypeError。</li>
+<li><input checked="" disabled="" type="checkbox"> 当 <code>zip/inflate_init</code> 的 <code>$options</code> 中任意项不为 long 时，抛出 TypeError。</li>
+<li><input checked="" disabled="" type="checkbox"> 拒绝 <code>proc_open</code> 中含有 NUL 字节的 <code>$cwd</code> 参数。</li>
+<li><input checked="" disabled="" type="checkbox"> 拒绝 <code>parse_string</code> 中含有 NUL 字节的 <code>$string</code> 参数。</li>
+<li><input checked="" disabled="" type="checkbox"> <code>pcntl_exec</code> 现在会检查其参数是不是一个 list array。</li>
+<li><input checked="" disabled="" type="checkbox"> 将一个 non-stringable 的 object 当成 intl 时区传入时，抛出 TypeError。</li>
+<li><input checked="" disabled="" type="checkbox"> <code>IntlBreakIterator::getLocale</code> 的参数不为 <code>Locale::ACTUAL_LOCALE</code> 或 <code>Locale::VALID_LOCALE</code> 时抛出 ValueError。</li>
+<li><input disabled="" type="checkbox"> <code>xml_parser_set_option($xmlParser, XML_OPTION_SKIP_TAGSTART, $value);</code> 的 <code>$value</code> 参数值现在必须是一个 int&#x2F;bool 或只有数字的字符串，否则抛出 Warning。</li>
+</ul>
+<h1 id="TODO"><a href="#TODO" class="headerlink" title="TODO"></a>TODO</h1><h2 id="Zend-内核"><a href="#Zend-内核" class="headerlink" title="Zend 内核"></a>Zend 内核</h2><h3 id="新-API"><a href="#新-API" class="headerlink" title="新 API"></a>新 API</h3><ul>
+<li><input disabled="" type="checkbox"> 添加 inline 的 helper function，分别是<ul>
+<li><input disabled="" type="checkbox"> zend_bin2hex()</li>
+<li><input disabled="" type="checkbox"> zend_bin2hex_upper()</li>
+<li><input disabled="" type="checkbox"> zend_bin2hex_str()`</li>
+</ul>
+</li>
+</ul>
+<p>这是因为内核里有很多扩展依赖 <code>ext/hash</code>，这本身没什么问题，但是这个依赖仅仅是要调用 <code>ext/hash/php_hash</code> 的 <code>php_hash_bin2hex</code>。这些功能很简单。所以我们可以把这些 <code>bin2hex</code> 的东西做成 Zend 里内置的 API，直接给 ext 使用。这样可以避免很多 ext 依赖于 <code>ext/hash</code>。</p>
+<ul>
+<li><input disabled="" type="checkbox"> 添加 inline 的 helper function，分别是<ul>
+<li><input disabled="" type="checkbox"> zend_str_append_char_to_raw</li>
+<li><input disabled="" type="checkbox"> zend_str_concat_to_raw</li>
+<li><input disabled="" type="checkbox"> zend_str_concat3_to_raw</li>
+</ul>
+</li>
+</ul>
+<p>现在，我们有很多 zend_str_* 的 helper 可以完成 zend_string 的拼接。但是对于 C char，利用这些 helper 会多进行一次内存的 allocation，导致性能下降，因此，所有对于 C char 拼接的场景我们都是用原始的 memchr 方式。这样会导致代码的可读性降低。我们可以实现这些 helper 来帮助我们进行 C char 的拼接。</p>
+<h3 id="API-改进"><a href="#API-改进" class="headerlink" title="API 改进"></a>API 改进</h3><ul>
+<li><input checked="" disabled="" type="checkbox"> 重写 <code>zend_string_concat2</code> 和 <code>zend_string_concat3</code>。这两个 inline helper 被大量使用，却没有检查字符串长度是否超出边界。理想情况下我们应该重写这些函数，在拼接前检查一下长度之和是否超出字符串最大长度以防止溢出。</li>
+<li><input disabled="" type="checkbox"> 对以下函数<ul>
+<li><input checked="" disabled="" type="checkbox"> ext&#x2F;zlib deflate_init</li>
+<li><input checked="" disabled="" type="checkbox"> ext&#x2F;zlib inflate_init</li>
+<li><input disabled="" type="checkbox"> …</li>
+</ul>
+</li>
+</ul>
+<p>用 <code>zval_try_get_*</code> 替换 <code>zval_get_*</code>。<code>zval_get_*</code>系列的函数，比如 <code>zval_get_long</code>，会直接强制把 <code>zval</code> 类型的参数转化为 <code>long</code>。这个强转甚至是静默的。所以在我看来任何人都不应该用这个函数（它应该被 deprecated）。我们应当审计所有该函数的应用场景并换成更严格的 <code>zval_try_get_*</code>，以在强制转换时抛出 TypeError&#x2F;ValueError。</p>
+<h2 id="性能优化"><a href="#性能优化" class="headerlink" title="性能优化"></a>性能优化</h2><ul>
+<li><input disabled="" type="checkbox"> 对以下函数<ul>
+<li><input checked="" disabled="" type="checkbox"> 优化 ext&#x2F;zip php_zip_glob</li>
+<li><input checked="" disabled="" type="checkbox"> 优化 ext&#x2F;zip php_zip_pcre</li>
+<li><input checked="" disabled="" type="checkbox"> 优化 ext&#x2F;uri fill_errors</li>
+<li><input disabled="" type="checkbox"> …</li>
+</ul>
+</li>
+</ul>
+<p>php代码库中有很多地方采用 <code>array_init</code> 来初始化数组。这个函数会先计算参数的长度，分配内存再创建数组。<strong>很多情况下</strong>我们在初始化之前就知道数组的长度了。因此，可以使用 <code>array_init_size</code> 函数直接分配内存创建数组，省去计算长度的一部分以达到性能优化。</p>
+<ul>
+<li><input disabled="" type="checkbox"> 对以下函数<ul>
+<li><input checked="" disabled="" type="checkbox"> 优化 ext&#x2F;json php_json_pretty_print_indent</li>
+<li><input checked="" disabled="" type="checkbox"> 优化 ext&#x2F;uri php_uri_parser_rfc3986_path_read</li>
+<li><input checked="" disabled="" type="checkbox"> 优化 ext&#x2F;uri php_uri_parser_rfc3986_path_host</li>
+<li><input disabled="" type="checkbox"> …</li>
+</ul>
+</li>
+</ul>
+<p>这些函数中都多多少少涉及到利用循环的方式动态扩容字符串&#x2F;数组长度的行为。我们可以使用分配（pre-allocation）的方式一次性将长度计算完全后直接分配所有内存，避免在循环体中多次动态扩容，以在复杂场景（即，假设使用优化前版本需要循环很多次的场景）下带来<strong>巨量</strong>优化。</p>
+<h2 id="ext"><a href="#ext" class="headerlink" title="ext"></a>ext</h2><ul>
+<li><input disabled="" type="checkbox"> php 的 <code>password_verify</code> 函数里的密码会被 NUL 截断。这主要是因为 php 的 bcrypt 实现是完全用 C char 写的。我们应该整个用 zend_string 重写一遍这个实现 （ps：巨大工作量）</li>
+<li><input disabled="" type="checkbox"> 对以下函数进行如下描述中的改动<ul>
+<li><input checked="" disabled="" type="checkbox"> linkinfo</li>
+<li><input checked="" disabled="" type="checkbox"> putenv</li>
+<li><input checked="" disabled="" type="checkbox"> getenv</li>
+<li><input checked="" disabled="" type="checkbox"> proc_open</li>
+<li><input checked="" disabled="" type="checkbox"> parse_string</li>
+<li><input disabled="" type="checkbox"> …</li>
+</ul>
+</li>
+</ul>
+<p>检查所有 ext 的函数在参数中包含空 and&#x2F;or 含 NUL 的字符串时是否能正常工作。如果不能，抛出 ValueError。</p>
+<ul>
+<li><p>重写整个 <code>RecursiveArrayIterator</code> 的逻辑。目前该类会存储 bucket pointer。这是一种相当危险的行为（i.e. 导致静默的内存泄露），而且已经使 UAF 在任意版本中的存在。</p>
+</li>
+<li><p>OpenSSL 对于证书的处理用的是 libc 的 <code>mktime</code>，然后因为微软死了亲妈导致经典的 2038 问题，这个时间在 windows 系统上一旦超过 2038 年就会溢出。我们要重写这个实现避免使用微软的傻逼接口。</p>
+</li>
+<li><p><code>declare(encoding=...)</code> 在 encoding 为 ASCII 或 UTF-8 这种不是 multibyte 的编码方式时，在 <code>zend.multibyte=0</code> 时仍会导致关于 multibyte 的 warning 出现。</p>
+</li>
+</ul>
+<h2 id="RFC-1"><a href="#RFC-1" class="headerlink" title="RFC"></a>RFC</h2><ul>
+<li><input disabled="" type="checkbox"> deprecate 掉 open_basedir。（我知道听起来很疯狂。我懒得解释为什么…）</li>
+<li><input disabled="" type="checkbox"> deprecate 掉 <code>soundex</code> 函数。</li>
+<li><input disabled="" type="checkbox"> deprecate 掉 php:&#x2F;&#x2F;dechunk 的 filter。</li>
+<li><input disabled="" type="checkbox"> php 的 UUID 扩展。</li>
+</ul>
+<h2 id="研究"><a href="#研究" class="headerlink" title="研究"></a>研究</h2><ul>
+<li><input checked="" disabled="" type="checkbox"> __PHP_Incomplete_Class</li>
+<li><input disabled="" type="checkbox"> Reflection</li>
+</ul>
+
+      </div>
+    </article>
+  
+
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2024-2026
+    LamentXU
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/categories/php-dev/">php 语言开发日志</a></li><!--
+     --><!--
+       --><li><a href="/categories/tech/">其他技术文章</a></li><!--
+     --><!--
+       --><li><a href="/categories/miscellany/">杂七杂八的文字</a></li><!--
+     --><!--
+       --><li><a href="/search/">搜索</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>
