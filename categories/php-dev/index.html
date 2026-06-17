@@ -147,22 +147,22 @@
 <p>我想提醒大家。Amateur （adj.业余的）在当今意味着不专业，暗示着低水平。但他的拉丁词源，意味着热爱。这样的情感是多么强大的 AI 智能体都无法取得的。</p>
 <p>请停止使用功利的眼光看待一切…… 请使那些，在 AI agent 的循环自慰下逐渐腐蚀和麻木的灵魂远离我们引以为傲的开源社区。TiA。</p>
 <h1 id="DONE"><a href="#DONE" class="headerlink" title="DONE"></a>DONE</h1><p>以下是我对 PHP 做过或正在推进的用户可见行为变化。已合并用 <code>[x]</code>，尚未合并或还在草案阶段用 <code>[ ]</code>。</p>
-<h2 id="RFC"><a href="#RFC" class="headerlink" title="RFC"></a>RFC</h2><ul>
+<h2 id="PHP-8-6-x"><a href="#PHP-8-6-x" class="headerlink" title="PHP 8.6.x"></a>PHP 8.6.x</h2><h3 id="RFC"><a href="#RFC" class="headerlink" title="RFC"></a>RFC</h3><ul>
 <li><input checked="" disabled="" type="checkbox"> <code>trim</code> &#x2F; <code>ltrim</code> &#x2F; <code>rtrim</code> &#x2F; <code>chop</code> support form feed. (<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/20788">PR #20788</a>, <a target="_blank" rel="noopener" href="https://wiki.php.net/rfc/trim_form_feed">RFC</a>, <a target="_blank" rel="noopener" href="https://php.watch/versions/8.6/trim-form-feed">PHP.WATCH</a>)</li>
 <li><input disabled="" type="checkbox"> Deprecate <code>metaphone</code> functions. (<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/21889">PR #21889</a>)</li>
 <li><input disabled="" type="checkbox"> Add <code>Locale::getDisplayKeyword()</code> and <code>Locale::getDisplayKeywordValue()</code> to intl. (<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/22264">PR #22264</a>)</li>
 </ul>
-<h2 id="安全漏洞"><a href="#安全漏洞" class="headerlink" title="安全漏洞"></a>安全漏洞</h2><ul>
+<h3 id="安全漏洞"><a href="#安全漏洞" class="headerlink" title="安全漏洞"></a>安全漏洞</h3><ul>
 <li><input disabled="" type="checkbox"> SOAP client 解析 HTTP 请求的 array index 值时有 signed integer overflow。</li>
 <li><input disabled="" type="checkbox"> <em>等待披露</em></li>
 <li><input disabled="" type="checkbox"> <em>等待披露</em></li>
 </ul>
-<h2 id="其他重大改动"><a href="#其他重大改动" class="headerlink" title="其他重大改动"></a>其他重大改动</h2><ul>
+<h3 id="其他重大改动"><a href="#其他重大改动" class="headerlink" title="其他重大改动"></a>其他重大改动</h3><ul>
 <li><input checked="" disabled="" type="checkbox"> ext&#x2F;gmp emits deprecation warnings for precision-losing float RHS in <code>**</code>, <code>&lt;&lt;</code>, and <code>&gt;&gt;</code>. (<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/21945">PR #21945</a>)</li>
 <li><input checked="" disabled="" type="checkbox"> ext&#x2F;phar preserves <code>.phar</code> magic directories more correctly in <code>Phar::addEmptyDir()</code>. (<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/22011">PR #22011</a>, <a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/22146">PR #22146</a>)</li>
 <li><input checked="" disabled="" type="checkbox"> ext&#x2F;intl exposes <code>Spoofchecker</code> restriction-level APIs on all supported ICU versions. (<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/22055">PR #22055</a>, <a target="_blank" rel="noopener" href="https://github.com/php/php-src/commit/edde16948a8729886b9cab0de1f69a189823bac2">commit edde169</a>)</li>
 </ul>
-<h2 id="其他微小改动"><a href="#其他微小改动" class="headerlink" title="其他微小改动"></a>其他微小改动</h2><ul>
+<h3 id="其他微小改动"><a href="#其他微小改动" class="headerlink" title="其他微小改动"></a>其他微小改动</h3><ul>
 <li><input checked="" disabled="" type="checkbox"> <code>linkinfo(&#39;&#39;)</code> now throws <code>ValueError</code>. (<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/21793">PR #21793</a>)</li>
 <li><input checked="" disabled="" type="checkbox"> <code>getenv()</code> and <code>putenv()</code> reject parameters containing NUL bytes. (<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/21817">PR #21817</a>)</li>
 <li><input checked="" disabled="" type="checkbox"> <code>proc_open()</code> rejects NUL bytes in <code>$cwd</code>. (<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/21871">PR #21871</a>)</li>
@@ -173,7 +173,7 @@
 <li><input checked="" disabled="" type="checkbox"> <code>IntlBreakIterator::getLocale()</code> throws <code>ValueError</code> for invalid locale type values. (<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/21997">PR #21997</a>)</li>
 <li><input checked="" disabled="" type="checkbox"> ext&#x2F;intl syncs <code>IntlTimeZone</code> object errors for invalid display types. (<a target="_blank" rel="noopener" href="https://github.com/php/php-src/commit/9e68cf888ac8c8620349d684495c3c4ed52daabe">commit 9e68cf8</a>)</li>
 </ul>
-<h2 id="性能优化"><a href="#性能优化" class="headerlink" title="性能优化"></a>性能优化</h2><ul>
+<h3 id="性能优化"><a href="#性能优化" class="headerlink" title="性能优化"></a>性能优化</h3><ul>
 <li><input checked="" disabled="" type="checkbox"> ext&#x2F;intl has a batch of small optimizations. (<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/22069">PR #22069</a>)</li>
 <li><input checked="" disabled="" type="checkbox"> ext&#x2F;zip preinitializes arrays when their size is known. (<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/21572">PR #21572</a>)</li>
 <li><input checked="" disabled="" type="checkbox"> ext&#x2F;uri preinitializes error arrays and optimizes string allocation in RFC3986 parsing. (<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/21560">PR #21560</a>, <a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/21550">PR #21550</a>)</li>
