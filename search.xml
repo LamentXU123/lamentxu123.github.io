@@ -4796,28 +4796,24 @@
   <entry>
     <title>PHP 内核开发的一些备忘录</title>
     <url>/posts/2026-04-23-php/</url>
-    <content><![CDATA[<h1 id="本人已经没有力气维护这篇文章了，所以大量内容已经过期。如果你想看我对-php-内核的贡献，可以看：https-github-com-php-php-src-commits-author-LamentXU123"><a href="#本人已经没有力气维护这篇文章了，所以大量内容已经过期。如果你想看我对-php-内核的贡献，可以看：https-github-com-php-php-src-commits-author-LamentXU123" class="headerlink" title="本人已经没有力气维护这篇文章了，所以大量内容已经过期。如果你想看我对 php 内核的贡献，可以看：https://github.com/php/php-src/commits?author=LamentXU123"></a>本人已经没有力气维护这篇文章了，所以大量内容已经过期。如果你想看我对 php 内核的贡献，可以看：<a href="https://github.com/php/php-src/commits?author=LamentXU123">https://github.com/php/php-src/commits?author=LamentXU123</a></h1><p>我从事 php 语言的内核开发一年多了。一直有很多想法和经验总是忘记。遂写一篇类似与小记的博客记录一下。</p>
-<p>我正在经历极其严重的存在主义危机……我不知道活着的意义是什么，我不知道我有什么用……哈哈。</p>
-<p>AI 时代，没有人在意你对某一个“衰落”的语言的热爱。人们只想怎么把手里的 token 变成白花花的银子。</p>
-<p>我想提醒大家。Amateur （adj.业余的）在当今意味着不专业，暗示着低水平。但他的拉丁词源，意味着热爱。这样的情感是多么强大的 AI 智能体都无法取得的。</p>
-<p>请停止使用功利的眼光看待一切…… 请使那些，在 AI agent 的循环自慰下逐渐腐蚀和麻木的灵魂远离我们引以为傲的开源社区。TiA。</p>
+    <content><![CDATA[<p>作为 ext&#x2F;intl 的维护者，我从事 php 语言的内核维护和开发工作有一段时间了。一直有很多想法和经验总是忘记。遂写一篇类似与小记的博客记录一下。</p>
 <h1 id="DONE"><a href="#DONE" class="headerlink" title="DONE"></a>DONE</h1><p>以下是我对 PHP 做过或正在推进的用户可见行为变化。已合并用 <code>[x]</code>，尚未合并或还在草案阶段用 <code>[ ]</code>。</p>
-<h2 id="RFC"><a href="#RFC" class="headerlink" title="RFC"></a>RFC</h2><ul>
+<h2 id="PHP-8-6-x"><a href="#PHP-8-6-x" class="headerlink" title="PHP 8.6.x"></a>PHP 8.6.x</h2><h3 id="RFC"><a href="#RFC" class="headerlink" title="RFC"></a>RFC</h3><ul>
 <li><input checked="" disabled="" type="checkbox"> <code>trim</code> &#x2F; <code>ltrim</code> &#x2F; <code>rtrim</code> &#x2F; <code>chop</code> support form feed. (<a href="https://github.com/php/php-src/pull/20788">PR #20788</a>, <a href="https://wiki.php.net/rfc/trim_form_feed">RFC</a>, <a href="https://php.watch/versions/8.6/trim-form-feed">PHP.WATCH</a>)</li>
 <li><input disabled="" type="checkbox"> Deprecate <code>metaphone</code> functions. (<a href="https://github.com/php/php-src/pull/21889">PR #21889</a>)</li>
 <li><input disabled="" type="checkbox"> Add <code>Locale::getDisplayKeyword()</code> and <code>Locale::getDisplayKeywordValue()</code> to intl. (<a href="https://github.com/php/php-src/pull/22264">PR #22264</a>)</li>
 </ul>
-<h2 id="安全漏洞"><a href="#安全漏洞" class="headerlink" title="安全漏洞"></a>安全漏洞</h2><ul>
+<h3 id="安全漏洞"><a href="#安全漏洞" class="headerlink" title="安全漏洞"></a>安全漏洞</h3><ul>
 <li><input disabled="" type="checkbox"> SOAP client 解析 HTTP 请求的 array index 值时有 signed integer overflow。</li>
 <li><input disabled="" type="checkbox"> <em>等待披露</em></li>
 <li><input disabled="" type="checkbox"> <em>等待披露</em></li>
 </ul>
-<h2 id="其他重大改动"><a href="#其他重大改动" class="headerlink" title="其他重大改动"></a>其他重大改动</h2><ul>
+<h3 id="其他重大改动"><a href="#其他重大改动" class="headerlink" title="其他重大改动"></a>其他重大改动</h3><ul>
 <li><input checked="" disabled="" type="checkbox"> ext&#x2F;gmp emits deprecation warnings for precision-losing float RHS in <code>**</code>, <code>&lt;&lt;</code>, and <code>&gt;&gt;</code>. (<a href="https://github.com/php/php-src/pull/21945">PR #21945</a>)</li>
 <li><input checked="" disabled="" type="checkbox"> ext&#x2F;phar preserves <code>.phar</code> magic directories more correctly in <code>Phar::addEmptyDir()</code>. (<a href="https://github.com/php/php-src/pull/22011">PR #22011</a>, <a href="https://github.com/php/php-src/pull/22146">PR #22146</a>)</li>
 <li><input checked="" disabled="" type="checkbox"> ext&#x2F;intl exposes <code>Spoofchecker</code> restriction-level APIs on all supported ICU versions. (<a href="https://github.com/php/php-src/pull/22055">PR #22055</a>, <a href="https://github.com/php/php-src/commit/edde16948a8729886b9cab0de1f69a189823bac2">commit edde169</a>)</li>
 </ul>
-<h2 id="其他微小改动"><a href="#其他微小改动" class="headerlink" title="其他微小改动"></a>其他微小改动</h2><ul>
+<h3 id="其他微小改动"><a href="#其他微小改动" class="headerlink" title="其他微小改动"></a>其他微小改动</h3><ul>
 <li><input checked="" disabled="" type="checkbox"> <code>linkinfo(&#39;&#39;)</code> now throws <code>ValueError</code>. (<a href="https://github.com/php/php-src/pull/21793">PR #21793</a>)</li>
 <li><input checked="" disabled="" type="checkbox"> <code>getenv()</code> and <code>putenv()</code> reject parameters containing NUL bytes. (<a href="https://github.com/php/php-src/pull/21817">PR #21817</a>)</li>
 <li><input checked="" disabled="" type="checkbox"> <code>proc_open()</code> rejects NUL bytes in <code>$cwd</code>. (<a href="https://github.com/php/php-src/pull/21871">PR #21871</a>)</li>
@@ -4828,7 +4824,7 @@
 <li><input checked="" disabled="" type="checkbox"> <code>IntlBreakIterator::getLocale()</code> throws <code>ValueError</code> for invalid locale type values. (<a href="https://github.com/php/php-src/pull/21997">PR #21997</a>)</li>
 <li><input checked="" disabled="" type="checkbox"> ext&#x2F;intl syncs <code>IntlTimeZone</code> object errors for invalid display types. (<a href="https://github.com/php/php-src/commit/9e68cf888ac8c8620349d684495c3c4ed52daabe">commit 9e68cf8</a>)</li>
 </ul>
-<h2 id="性能优化"><a href="#性能优化" class="headerlink" title="性能优化"></a>性能优化</h2><ul>
+<h3 id="性能优化"><a href="#性能优化" class="headerlink" title="性能优化"></a>性能优化</h3><ul>
 <li><input checked="" disabled="" type="checkbox"> ext&#x2F;intl has a batch of small optimizations. (<a href="https://github.com/php/php-src/pull/22069">PR #22069</a>)</li>
 <li><input checked="" disabled="" type="checkbox"> ext&#x2F;zip preinitializes arrays when their size is known. (<a href="https://github.com/php/php-src/pull/21572">PR #21572</a>)</li>
 <li><input checked="" disabled="" type="checkbox"> ext&#x2F;uri preinitializes error arrays and optimizes string allocation in RFC3986 parsing. (<a href="https://github.com/php/php-src/pull/21560">PR #21560</a>, <a href="https://github.com/php/php-src/pull/21550">PR #21550</a>)</li>
