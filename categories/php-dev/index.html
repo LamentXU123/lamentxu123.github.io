@@ -146,32 +146,47 @@
 <p>AI 时代，没有人在意你对某一个“衰落”的语言的热爱。人们只想怎么把手里的 token 变成白花花的银子。</p>
 <p>我想提醒大家。Amateur （adj.业余的）在当今意味着不专业，暗示着低水平。但他的拉丁词源，意味着热爱。这样的情感是多么强大的 AI 智能体都无法取得的。</p>
 <p>请停止使用功利的眼光看待一切…… 请使那些，在 AI agent 的循环自慰下逐渐腐蚀和麻木的灵魂远离我们引以为傲的开源社区。TiA。</p>
-<h1 id="DONE"><a href="#DONE" class="headerlink" title="DONE"></a>DONE</h1><p>以下是我对 PHP 做的改动（不包含性能优化，重构以及 bugfix，仅为明显的行为改动）</p>
-<h2 id="PHP-8-6"><a href="#PHP-8-6" class="headerlink" title="PHP 8.6"></a>PHP 8.6</h2><h3 id="RFC"><a href="#RFC" class="headerlink" title="RFC"></a>RFC</h3><ul>
-<li><input checked="" disabled="" type="checkbox"> php 的 <code>trim</code>，<code>ltrim</code>，<code>rtrim</code>，<code>chop</code> 函数应支持 form feed。<a target="_blank" rel="noopener" href="https://php.watch/versions/8.6/trim-form-feed">PHP.WATCH</a>, <a target="_blank" rel="noopener" href="https://wiki.php.net/rfc/trim_form_feed">RFC</a></li>
-<li><input disabled="" type="checkbox"> deprecate 掉 <code>metaphone</code> 函数。<a target="_blank" rel="noopener" href="https://wiki.php.net/rfc/deprecate-metaphone">RFC</a></li>
+<h1 id="DONE"><a href="#DONE" class="headerlink" title="DONE"></a>DONE</h1><p>以下是我对 PHP 做过或正在推进的非 bug fix 技术贡献。已合并用 <code>[x]</code>，尚未合并或还在草案阶段用 <code>[ ]</code>。</p>
+<h2 id="RFC"><a href="#RFC" class="headerlink" title="RFC"></a>RFC</h2><ul>
+<li><input checked="" disabled="" type="checkbox"> <code>trim</code> &#x2F; <code>ltrim</code> &#x2F; <code>rtrim</code> &#x2F; <code>chop</code> support form feed. (<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/20788">PR #20788</a>, <a target="_blank" rel="noopener" href="https://wiki.php.net/rfc/trim_form_feed">RFC</a>, <a target="_blank" rel="noopener" href="https://php.watch/versions/8.6/trim-form-feed">PHP.WATCH</a>)</li>
+<li><input disabled="" type="checkbox"> Deprecate <code>metaphone</code> functions. (<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/21889">PR #21889</a>)</li>
+<li><input disabled="" type="checkbox"> Add <code>Locale::getDisplayKeyword()</code> and <code>Locale::getDisplayKeywordValue()</code> to intl. (<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/22264">PR #22264</a>)</li>
 </ul>
-<h3 id="安全漏洞"><a href="#安全漏洞" class="headerlink" title="安全漏洞"></a>安全漏洞</h3><ul>
+<h2 id="安全漏洞"><a href="#安全漏洞" class="headerlink" title="安全漏洞"></a>安全漏洞</h2><ul>
 <li><input disabled="" type="checkbox"> SOAP client 解析 HTTP 请求的 array index 值时有 signed integer overflow。</li>
 <li><input disabled="" type="checkbox"> <em>等待披露</em></li>
 <li><input disabled="" type="checkbox"> <em>等待披露</em></li>
 </ul>
-<h3 id="其他重大改动"><a href="#其他重大改动" class="headerlink" title="其他重大改动"></a>其他重大改动</h3><ul>
-<li><input checked="" disabled="" type="checkbox"> 在 PHP 运算中 ** &#x2F; &lt;&lt; &#x2F; &gt;&gt; 三个运算符对 float 运算时可能出现精度丢失的情况下输出 deprecate 信息。</li>
-<li><input checked="" disabled="" type="checkbox"> 在 phar 文件中支持添加以 .phar 为名称前缀（但名称不完全等于 .phar）的文件夹</li>
+<h2 id="其他重大改动"><a href="#其他重大改动" class="headerlink" title="其他重大改动"></a>其他重大改动</h2><ul>
+<li><input checked="" disabled="" type="checkbox"> ext&#x2F;gmp emits deprecation warnings for precision-losing float RHS in <code>**</code>, <code>&lt;&lt;</code>, and <code>&gt;&gt;</code>. (<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/21945">PR #21945</a>)</li>
+<li><input checked="" disabled="" type="checkbox"> ext&#x2F;phar preserves <code>.phar</code> magic directories more correctly in <code>Phar::addEmptyDir()</code>. (<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/22011">PR #22011</a>, <a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/22146">PR #22146</a>)</li>
+<li><input checked="" disabled="" type="checkbox"> ext&#x2F;intl exposes <code>Spoofchecker</code> restriction-level APIs on all supported ICU versions. (<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/22055">PR #22055</a>, <a target="_blank" rel="noopener" href="https://github.com/php/php-src/commit/edde16948a8729886b9cab0de1f69a189823bac2">commit edde169</a>)</li>
+<li><input checked="" disabled="" type="checkbox"> Zend and several extensions reuse existing parameter error helpers for standard error paths. (<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/22033">PR #22033</a>)</li>
+<li><input disabled="" type="checkbox"> Add Zend <code>bin2hex</code> APIs so extensions can remove unnecessary <code>ext/hash</code> dependencies. (<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/21724">PR #21724</a>)</li>
+<li><input disabled="" type="checkbox"> Replace dependencies on <code>ext/hash</code> in several extensions. (<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/21832">PR #21832</a>)</li>
+<li><input disabled="" type="checkbox"> Introduce inline helpers for raw C-string concatenation in Zend. (<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/21607">PR #21607</a>)</li>
 </ul>
-<h3 id="其他微小改动"><a href="#其他微小改动" class="headerlink" title="其他微小改动"></a>其他微小改动</h3><ul>
-<li><input checked="" disabled="" type="checkbox"> 当 <code>linkinfo</code> 的参数为空字符串时，抛出 ValueError。</li>
-<li><input checked="" disabled="" type="checkbox"> 当 <code>getenv</code> 的第一个参数包含 NUL 时，抛出 ValueError。</li>
-<li><input checked="" disabled="" type="checkbox"> 当 <code>putenv</code> 的参数包含 NUL 时，抛出 ValueError。</li>
-<li><input checked="" disabled="" type="checkbox"> 当 <code>zip/deflate_init</code> 的 <code>$options</code> 中任意项不为 long 时，抛出 TypeError。</li>
-<li><input checked="" disabled="" type="checkbox"> 当 <code>zip/inflate_init</code> 的 <code>$options</code> 中任意项不为 long 时，抛出 TypeError。</li>
-<li><input checked="" disabled="" type="checkbox"> 拒绝 <code>proc_open</code> 中含有 NUL 字节的 <code>$cwd</code> 参数。</li>
-<li><input checked="" disabled="" type="checkbox"> 拒绝 <code>parse_string</code> 中含有 NUL 字节的 <code>$string</code> 参数。</li>
-<li><input checked="" disabled="" type="checkbox"> <code>pcntl_exec</code> 现在会检查其参数是不是一个 list array。</li>
-<li><input checked="" disabled="" type="checkbox"> 将一个 non-stringable 的 object 当成 intl 时区传入时，抛出 TypeError。</li>
-<li><input checked="" disabled="" type="checkbox"> <code>IntlBreakIterator::getLocale</code> 的参数不为 <code>Locale::ACTUAL_LOCALE</code> 或 <code>Locale::VALID_LOCALE</code> 时抛出 ValueError。</li>
-<li><input disabled="" type="checkbox"> <code>xml_parser_set_option($xmlParser, XML_OPTION_SKIP_TAGSTART, $value);</code> 的 <code>$value</code> 参数值现在必须是一个 int&#x2F;bool 或只有数字的字符串，否则抛出 Warning。</li>
+<h2 id="其他微小改动"><a href="#其他微小改动" class="headerlink" title="其他微小改动"></a>其他微小改动</h2><ul>
+<li><input checked="" disabled="" type="checkbox"> <code>linkinfo(&#39;&#39;)</code> now throws <code>ValueError</code>. (<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/21793">PR #21793</a>)</li>
+<li><input checked="" disabled="" type="checkbox"> <code>getenv()</code> and <code>putenv()</code> reject parameters containing NUL bytes. (<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/21817">PR #21817</a>)</li>
+<li><input checked="" disabled="" type="checkbox"> <code>proc_open()</code> rejects NUL bytes in <code>$cwd</code>. (<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/21871">PR #21871</a>)</li>
+<li><input checked="" disabled="" type="checkbox"> <code>parse_str()</code> rejects NUL bytes in <code>$string</code>. (<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/21942">PR #21942</a>)</li>
+<li><input checked="" disabled="" type="checkbox"> <code>pcntl_exec()</code> validates that <code>$args</code> is a list array. (<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/21951">PR #21951</a>)</li>
+<li><input checked="" disabled="" type="checkbox"> ext&#x2F;zlib uses stricter integer option handling in <code>deflate_init()</code> and <code>inflate_init()</code>. (<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/21860">PR #21860</a>, <a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/21909">PR #21909</a>)</li>
+<li><input checked="" disabled="" type="checkbox"> ext&#x2F;intl throws <code>TypeError</code> for non-stringable timezone objects. (<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/21990">PR #21990</a>)</li>
+<li><input checked="" disabled="" type="checkbox"> <code>IntlBreakIterator::getLocale()</code> throws <code>ValueError</code> for invalid locale type values. (<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/21997">PR #21997</a>)</li>
+<li><input checked="" disabled="" type="checkbox"> ext&#x2F;intl uses the <code>PATTERN</code> constant name in date formatter errors. (<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/22073">PR #22073</a>)</li>
+<li><input checked="" disabled="" type="checkbox"> ext&#x2F;intl uses ICU <code>U16_APPEND_UNSAFE</code> for UTF-16 surrogate pair encoding. (<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/21954">PR #21954</a>)</li>
+<li><input checked="" disabled="" type="checkbox"> ext&#x2F;intl syncs <code>IntlTimeZone</code> object errors for invalid display types. (<a target="_blank" rel="noopener" href="https://github.com/php/php-src/commit/9e68cf888ac8c8620349d684495c3c4ed52daabe">commit 9e68cf8</a>)</li>
+<li><input checked="" disabled="" type="checkbox"> ext&#x2F;intl has a batch of small optimizations. (<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/22069">PR #22069</a>)</li>
+<li><input checked="" disabled="" type="checkbox"> ext&#x2F;zip preinitializes arrays when their size is known. (<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/21572">PR #21572</a>)</li>
+<li><input checked="" disabled="" type="checkbox"> ext&#x2F;uri preinitializes error arrays and optimizes string allocation in RFC3986 parsing. (<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/21560">PR #21560</a>, <a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/21550">PR #21550</a>)</li>
+<li><input checked="" disabled="" type="checkbox"> ext&#x2F;json optimizes pretty-print indentation. (<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/21474">PR #21474</a>)</li>
+<li><input checked="" disabled="" type="checkbox"> ext&#x2F;pgsql removes an unnecessary <code>+1</code> in newline appending. (<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/21597">PR #21597</a>)</li>
+<li><input checked="" disabled="" type="checkbox"> Several extensions remove unreachable <code>break</code> statements after <code>return</code>. (<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/21485">PR #21485</a>)</li>
+<li><input checked="" disabled="" type="checkbox"> <code>zend_str_has_nul_byte()</code> is used instead of ad-hoc <code>memchr()</code> checks in more places. (<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/21680">PR #21680</a>)</li>
+<li><input checked="" disabled="" type="checkbox"> ext&#x2F;phar gets readability improvements in <code>phar_fancy_stat()</code>. (<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/21865">PR #21865</a>)</li>
+<li><input disabled="" type="checkbox"> Use <code>zend_string_equals*</code> APIs for string comparisons in more places. (<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/21707">PR #21707</a>)</li>
 </ul>
 <h1 id="TODO"><a href="#TODO" class="headerlink" title="TODO"></a>TODO</h1><h2 id="Zend-内核"><a href="#Zend-内核" class="headerlink" title="Zend 内核"></a>Zend 内核</h2><h3 id="新-API"><a href="#新-API" class="headerlink" title="新 API"></a>新 API</h3><ul>
 <li><input disabled="" type="checkbox"> 添加 inline 的 helper function，分别是<ul>
