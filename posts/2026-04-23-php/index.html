@@ -6,18 +6,17 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="HandheldFriendly" content="True">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
-    <meta name="description" content="作为 ext&#x2F;intl 的维护者，我从事 php 语言的内核维护和开发工作有一段时间了。一直有很多想法和经验总是忘记。遂写一篇类似与小记的博客记录一下。 DONE以下是我对 PHP 做过或正在推进的用户可见行为变化。 PHP 8.6.xRFC  trim &#x2F; ltrim &#x2F; rtrim &#x2F; chop support form feed. (PR #20788">
+    <meta name="description" content="作为 ext&#x2F;intl 的维护者，我从事 php 语言的内核维护和开发工作有一段时间了。一直有很多想法和经验总是忘记。遂写一篇类似与小记的博客记录一下。 DONE以下是我对 PHP 做过或正在推进的用户可见行为变化。（更新于 2026-06-18 02:14） PHP 8.6.xRFC  trim &#x2F; ltrim &#x2F; rtrim &#x2F; chop support">
 <meta property="og:type" content="article">
-<meta property="og:title" content="PHP 内核开发的一些备忘录">
+<meta property="og:title" content="PHP 语言开发日志">
 <meta property="og:url" content="https://lamentxu.top/posts/2026-04-23-php/index.html">
 <meta property="og:site_name" content="LamentXU">
-<meta property="og:description" content="作为 ext&#x2F;intl 的维护者，我从事 php 语言的内核维护和开发工作有一段时间了。一直有很多想法和经验总是忘记。遂写一篇类似与小记的博客记录一下。 DONE以下是我对 PHP 做过或正在推进的用户可见行为变化。 PHP 8.6.xRFC  trim &#x2F; ltrim &#x2F; rtrim &#x2F; chop support form feed. (PR #20788">
+<meta property="og:description" content="作为 ext&#x2F;intl 的维护者，我从事 php 语言的内核维护和开发工作有一段时间了。一直有很多想法和经验总是忘记。遂写一篇类似与小记的博客记录一下。 DONE以下是我对 PHP 做过或正在推进的用户可见行为变化。（更新于 2026-06-18 02:14） PHP 8.6.xRFC  trim &#x2F; ltrim &#x2F; rtrim &#x2F; chop support">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2026-04-23T15:26:00.000Z">
-<meta property="article:modified_time" content="2026-06-17T18:09:00.000Z">
+<meta property="article:published_time" content="2026-06-15T06:53:33.266Z">
+<meta property="article:modified_time" content="2026-06-17T18:14:00.000Z">
 <meta property="article:author" content="LamentXU">
-<meta property="article:tag" content="PHP">
-<meta property="article:tag" content="Web Security">
+<meta property="article:tag" content="CTF, Web Security, PHP, Python, Writeup">
 <meta name="twitter:card" content="summary">
     
     
@@ -38,7 +37,7 @@
       
     
     <!-- title -->
-    <title>PHP 内核开发的一些备忘录</title>
+    <title>PHP 语言开发日志</title>
     <!-- async scripts -->
     <!-- Google Analytics -->
 
@@ -87,10 +86,8 @@
     <span id="actions">
       <ul>
         
-        <li><a class="icon" aria-label="上一篇" href="/posts/2026-05-06-leetcode/"><i class="fa-solid fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
         
-        
-        <li><a class="icon" aria-label="下一篇" href="/posts/2026-04-05-19823505/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="下一篇" href="/posts/2026-06-02-20259045/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
         
         <li><a class="icon" aria-label="返回顶部" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
         <li><a class="icon" aria-label="分享文章" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
@@ -104,16 +101,16 @@
     <div id="share" style="display: none">
       <ul>
   <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://lamentxu.top/posts/2026-04-23-php/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://lamentxu.top/posts/2026-04-23-php/&text=PHP 内核开发的一些备忘录"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://lamentxu.top/posts/2026-04-23-php/&title=PHP 内核开发的一些备忘录"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://lamentxu.top/posts/2026-04-23-php/&is_video=false&description=PHP 内核开发的一些备忘录"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="mailto:?subject=PHP 内核开发的一些备忘录&body=Check out this article: https://lamentxu.top/posts/2026-04-23-php/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://lamentxu.top/posts/2026-04-23-php/&title=PHP 内核开发的一些备忘录"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://lamentxu.top/posts/2026-04-23-php/&title=PHP 内核开发的一些备忘录"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://lamentxu.top/posts/2026-04-23-php/&title=PHP 内核开发的一些备忘录"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://lamentxu.top/posts/2026-04-23-php/&title=PHP 内核开发的一些备忘录"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://lamentxu.top/posts/2026-04-23-php/&name=PHP 内核开发的一些备忘录&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://lamentxu.top/posts/2026-04-23-php/&t=PHP 内核开发的一些备忘录"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://lamentxu.top/posts/2026-04-23-php/&text=PHP 语言开发日志"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://lamentxu.top/posts/2026-04-23-php/&title=PHP 语言开发日志"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://lamentxu.top/posts/2026-04-23-php/&is_video=false&description=PHP 语言开发日志"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=PHP 语言开发日志&body=Check out this article: https://lamentxu.top/posts/2026-04-23-php/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://lamentxu.top/posts/2026-04-23-php/&title=PHP 语言开发日志"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://lamentxu.top/posts/2026-04-23-php/&title=PHP 语言开发日志"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://lamentxu.top/posts/2026-04-23-php/&title=PHP 语言开发日志"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://lamentxu.top/posts/2026-04-23-php/&title=PHP 语言开发日志"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://lamentxu.top/posts/2026-04-23-php/&name=PHP 语言开发日志&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://lamentxu.top/posts/2026-04-23-php/&t=PHP 语言开发日志"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
 </ul>
 
     </div>
@@ -133,7 +130,7 @@
   <header>
     
     <h1 class="posttitle p-name" itemprop="name headline">
-        PHP 内核开发的一些备忘录
+        PHP 语言开发日志
     </h1>
 
 
@@ -145,9 +142,9 @@
       
     <div class="postdate">
       
-        <time datetime="2026-04-23T15:26:00.000Z" class="dt-published" itemprop="datePublished">2026-04-23</time>
+        <time datetime="2026-06-15T06:53:33.266Z" class="dt-published" itemprop="datePublished">2026-06-15</time>
         
-        (Updated: <time datetime="2026-06-17T18:09:00.000Z" class="dt-updated" itemprop="dateModified">2026-06-18</time>)
+        (Updated: <time datetime="2026-06-17T18:14:00.000Z" class="dt-updated" itemprop="dateModified">2026-06-18</time>)
         
       
     </div>
@@ -161,11 +158,6 @@
 
 
       
-    <div class="article-tag">
-        <i class="fa-solid fa-tag"></i>
-        <a class="p-category" href="/tags/PHP/" rel="tag">PHP</a>, <a class="p-category" href="/tags/Web-Security/" rel="tag">Web Security</a>
-    </div>
-
 
     </div>
   </header>
@@ -173,7 +165,7 @@
 
   <div class="content e-content" itemprop="articleBody">
     <p>作为 ext&#x2F;intl 的维护者，我从事 php 语言的内核维护和开发工作有一段时间了。一直有很多想法和经验总是忘记。遂写一篇类似与小记的博客记录一下。</p>
-<h1 id="DONE"><a href="#DONE" class="headerlink" title="DONE"></a>DONE</h1><p>以下是我对 PHP 做过或正在推进的用户可见行为变化。</p>
+<h1 id="DONE"><a href="#DONE" class="headerlink" title="DONE"></a>DONE</h1><p>以下是我对 PHP 做过或正在推进的用户可见行为变化。（更新于 2026-06-18 02:14）</p>
 <h2 id="PHP-8-6-x"><a href="#PHP-8-6-x" class="headerlink" title="PHP 8.6.x"></a>PHP 8.6.x</h2><h3 id="RFC"><a href="#RFC" class="headerlink" title="RFC"></a>RFC</h3><ul>
 <li><input checked="" disabled="" type="checkbox"> <code>trim</code> &#x2F; <code>ltrim</code> &#x2F; <code>rtrim</code> &#x2F; <code>chop</code> support form feed. (<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/20788">PR #20788</a>, <a target="_blank" rel="noopener" href="https://wiki.php.net/rfc/trim_form_feed">RFC</a>, <a target="_blank" rel="noopener" href="https://php.watch/versions/8.6/trim-form-feed">PHP.WATCH</a>)</li>
 <li><input disabled="" type="checkbox"> Deprecate <code>metaphone</code> functions. (<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/21889">PR #21889</a>)</li>
@@ -359,16 +351,16 @@
     <div id="share-footer" style="display: none">
       <ul>
   <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://lamentxu.top/posts/2026-04-23-php/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://lamentxu.top/posts/2026-04-23-php/&text=PHP 内核开发的一些备忘录"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://lamentxu.top/posts/2026-04-23-php/&title=PHP 内核开发的一些备忘录"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://lamentxu.top/posts/2026-04-23-php/&is_video=false&description=PHP 内核开发的一些备忘录"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="mailto:?subject=PHP 内核开发的一些备忘录&body=Check out this article: https://lamentxu.top/posts/2026-04-23-php/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://lamentxu.top/posts/2026-04-23-php/&title=PHP 内核开发的一些备忘录"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://lamentxu.top/posts/2026-04-23-php/&title=PHP 内核开发的一些备忘录"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://lamentxu.top/posts/2026-04-23-php/&title=PHP 内核开发的一些备忘录"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://lamentxu.top/posts/2026-04-23-php/&title=PHP 内核开发的一些备忘录"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://lamentxu.top/posts/2026-04-23-php/&name=PHP 内核开发的一些备忘录&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://lamentxu.top/posts/2026-04-23-php/&t=PHP 内核开发的一些备忘录"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://lamentxu.top/posts/2026-04-23-php/&text=PHP 语言开发日志"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://lamentxu.top/posts/2026-04-23-php/&title=PHP 语言开发日志"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://lamentxu.top/posts/2026-04-23-php/&is_video=false&description=PHP 语言开发日志"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=PHP 语言开发日志&body=Check out this article: https://lamentxu.top/posts/2026-04-23-php/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://lamentxu.top/posts/2026-04-23-php/&title=PHP 语言开发日志"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://lamentxu.top/posts/2026-04-23-php/&title=PHP 语言开发日志"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://lamentxu.top/posts/2026-04-23-php/&title=PHP 语言开发日志"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://lamentxu.top/posts/2026-04-23-php/&title=PHP 语言开发日志"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://lamentxu.top/posts/2026-04-23-php/&name=PHP 语言开发日志&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://lamentxu.top/posts/2026-04-23-php/&t=PHP 语言开发日志"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
 </ul>
 
     </div>
