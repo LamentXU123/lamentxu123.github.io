@@ -4797,7 +4797,7 @@
     <title>PHP 语言开发日志</title>
     <url>/posts/2026-04-23-php/</url>
     <content><![CDATA[<p>作为 ext&#x2F;intl 的维护者，我从事 php 语言的内核维护和开发工作有一段时间了。一直有很多想法和经验总是忘记。遂写一篇类似与小记的博客记录一下。</p>
-<h1 id="DONE"><a href="#DONE" class="headerlink" title="DONE"></a>DONE</h1><p>以下是我对 PHP 做过或正在推进的用户可见行为变化。（更新于 2026-06-18 02:14 CST）</p>
+<h1 id="DONE"><a href="#DONE" class="headerlink" title="DONE"></a>DONE</h1><p>以下是我对 PHP 做过或正在推进的用户可见行为变化。（更新于 2026-06-18 23:41 CST）</p>
 <h2 id="PHP-8-6-x"><a href="#PHP-8-6-x" class="headerlink" title="PHP 8.6.x"></a>PHP 8.6.x</h2><h3 id="RFC"><a href="#RFC" class="headerlink" title="RFC"></a>RFC</h3><ul>
 <li><input checked="" disabled="" type="checkbox"> <code>trim</code> &#x2F; <code>ltrim</code> &#x2F; <code>rtrim</code> &#x2F; <code>chop</code> support form feed. (<a href="https://github.com/php/php-src/pull/20788">PR #20788</a>, <a href="https://wiki.php.net/rfc/trim_form_feed">RFC</a>, <a href="https://php.watch/versions/8.6/trim-form-feed">PHP.WATCH</a>)</li>
 <li><input disabled="" type="checkbox"> Deprecate <code>metaphone</code> functions. (<a href="https://github.com/php/php-src/pull/21889">PR #21889</a>)</li>
@@ -4817,6 +4817,7 @@
 <li><input checked="" disabled="" type="checkbox"> ext&#x2F;intl fixes <code>ResourceBundle</code> fallback-disabled error messages. (<a href="https://github.com/php/php-src/pull/22236">PR #22236</a>)</li>
 <li><input checked="" disabled="" type="checkbox"> ext&#x2F;opcache unwraps reference wrappers in typed by-value returns. (<a href="https://github.com/php/php-src/pull/21973">PR #21973</a>)</li>
 <li><input checked="" disabled="" type="checkbox"> ext&#x2F;intl fixes argument positions in <code>transliterator_transliterate()</code> error messages. (<a href="https://github.com/php/php-src/commit/d8e741838a534d30e9e329c25d90592d988398a7">commit d8e7418</a>)</li>
+<li><input checked="" disabled="" type="checkbox"> ext&#x2F;phar rejects malformed ZIP extra fields instead of underflowing the remaining length. (<a href="https://github.com/php/php-src/commit/657f0d6b21d1af9f1c0d80f890b42b09b04c9880">commit 657f0d6</a>, <a href="https://github.com/php/php-src/pull/22330">PR #22330</a>)</li>
 </ul>
 <h3 id="其他重大改动"><a href="#其他重大改动" class="headerlink" title="其他重大改动"></a>其他重大改动</h3><ul>
 <li><input checked="" disabled="" type="checkbox"> ext&#x2F;gmp emits deprecation warnings for precision-losing float RHS in <code>**</code>, <code>&lt;&lt;</code>, and <code>&gt;&gt;</code>. (<a href="https://github.com/php/php-src/pull/21945">PR #21945</a>)</li>
@@ -4828,6 +4829,7 @@
 <li><input checked="" disabled="" type="checkbox"> ext&#x2F;zlib uses stricter integer option handling in <code>deflate_init()</code> and <code>inflate_init()</code>. (<a href="https://github.com/php/php-src/pull/21841">PR #21841</a>, <a href="https://github.com/php/php-src/pull/21860">PR #21860</a>, <a href="https://github.com/php/php-src/pull/21909">PR #21909</a>)</li>
 <li><input checked="" disabled="" type="checkbox"> <code>proc_open()</code> rejects NUL bytes in <code>$cwd</code>. (<a href="https://github.com/php/php-src/pull/21871">PR #21871</a>)</li>
 <li><input checked="" disabled="" type="checkbox"> <code>parse_str()</code> rejects NUL bytes in <code>$string</code>. (<a href="https://github.com/php/php-src/pull/21942">PR #21942</a>)</li>
+<li><input checked="" disabled="" type="checkbox"> <code>dl()</code> rejects NUL bytes in <code>$extension_filename</code>. (<a href="https://github.com/php/php-src/pull/22358">PR #22358</a>)</li>
 <li><input checked="" disabled="" type="checkbox"> <code>pcntl_exec()</code> validates that <code>$args</code> is a list array. (<a href="https://github.com/php/php-src/pull/21951">PR #21951</a>)</li>
 <li><input checked="" disabled="" type="checkbox"> ext&#x2F;intl throws <code>TypeError</code> for non-stringable timezone objects. (<a href="https://github.com/php/php-src/pull/21990">PR #21990</a>)</li>
 <li><input checked="" disabled="" type="checkbox"> <code>IntlBreakIterator::getLocale()</code> throws <code>ValueError</code> for invalid locale type values. (<a href="https://github.com/php/php-src/pull/21997">PR #21997</a>)</li>
@@ -4850,6 +4852,7 @@
 <li><input checked="" disabled="" type="checkbox"> ext&#x2F;intl keeps the <code>Spoofchecker</code> restriction-level APIs guarded at ICU 53. (merged up from PHP 8.4; <a href="https://github.com/php/php-src/commit/edde16948a8729886b9cab0de1f69a189823bac2">commit edde169</a>)</li>
 <li><input checked="" disabled="" type="checkbox"> ext&#x2F;opcache unwraps reference wrappers in typed by-value returns. (merged up from PHP 8.4; <a href="https://github.com/php/php-src/pull/21973">PR #21973</a>)</li>
 <li><input checked="" disabled="" type="checkbox"> ext&#x2F;intl fixes argument positions in <code>transliterator_transliterate()</code> error messages. (merged up from PHP 8.4; <a href="https://github.com/php/php-src/commit/d8e741838a534d30e9e329c25d90592d988398a7">commit d8e7418</a>)</li>
+<li><input checked="" disabled="" type="checkbox"> ext&#x2F;phar rejects malformed ZIP extra fields instead of underflowing the remaining length. (merged up from PHP 8.4; <a href="https://github.com/php/php-src/commit/657f0d6b21d1af9f1c0d80f890b42b09b04c9880">commit 657f0d6</a>, <a href="https://github.com/php/php-src/pull/22330">PR #22330</a>)</li>
 </ul>
 <h2 id="PHP-8-4-x"><a href="#PHP-8-4-x" class="headerlink" title="PHP 8.4.x"></a>PHP 8.4.x</h2><h3 id="Bug-修复-2"><a href="#Bug-修复-2" class="headerlink" title="Bug 修复"></a>Bug 修复</h3><ul>
 <li><input checked="" disabled="" type="checkbox"> ext&#x2F;intl fixes out-of-bounds argument positions in calendar date&#x2F;time APIs. (<a href="https://github.com/php/php-src/commit/10704f079f6087a51e3b579faca00d833141d889">commit 10704f0</a>)</li>
@@ -4861,6 +4864,7 @@
 <li><input checked="" disabled="" type="checkbox"> ext&#x2F;intl keeps the <code>Spoofchecker</code> restriction-level APIs guarded at ICU 53. (<a href="https://github.com/php/php-src/commit/edde16948a8729886b9cab0de1f69a189823bac2">commit edde169</a>)</li>
 <li><input checked="" disabled="" type="checkbox"> ext&#x2F;opcache unwraps reference wrappers in typed by-value returns. (<a href="https://github.com/php/php-src/pull/21973">PR #21973</a>)</li>
 <li><input checked="" disabled="" type="checkbox"> ext&#x2F;intl fixes argument positions in <code>transliterator_transliterate()</code> error messages. (<a href="https://github.com/php/php-src/commit/d8e741838a534d30e9e329c25d90592d988398a7">commit d8e7418</a>)</li>
+<li><input checked="" disabled="" type="checkbox"> ext&#x2F;phar rejects malformed ZIP extra fields instead of underflowing the remaining length. (<a href="https://github.com/php/php-src/commit/657f0d6b21d1af9f1c0d80f890b42b09b04c9880">commit 657f0d6</a>, <a href="https://github.com/php/php-src/pull/22330">PR #22330</a>)</li>
 </ul>
 <h1 id="TODO"><a href="#TODO" class="headerlink" title="TODO"></a>TODO</h1><h2 id="Zend-内核"><a href="#Zend-内核" class="headerlink" title="Zend 内核"></a>Zend 内核</h2><h3 id="新-API"><a href="#新-API" class="headerlink" title="新 API"></a>新 API</h3><ul>
 <li><input disabled="" type="checkbox"> 添加 inline 的 helper function，分别是<ul>
