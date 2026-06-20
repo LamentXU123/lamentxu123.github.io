@@ -127,7 +127,7 @@
 
       <div class="content e-content" itemprop="articleBody">
         <p>作为 ext&#x2F;intl 的维护者，我从事 php 语言的内核维护和开发工作有一段时间了。一直有很多想法和经验总是忘记。遂写一篇类似与小记的博客记录一下。</p>
-<h1 id="DONE"><a href="#DONE" class="headerlink" title="DONE"></a>DONE</h1><p>以下是我对 PHP 做过或正在推进的用户可见行为变化。（更新于 2026-06-20 13:27 CST）</p>
+<h1 id="DONE"><a href="#DONE" class="headerlink" title="DONE"></a>DONE</h1><p>以下是我对 PHP 做过或正在推进的用户可见行为变化。（更新于 2026-06-20 13:36 CST）</p>
 <h2 id="PHP-8-6-x"><a href="#PHP-8-6-x" class="headerlink" title="PHP 8.6.x"></a>PHP 8.6.x</h2><h3 id="RFC"><a href="#RFC" class="headerlink" title="RFC"></a>RFC</h3><ul>
 <li><input checked="" disabled="" type="checkbox"> <code>trim</code> &#x2F; <code>ltrim</code> &#x2F; <code>rtrim</code> &#x2F; <code>chop</code> 支持换页符。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/20788">PR #20788</a>, <a target="_blank" rel="noopener" href="https://wiki.php.net/rfc/trim_form_feed">RFC</a>, <a target="_blank" rel="noopener" href="https://php.watch/versions/8.6/trim-form-feed">PHP.WATCH</a>)</li>
 <li><input disabled="" type="checkbox"> 弃用 <code>metaphone</code> 相关函数。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/21889">PR #21889</a>)</li>
@@ -138,17 +138,17 @@
 <li><input disabled="" type="checkbox"> <em>等待披露</em></li>
 </ul>
 <h3 id="Bug-修复"><a href="#Bug-修复" class="headerlink" title="Bug 修复"></a>Bug 修复</h3><ul>
+<li><input checked="" disabled="" type="checkbox"> ext&#x2F;intl 在 64 位平台上让 <code>MessageFormatter::parse()</code> 将 <code>PHP_INT_MIN</code> 作为 <code>int</code> 返回。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/22131">PR #22131</a>)</li>
+<li><input checked="" disabled="" type="checkbox"> ext&#x2F;soap 拒绝超出 XML Schema integer 范围的值。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/22178">PR #22178</a>)</li>
+<li><input checked="" disabled="" type="checkbox"> ext&#x2F;intl 修复 <code>UConverter::transcode()</code> 替换字符长度截断。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/22199">PR #22199</a>)</li>
+<li><input checked="" disabled="" type="checkbox"> ext&#x2F;intl 在 <code>IntlNumberRangeFormatter::format()</code> 中保留 64 位整数精度。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/22202">PR #22202</a>)</li>
+<li><input checked="" disabled="" type="checkbox"> ext&#x2F;intl 修复 <code>ResourceBundle</code> 禁用回退时的错误信息。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/22236">PR #22236</a>)</li>
 <li><input checked="" disabled="" type="checkbox"> ext&#x2F;intl 修复 <code>IntlListFormatter</code> 在 <code>format()</code> 失败后的对象错误状态。（从 PHP 8.5 合并上来；<a target="_blank" rel="noopener" href="https://github.com/php/php-src/commit/946d687d8d5a18c65a547a8fbb80b93dbe3abcce">commit 946d687</a>）</li>
 <li><input checked="" disabled="" type="checkbox"> ext&#x2F;intl 修复日历日期&#x2F;时间 API 中越界的参数位置。（从 PHP 8.5 合并上来；<a target="_blank" rel="noopener" href="https://github.com/php/php-src/commit/10704f079f6087a51e3b579faca00d833141d889">commit 10704f0</a>）</li>
 <li><input checked="" disabled="" type="checkbox"> ext&#x2F;intl 在 <code>IntlDateFormatter</code> 错误信息中使用 <code>PATTERN</code> 常量名。（从 PHP 8.5 合并上来；<a target="_blank" rel="noopener" href="https://github.com/php/php-src/commit/2d784891fff579eef86e326bf969e3cf41dc5244">commit 2d78489</a>）</li>
 <li><input checked="" disabled="" type="checkbox"> ext&#x2F;intl 修复未初始化日历参数的参数位置。（从 PHP 8.5 合并上来；<a target="_blank" rel="noopener" href="https://github.com/php/php-src/commit/27d593e546c86a3aebe02b926d06f4e5dd7dd71f">commit 27d593e</a>）</li>
 <li><input checked="" disabled="" type="checkbox"> ext&#x2F;soap 修复解码 SOAP 数组索引时的整数溢出。（从 PHP 8.5 合并上来；<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/21963">PR #21963</a>）</li>
 <li><input checked="" disabled="" type="checkbox"> ext&#x2F;phar 在 <code>Phar::addEmptyDir()</code> 中更正确地保留 <code>.phar</code> 魔术目录。（从 PHP 8.5 合并上来；<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/22011">PR #22011</a>）</li>
-<li><input checked="" disabled="" type="checkbox"> ext&#x2F;intl 在 64 位平台上让 <code>MessageFormatter::parse()</code> 将 <code>PHP_INT_MIN</code> 作为 <code>int</code> 返回。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/22131">PR #22131</a>)</li>
-<li><input checked="" disabled="" type="checkbox"> ext&#x2F;soap 拒绝超出 XML Schema integer 范围的值。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/22178">PR #22178</a>)</li>
-<li><input checked="" disabled="" type="checkbox"> ext&#x2F;intl 修复 <code>UConverter::transcode()</code> 替换字符长度截断。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/22199">PR #22199</a>)</li>
-<li><input checked="" disabled="" type="checkbox"> ext&#x2F;intl 在 <code>IntlNumberRangeFormatter::format()</code> 中保留 64 位整数精度。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/22202">PR #22202</a>)</li>
-<li><input checked="" disabled="" type="checkbox"> ext&#x2F;intl 修复 <code>ResourceBundle</code> 禁用回退时的错误信息。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/22236">PR #22236</a>)</li>
 <li><input checked="" disabled="" type="checkbox"> ext&#x2F;intl 为无效显示类型同步 <code>IntlTimeZone</code> 对象错误状态。（从 PHP 8.5 合并上来；<a target="_blank" rel="noopener" href="https://github.com/php/php-src/commit/9e68cf888ac8c8620349d684495c3c4ed52daabe">commit 9e68cf8</a>）</li>
 <li><input checked="" disabled="" type="checkbox"> ext&#x2F;intl 保持 <code>Spoofchecker</code> 限制级别 API 的 ICU 53 版本保护。（从 PHP 8.5 合并上来；<a target="_blank" rel="noopener" href="https://github.com/php/php-src/commit/edde16948a8729886b9cab0de1f69a189823bac2">commit edde169</a>）</li>
 <li><input checked="" disabled="" type="checkbox"> ext&#x2F;opcache 修复有类型按值返回时未解开引用包装的问题。（从 PHP 8.5 合并上来；<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/21973">PR #21973</a>）</li>
