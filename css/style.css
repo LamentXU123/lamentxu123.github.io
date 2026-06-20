@@ -1138,6 +1138,29 @@ body {
   font-size: 0.85rem;
   line-height: 1.4;
 }
+#github-contributions {
+  margin-top: 2rem;
+  margin-bottom: 3rem;
+}
+.github-contributions-chart {
+  display: block;
+  overflow-x: auto;
+  padding: 0.75rem;
+  border: 1px dotted #908d8d;
+  border-radius: 4px;
+  background: #212326;
+  background-image: none !important;
+}
+.github-contributions-chart:hover {
+  border-color: #d480aa;
+  background-image: none !important;
+}
+.github-contributions-chart img {
+  display: block;
+  width: 663px;
+  max-width: none;
+  height: auto;
+}
 article header .posttitle {
   margin-top: 0;
   margin-bottom: 0;
