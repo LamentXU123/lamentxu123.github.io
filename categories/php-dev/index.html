@@ -131,7 +131,7 @@
 <h2 id="PHP-8-6-x"><a href="#PHP-8-6-x" class="headerlink" title="PHP 8.6.x"></a>PHP 8.6.x</h2><h3 id="RFC"><a href="#RFC" class="headerlink" title="RFC"></a>RFC</h3><ul>
 <li><input checked="" disabled="" type="checkbox"> <code>trim</code> &#x2F; <code>ltrim</code> &#x2F; <code>rtrim</code> &#x2F; <code>chop</code> 支持换页符。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/20788">PR #20788</a>, <a target="_blank" rel="noopener" href="https://wiki.php.net/rfc/trim_form_feed">RFC</a>, <a target="_blank" rel="noopener" href="https://php.watch/versions/8.6/trim-form-feed">PHP.WATCH</a>)</li>
 <li><input disabled="" type="checkbox"> 弃用 <code>metaphone</code> 相关函数。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/21889">PR #21889</a>)</li>
-<li><input disabled="" type="checkbox"> 为 intl 添加 <code>Locale::getDisplayKeyword()</code> 和 <code>Locale::getDisplayKeywordValue()</code>。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/22264">PR #22264</a>)</li>
+<li><input disabled="" type="checkbox"> 为 intl 添加 <code>Locale::getDisplayKeyword()</code>（别名 <code>locale_get_display_keyword()</code>） 和 <code>Locale::getDisplayKeywordValue()</code> （别名 <code>locale_get_display_keyword_value()</code>）。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/22264">PR #22264</a>)</li>
 </ul>
 <h3 id="安全漏洞"><a href="#安全漏洞" class="headerlink" title="安全漏洞"></a>安全漏洞</h3><ul>
 <li><input disabled="" type="checkbox"> <em>等待披露</em></li>
@@ -160,6 +160,7 @@
 <li><input checked="" disabled="" type="checkbox"> <code>proc_open()</code> 拒绝 <code>$cwd</code> 中的 NUL 字节。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/21871">PR #21871</a>)</li>
 <li><input checked="" disabled="" type="checkbox"> <code>parse_str()</code> 拒绝 <code>$string</code> 中的 NUL 字节。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/21942">PR #21942</a>)</li>
 <li><input checked="" disabled="" type="checkbox"> <code>dl()</code> 拒绝 <code>$extension_filename</code> 中的 NUL 字节。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/22358">PR #22358</a>)</li>
+<li><input checked="" disabled="" type="checkbox"> <code>openlog()</code> 拒绝 <code>$prefix</code> 中的 NUL 字节。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/22366">PR #22366</a>)</li>
 <li><input checked="" disabled="" type="checkbox"> <code>pcntl_exec()</code> 验证 <code>$args</code> 必须是列表数组。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/21951">PR #21951</a>)</li>
 <li><input checked="" disabled="" type="checkbox"> ext&#x2F;intl 对不可转为字符串的时区对象抛出 <code>TypeError</code>。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/21990">PR #21990</a>)</li>
 <li><input checked="" disabled="" type="checkbox"> <code>IntlBreakIterator::getLocale()</code> 对无效 locale type 值抛出 <code>ValueError</code>。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/21997">PR #21997</a>)</li>
