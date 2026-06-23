@@ -128,7 +128,7 @@ const stats = {
   additions,
   deletions,
   prs: commitShas.size,
-  label: "\u76f8\u5173\u63d0\u4ea4",
+  label: "\u63d0\u4ea4",
   source: "github graphql merged pull request additions/deletions + github commit search count",
   mergedPrs,
   latestMergedAt,
