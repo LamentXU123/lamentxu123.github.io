@@ -4583,7 +4583,7 @@
     <title>PHP 语言开发日志</title>
     <url>/posts/2026-04-23-php/</url>
     <content><![CDATA[<p>作为 ext&#x2F;intl 的维护者（php core developer），我从事 php 语言的内核维护和开发工作有一段时间了。一直有很多想法和经验总是忘记。遂写一篇类似与小记的博客记录一下。</p>
-<h1 id="DONE"><a href="#DONE" class="headerlink" title="DONE"></a>DONE</h1><p>以下是我对 PHP 做过或正在推进的用户可见行为变化。（更新于 2026-06-22 13:11 CST）</p>
+<h1 id="DONE"><a href="#DONE" class="headerlink" title="DONE"></a>DONE</h1><p>以下是我对 PHP 做过或正在推进的用户可见行为变化。（更新于 2026-06-24 00:00 CST）</p>
 <h2 id="PHP-8-6-x"><a href="#PHP-8-6-x" class="headerlink" title="PHP 8.6.x"></a>PHP 8.6.x</h2><h3 id="RFC"><a href="#RFC" class="headerlink" title="RFC"></a>RFC</h3><ul>
 <li><input checked="" disabled="" type="checkbox"> <code>trim</code> &#x2F; <code>ltrim</code> &#x2F; <code>rtrim</code> &#x2F; <code>chop</code> 支持换页符。(<a href="https://github.com/php/php-src/pull/20788">PR #20788</a>, <a href="https://wiki.php.net/rfc/trim_form_feed">RFC</a>, <a href="https://php.watch/versions/8.6/trim-form-feed">PHP.WATCH</a>)</li>
 <li><input disabled="" type="checkbox"> 弃用 <code>metaphone</code> 相关函数。(<a href="https://github.com/php/php-src/pull/21889">PR #21889</a>)</li>
@@ -4613,6 +4613,8 @@
 <li><input checked="" disabled="" type="checkbox"> ext&#x2F;intl 让 <code>Locale::lookup()</code> 和 <code>locale_lookup()</code> 在语言标签无效时返回 <code>null</code>，而不是回退到默认 locale。（从 PHP 8.5 合并上来；<a href="https://github.com/php/php-src/pull/22306">PR #22306</a>）</li>
 <li><input checked="" disabled="" type="checkbox"> ext&#x2F;intl 让 <code>Collator::__construct()</code> 和 <code>Spoofchecker::__construct()</code> 在重复构造已初始化对象时抛出 <code>Error</code>，避免覆盖 ICU 句柄造成内存泄漏。（从 PHP 8.5 合并上来；<a href="https://github.com/php/php-src/pull/22386">PR #22386</a>）</li>
 <li><input checked="" disabled="" type="checkbox"> ext&#x2F;intl 让 <code>IntlListFormatter::__construct()</code> 在重复构造已初始化对象时抛出 <code>Error</code>，避免覆盖 ICU 句柄造成内存泄漏。（从 PHP 8.5 合并上来；<a href="https://github.com/php/php-src/pull/22394">PR #22394</a>）</li>
+<li><input checked="" disabled="" type="checkbox"> ext&#x2F;phar 修复以 <code>.phar</code> 为前缀但不是魔术目录的目录处理。（从 PHP 8.5 合并上来；<a href="https://github.com/php/php-src/pull/22372">PR #22372</a>）</li>
+<li><input checked="" disabled="" type="checkbox"> <code>base_convert()</code> 修复较小缓冲区长度下的转换结果错误。（从 PHP 8.5 合并上来；<a href="https://github.com/php/php-src/pull/22406">PR #22406</a>）</li>
 </ul>
 <h3 id="其他重大改动"><a href="#其他重大改动" class="headerlink" title="其他重大改动"></a>其他重大改动</h3><ul>
 <li><input checked="" disabled="" type="checkbox"> <code>linkinfo(&#39;&#39;)</code> 现在会抛出 <code>ValueError</code>。(<a href="https://github.com/php/php-src/pull/21793">PR #21793</a>)</li>
@@ -4654,6 +4656,8 @@
 <li><input checked="" disabled="" type="checkbox"> ext&#x2F;intl 让 <code>Locale::lookup()</code> 和 <code>locale_lookup()</code> 在语言标签无效时返回 <code>null</code>，而不是回退到默认 locale。(从 PHP 8.4 合并上来；<a href="https://github.com/php/php-src/pull/22306">PR #22306</a>)</li>
 <li><input checked="" disabled="" type="checkbox"> ext&#x2F;intl 让 <code>Collator::__construct()</code> 和 <code>Spoofchecker::__construct()</code> 在重复构造已初始化对象时抛出 <code>Error</code>，避免覆盖 ICU 句柄造成内存泄漏。（从 PHP 8.4 合并上来；<a href="https://github.com/php/php-src/pull/22386">PR #22386</a>）</li>
 <li><input checked="" disabled="" type="checkbox"> ext&#x2F;intl 让 <code>IntlListFormatter::__construct()</code> 在重复构造已初始化对象时抛出 <code>Error</code>，避免覆盖 ICU 句柄造成内存泄漏。(<a href="https://github.com/php/php-src/pull/22394">PR #22394</a>)</li>
+<li><input checked="" disabled="" type="checkbox"> ext&#x2F;phar 修复以 <code>.phar</code> 为前缀但不是魔术目录的目录处理。（从 PHP 8.4 合并上来；<a href="https://github.com/php/php-src/pull/22372">PR #22372</a>）</li>
+<li><input checked="" disabled="" type="checkbox"> <code>base_convert()</code> 修复较小缓冲区长度下的转换结果错误。(<a href="https://github.com/php/php-src/pull/22406">PR #22406</a>)</li>
 </ul>
 <h2 id="PHP-8-4-x"><a href="#PHP-8-4-x" class="headerlink" title="PHP 8.4.x"></a>PHP 8.4.x</h2><h3 id="Bug-修复-2"><a href="#Bug-修复-2" class="headerlink" title="Bug 修复"></a>Bug 修复</h3><ul>
 <li><input checked="" disabled="" type="checkbox"> ext&#x2F;intl 修复日历日期&#x2F;时间 API 中越界的参数位置。(<a href="https://github.com/php/php-src/commit/10704f079f6087a51e3b579faca00d833141d889">commit 10704f0</a>)</li>
@@ -4668,6 +4672,7 @@
 <li><input checked="" disabled="" type="checkbox"> ext&#x2F;phar 拒绝格式错误的 ZIP 额外字段，避免剩余长度下溢。(<a href="https://github.com/php/php-src/commit/657f0d6b21d1af9f1c0d80f890b42b09b04c9880">commit 657f0d6</a>, <a href="https://github.com/php/php-src/pull/22330">PR #22330</a>)</li>
 <li><input checked="" disabled="" type="checkbox"> ext&#x2F;intl 让 <code>Locale::lookup()</code> 和 <code>locale_lookup()</code> 在语言标签无效时返回 <code>null</code>，而不是回退到默认 locale。(<a href="https://github.com/php/php-src/pull/22306">PR #22306</a>)</li>
 <li><input checked="" disabled="" type="checkbox"> ext&#x2F;intl 让 <code>Collator::__construct()</code> 和 <code>Spoofchecker::__construct()</code> 在重复构造已初始化对象时抛出 <code>Error</code>，避免覆盖 ICU 句柄造成内存泄漏。(<a href="https://github.com/php/php-src/pull/22386">PR #22386</a>)</li>
+<li><input checked="" disabled="" type="checkbox"> ext&#x2F;phar 修复以 <code>.phar</code> 为前缀但不是魔术目录的目录处理。(<a href="https://github.com/php/php-src/pull/22372">PR #22372</a>)</li>
 </ul>
 <h1 id="TODO"><a href="#TODO" class="headerlink" title="TODO"></a>TODO</h1><h2 id="Zend-内核"><a href="#Zend-内核" class="headerlink" title="Zend 内核"></a>Zend 内核</h2><h3 id="新-API"><a href="#新-API" class="headerlink" title="新 API"></a>新 API</h3><ul>
 <li><input disabled="" type="checkbox"> 添加 inline 的 helper function，分别是<ul>
