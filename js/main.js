@@ -148,6 +148,10 @@ function setupPhpSrcContributionStats() {
     setValue("additions", stats.additions);
     setValue("deletions", stats.deletions);
     setValue("prs", stats.prs);
+    var prsLabel = root.querySelector('[data-stat="prs"] + .php-src-stats__name');
+    if (prsLabel && stats.label) {
+      prsLabel.textContent = stats.label;
+    }
     var updatedAt = stats.updatedAt ? new Date(stats.updatedAt) : new Date();
     setStatus("统计更新于 " + updatedAt.toLocaleString());
   }
