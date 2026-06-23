@@ -434,6 +434,49 @@ body td {
   padding: 0 8px;
   border-bottom: none;
 }
+.php-src-stats {
+  margin: 1.5rem 0 2rem;
+  padding: 1rem;
+  border: 1px solid #908d8d;
+  border-radius: 8px;
+  background: rgba(127,127,127,0.04);
+}
+.php-src-stats__label {
+  margin-bottom: 0.75rem;
+  color: #2bbc8a;
+  font-weight: 700;
+}
+.php-src-stats__grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.75rem;
+}
+.php-src-stats__grid > div {
+  min-width: 0;
+}
+.php-src-stats__value {
+  display: block;
+  color: #eee;
+  font-size: 1.35rem;
+  font-weight: 700;
+  line-height: 1.2;
+}
+.php-src-stats__name {
+  display: block;
+  margin-top: 0.25rem;
+  color: #ccc;
+  font-size: 0.82rem;
+}
+.php-src-stats__meta {
+  margin-top: 0.75rem;
+  color: #ccc;
+  font-size: 0.78rem;
+}
+@media (max-width: 520px) {
+  .php-src-stats__grid {
+    grid-template-columns: 1fr;
+  }
+}
 @font-face {
   font-style: normal;
   font-family: "Meslo LG";
