@@ -173,13 +173,15 @@
 <li><code>parse_str()</code> 拒绝 <code>$string</code> 中的 NUL 字节。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/21942">PR #21942</a>)</li>
 <li><code>dl()</code> 拒绝 <code>$extension_filename</code> 中的 NUL 字节。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/22358">PR #22358</a>)</li>
 <li><code>openlog()</code> 拒绝 <code>$prefix</code> 中的 NUL 字节。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/22366">PR #22366</a>)</li>
-<li><code>pcntl_exec()</code> 验证 <code>$args</code> 必须是列表数组。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/21951">PR #21951</a>)</li>
-<li>ext&#x2F;intl 对不可转为字符串的时区对象抛出 <code>TypeError</code>。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/21990">PR #21990</a>)</li>
-<li><code>IntlBreakIterator::getLocale()</code> 对无效 locale type 值抛出 <code>ValueError</code>。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/21997">PR #21997</a>)</li>
 <li>ext&#x2F;gmp 对 <code>**</code>、<code>&lt;&lt;</code>、<code>&gt;&gt;</code> 中会损失精度的浮点数右操作数发出弃用警告。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/21945">PR #21945</a>)</li>
 </ul>
 <h3 id="其他微小改动"><a href="#其他微小改动" class="headerlink" title="其他微小改动"></a>其他微小改动</h3><ul>
+<li><code>shmop_open()</code> 拒绝超出 <code>key_t</code> 长度的值。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/22423">PR #22423</a>)</li>
 <li>ext&#x2F;intl 在所有受支持的 ICU 版本上暴露 <code>Spoofchecker</code> 限制级别 API。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/22055">PR #22055</a>, <a target="_blank" rel="noopener" href="https://github.com/php/php-src/commit/edde16948a8729886b9cab0de1f69a189823bac2">commit edde169</a>)</li>
+<li><code>pcntl_exec()</code> 验证 <code>$args</code> 必须是列表数组。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/21951">PR #21951</a>)</li>
+<li>ext&#x2F;intl 对不可转为字符串的时区对象抛出 <code>TypeError</code>。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/21990">PR #21990</a>)</li>
+<li><code>IntlBreakIterator::getLocale()</code> 对无效 locale type 值抛出 <code>ValueError</code>。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/21997">PR #21997</a>)。</li>
+<li><code>shm_attach()</code> 拒绝超出 <code>key_t</code> 长度的值。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/22423">PR #22423</a>)</li>
 </ul>
 <h3 id="性能优化"><a href="#性能优化" class="headerlink" title="性能优化"></a>性能优化</h3><ul>
 <li>ext&#x2F;intl 完成一批小优化。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/22069">PR #22069</a>)</li>
