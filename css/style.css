@@ -464,6 +464,12 @@ body td {
   font-weight: 700;
   line-height: 1.2;
 }
+.php-src-stats__value[data-stat="additions"] {
+  color: #2da44e;
+}
+.php-src-stats__value[data-stat="deletions"] {
+  color: #cf222e;
+}
 .php-src-stats__name {
   display: block;
   margin-top: 0.25rem;
