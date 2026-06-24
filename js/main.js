@@ -126,7 +126,6 @@ function setupPhpSrcContributionStats() {
   function setStatus(message) {
     if (status) {
       status.textContent = message;
-      status.style.display = "";
     }
   }
 
@@ -142,7 +141,7 @@ function setupPhpSrcContributionStats() {
       setValue("additions", null);
       setValue("deletions", null);
       setValue("prs", null);
-      setStatus("\u6784\u5efa\u65f6\u53d7 GitHub API \u9650\u6d41\uff0c\u7edf\u8ba1\u7a0d\u540e\u81ea\u52a8\u66f4\u65b0\u3002");
+      setStatus("构建时受 GitHub API 限流，统计稍后自动更新。");
       return;
     }
 
@@ -154,7 +153,7 @@ function setupPhpSrcContributionStats() {
       prsLabel.textContent = stats.label;
     }
     var updatedAt = stats.updatedAt ? new Date(stats.updatedAt) : new Date();
-    setStatus("\u7edf\u8ba1\u66f4\u65b0\u4e8e " + updatedAt.toLocaleString());
+    setStatus("统计更新于 " + updatedAt.toLocaleString());
   }
 
   fetch(source, { cache: "no-store" })
@@ -168,6 +167,6 @@ function setupPhpSrcContributionStats() {
       render(stats);
     })
     .catch(function(error) {
-      setStatus("\u7edf\u8ba1\u52a0\u8f7d\u5931\u8d25\uff1a" + error.message);
+      setStatus("统计加载失败：" + error.message);
     });
 }

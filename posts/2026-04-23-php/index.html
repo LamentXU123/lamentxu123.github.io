@@ -170,7 +170,7 @@
 <span id="more"></span>
 
 <div id="php-src-contribution-stats" class="php-src-stats" data-source="/php-src-stats.json">
-  <div class="php-src-stats__label"><a href="https://github.com/php/php-src" target="_blank" rel="noopener">php 内核</a>贡献代码统计</div>
+  <div class="php-src-stats__label"><a href="https://github.com/php/php-src" target="_blank" rel="noopener">php-src</a> 贡献代码统计</div>
   <div class="php-src-stats__grid" aria-live="polite">
     <div>
       <span class="php-src-stats__value" data-stat="additions">--</span>
@@ -191,93 +191,93 @@
 <h1 id="DONE"><a href="#DONE" class="headerlink" title="DONE"></a>DONE</h1><p>以下是我对 PHP 做过或正在推进的用户可见行为变化。（更新于 2026-06-24 00:00 CST）</p>
 <h2 id="PHP-8-6-x"><a href="#PHP-8-6-x" class="headerlink" title="PHP 8.6.x"></a>PHP 8.6.x</h2><h3 id="RFC"><a href="#RFC" class="headerlink" title="RFC"></a>RFC</h3><ul>
 <li><input checked="" disabled="" type="checkbox"> <code>trim</code> &#x2F; <code>ltrim</code> &#x2F; <code>rtrim</code> &#x2F; <code>chop</code> 支持换页符。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/20788">PR #20788</a>, <a target="_blank" rel="noopener" href="https://wiki.php.net/rfc/trim_form_feed">RFC</a>, <a target="_blank" rel="noopener" href="https://php.watch/versions/8.6/trim-form-feed">PHP.WATCH</a>)</li>
-<li><input checked="" disabled="" type="checkbox"> 为 intl 添加 <code>Locale::getDisplayKeyword()</code>（别名 <code>locale_get_display_keyword()</code>） 和 <code>Locale::getDisplayKeywordValue()</code> （别名 <code>locale_get_display_keyword_value()</code>）。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/22264">PR #22264</a>, <a target="_blank" rel="noopener" href="https://wiki.php.net/rfc/getdisplaykeyword_and_getdisplaykeywordvalue">RFC</a>)</li>
 <li><input disabled="" type="checkbox"> 弃用 <code>metaphone</code> 相关函数。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/21889">PR #21889</a>)</li>
+<li><input disabled="" type="checkbox"> 为 intl 添加 <code>Locale::getDisplayKeyword()</code>（别名 <code>locale_get_display_keyword()</code>） 和 <code>Locale::getDisplayKeywordValue()</code> （别名 <code>locale_get_display_keyword_value()</code>）。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/22264">PR #22264</a>)</li>
 </ul>
 <h3 id="安全漏洞"><a href="#安全漏洞" class="headerlink" title="安全漏洞"></a>安全漏洞</h3><ul>
 <li><input disabled="" type="checkbox"> <em>等待披露</em></li>
 <li><input disabled="" type="checkbox"> <em>等待披露</em></li>
 </ul>
 <h3 id="Bug-修复"><a href="#Bug-修复" class="headerlink" title="Bug 修复"></a>Bug 修复</h3><ul>
-<li>ext&#x2F;intl 在 64 位平台上让 <code>MessageFormatter::parse()</code> 将 <code>PHP_INT_MIN</code> 作为 <code>int</code> 返回。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/22131">PR #22131</a>)</li>
-<li>ext&#x2F;soap 拒绝超出 XML Schema integer 范围的值。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/22178">PR #22178</a>)</li>
-<li>ext&#x2F;intl 修复 <code>UConverter::transcode()</code> 替换字符长度截断。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/22199">PR #22199</a>)</li>
-<li>ext&#x2F;intl 在 <code>IntlNumberRangeFormatter::format()</code> 中保留 64 位整数精度。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/22202">PR #22202</a>)</li>
-<li>ext&#x2F;intl 修复 <code>ResourceBundle</code> 禁用回退时的错误信息。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/22236">PR #22236</a>)</li>
-<li>ext&#x2F;intl 修复 <code>IntlListFormatter</code> 在 <code>format()</code> 失败后的对象错误状态。（从 PHP 8.5 合并上来；<a target="_blank" rel="noopener" href="https://github.com/php/php-src/commit/946d687d8d5a18c65a547a8fbb80b93dbe3abcce">commit 946d687</a>）</li>
-<li>ext&#x2F;intl 修复日历日期&#x2F;时间 API 中越界的参数位置。（从 PHP 8.5 合并上来；<a target="_blank" rel="noopener" href="https://github.com/php/php-src/commit/10704f079f6087a51e3b579faca00d833141d889">commit 10704f0</a>）</li>
-<li>ext&#x2F;intl 在 <code>IntlDateFormatter</code> 错误信息中使用 <code>PATTERN</code> 常量名。（从 PHP 8.5 合并上来；<a target="_blank" rel="noopener" href="https://github.com/php/php-src/commit/2d784891fff579eef86e326bf969e3cf41dc5244">commit 2d78489</a>）</li>
-<li>ext&#x2F;intl 修复未初始化日历参数的参数位置。（从 PHP 8.5 合并上来；<a target="_blank" rel="noopener" href="https://github.com/php/php-src/commit/27d593e546c86a3aebe02b926d06f4e5dd7dd71f">commit 27d593e</a>）</li>
-<li>ext&#x2F;soap 修复解码 SOAP 数组索引时的整数溢出。（从 PHP 8.5 合并上来；<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/21963">PR #21963</a>）</li>
-<li>ext&#x2F;phar 在 <code>Phar::addEmptyDir()</code> 中更正确地保留 <code>.phar</code> 魔术目录。（从 PHP 8.5 合并上来；<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/22011">PR #22011</a>）</li>
-<li>ext&#x2F;intl 为无效显示类型同步 <code>IntlTimeZone</code> 对象错误状态。（从 PHP 8.5 合并上来；<a target="_blank" rel="noopener" href="https://github.com/php/php-src/commit/9e68cf888ac8c8620349d684495c3c4ed52daabe">commit 9e68cf8</a>）</li>
-<li>ext&#x2F;intl 保持 <code>Spoofchecker</code> 限制级别 API 的 ICU 53 版本保护。（从 PHP 8.5 合并上来；<a target="_blank" rel="noopener" href="https://github.com/php/php-src/commit/edde16948a8729886b9cab0de1f69a189823bac2">commit edde169</a>）</li>
-<li>ext&#x2F;opcache 修复有类型按值返回时未解开引用包装的问题。（从 PHP 8.5 合并上来；<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/21973">PR #21973</a>）</li>
-<li>ext&#x2F;intl 修复 <code>transliterator_transliterate()</code> 错误信息中的参数位置。（从 PHP 8.5 合并上来；<a target="_blank" rel="noopener" href="https://github.com/php/php-src/commit/d8e741838a534d30e9e329c25d90592d988398a7">commit d8e7418</a>）</li>
-<li>ext&#x2F;phar 拒绝格式错误的 ZIP 额外字段，避免剩余长度下溢。（从 PHP 8.5 合并上来；<a target="_blank" rel="noopener" href="https://github.com/php/php-src/commit/657f0d6b21d1af9f1c0d80f890b42b09b04c9880">commit 657f0d6</a>, <a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/22330">PR #22330</a>）</li>
-<li>ext&#x2F;intl 让 <code>Locale::lookup()</code> 和 <code>locale_lookup()</code> 在语言标签无效时返回 <code>null</code>，而不是回退到默认 locale。（从 PHP 8.5 合并上来；<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/22306">PR #22306</a>）</li>
-<li>ext&#x2F;intl 让 <code>Collator::__construct()</code> 和 <code>Spoofchecker::__construct()</code> 在重复构造已初始化对象时抛出 <code>Error</code>，避免覆盖 ICU 句柄造成内存泄漏。（从 PHP 8.5 合并上来；<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/22386">PR #22386</a>）</li>
-<li>ext&#x2F;intl 让 <code>IntlListFormatter::__construct()</code> 在重复构造已初始化对象时抛出 <code>Error</code>，避免覆盖 ICU 句柄造成内存泄漏。（从 PHP 8.5 合并上来；<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/22394">PR #22394</a>）</li>
-<li>ext&#x2F;phar 修复以 <code>.phar</code> 为前缀但不是魔术目录的目录处理。（从 PHP 8.5 合并上来；<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/22372">PR #22372</a>）</li>
-<li><code>base_convert()</code> 修复较小缓冲区长度下的转换结果错误。（从 PHP 8.5 合并上来；<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/22406">PR #22406</a>）</li>
+<li><input checked="" disabled="" type="checkbox"> ext&#x2F;intl 在 64 位平台上让 <code>MessageFormatter::parse()</code> 将 <code>PHP_INT_MIN</code> 作为 <code>int</code> 返回。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/22131">PR #22131</a>)</li>
+<li><input checked="" disabled="" type="checkbox"> ext&#x2F;soap 拒绝超出 XML Schema integer 范围的值。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/22178">PR #22178</a>)</li>
+<li><input checked="" disabled="" type="checkbox"> ext&#x2F;intl 修复 <code>UConverter::transcode()</code> 替换字符长度截断。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/22199">PR #22199</a>)</li>
+<li><input checked="" disabled="" type="checkbox"> ext&#x2F;intl 在 <code>IntlNumberRangeFormatter::format()</code> 中保留 64 位整数精度。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/22202">PR #22202</a>)</li>
+<li><input checked="" disabled="" type="checkbox"> ext&#x2F;intl 修复 <code>ResourceBundle</code> 禁用回退时的错误信息。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/22236">PR #22236</a>)</li>
+<li><input checked="" disabled="" type="checkbox"> ext&#x2F;intl 修复 <code>IntlListFormatter</code> 在 <code>format()</code> 失败后的对象错误状态。（从 PHP 8.5 合并上来；<a target="_blank" rel="noopener" href="https://github.com/php/php-src/commit/946d687d8d5a18c65a547a8fbb80b93dbe3abcce">commit 946d687</a>）</li>
+<li><input checked="" disabled="" type="checkbox"> ext&#x2F;intl 修复日历日期&#x2F;时间 API 中越界的参数位置。（从 PHP 8.5 合并上来；<a target="_blank" rel="noopener" href="https://github.com/php/php-src/commit/10704f079f6087a51e3b579faca00d833141d889">commit 10704f0</a>）</li>
+<li><input checked="" disabled="" type="checkbox"> ext&#x2F;intl 在 <code>IntlDateFormatter</code> 错误信息中使用 <code>PATTERN</code> 常量名。（从 PHP 8.5 合并上来；<a target="_blank" rel="noopener" href="https://github.com/php/php-src/commit/2d784891fff579eef86e326bf969e3cf41dc5244">commit 2d78489</a>）</li>
+<li><input checked="" disabled="" type="checkbox"> ext&#x2F;intl 修复未初始化日历参数的参数位置。（从 PHP 8.5 合并上来；<a target="_blank" rel="noopener" href="https://github.com/php/php-src/commit/27d593e546c86a3aebe02b926d06f4e5dd7dd71f">commit 27d593e</a>）</li>
+<li><input checked="" disabled="" type="checkbox"> ext&#x2F;soap 修复解码 SOAP 数组索引时的整数溢出。（从 PHP 8.5 合并上来；<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/21963">PR #21963</a>）</li>
+<li><input checked="" disabled="" type="checkbox"> ext&#x2F;phar 在 <code>Phar::addEmptyDir()</code> 中更正确地保留 <code>.phar</code> 魔术目录。（从 PHP 8.5 合并上来；<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/22011">PR #22011</a>）</li>
+<li><input checked="" disabled="" type="checkbox"> ext&#x2F;intl 为无效显示类型同步 <code>IntlTimeZone</code> 对象错误状态。（从 PHP 8.5 合并上来；<a target="_blank" rel="noopener" href="https://github.com/php/php-src/commit/9e68cf888ac8c8620349d684495c3c4ed52daabe">commit 9e68cf8</a>）</li>
+<li><input checked="" disabled="" type="checkbox"> ext&#x2F;intl 保持 <code>Spoofchecker</code> 限制级别 API 的 ICU 53 版本保护。（从 PHP 8.5 合并上来；<a target="_blank" rel="noopener" href="https://github.com/php/php-src/commit/edde16948a8729886b9cab0de1f69a189823bac2">commit edde169</a>）</li>
+<li><input checked="" disabled="" type="checkbox"> ext&#x2F;opcache 修复有类型按值返回时未解开引用包装的问题。（从 PHP 8.5 合并上来；<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/21973">PR #21973</a>）</li>
+<li><input checked="" disabled="" type="checkbox"> ext&#x2F;intl 修复 <code>transliterator_transliterate()</code> 错误信息中的参数位置。（从 PHP 8.5 合并上来；<a target="_blank" rel="noopener" href="https://github.com/php/php-src/commit/d8e741838a534d30e9e329c25d90592d988398a7">commit d8e7418</a>）</li>
+<li><input checked="" disabled="" type="checkbox"> ext&#x2F;phar 拒绝格式错误的 ZIP 额外字段，避免剩余长度下溢。（从 PHP 8.5 合并上来；<a target="_blank" rel="noopener" href="https://github.com/php/php-src/commit/657f0d6b21d1af9f1c0d80f890b42b09b04c9880">commit 657f0d6</a>, <a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/22330">PR #22330</a>）</li>
+<li><input checked="" disabled="" type="checkbox"> ext&#x2F;intl 让 <code>Locale::lookup()</code> 和 <code>locale_lookup()</code> 在语言标签无效时返回 <code>null</code>，而不是回退到默认 locale。（从 PHP 8.5 合并上来；<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/22306">PR #22306</a>）</li>
+<li><input checked="" disabled="" type="checkbox"> ext&#x2F;intl 让 <code>Collator::__construct()</code> 和 <code>Spoofchecker::__construct()</code> 在重复构造已初始化对象时抛出 <code>Error</code>，避免覆盖 ICU 句柄造成内存泄漏。（从 PHP 8.5 合并上来；<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/22386">PR #22386</a>）</li>
+<li><input checked="" disabled="" type="checkbox"> ext&#x2F;intl 让 <code>IntlListFormatter::__construct()</code> 在重复构造已初始化对象时抛出 <code>Error</code>，避免覆盖 ICU 句柄造成内存泄漏。（从 PHP 8.5 合并上来；<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/22394">PR #22394</a>）</li>
+<li><input checked="" disabled="" type="checkbox"> ext&#x2F;phar 修复以 <code>.phar</code> 为前缀但不是魔术目录的目录处理。（从 PHP 8.5 合并上来；<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/22372">PR #22372</a>）</li>
+<li><input checked="" disabled="" type="checkbox"> <code>base_convert()</code> 修复较小缓冲区长度下的转换结果错误。（从 PHP 8.5 合并上来；<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/22406">PR #22406</a>）</li>
 </ul>
 <h3 id="其他重大改动"><a href="#其他重大改动" class="headerlink" title="其他重大改动"></a>其他重大改动</h3><ul>
-<li><code>linkinfo(&#39;&#39;)</code> 现在会抛出 <code>ValueError</code>。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/21793">PR #21793</a>)</li>
-<li><code>getenv()</code> 和 <code>putenv()</code> 拒绝包含 NUL 字节的参数。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/21817">PR #21817</a>)</li>
-<li>ext&#x2F;zlib 在 <code>deflate_init()</code> 和 <code>inflate_init()</code> 中使用更严格的整数选项处理。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/21841">PR #21841</a>, <a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/21860">PR #21860</a>, <a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/21909">PR #21909</a>)</li>
-<li><code>proc_open()</code> 拒绝 <code>$cwd</code> 中的 NUL 字节。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/21871">PR #21871</a>)</li>
-<li><code>parse_str()</code> 拒绝 <code>$string</code> 中的 NUL 字节。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/21942">PR #21942</a>)</li>
-<li><code>dl()</code> 拒绝 <code>$extension_filename</code> 中的 NUL 字节。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/22358">PR #22358</a>)</li>
-<li><code>openlog()</code> 拒绝 <code>$prefix</code> 中的 NUL 字节。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/22366">PR #22366</a>)</li>
-<li><code>pcntl_exec()</code> 验证 <code>$args</code> 必须是列表数组。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/21951">PR #21951</a>)</li>
-<li>ext&#x2F;intl 对不可转为字符串的时区对象抛出 <code>TypeError</code>。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/21990">PR #21990</a>)</li>
-<li><code>IntlBreakIterator::getLocale()</code> 对无效 locale type 值抛出 <code>ValueError</code>。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/21997">PR #21997</a>)</li>
-<li>ext&#x2F;gmp 对 <code>**</code>、<code>&lt;&lt;</code>、<code>&gt;&gt;</code> 中会损失精度的浮点数右操作数发出弃用警告。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/21945">PR #21945</a>)</li>
+<li><input checked="" disabled="" type="checkbox"> <code>linkinfo(&#39;&#39;)</code> 现在会抛出 <code>ValueError</code>。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/21793">PR #21793</a>)</li>
+<li><input checked="" disabled="" type="checkbox"> <code>getenv()</code> 和 <code>putenv()</code> 拒绝包含 NUL 字节的参数。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/21817">PR #21817</a>)</li>
+<li><input checked="" disabled="" type="checkbox"> ext&#x2F;zlib 在 <code>deflate_init()</code> 和 <code>inflate_init()</code> 中使用更严格的整数选项处理。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/21841">PR #21841</a>, <a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/21860">PR #21860</a>, <a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/21909">PR #21909</a>)</li>
+<li><input checked="" disabled="" type="checkbox"> <code>proc_open()</code> 拒绝 <code>$cwd</code> 中的 NUL 字节。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/21871">PR #21871</a>)</li>
+<li><input checked="" disabled="" type="checkbox"> <code>parse_str()</code> 拒绝 <code>$string</code> 中的 NUL 字节。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/21942">PR #21942</a>)</li>
+<li><input checked="" disabled="" type="checkbox"> <code>dl()</code> 拒绝 <code>$extension_filename</code> 中的 NUL 字节。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/22358">PR #22358</a>)</li>
+<li><input checked="" disabled="" type="checkbox"> <code>openlog()</code> 拒绝 <code>$prefix</code> 中的 NUL 字节。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/22366">PR #22366</a>)</li>
+<li><input checked="" disabled="" type="checkbox"> <code>pcntl_exec()</code> 验证 <code>$args</code> 必须是列表数组。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/21951">PR #21951</a>)</li>
+<li><input checked="" disabled="" type="checkbox"> ext&#x2F;intl 对不可转为字符串的时区对象抛出 <code>TypeError</code>。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/21990">PR #21990</a>)</li>
+<li><input checked="" disabled="" type="checkbox"> <code>IntlBreakIterator::getLocale()</code> 对无效 locale type 值抛出 <code>ValueError</code>。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/21997">PR #21997</a>)</li>
+<li><input checked="" disabled="" type="checkbox"> ext&#x2F;gmp 对 <code>**</code>、<code>&lt;&lt;</code>、<code>&gt;&gt;</code> 中会损失精度的浮点数右操作数发出弃用警告。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/21945">PR #21945</a>)</li>
 </ul>
 <h3 id="其他微小改动"><a href="#其他微小改动" class="headerlink" title="其他微小改动"></a>其他微小改动</h3><ul>
-<li>ext&#x2F;intl 在所有受支持的 ICU 版本上暴露 <code>Spoofchecker</code> 限制级别 API。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/22055">PR #22055</a>, <a target="_blank" rel="noopener" href="https://github.com/php/php-src/commit/edde16948a8729886b9cab0de1f69a189823bac2">commit edde169</a>)</li>
+<li><input checked="" disabled="" type="checkbox"> ext&#x2F;intl 在所有受支持的 ICU 版本上暴露 <code>Spoofchecker</code> 限制级别 API。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/22055">PR #22055</a>, <a target="_blank" rel="noopener" href="https://github.com/php/php-src/commit/edde16948a8729886b9cab0de1f69a189823bac2">commit edde169</a>)</li>
 </ul>
 <h3 id="性能优化"><a href="#性能优化" class="headerlink" title="性能优化"></a>性能优化</h3><ul>
-<li>ext&#x2F;intl 完成一批小优化。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/22069">PR #22069</a>)</li>
-<li>ext&#x2F;zip 在已知数组大小时预先初始化数组。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/21572">PR #21572</a>)</li>
-<li>ext&#x2F;uri 预先初始化错误数组。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/21560">PR #21560</a>)</li>
-<li>ext&#x2F;uri 优化 RFC3986 解析中的字符串分配。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/21550">PR #21550</a>)</li>
-<li>ext&#x2F;pgsql 追加换行时移除一次不必要的 NUL 字节复制。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/21597">PR #21597</a>)</li>
-<li>ext&#x2F;json 优化美化输出时的缩进逻辑。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/21474">PR #21474</a>)</li>
-<li>ext&#x2F;phar 优化 Phar 目录流中的临时字符串处理。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/22374">PR #22374</a>)</li>
+<li><input checked="" disabled="" type="checkbox"> ext&#x2F;intl 完成一批小优化。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/22069">PR #22069</a>)</li>
+<li><input checked="" disabled="" type="checkbox"> ext&#x2F;zip 在已知数组大小时预先初始化数组。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/21572">PR #21572</a>)</li>
+<li><input checked="" disabled="" type="checkbox"> ext&#x2F;uri 预先初始化错误数组。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/21560">PR #21560</a>)</li>
+<li><input checked="" disabled="" type="checkbox"> ext&#x2F;uri 优化 RFC3986 解析中的字符串分配。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/21550">PR #21550</a>)</li>
+<li><input checked="" disabled="" type="checkbox"> ext&#x2F;pgsql 追加换行时移除一次不必要的 NUL 字节复制。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/21597">PR #21597</a>)</li>
+<li><input checked="" disabled="" type="checkbox"> ext&#x2F;json 优化美化输出时的缩进逻辑。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/21474">PR #21474</a>)</li>
+<li><input checked="" disabled="" type="checkbox"> ext&#x2F;phar 优化 Phar 目录流中的临时字符串处理。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/22374">PR #22374</a>)</li>
 </ul>
 <h2 id="PHP-8-5-x"><a href="#PHP-8-5-x" class="headerlink" title="PHP 8.5.x"></a>PHP 8.5.x</h2><h3 id="Bug-修复-1"><a href="#Bug-修复-1" class="headerlink" title="Bug 修复"></a>Bug 修复</h3><ul>
-<li>ext&#x2F;intl 修复 <code>IntlListFormatter</code> 在 <code>format()</code> 失败后的对象错误状态。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/commit/946d687d8d5a18c65a547a8fbb80b93dbe3abcce">commit 946d687</a>)</li>
-<li>ext&#x2F;intl 修复日历日期&#x2F;时间 API 中越界的参数位置。（从 PHP 8.4 合并上来；<a target="_blank" rel="noopener" href="https://github.com/php/php-src/commit/10704f079f6087a51e3b579faca00d833141d889">commit 10704f0</a>）</li>
-<li>ext&#x2F;intl 在 <code>IntlDateFormatter</code> 错误信息中使用 <code>PATTERN</code> 常量名。（从 PHP 8.4 合并上来；<a target="_blank" rel="noopener" href="https://github.com/php/php-src/commit/2d784891fff579eef86e326bf969e3cf41dc5244">commit 2d78489</a>）</li>
-<li>ext&#x2F;intl 修复未初始化日历参数的参数位置。（从 PHP 8.4 合并上来；<a target="_blank" rel="noopener" href="https://github.com/php/php-src/commit/27d593e546c86a3aebe02b926d06f4e5dd7dd71f">commit 27d593e</a>）</li>
-<li>ext&#x2F;soap 修复解码 SOAP 数组索引时的整数溢出。（从 PHP 8.4 合并上来；<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/21963">PR #21963</a>）</li>
-<li>ext&#x2F;phar 在 <code>Phar::addEmptyDir()</code> 中更正确地保留 <code>.phar</code> 魔术目录。（从 PHP 8.4 合并上来；<a target="_blank" rel="noopener" href="https://github.com/php/php-src/commit/3064540134148ca469c4757ec658d690d8cd90b3">commit 3064540</a>）</li>
-<li>ext&#x2F;intl 为无效显示类型同步 <code>IntlTimeZone</code> 对象错误状态。（从 PHP 8.4 合并上来；<a target="_blank" rel="noopener" href="https://github.com/php/php-src/commit/9e68cf888ac8c8620349d684495c3c4ed52daabe">commit 9e68cf8</a>）</li>
-<li>ext&#x2F;intl 保持 <code>Spoofchecker</code> 限制级别 API 的 ICU 53 版本保护。（从 PHP 8.4 合并上来；<a target="_blank" rel="noopener" href="https://github.com/php/php-src/commit/edde16948a8729886b9cab0de1f69a189823bac2">commit edde169</a>）</li>
-<li>ext&#x2F;opcache 修复有类型按值返回时未解开引用包装的问题。（从 PHP 8.4 合并上来；<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/21973">PR #21973</a>）</li>
-<li>ext&#x2F;intl 修复 <code>transliterator_transliterate()</code> 错误信息中的参数位置。（从 PHP 8.4 合并上来；<a target="_blank" rel="noopener" href="https://github.com/php/php-src/commit/d8e741838a534d30e9e329c25d90592d988398a7">commit d8e7418</a>）</li>
-<li>ext&#x2F;phar 拒绝格式错误的 ZIP 额外字段，避免剩余长度下溢。（从 PHP 8.4 合并上来；<a target="_blank" rel="noopener" href="https://github.com/php/php-src/commit/657f0d6b21d1af9f1c0d80f890b42b09b04c9880">commit 657f0d6</a>, <a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/22330">PR #22330</a>）</li>
-<li>ext&#x2F;intl 让 <code>Locale::lookup()</code> 和 <code>locale_lookup()</code> 在语言标签无效时返回 <code>null</code>，而不是回退到默认 locale。(从 PHP 8.4 合并上来；<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/22306">PR #22306</a>)</li>
-<li>ext&#x2F;intl 让 <code>Collator::__construct()</code> 和 <code>Spoofchecker::__construct()</code> 在重复构造已初始化对象时抛出 <code>Error</code>，避免覆盖 ICU 句柄造成内存泄漏。（从 PHP 8.4 合并上来；<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/22386">PR #22386</a>）</li>
-<li>ext&#x2F;intl 让 <code>IntlListFormatter::__construct()</code> 在重复构造已初始化对象时抛出 <code>Error</code>，避免覆盖 ICU 句柄造成内存泄漏。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/22394">PR #22394</a>)</li>
-<li>ext&#x2F;phar 修复以 <code>.phar</code> 为前缀但不是魔术目录的目录处理。（从 PHP 8.4 合并上来；<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/22372">PR #22372</a>）</li>
-<li><code>base_convert()</code> 修复较小缓冲区长度下的转换结果错误。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/22406">PR #22406</a>)</li>
+<li><input checked="" disabled="" type="checkbox"> ext&#x2F;intl 修复 <code>IntlListFormatter</code> 在 <code>format()</code> 失败后的对象错误状态。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/commit/946d687d8d5a18c65a547a8fbb80b93dbe3abcce">commit 946d687</a>)</li>
+<li><input checked="" disabled="" type="checkbox"> ext&#x2F;intl 修复日历日期&#x2F;时间 API 中越界的参数位置。（从 PHP 8.4 合并上来；<a target="_blank" rel="noopener" href="https://github.com/php/php-src/commit/10704f079f6087a51e3b579faca00d833141d889">commit 10704f0</a>）</li>
+<li><input checked="" disabled="" type="checkbox"> ext&#x2F;intl 在 <code>IntlDateFormatter</code> 错误信息中使用 <code>PATTERN</code> 常量名。（从 PHP 8.4 合并上来；<a target="_blank" rel="noopener" href="https://github.com/php/php-src/commit/2d784891fff579eef86e326bf969e3cf41dc5244">commit 2d78489</a>）</li>
+<li><input checked="" disabled="" type="checkbox"> ext&#x2F;intl 修复未初始化日历参数的参数位置。（从 PHP 8.4 合并上来；<a target="_blank" rel="noopener" href="https://github.com/php/php-src/commit/27d593e546c86a3aebe02b926d06f4e5dd7dd71f">commit 27d593e</a>）</li>
+<li><input checked="" disabled="" type="checkbox"> ext&#x2F;soap 修复解码 SOAP 数组索引时的整数溢出。（从 PHP 8.4 合并上来；<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/21963">PR #21963</a>）</li>
+<li><input checked="" disabled="" type="checkbox"> ext&#x2F;phar 在 <code>Phar::addEmptyDir()</code> 中更正确地保留 <code>.phar</code> 魔术目录。（从 PHP 8.4 合并上来；<a target="_blank" rel="noopener" href="https://github.com/php/php-src/commit/3064540134148ca469c4757ec658d690d8cd90b3">commit 3064540</a>）</li>
+<li><input checked="" disabled="" type="checkbox"> ext&#x2F;intl 为无效显示类型同步 <code>IntlTimeZone</code> 对象错误状态。（从 PHP 8.4 合并上来；<a target="_blank" rel="noopener" href="https://github.com/php/php-src/commit/9e68cf888ac8c8620349d684495c3c4ed52daabe">commit 9e68cf8</a>）</li>
+<li><input checked="" disabled="" type="checkbox"> ext&#x2F;intl 保持 <code>Spoofchecker</code> 限制级别 API 的 ICU 53 版本保护。（从 PHP 8.4 合并上来；<a target="_blank" rel="noopener" href="https://github.com/php/php-src/commit/edde16948a8729886b9cab0de1f69a189823bac2">commit edde169</a>）</li>
+<li><input checked="" disabled="" type="checkbox"> ext&#x2F;opcache 修复有类型按值返回时未解开引用包装的问题。（从 PHP 8.4 合并上来；<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/21973">PR #21973</a>）</li>
+<li><input checked="" disabled="" type="checkbox"> ext&#x2F;intl 修复 <code>transliterator_transliterate()</code> 错误信息中的参数位置。（从 PHP 8.4 合并上来；<a target="_blank" rel="noopener" href="https://github.com/php/php-src/commit/d8e741838a534d30e9e329c25d90592d988398a7">commit d8e7418</a>）</li>
+<li><input checked="" disabled="" type="checkbox"> ext&#x2F;phar 拒绝格式错误的 ZIP 额外字段，避免剩余长度下溢。（从 PHP 8.4 合并上来；<a target="_blank" rel="noopener" href="https://github.com/php/php-src/commit/657f0d6b21d1af9f1c0d80f890b42b09b04c9880">commit 657f0d6</a>, <a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/22330">PR #22330</a>）</li>
+<li><input checked="" disabled="" type="checkbox"> ext&#x2F;intl 让 <code>Locale::lookup()</code> 和 <code>locale_lookup()</code> 在语言标签无效时返回 <code>null</code>，而不是回退到默认 locale。(从 PHP 8.4 合并上来；<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/22306">PR #22306</a>)</li>
+<li><input checked="" disabled="" type="checkbox"> ext&#x2F;intl 让 <code>Collator::__construct()</code> 和 <code>Spoofchecker::__construct()</code> 在重复构造已初始化对象时抛出 <code>Error</code>，避免覆盖 ICU 句柄造成内存泄漏。（从 PHP 8.4 合并上来；<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/22386">PR #22386</a>）</li>
+<li><input checked="" disabled="" type="checkbox"> ext&#x2F;intl 让 <code>IntlListFormatter::__construct()</code> 在重复构造已初始化对象时抛出 <code>Error</code>，避免覆盖 ICU 句柄造成内存泄漏。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/22394">PR #22394</a>)</li>
+<li><input checked="" disabled="" type="checkbox"> ext&#x2F;phar 修复以 <code>.phar</code> 为前缀但不是魔术目录的目录处理。（从 PHP 8.4 合并上来；<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/22372">PR #22372</a>）</li>
+<li><input checked="" disabled="" type="checkbox"> <code>base_convert()</code> 修复较小缓冲区长度下的转换结果错误。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/22406">PR #22406</a>)</li>
 </ul>
 <h2 id="PHP-8-4-x"><a href="#PHP-8-4-x" class="headerlink" title="PHP 8.4.x"></a>PHP 8.4.x</h2><h3 id="Bug-修复-2"><a href="#Bug-修复-2" class="headerlink" title="Bug 修复"></a>Bug 修复</h3><ul>
-<li>ext&#x2F;intl 修复日历日期&#x2F;时间 API 中越界的参数位置。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/commit/10704f079f6087a51e3b579faca00d833141d889">commit 10704f0</a>)</li>
-<li>ext&#x2F;intl 在 <code>IntlDateFormatter</code> 错误信息中使用 <code>PATTERN</code> 常量名。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/commit/2d784891fff579eef86e326bf969e3cf41dc5244">commit 2d78489</a>)</li>
-<li>ext&#x2F;intl 修复未初始化日历参数的参数位置。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/commit/27d593e546c86a3aebe02b926d06f4e5dd7dd71f">commit 27d593e</a>)</li>
-<li>ext&#x2F;soap 修复解码 SOAP 数组索引时的整数溢出。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/21963">PR #21963</a>)</li>
-<li>ext&#x2F;phar 在 <code>Phar::addEmptyDir()</code> 中更正确地保留 <code>.phar</code> 魔术目录。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/commit/3064540134148ca469c4757ec658d690d8cd90b3">commit 3064540</a>)</li>
-<li>ext&#x2F;intl 为无效显示类型同步 <code>IntlTimeZone</code> 对象错误状态。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/commit/9e68cf888ac8c8620349d684495c3c4ed52daabe">commit 9e68cf8</a>)</li>
-<li>ext&#x2F;intl 保持 <code>Spoofchecker</code> 限制级别 API 的 ICU 53 版本保护。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/commit/edde16948a8729886b9cab0de1f69a189823bac2">commit edde169</a>)</li>
-<li>ext&#x2F;opcache 修复有类型按值返回时未解开引用包装的问题。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/21973">PR #21973</a>)</li>
-<li>ext&#x2F;intl 修复 <code>transliterator_transliterate()</code> 错误信息中的参数位置。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/commit/d8e741838a534d30e9e329c25d90592d988398a7">commit d8e7418</a>)</li>
-<li>ext&#x2F;phar 拒绝格式错误的 ZIP 额外字段，避免剩余长度下溢。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/commit/657f0d6b21d1af9f1c0d80f890b42b09b04c9880">commit 657f0d6</a>, <a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/22330">PR #22330</a>)</li>
-<li>ext&#x2F;intl 让 <code>Locale::lookup()</code> 和 <code>locale_lookup()</code> 在语言标签无效时返回 <code>null</code>，而不是回退到默认 locale。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/22306">PR #22306</a>)</li>
-<li>ext&#x2F;intl 让 <code>Collator::__construct()</code> 和 <code>Spoofchecker::__construct()</code> 在重复构造已初始化对象时抛出 <code>Error</code>，避免覆盖 ICU 句柄造成内存泄漏。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/22386">PR #22386</a>)</li>
-<li>ext&#x2F;phar 修复以 <code>.phar</code> 为前缀但不是魔术目录的目录处理。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/22372">PR #22372</a>)</li>
+<li><input checked="" disabled="" type="checkbox"> ext&#x2F;intl 修复日历日期&#x2F;时间 API 中越界的参数位置。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/commit/10704f079f6087a51e3b579faca00d833141d889">commit 10704f0</a>)</li>
+<li><input checked="" disabled="" type="checkbox"> ext&#x2F;intl 在 <code>IntlDateFormatter</code> 错误信息中使用 <code>PATTERN</code> 常量名。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/commit/2d784891fff579eef86e326bf969e3cf41dc5244">commit 2d78489</a>)</li>
+<li><input checked="" disabled="" type="checkbox"> ext&#x2F;intl 修复未初始化日历参数的参数位置。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/commit/27d593e546c86a3aebe02b926d06f4e5dd7dd71f">commit 27d593e</a>)</li>
+<li><input checked="" disabled="" type="checkbox"> ext&#x2F;soap 修复解码 SOAP 数组索引时的整数溢出。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/21963">PR #21963</a>)</li>
+<li><input checked="" disabled="" type="checkbox"> ext&#x2F;phar 在 <code>Phar::addEmptyDir()</code> 中更正确地保留 <code>.phar</code> 魔术目录。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/commit/3064540134148ca469c4757ec658d690d8cd90b3">commit 3064540</a>)</li>
+<li><input checked="" disabled="" type="checkbox"> ext&#x2F;intl 为无效显示类型同步 <code>IntlTimeZone</code> 对象错误状态。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/commit/9e68cf888ac8c8620349d684495c3c4ed52daabe">commit 9e68cf8</a>)</li>
+<li><input checked="" disabled="" type="checkbox"> ext&#x2F;intl 保持 <code>Spoofchecker</code> 限制级别 API 的 ICU 53 版本保护。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/commit/edde16948a8729886b9cab0de1f69a189823bac2">commit edde169</a>)</li>
+<li><input checked="" disabled="" type="checkbox"> ext&#x2F;opcache 修复有类型按值返回时未解开引用包装的问题。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/21973">PR #21973</a>)</li>
+<li><input checked="" disabled="" type="checkbox"> ext&#x2F;intl 修复 <code>transliterator_transliterate()</code> 错误信息中的参数位置。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/commit/d8e741838a534d30e9e329c25d90592d988398a7">commit d8e7418</a>)</li>
+<li><input checked="" disabled="" type="checkbox"> ext&#x2F;phar 拒绝格式错误的 ZIP 额外字段，避免剩余长度下溢。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/commit/657f0d6b21d1af9f1c0d80f890b42b09b04c9880">commit 657f0d6</a>, <a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/22330">PR #22330</a>)</li>
+<li><input checked="" disabled="" type="checkbox"> ext&#x2F;intl 让 <code>Locale::lookup()</code> 和 <code>locale_lookup()</code> 在语言标签无效时返回 <code>null</code>，而不是回退到默认 locale。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/22306">PR #22306</a>)</li>
+<li><input checked="" disabled="" type="checkbox"> ext&#x2F;intl 让 <code>Collator::__construct()</code> 和 <code>Spoofchecker::__construct()</code> 在重复构造已初始化对象时抛出 <code>Error</code>，避免覆盖 ICU 句柄造成内存泄漏。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/22386">PR #22386</a>)</li>
+<li><input checked="" disabled="" type="checkbox"> ext&#x2F;phar 修复以 <code>.phar</code> 为前缀但不是魔术目录的目录处理。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/22372">PR #22372</a>)</li>
 </ul>
 <h1 id="TODO"><a href="#TODO" class="headerlink" title="TODO"></a>TODO</h1><h2 id="Zend-内核"><a href="#Zend-内核" class="headerlink" title="Zend 内核"></a>Zend 内核</h2><h3 id="新-API"><a href="#新-API" class="headerlink" title="新 API"></a>新 API</h3><ul>
 <li><input disabled="" type="checkbox"> 添加 inline 的 helper function，分别是<ul>
@@ -503,3 +503,4 @@
 
 </body>
 </html>
+
