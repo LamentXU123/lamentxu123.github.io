@@ -126,6 +126,7 @@ function setupPhpSrcContributionStats() {
   function setStatus(message) {
     if (status) {
       status.textContent = message;
+      status.style.display = "";
     }
   }
 
