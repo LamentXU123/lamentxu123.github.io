@@ -1,12 +1,21 @@
 name: Update php-src stats
 
 on:
+  push:
+    branches:
+      - main
+    paths-ignore:
+      - "php-src-stats.json"
   schedule:
     - cron: "17 * * * *"
   workflow_dispatch:
 
 permissions:
   contents: write
+
+concurrency:
+  group: php-src-stats
+  cancel-in-progress: false
 
 jobs:
   update:

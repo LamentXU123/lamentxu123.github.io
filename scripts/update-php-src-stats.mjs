@@ -16,6 +16,10 @@ const commitAuthors = [
   "108666168+LamentXU123@users.noreply.github.com",
   "1372449351@qq.com"
 ];
+const refQueries = (process.env.PHP_SRC_STATS_REFS || "")
+  .split(",")
+  .map((ref) => ref.trim())
+  .filter(Boolean);
 
 if (!token) {
   throw new Error("GITHUB_TOKEN or GH_TOKEN is required.");
@@ -27,24 +31,6 @@ const headers = {
   "User-Agent": "lamentxu-php-src-stats"
 };
 
-async function graphql(query, variables) {
-  const response = await fetch("https://api.github.com/graphql", {
-    method: "POST",
-    headers: {
-      ...headers,
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify({ query, variables })
-  });
-  const body = await response.json();
-
-  if (!response.ok || body.errors) {
-    throw new Error(`GitHub GraphQL failed: ${JSON.stringify(body.errors || body)}`);
-  }
-
-  return body.data;
-}
-
 async function restJson(url) {
   const response = await fetch(url, { headers });
   const body = await response.json();
@@ -53,88 +39,111 @@ async function restJson(url) {
     throw new Error(`GitHub REST failed: ${JSON.stringify(body)}`);
   }
 
-  return body;
+  return {
+    body,
+    link: response.headers.get("link") || ""
+  };
 }
 
-const pullRequestQuery = `
-  query($query: String!, $cursor: String) {
-    search(type: ISSUE, first: 100, after: $cursor, query: $query) {
-      pageInfo {
-        hasNextPage
-        endCursor
-      }
-      nodes {
-        ... on PullRequest {
-          number
-          additions
-          deletions
-          mergedAt
+function getNextUrl(link) {
+  if (!link) {
+    return null;
+  }
+
+  for (const part of link.split(",")) {
+    const [urlPart, relPart] = part.split(";");
+    if (relPart && relPart.includes('rel="next"')) {
+      return urlPart.trim().replace(/^<|>$/g, "");
+    }
+  }
+
+  return null;
+}
+
+async function fetchCommitsForAuthor(commitAuthor, ref) {
+  const params = new URLSearchParams({
+    author: commitAuthor,
+    per_page: "100"
+  });
+
+  if (ref) {
+    params.set("sha", ref);
+  }
+
+  let url = `https://api.github.com/repos/${owner}/${repo}/commits?${params}`;
+  const commits = [];
+
+  while (url) {
+    const { body, link } = await restJson(url);
+    commits.push(...(body || []));
+    url = getNextUrl(link);
+  }
+
+  return commits;
+}
+
+async function fetchAuthoredCommits() {
+  const refs = refQueries.length ? refQueries : [null];
+  const commits = new Map();
+
+  for (const ref of refs) {
+    for (const commitAuthor of commitAuthors) {
+      const results = await fetchCommitsForAuthor(commitAuthor, ref);
+
+      for (const commit of results) {
+        if (!commits.has(commit.sha)) {
+          commits.set(commit.sha, {
+            sha: commit.sha,
+            url: commit.url,
+            author: commitAuthor,
+            ref
+          });
         }
       }
     }
   }
-`;
 
-let cursor = null;
+  return Array.from(commits.values());
+}
+
+async function fetchCommitStats(commit) {
+  const { body } = await restJson(commit.url);
+  return body.stats || { additions: 0, deletions: 0 };
+}
+
+const commits = await fetchAuthoredCommits();
 let additions = 0;
 let deletions = 0;
-let mergedPrs = 0;
-let latestMergedAt = null;
-const pullSearchQuery = `repo:${owner}/${repo} author:${author} is:pr is:merged`;
+let completed = 0;
 
-do {
-  const data = await graphql(pullRequestQuery, { query: pullSearchQuery, cursor });
-  const page = data.search;
+for (const commit of commits) {
+  const commitStats = await fetchCommitStats(commit);
+  additions += commitStats.additions || 0;
+  deletions += commitStats.deletions || 0;
+  completed++;
+  process.stdout.write(`\rFetched php-src commit stats ${completed}/${commits.length}`);
+}
 
-  for (const pull of page.nodes) {
-    additions += pull.additions || 0;
-    deletions += pull.deletions || 0;
-    mergedPrs++;
-
-    if (pull.mergedAt && (!latestMergedAt || pull.mergedAt > latestMergedAt)) {
-      latestMergedAt = pull.mergedAt;
-    }
-  }
-
-  cursor = page.pageInfo.hasNextPage ? page.pageInfo.endCursor : null;
-} while (cursor);
-
-const commitShas = new Set();
-for (const commitAuthor of commitAuthors) {
-  let page = 1;
-
-  while (true) {
-    const query = encodeURIComponent(`repo:${owner}/${repo} author:${commitAuthor}`);
-    const result = await restJson(`https://api.github.com/search/commits?q=${query}&per_page=100&page=${page}`);
-
-    for (const item of result.items || []) {
-      if (item.sha) {
-        commitShas.add(item.sha);
-      }
-    }
-
-    if (!result.items || result.items.length < 100) {
-      break;
-    }
-
-    page++;
-  }
+if (commits.length) {
+  process.stdout.write("\n");
 }
 
 const stats = {
   owner,
   repo,
   author,
+  authors: commitAuthors,
+  method: "commits",
+  refs: refQueries.length ? refQueries : ["default"],
   additions,
   deletions,
-  prs: commitShas.size,
-  label: "\u63d0\u4ea4",
-  source: "github graphql merged pull request additions/deletions + github commit search count",
-  mergedPrs,
-  latestMergedAt,
+  commits: commits.length,
+  prs: commits.length,
+  label: "Commits",
+  source: "github rest commit stats by author",
   updatedAt: new Date().toISOString()
 };
 
 await fs.writeFile(output, `${JSON.stringify(stats, null, 2)}\n`, "utf8");
 console.log(`Updated ${path.relative(process.cwd(), output)}`);
-console.log(`additions=${additions} deletions=${deletions} commits=${commitShas.size} merged_prs=${mergedPrs}`);
+console.log(`additions=${additions} deletions=${deletions} commits=${commits.length}`);
