@@ -465,10 +465,10 @@ body td {
   line-height: 1.2;
 }
 .php-src-stats__value[data-stat="additions"] {
-  color: #2da44e;
+  color: #2da44e !important;
 }
 .php-src-stats__value[data-stat="deletions"] {
-  color: #cf222e;
+  color: #cf222e !important;
 }
 .php-src-stats__name {
   display: block;
