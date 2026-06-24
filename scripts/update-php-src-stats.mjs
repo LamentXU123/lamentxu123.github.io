@@ -1,4 +1,4 @@
-import fs from "node:fs/promises";
+﻿import fs from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -128,7 +128,7 @@ const stats = {
   additions,
   deletions,
   prs: commitShas.size,
-  label: "\u63d0\u4ea4",
+  label: "提交",
   source: "github graphql merged pull request additions/deletions + github commit search count",
   mergedPrs,
   latestMergedAt,

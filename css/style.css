@@ -446,6 +446,10 @@ body td {
   color: #2bbc8a;
   font-weight: 700;
 }
+.php-src-stats__label a {
+  color: #2da44e;
+  font-weight: 700;
+}
 .php-src-stats__grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
