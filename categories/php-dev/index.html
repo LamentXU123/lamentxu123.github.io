@@ -143,6 +143,7 @@
 <li><input disabled="" type="checkbox"> <em>等待披露</em></li>
 </ul>
 <h3 id="Bug-修复"><a href="#Bug-修复" class="headerlink" title="Bug 修复"></a>Bug 修复</h3><ul>
+<li>ext&#x2F;intl 修复 <code>IntlIterator::current()</code> 在无效迭代器上返回 <code>UNKNOWN:0</code>，现返回 <code>NULL</code>。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/22495">PR #22495</a>)</li>
 <li>ext&#x2F;intl 在 64 位平台上让 <code>MessageFormatter::parse()</code> 将 <code>PHP_INT_MIN</code> 作为 <code>int</code> 返回。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/22131">PR #22131</a>)</li>
 <li>ext&#x2F;soap 拒绝超出 XML Schema integer 范围的值。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/22178">PR #22178</a>)</li>
 <li>ext&#x2F;intl 修复 <code>UConverter::transcode()</code> 替换字符长度截断。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/22199">PR #22199</a>)</li>
