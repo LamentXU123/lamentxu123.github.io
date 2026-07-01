@@ -4178,38 +4178,6 @@
       </categories>
   </entry>
   <entry>
-    <title>leetcode 刷题</title>
-    <url>/posts/2026-05-06-leetcode/</url>
-    <content><![CDATA[<p>由于本人在从 C 迁移到 python，所有的题解将为 python 实现。此博客将不断更新。题库即为 leetcode 最热 100 题。</p>
-<blockquote>
-<p>Endless inferno…</p>
-</blockquote>
-<h1 id="哈希表-HashTable"><a href="#哈希表-HashTable" class="headerlink" title="哈希表 HashTable"></a>哈希表 HashTable</h1><p>python 中没有所谓的 HashTable 类型所以需要自定义。HashTable 对 python 这种高级语言来说更像是一种抽象的思想。</p>
-<p>其实，在本人看来 C 中的 HashTable 就是 python 中 Dict 类型的子集。可能有误。</p>
-<h2 id="两数之和-简单"><a href="#两数之和-简单" class="headerlink" title="两数之和 - 简单"></a>两数之和 - 简单</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">给定一个整数数组 nums 和一个整数目标值 target，请你在该数组中找出 和为目标值 target  的那 两个 整数，并返回它们的数组下标。</span><br><span class="line"></span><br><span class="line">你可以假设每种输入只会对应一个答案，并且你不能使用两次相同的元素。</span><br><span class="line"></span><br><span class="line">你可以按任意顺序返回答案。</span><br></pre></td></tr></table></figure>
-
-<p>此处的哈希表实现很明显，是以索引为 value，值为 key，然后遍历值即可在 O(n) 时间复杂度下解决。此例中我们可以动态地向表中添加值。最坏条件下，在最后一次遍历中必然能求解。</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">class Solution:</span><br><span class="line">    def twoSum(self, nums: List[int], target: int) -&gt; List[int]:</span><br><span class="line">        hash_map = &#123;&#125; </span><br><span class="line">        for i, num in enumerate(nums):</span><br><span class="line">            complement = target - num</span><br><span class="line">            if complement in hash_map:</span><br><span class="line">                return [hash_map[complement], i]</span><br><span class="line">            hash_map[num] = i</span><br></pre></td></tr></table></figure>
-
-<h2 id="字母异位词分组-中等"><a href="#字母异位词分组-中等" class="headerlink" title="字母异位词分组 - 中等"></a>字母异位词分组 - 中等</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">给你一个字符串数组，请你将字母异位词组合在一起。可以按任意顺序返回结果列表。</span><br><span class="line">（字母异位词是通过重新排列不同单词或短语的字母而形成的单词或短语，并使用所有原字母一次） </span><br></pre></td></tr></table></figure>
-
-<p>这里最一开始想到的是元组 set 类型作为哈希表的 key。因为元组具有无序性，这就很适合作为字母异位词的 Hash。但是，由于元组具有唯一性。对于含有重复字母的单词无法正确判断。</p>
-<p>因此这里采用 sorted() 方法求字符串 Hash。</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">from collections import defaultdict</span><br><span class="line">class Solution:</span><br><span class="line">    def groupAnagrams(self, strs: List[str]) -&gt; List[List[str]]:</span><br><span class="line">        hashmap = defaultdict(list)</span><br><span class="line">        for i in strs:</span><br><span class="line">            hashmap[&#x27;&#x27;.join(sorted(i))].append(i)</span><br><span class="line">        return list(hashmap.values())</span><br></pre></td></tr></table></figure>
-
-<p>注：defaultdict 在 python 的 HashTable 的用例中是极其有用的。</p>
-<h2 id="最长连续序列-中等"><a href="#最长连续序列-中等" class="headerlink" title="最长连续序列 - 中等"></a>最长连续序列 - 中等</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">给定一个未排序的整数数组 nums ，找出数字连续的最长序列（不要求序列元素在原数组中连续）的长度。</span><br><span class="line"></span><br><span class="line">请你设计并实现时间复杂度为 O(n) 的算法解决此问题。</span><br></pre></td></tr></table></figure>
-
-<p>首先对于此题而言，给定列表中重复的数字毫无意义。因此我们可以利用 set 的方式去除重复数字达成小优化。</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">from typing import List</span><br><span class="line"></span><br><span class="line">class Solution:</span><br><span class="line">    def longestConsecutive(self, nums: List[int]) -&gt; int:</span><br><span class="line">        if not nums:</span><br><span class="line">            return 0</span><br><span class="line">        </span><br><span class="line">        num_set = set(nums)</span><br><span class="line">        max_len = 0</span><br><span class="line">        </span><br><span class="line">        for num in num_set:</span><br><span class="line">            if num - 1 not in num_set:</span><br><span class="line">                current_num = num</span><br><span class="line">                current_len = 1</span><br><span class="line">                while current_num + 1 in num_set:</span><br><span class="line">                    current_num += 1</span><br><span class="line">                    current_len += 1</span><br><span class="line">                </span><br><span class="line">                max_len = max(max_len, current_len)</span><br><span class="line">        </span><br><span class="line">        return max_len</span><br></pre></td></tr></table></figure>
-
-<p>呃，没看出来为什么要用 HashTable 的思想。直接遍历找就行了。</p>
-]]></content>
-      <categories>
-        <category>其他技术文章</category>
-      </categories>
-  </entry>
-  <entry>
     <title>杂感</title>
     <url>/posts/2026-04-05-19823505/</url>
     <content><![CDATA[<p>最近快高考了。我呢，只要还没有停止思考，总会有点想写作的欲望。然而激烈的备考流程让我几乎无法投入时间写作，甚至连进行长时间的思考也是一种奢侈。故开一篇文章写点无所谓想到的事和感情，以记录我在成年前的那些日子。</p>
@@ -4347,7 +4315,7 @@
   <div class="php-src-stats__meta" data-stat="status">正在加载统计...</div>
 </div>
 
-<h1 id="DONE"><a href="#DONE" class="headerlink" title="DONE"></a>DONE</h1><p>以下是我对 PHP 做过或正在推进的用户可见行为变化。（更新于 2026-06-24 00:00 CST）</p>
+<h1 id="DONE"><a href="#DONE" class="headerlink" title="DONE"></a>DONE</h1><p>以下是我对 PHP 做过或正在推进的<strong>用户可见行为</strong>变化（不包含重构）。（更新于 2026-07-01 00:00 CST）</p>
 <h2 id="PHP-8-6-x"><a href="#PHP-8-6-x" class="headerlink" title="PHP 8.6.x"></a>PHP 8.6.x</h2><h3 id="RFC"><a href="#RFC" class="headerlink" title="RFC"></a>RFC</h3><ul>
 <li><input checked="" disabled="" type="checkbox"> <code>trim</code> &#x2F; <code>ltrim</code> &#x2F; <code>rtrim</code> &#x2F; <code>chop</code> 支持换页符。(<a href="https://github.com/php/php-src/pull/20788">PR #20788</a>, <a href="https://wiki.php.net/rfc/trim_form_feed">RFC</a>, <a href="https://php.watch/versions/8.6/trim-form-feed">PHP.WATCH</a>)</li>
 <li><input checked="" disabled="" type="checkbox"> 为 intl 添加 <code>Locale::getDisplayKeyword()</code>（别名 <code>locale_get_display_keyword()</code>） 和 <code>Locale::getDisplayKeywordValue()</code> （别名 <code>locale_get_display_keyword_value()</code>）。(<a href="https://github.com/php/php-src/pull/22264">PR #22264</a>, <a href="https://wiki.php.net/rfc/getdisplaykeyword_and_getdisplaykeywordvalue">RFC</a>)</li>
@@ -4364,6 +4332,7 @@
 <li>ext&#x2F;intl 修复 <code>UConverter::transcode()</code> 替换字符长度截断。(<a href="https://github.com/php/php-src/pull/22199">PR #22199</a>)</li>
 <li>ext&#x2F;intl 在 <code>IntlNumberRangeFormatter::format()</code> 中保留 64 位整数精度。(<a href="https://github.com/php/php-src/pull/22202">PR #22202</a>)</li>
 <li>ext&#x2F;intl 修复 <code>ResourceBundle</code> 禁用回退时的错误信息。(<a href="https://github.com/php/php-src/pull/22236">PR #22236</a>)</li>
+<li>ext&#x2F;standard <code>phpcredits()</code> 修复 QA 团队标题对齐问题。(<a href="https://github.com/php/php-src/pull/22501">PR #22501</a>)</li>
 <li>ext&#x2F;intl 修复 <code>IntlListFormatter</code> 在 <code>format()</code> 失败后的对象错误状态。（从 PHP 8.5 合并上来；<a href="https://github.com/php/php-src/commit/946d687d8d5a18c65a547a8fbb80b93dbe3abcce">commit 946d687</a>）</li>
 <li>ext&#x2F;intl 修复日历日期&#x2F;时间 API 中越界的参数位置。（从 PHP 8.5 合并上来；<a href="https://github.com/php/php-src/commit/10704f079f6087a51e3b579faca00d833141d889">commit 10704f0</a>）</li>
 <li>ext&#x2F;intl 在 <code>IntlDateFormatter</code> 错误信息中使用 <code>PATTERN</code> 常量名。（从 PHP 8.5 合并上来；<a href="https://github.com/php/php-src/commit/2d784891fff579eef86e326bf969e3cf41dc5244">commit 2d78489</a>）</li>
@@ -4400,7 +4369,7 @@
 <li><code>shm_attach()</code> 拒绝超出 <code>key_t</code> 长度的值。(<a href="https://github.com/php/php-src/pull/22423">PR #22423</a>)</li>
 <li><code>number_format()</code> 拒绝过大的 <code>$decimals</code> 参数，避免 OOM。(<a href="https://github.com/php/php-src/pull/22435">PR #22435</a>)</li>
 </ul>
-<h3 id="性能优化"><a href="#性能优化" class="headerlink" title="性能优化"></a>性能优化</h3><ul>
+<h3 id="其他重大改动-1"><a href="#其他重大改动-1" class="headerlink" title="其他重大改动"></a>其他重大改动</h3><ul>
 <li>ext&#x2F;intl 完成一批小优化。(<a href="https://github.com/php/php-src/pull/22069">PR #22069</a>)</li>
 <li>ext&#x2F;zip 在已知数组大小时预先初始化数组。(<a href="https://github.com/php/php-src/pull/21572">PR #21572</a>)</li>
 <li>ext&#x2F;uri 预先初始化错误数组。(<a href="https://github.com/php/php-src/pull/21560">PR #21560</a>)</li>
@@ -4471,7 +4440,7 @@
 </li>
 </ul>
 <p>用 <code>zval_try_get_*</code> 替换 <code>zval_get_*</code>。<code>zval_get_*</code>系列的函数，比如 <code>zval_get_long</code>，会直接强制把 <code>zval</code> 类型的参数转化为 <code>long</code>。这个强转甚至是静默的。所以在我看来任何人都不应该用这个函数（它应该被 deprecated）。我们应当审计所有该函数的应用场景并换成更严格的 <code>zval_try_get_*</code>，以在强制转换时抛出 TypeError&#x2F;ValueError。</p>
-<h2 id="性能优化-1"><a href="#性能优化-1" class="headerlink" title="性能优化"></a>性能优化</h2><ul>
+<h2 id="性能优化"><a href="#性能优化" class="headerlink" title="性能优化"></a>性能优化</h2><ul>
 <li><input disabled="" type="checkbox"> 对以下函数<ul>
 <li><input checked="" disabled="" type="checkbox"> 优化 ext&#x2F;zip php_zip_glob</li>
 <li><input checked="" disabled="" type="checkbox"> 优化 ext&#x2F;zip php_zip_pcre</li>
