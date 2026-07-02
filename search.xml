@@ -4293,7 +4293,7 @@
   <entry>
     <title>PHP 语言开发日志</title>
     <url>/posts/2026-04-23-php/</url>
-    <content><![CDATA[<p>作为 ext&#x2F;intl 的维护者（php core developer），我从事 php 语言的内核维护和开发工作有一段时间了。一直有很多想法和经验总是忘记。遂写一篇类似与小记的博客记录一下。</p>
+    <content><![CDATA[<p>作为 php core developer，我从事 php 语言的内核维护和开发工作有一段时间了。一直有很多想法和经验总是忘记。遂写一篇类似与小记的博客记录一下。</p>
 <span id="more"></span>
 
 <div id="php-src-contribution-stats" class="php-src-stats" data-source="/php-src-stats.json">
@@ -4825,6 +4825,15 @@
 ]]></content>
       <categories>
         <category>其他技术文章</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>不要陷入“反AI”的炒作浪潮里</title>
+    <url>/posts/2026-07-01-dont-fall-into-the-anti-AI-hype/</url>
+    <content><![CDATA[<p>AI 的出现极大地改善了生产力。</p>
+]]></content>
+      <categories>
+        <category>杂七杂八的文字</category>
       </categories>
   </entry>
 </search>
