@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="当今的程序员对 AI 编写的代码大多带有一种厌恶的情绪。或者说，我们经常看到人以 “老艺术家” 的名号贬低其他用 AI agent 实现开发任务的人。 对此，我想说：不要陷入 “反AI” 的炒作浪潮里。 人们有盲目贬低 AI 编程的动机AI 作为一个新的生产工具（是的，我不打算把它叫做智能体）极大地改变了程序员编写软件的方式。然而，我们不难发现 AI 编写代码的技术有以下几个事实： a) AI 编">
+<meta property="og:type" content="article">
+<meta property="og:title" content="不要陷入“反AI”的炒作浪潮里">
+<meta property="og:url" content="https://lamentxu.top/posts/2026-07-01-dont-fall-into-the-anti-AI-hype/index.html">
+<meta property="og:site_name" content="LamentXU">
+<meta property="og:description" content="当今的程序员对 AI 编写的代码大多带有一种厌恶的情绪。或者说，我们经常看到人以 “老艺术家” 的名号贬低其他用 AI agent 实现开发任务的人。 对此，我想说：不要陷入 “反AI” 的炒作浪潮里。 人们有盲目贬低 AI 编程的动机AI 作为一个新的生产工具（是的，我不打算把它叫做智能体）极大地改变了程序员编写软件的方式。然而，我们不难发现 AI 编写代码的技术有以下几个事实： a) AI 编">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2026-06-01T16:52:00.000Z">
+<meta property="article:modified_time" content="2026-06-01T16:52:00.000Z">
+<meta property="article:author" content="LamentXU">
+<meta property="article:tag" content="CTF, Web Security, PHP, Python, Writeup">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/cnblogs-avatar.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/cnblogs-avatar.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/cnblogs-avatar.png">
+        
+      
+    
+    <!-- title -->
+    <title>不要陷入“反AI”的炒作浪潮里</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+      <link rel="alternate" href="/atom.xml" title="LamentXU" type="application/atom+xml" />
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 8.1.2"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="顶部" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/categories/php-dev/">php 语言开发日志</a></li><!--
+     --><!--
+       --><li><a href="/categories/tech/">其他技术文章</a></li><!--
+     --><!--
+       --><li><a href="/categories/miscellany/">杂七杂八的文字</a></li><!--
+     --><!--
+       --><li><a href="/search/">搜索</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="上一篇" href="/posts/2026-06-02-20259045/"><i class="fa-solid fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="下一篇" href="/posts/2026-05-29-secpipw-pypi/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="返回顶部" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="分享文章" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://lamentxu.top/posts/2026-07-01-dont-fall-into-the-anti-AI-hype/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://lamentxu.top/posts/2026-07-01-dont-fall-into-the-anti-AI-hype/&text=不要陷入“反AI”的炒作浪潮里"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://lamentxu.top/posts/2026-07-01-dont-fall-into-the-anti-AI-hype/&title=不要陷入“反AI”的炒作浪潮里"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://lamentxu.top/posts/2026-07-01-dont-fall-into-the-anti-AI-hype/&is_video=false&description=不要陷入“反AI”的炒作浪潮里"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=不要陷入“反AI”的炒作浪潮里&body=Check out this article: https://lamentxu.top/posts/2026-07-01-dont-fall-into-the-anti-AI-hype/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://lamentxu.top/posts/2026-07-01-dont-fall-into-the-anti-AI-hype/&title=不要陷入“反AI”的炒作浪潮里"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://lamentxu.top/posts/2026-07-01-dont-fall-into-the-anti-AI-hype/&title=不要陷入“反AI”的炒作浪潮里"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://lamentxu.top/posts/2026-07-01-dont-fall-into-the-anti-AI-hype/&title=不要陷入“反AI”的炒作浪潮里"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://lamentxu.top/posts/2026-07-01-dont-fall-into-the-anti-AI-hype/&title=不要陷入“反AI”的炒作浪潮里"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://lamentxu.top/posts/2026-07-01-dont-fall-into-the-anti-AI-hype/&name=不要陷入“反AI”的炒作浪潮里&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://lamentxu.top/posts/2026-07-01-dont-fall-into-the-anti-AI-hype/&t=不要陷入“反AI”的炒作浪潮里"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    
+    
+      <div id="toc">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BA%BA%E4%BB%AC%E6%9C%89%E7%9B%B2%E7%9B%AE%E8%B4%AC%E4%BD%8E-AI-%E7%BC%96%E7%A8%8B%E7%9A%84%E5%8A%A8%E6%9C%BA"><span class="toc-number">1.</span> <span class="toc-text">人们有盲目贬低 AI 编程的动机</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%8A%80%E6%9C%AF%E9%83%A8%E8%90%BD%E4%B8%BB%E4%B9%89"><span class="toc-number">2.</span> <span class="toc-text">技术部落主义</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#AI%EF%BC%8C%E5%BC%80%E6%BA%90%E5%92%8C%E6%8A%80%E6%9C%AF%E9%83%A8%E8%90%BD%E4%B8%BB%E4%B9%89%E8%80%85"><span class="toc-number">3.</span> <span class="toc-text">AI，开源和技术部落主义者</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E2%80%9C%E8%80%81%E8%89%BA%E6%9C%AF%E5%AE%B6%E2%80%9D%EF%BC%8C%E8%80%81%E8%89%BA%E6%9C%AF%E5%AE%B6%E5%92%8C%E8%80%81%E8%89%BA%E6%9C%AF%E5%AE%B6%E4%BB%AC"><span class="toc-number">4.</span> <span class="toc-text">“老艺术家”，老艺术家和老艺术家们</span></a></li></ol>
+      </div>
+    
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        不要陷入“反AI”的炒作浪潮里
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">LamentXU</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2026-06-01T16:52:00.000Z" class="dt-published" itemprop="datePublished">2026-06-02</time>
+        
+        (Updated: <time datetime="2026-06-01T16:52:00.000Z" class="dt-updated" itemprop="dateModified">2026-06-02</time>)
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fa-solid fa-archive"></i>
+        <a class="category-link" href="/categories/miscellany/">杂七杂八的文字</a>
+    </div>
+
+
+      
+
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <p>当今的程序员对 AI 编写的代码大多带有一种厌恶的情绪。或者说，我们经常看到人以 “老艺术家” 的名号贬低其他用 AI agent 实现开发任务的人。</p>
+<p><strong>对此，我想说：不要陷入 “反AI” 的炒作浪潮里。</strong></p>
+<h1 id="人们有盲目贬低-AI-编程的动机"><a href="#人们有盲目贬低-AI-编程的动机" class="headerlink" title="人们有盲目贬低 AI 编程的动机"></a>人们有盲目贬低 AI 编程的动机</h1><p>AI 作为一个新的生产工具（是的，我不打算把它叫做智能体）极大地改变了程序员编写软件的方式。然而，我们不难发现 AI 编写代码的技术有以下几个事实：</p>
+<p>a) AI 编程几乎没有门槛。这是显然的（请接受现实，先生）。<br>b) 没有门槛的工作不一定是低质量的。送外卖不需要门槛，但是送外卖的工作完全可能是高质量的。<br>c) 一种新的没有门槛的工具的出现会导致在旧的生产流程下达到门槛的人本能的抵触，不论其产出是否低质量。我们可以用卢德主义的出现证明这一点。</p>
+<p>由上，AI 技术不可避免地遭到人们的抵制。而我们常常直接给 AI 编程扣上 vibe coded slop 的帽子。也就是说，我们把 “是否使用 AI 编程” 当成一种指标看待。并以此，评价程序员的水平高低。</p>
+<p>好的程序员往往有几个 Good Thing (tm)：傲慢，懒惰，狂妄。可以说，我们对科技的认识极大的建立在一个鄙视链之上。当一个被广泛鄙视的技术出现时，我们就不由自主的鄙视被广泛接受的技术的使用者，即使我们大多数人并不知道为什么要去鄙视他们，以享受这样做带来的优越感。可悲的是，这样的人往往更离不开 AI 编程。直到他们被抓包的时候大概是这样说：</p>
+<blockquote>
+<p>agentic coding 不能叫 vibe coding… agentic coding! 程序员的事，能叫 vibe coding 吗？我们和你们这些 vibe coder 不是同一种物种！</p>
+</blockquote>
+<p>一个典型的例子是：php 语言（当然，这与我是一个 php 内核的开发者没有关系）。各位，你们在知乎，微博，小红书上说 php 不好的时候，有没有想过，php 到底哪里不好呢？是性能？安全性？还是语言设计？有人可曾关心过互联网上被吐槽无数次的问题，在一个不算新的版本中早就被解决了？很少。或者说，没有。php 性能低 – 你跑过 benchmark 吗？你有了解过 opcache 优秀的优化机制吗？你有了解过新版本的 JIT 特性吗？好了，哪怕 php 在某次 benchmark 里超过了 go：</p>
+<blockquote>
+<p>php 的 benchmark 不能跟其他语言比… php 的 benchmark！go 的事，能跟你 php 比较吗？我们这些写 go 的跟你们写 php 的不是同一种物种！</p>
+</blockquote>
+<p>另外，请不要让我提起 Rust，Zig 和 Odin 教徒。谢谢。</p>
+<p>AI 浪潮与这样的迭代没有本质区别。这就引出我要介绍的一个现象，我称之为：技术部落主义（Technical Tribalism）</p>
+<h1 id="技术部落主义"><a href="#技术部落主义" class="headerlink" title="技术部落主义"></a>技术部落主义</h1><p>部落主义是指人类基于群体归属感形成的排他性认同现象。技术部落主义，则是指技术上，程序员基于群体归属感就某一单一的技术栈形成的排他性认同现象。</p>
+<p>一直以来程序员们都有一个共识：评价水平最好的标准，就是看实现了什么。我们千百年来出现了很多评价程序员工作的方式，如 LoC（Line of Code, 代码行数），NoC（Number of Commits, commit 数量）和 NoPR（Number of Pull Requests，PR 数量）这些指标在后续看来无一例外都是扯淡。计算机是工科，我们评价的标准永远是：</p>
+<ul>
+<li>解决了什么问题 (what)</li>
+<li>解决的怎么样 (how)</li>
+<li>有什么实用价值 (why)</li>
+</ul>
+<p>至于用了什么样子的技术栈，写了多少行代码，没太大用处。</p>
+<p>所以说，我们可以得到：计算机是结果导向的学科。你能做出成果就是成功，无论你是如何做出的。因此，没有无能的技术栈，只有无能的人。（所以，请不要再散步上个部分中讲述的傻逼言论了。）</p>
+<p>这也就证实了技术部落主义在实用价值上的荒谬。技术部落主义是过程导向的，它仅仅注重你是如何实现某个项目，用了什么样的语言。而 AI 正是刚刚好中了这部分的雷区。“哈！你写的代码是 AI 的，你完蛋了，我要把你挂到 XXX 上审判！没有人会用你的软件了！你看看我，老艺术家！” 欸，去年的这个时候好像我们说的是：“哈！你写的代码是 php 的，你完蛋了，我要把你挂到 XXX 上审判！没有人会用你的软件了！你看看我，我用 rust！”</p>
+<p>（对不起，我发誓这是我最后一次提及 php）</p>
+<h1 id="AI，开源和技术部落主义者"><a href="#AI，开源和技术部落主义者" class="headerlink" title="AI，开源和技术部落主义者"></a>AI，开源和技术部落主义者</h1><p>不可避免地，反 AI（anti-AI）的浪潮来到了开源社区里。好了，我知道人们要说什么了。啊！AI 滚出去！这是有关劳动，这是有关质量的选择！用 AI 的滚出开源社区！！</p>
+<p>我应该庆幸至少没人说：啊! php 滚出去！这是有关劳动，这是有关质量的选择！用 php 的滚出开源社区！！（对不起…）</p>
+<p>饶了我吧。这是有关你的自大，先生。AI 查找 bug 的能力已经远远超过人类了。只要 AI 能创造价值，为什么要排斥它呢？你参与开源社区，究竟是为了让项目变好，还是为了能获得一个只有少数人拥有的头衔凌驾于他人之上？</p>
+<p>我必须要澄清的一点是：我曾经发表过很多看起来反对 AI 的言论（可以看之前的文字）但是我其实反对的，都是使用 AI 的傻逼。我的观点大概是：</p>
+<ul>
+<li>使用 AI 的傻逼和不使用 AI 的傻逼，都是傻逼。</li>
+<li>使用 AI 的人类和不使用 AI 的人类，都是人类。</li>
+</ul>
+<p>我承认 AI 的出现导致门槛降低，大量智力不足的人涌入开源社区给维护者造成了大量麻烦。但这不代表我们应该把责任放到 AI 身上。很多人拒绝 LLM 参与项目，若从维护者的角度来看，以此保证贡献者有一定的技术水平和投入了时间，是可以接受的。我接受不了的是：有些人会指着其他人的项目说，这是 AI 写的垃圾，而不看它实现了什么。（换句话说，也有人说这是 php 写的垃圾，而不看它实现了什么（抱歉））</p>
+<p>是啊，有人就是用 AI 做了然后还有很多用户，怎么了呢？哦，我难道一定要成为一个书呆子，学完没人懂的计算机科学知识，手写几千行代码之后才能做软件？</p>
+<h1 id="“老艺术家”，老艺术家和老艺术家们"><a href="#“老艺术家”，老艺术家和老艺术家们" class="headerlink" title="“老艺术家”，老艺术家和老艺术家们"></a>“老艺术家”，老艺术家和老艺术家们</h1><p>然而我还是经常手写代码。为什么呢？因为我享受写代码。就是，享受敲键盘。真的。这种手动解决问题的感受很爽。（你也可以说我有受虐倾向，我接受）上周在 php 的 ambassador program 的视频会议里见到了非常多热情而有水平的开发者，或者说，跟我一样有受虐倾向的人。</p>
+<p>人的一生就是在走出偏见。“老艺术家” 们的时代总是会落幕的。</p>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">首页</a></li>
+        
+          <li><a href="/categories/php-dev/">php 语言开发日志</a></li>
+        
+          <li><a href="/categories/tech/">其他技术文章</a></li>
+        
+          <li><a href="/categories/miscellany/">杂七杂八的文字</a></li>
+        
+          <li><a href="/search/">搜索</a></li>
+        
+      </ul>
+    </div>
+
+    
+    
+      <div id="toc-footer" style="display: none">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BA%BA%E4%BB%AC%E6%9C%89%E7%9B%B2%E7%9B%AE%E8%B4%AC%E4%BD%8E-AI-%E7%BC%96%E7%A8%8B%E7%9A%84%E5%8A%A8%E6%9C%BA"><span class="toc-number">1.</span> <span class="toc-text">人们有盲目贬低 AI 编程的动机</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%8A%80%E6%9C%AF%E9%83%A8%E8%90%BD%E4%B8%BB%E4%B9%89"><span class="toc-number">2.</span> <span class="toc-text">技术部落主义</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#AI%EF%BC%8C%E5%BC%80%E6%BA%90%E5%92%8C%E6%8A%80%E6%9C%AF%E9%83%A8%E8%90%BD%E4%B8%BB%E4%B9%89%E8%80%85"><span class="toc-number">3.</span> <span class="toc-text">AI，开源和技术部落主义者</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E2%80%9C%E8%80%81%E8%89%BA%E6%9C%AF%E5%AE%B6%E2%80%9D%EF%BC%8C%E8%80%81%E8%89%BA%E6%9C%AF%E5%AE%B6%E5%92%8C%E8%80%81%E8%89%BA%E6%9C%AF%E5%AE%B6%E4%BB%AC"><span class="toc-number">4.</span> <span class="toc-text">“老艺术家”，老艺术家和老艺术家们</span></a></li></ol>
+      </div>
+    
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://lamentxu.top/posts/2026-07-01-dont-fall-into-the-anti-AI-hype/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://lamentxu.top/posts/2026-07-01-dont-fall-into-the-anti-AI-hype/&text=不要陷入“反AI”的炒作浪潮里"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://lamentxu.top/posts/2026-07-01-dont-fall-into-the-anti-AI-hype/&title=不要陷入“反AI”的炒作浪潮里"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://lamentxu.top/posts/2026-07-01-dont-fall-into-the-anti-AI-hype/&is_video=false&description=不要陷入“反AI”的炒作浪潮里"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=不要陷入“反AI”的炒作浪潮里&body=Check out this article: https://lamentxu.top/posts/2026-07-01-dont-fall-into-the-anti-AI-hype/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://lamentxu.top/posts/2026-07-01-dont-fall-into-the-anti-AI-hype/&title=不要陷入“反AI”的炒作浪潮里"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://lamentxu.top/posts/2026-07-01-dont-fall-into-the-anti-AI-hype/&title=不要陷入“反AI”的炒作浪潮里"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://lamentxu.top/posts/2026-07-01-dont-fall-into-the-anti-AI-hype/&title=不要陷入“反AI”的炒作浪潮里"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://lamentxu.top/posts/2026-07-01-dont-fall-into-the-anti-AI-hype/&title=不要陷入“反AI”的炒作浪潮里"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://lamentxu.top/posts/2026-07-01-dont-fall-into-the-anti-AI-hype/&name=不要陷入“反AI”的炒作浪潮里&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://lamentxu.top/posts/2026-07-01-dont-fall-into-the-anti-AI-hype/&t=不要陷入“反AI”的炒作浪潮里"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        
+          <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2024-2026
+    LamentXU
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/categories/php-dev/">php 语言开发日志</a></li><!--
+     --><!--
+       --><li><a href="/categories/tech/">其他技术文章</a></li><!--
+     --><!--
+       --><li><a href="/categories/miscellany/">杂七杂八的文字</a></li><!--
+     --><!--
+       --><li><a href="/search/">搜索</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板！\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功！");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>
