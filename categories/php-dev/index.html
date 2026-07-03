@@ -166,6 +166,7 @@
 <li>ext&#x2F;intl 让 <code>IntlListFormatter::__construct()</code> 在重复构造已初始化对象时抛出 <code>Error</code>，避免覆盖 ICU 句柄造成内存泄漏。（从 PHP 8.5 合并上来；<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/22394">PR #22394</a>）</li>
 <li>ext&#x2F;phar 修复以 <code>.phar</code> 为前缀但不是魔术目录的目录处理。（从 PHP 8.5 合并上来；<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/22372">PR #22372</a>）</li>
 <li><code>base_convert()</code> 修复较小缓冲区长度下的转换结果错误。（从 PHP 8.5 合并上来；<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/22406">PR #22406</a>）</li>
+<li>ext&#x2F;zip 修复 <code>ZipArchive::getFromIndex()</code> 忽略已删除条目的 <code>FL_UNCHANGED</code> 标志。（从 PHP 8.5 合并上来；<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/21706">PR #21706</a>）</li>
 </ul>
 <h3 id="其他重大改动"><a href="#其他重大改动" class="headerlink" title="其他重大改动"></a>其他重大改动</h3><ul>
 <li><code>linkinfo(&#39;&#39;)</code> 现在会抛出 <code>ValueError</code>。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/21793">PR #21793</a>)</li>
@@ -212,6 +213,7 @@
 <li>ext&#x2F;intl 让 <code>IntlListFormatter::__construct()</code> 在重复构造已初始化对象时抛出 <code>Error</code>，避免覆盖 ICU 句柄造成内存泄漏。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/22394">PR #22394</a>)</li>
 <li>ext&#x2F;phar 修复以 <code>.phar</code> 为前缀但不是魔术目录的目录处理。（从 PHP 8.4 合并上来；<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/22372">PR #22372</a>）</li>
 <li><code>base_convert()</code> 修复较小缓冲区长度下的转换结果错误。(从 PHP 8.4 合并上来；<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/22406">PR #22406</a>)</li>
+<li>ext&#x2F;zip 修复 <code>ZipArchive::getFromIndex()</code> 忽略已删除条目的 <code>FL_UNCHANGED</code> 标志。(从 PHP 8.4 合并上来；<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/21706">PR #21706</a>)</li>
 </ul>
 <h2 id="PHP-8-4-x"><a href="#PHP-8-4-x" class="headerlink" title="PHP 8.4.x"></a>PHP 8.4.x</h2><h3 id="Bug-修复-2"><a href="#Bug-修复-2" class="headerlink" title="Bug 修复"></a>Bug 修复</h3><ul>
 <li>ext&#x2F;intl 修复日历日期&#x2F;时间 API 中越界的参数位置。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/commit/10704f079f6087a51e3b579faca00d833141d889">commit 10704f0</a>)</li>
