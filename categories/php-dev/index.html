@@ -188,6 +188,7 @@
 <li><code>IntlBreakIterator::getLocale()</code> 对无效 locale type 值抛出 <code>ValueError</code>。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/21997">PR #21997</a>)。</li>
 <li><code>shm_attach()</code> 拒绝超出 <code>key_t</code> 长度的值。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/22423">PR #22423</a>)</li>
 <li><code>number_format()</code> 拒绝过大的 <code>$decimals</code> 参数，避免 OOM。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/22435">PR #22435</a>)</li>
+<li><code>sleep()</code> 和 <code>usleep()</code> 现在拒绝超出平台上限的值，修复无符号整数溢出。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/22619">PR #22619</a>)</li>
 </ul>
 <h3 id="性能优化"><a href="#性能优化" class="headerlink" title="性能优化"></a>性能优化</h3><ul>
 <li>ext&#x2F;intl 完成一批小优化。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/22069">PR #22069</a>)</li>
