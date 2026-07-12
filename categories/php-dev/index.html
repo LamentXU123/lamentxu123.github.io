@@ -241,19 +241,19 @@
 <li>ext&#x2F;zip 避免重置 <code>ZipArchive</code> 注释时发生崩溃。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/22652">PR #22652</a>)</li>
 </ul>
 <h1 id="TODO"><a href="#TODO" class="headerlink" title="TODO"></a>TODO</h1><h2 id="Zend-内核"><a href="#Zend-内核" class="headerlink" title="Zend 内核"></a>Zend 内核</h2><h3 id="新-API"><a href="#新-API" class="headerlink" title="新 API"></a>新 API</h3><ul>
-<li><input disabled="" type="checkbox"> 添加 inline 的 helper function，分别是<ul>
-<li><input disabled="" type="checkbox"> zend_bin2hex()</li>
-<li><input disabled="" type="checkbox"> zend_bin2hex_upper()</li>
-<li><input disabled="" type="checkbox"> zend_bin2hex_str()</li>
+<li><input checked="" disabled="" type="checkbox"> 添加 inline 的 helper function，分别是<ul>
+<li><input checked="" disabled="" type="checkbox"> zend_bin2hex()</li>
+<li>[] <del>zend_bin2hex_upper()</del></li>
+<li><input checked="" disabled="" type="checkbox"> zend_bin2hex_str()</li>
 </ul>
 </li>
 </ul>
 <p>这是因为内核里有很多扩展依赖 <code>ext/hash</code>，这本身没什么问题，但是这个依赖仅仅是要调用 <code>ext/hash/php_hash</code> 的 <code>php_hash_bin2hex</code>。这些功能很简单。所以我们可以把这些 <code>bin2hex</code> 的东西做成 Zend 里内置的 API，直接给 ext 使用。这样可以避免很多 ext 依赖于 <code>ext/hash</code>。</p>
 <ul>
-<li><input disabled="" type="checkbox"> 添加 inline 的 helper function，分别是<ul>
-<li><input disabled="" type="checkbox"> zend_str_append_char_to_raw</li>
-<li><input disabled="" type="checkbox"> zend_str_concat_to_raw</li>
-<li><input disabled="" type="checkbox"> zend_str_concat3_to_raw</li>
+<li><input checked="" disabled="" type="checkbox"> 添加 inline 的 helper function，分别是<ul>
+<li><input checked="" disabled="" type="checkbox"> zend_str_append_char_to_raw</li>
+<li><input checked="" disabled="" type="checkbox"> zend_str_concat_to_raw</li>
+<li><input checked="" disabled="" type="checkbox"> zend_str_concat3_to_raw</li>
 </ul>
 </li>
 </ul>
