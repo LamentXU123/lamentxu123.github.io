@@ -4310,7 +4310,7 @@
   <div class="php-src-stats__meta" data-stat="status">正在加载统计...</div>
 </div>
 
-<h1 id="DONE"><a href="#DONE" class="headerlink" title="DONE"></a>DONE</h1><p>以下是我对 PHP 做过或正在推进的<strong>用户可见行为</strong>变化（不包含重构）。（更新于 2026-07-12 20:09 CST）</p>
+<h1 id="DONE"><a href="#DONE" class="headerlink" title="DONE"></a>DONE</h1><p>以下是我对 PHP 做过或正在推进的<strong>用户可见行为</strong>变化（不包含重构）。（更新于 2026-07-14 19:23 CST）</p>
 <h2 id="PHP-8-6-x"><a href="#PHP-8-6-x" class="headerlink" title="PHP 8.6.x"></a>PHP 8.6.x</h2><h3 id="RFC"><a href="#RFC" class="headerlink" title="RFC"></a>RFC</h3><ul>
 <li><input checked="" disabled="" type="checkbox"> <code>trim</code> &#x2F; <code>ltrim</code> &#x2F; <code>rtrim</code> &#x2F; <code>chop</code> 支持换页符。(<a href="https://github.com/php/php-src/pull/20788">PR #20788</a>, <a href="https://wiki.php.net/rfc/trim_form_feed">RFC</a>, <a href="https://php.watch/versions/8.6/trim-form-feed">PHP.WATCH</a>)</li>
 <li><input checked="" disabled="" type="checkbox"> 为 intl 添加 <code>Locale::getDisplayKeyword()</code>（别名 <code>locale_get_display_keyword()</code>） 和 <code>Locale::getDisplayKeywordValue()</code> （别名 <code>locale_get_display_keyword_value()</code>）。(<a href="https://github.com/php/php-src/pull/22264">PR #22264</a>, <a href="https://wiki.php.net/rfc/getdisplaykeyword_and_getdisplaykeywordvalue">RFC</a>)</li>
@@ -4352,6 +4352,7 @@
 <li>ext&#x2F;zip 修复 <code>ZipArchive::getFromIndex()</code> 忽略已删除条目的 <code>FL_UNCHANGED</code> 标志。（从 PHP 8.5 合并上来；<a href="https://github.com/php/php-src/pull/21706">PR #21706</a>）</li>
 </ul>
 <h3 id="其他重大改动"><a href="#其他重大改动" class="headerlink" title="其他重大改动"></a>其他重大改动</h3><ul>
+<li>ext&#x2F;soap 改进 SOAP 标量解码失败时的错误信息，说明具体格式错误原因。(<a href="https://github.com/php/php-src/pull/22706">PR #22706</a>)</li>
 <li><code>linkinfo(&#39;&#39;)</code> 现在会抛出 <code>ValueError</code>。(<a href="https://github.com/php/php-src/pull/21793">PR #21793</a>)</li>
 <li><code>getenv()</code> 和 <code>putenv()</code> 拒绝包含 NUL 字节的参数。(<a href="https://github.com/php/php-src/pull/21817">PR #21817</a>)</li>
 <li>ext&#x2F;zlib 在 <code>deflate_init()</code> 和 <code>inflate_init()</code> 中使用更严格的整数选项处理。(<a href="https://github.com/php/php-src/pull/21841">PR #21841</a>, <a href="https://github.com/php/php-src/pull/21860">PR #21860</a>, <a href="https://github.com/php/php-src/pull/21909">PR #21909</a>)</li>
