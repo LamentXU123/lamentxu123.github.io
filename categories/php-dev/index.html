@@ -132,7 +132,7 @@
   <div class="php-src-stats__meta" data-stat="status">正在加载统计...</div>
 </div>
 
-<h1 id="DONE"><a href="#DONE" class="headerlink" title="DONE"></a>DONE</h1><p>以下是我对 PHP 做过或正在推进的<strong>用户可见行为</strong>变化（不包含重构）。（更新于 2026-07-15 21:05 CST）</p>
+<h1 id="DONE"><a href="#DONE" class="headerlink" title="DONE"></a>DONE</h1><p>以下是我对 PHP 做过或正在推进的<strong>用户可见行为</strong>变化（不包含重构）。（更新于 2026-07-17 04:12 CST）</p>
 <h2 id="PHP-8-6-x"><a href="#PHP-8-6-x" class="headerlink" title="PHP 8.6.x"></a>PHP 8.6.x</h2><h3 id="RFC"><a href="#RFC" class="headerlink" title="RFC"></a>RFC</h3><ul>
 <li><input checked="" disabled="" type="checkbox"> <code>trim</code> &#x2F; <code>ltrim</code> &#x2F; <code>rtrim</code> &#x2F; <code>chop</code> 支持换页符。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/20788">PR #20788</a>, <a target="_blank" rel="noopener" href="https://wiki.php.net/rfc/trim_form_feed">RFC</a>, <a target="_blank" rel="noopener" href="https://php.watch/versions/8.6/trim-form-feed">PHP.WATCH</a>)</li>
 <li><input checked="" disabled="" type="checkbox"> 为 intl 添加 <code>Locale::getDisplayKeyword()</code>（别名 <code>locale_get_display_keyword()</code>） 和 <code>Locale::getDisplayKeywordValue()</code> （别名 <code>locale_get_display_keyword_value()</code>）。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/22264">PR #22264</a>, <a target="_blank" rel="noopener" href="https://wiki.php.net/rfc/getdisplaykeyword_and_getdisplaykeywordvalue">RFC</a>)</li>
@@ -144,6 +144,7 @@
 </ul>
 <h3 id="Bug-修复"><a href="#Bug-修复" class="headerlink" title="Bug 修复"></a>Bug 修复</h3><ul>
 <li>ext&#x2F;soap 修复 <code>xsd:hexBinary</code> 反序列化时对奇数长度十六进制字符串的误判崩溃。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/22698">PR #22698</a>)</li>
+<li>ext&#x2F;sockets 修复 <code>socket_setopt()</code> &#x2F; <code>socket_set_option()</code> 参数校验失败时的错误信息。（从 PHP 8.5 合并上来；<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/22772">PR #22772</a>）</li>
 <li>ext&#x2F;zip 避免重置 <code>ZipArchive</code> 注释时发生崩溃。（从 PHP 8.5 合并上来；<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/22652">PR #22652</a>）</li>
 <li>ext&#x2F;dom 修复 <code>Dom\DtdNamedNodeMap</code> 按维度访问时的索引溢出。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/22630">PR #22630</a>)</li>
 <li>ext&#x2F;intl 修复 <code>IntlIterator::current()</code> 在无效迭代器上返回 <code>UNKNOWN:0</code>，现返回 <code>NULL</code>。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/22495">PR #22495</a>)</li>
@@ -205,6 +206,7 @@
 <li>ext&#x2F;phar 优化 Phar 目录流中的临时字符串处理。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/22374">PR #22374</a>)</li>
 </ul>
 <h2 id="PHP-8-5-x"><a href="#PHP-8-5-x" class="headerlink" title="PHP 8.5.x"></a>PHP 8.5.x</h2><h3 id="Bug-修复-1"><a href="#Bug-修复-1" class="headerlink" title="Bug 修复"></a>Bug 修复</h3><ul>
+<li>ext&#x2F;sockets 修复 <code>socket_setopt()</code> &#x2F; <code>socket_set_option()</code> 参数校验失败时的错误信息。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/22772">PR #22772</a>)</li>
 <li>ext&#x2F;intl 修复 <code>IntlListFormatter</code> 在 <code>format()</code> 失败后的对象错误状态。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/commit/946d687d8d5a18c65a547a8fbb80b93dbe3abcce">commit 946d687</a>)</li>
 <li>ext&#x2F;intl 修复日历日期&#x2F;时间 API 中越界的参数位置。（从 PHP 8.4 合并上来；<a target="_blank" rel="noopener" href="https://github.com/php/php-src/commit/10704f079f6087a51e3b579faca00d833141d889">commit 10704f0</a>）</li>
 <li>ext&#x2F;intl 在 <code>IntlDateFormatter</code> 错误信息中使用 <code>PATTERN</code> 常量名。（从 PHP 8.4 合并上来；<a target="_blank" rel="noopener" href="https://github.com/php/php-src/commit/2d784891fff579eef86e326bf969e3cf41dc5244">commit 2d78489</a>）</li>
