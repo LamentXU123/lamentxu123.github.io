@@ -132,7 +132,7 @@
   <div class="php-src-stats__meta" data-stat="status">正在加载统计...</div>
 </div>
 
-<h1 id="DONE"><a href="#DONE" class="headerlink" title="DONE"></a>DONE</h1><p>以下是我对 PHP 做过或正在推进的<strong>用户可见行为</strong>变化（不包含重构）。（更新于 2026-07-17 04:12 CST）</p>
+<h1 id="DONE"><a href="#DONE" class="headerlink" title="DONE"></a>DONE</h1><p>以下是我对 PHP 做过或正在推进的<strong>用户可见行为</strong>变化（不包含重构）。（更新于 2026-07-21 17:29 CST）</p>
 <h2 id="PHP-8-6-x"><a href="#PHP-8-6-x" class="headerlink" title="PHP 8.6.x"></a>PHP 8.6.x</h2><h3 id="RFC"><a href="#RFC" class="headerlink" title="RFC"></a>RFC</h3><ul>
 <li><input checked="" disabled="" type="checkbox"> <code>trim</code> &#x2F; <code>ltrim</code> &#x2F; <code>rtrim</code> &#x2F; <code>chop</code> 支持换页符。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/20788">PR #20788</a>, <a target="_blank" rel="noopener" href="https://wiki.php.net/rfc/trim_form_feed">RFC</a>, <a target="_blank" rel="noopener" href="https://php.watch/versions/8.6/trim-form-feed">PHP.WATCH</a>)</li>
 <li><input checked="" disabled="" type="checkbox"> 为 intl 添加 <code>Locale::getDisplayKeyword()</code>（别名 <code>locale_get_display_keyword()</code>） 和 <code>Locale::getDisplayKeywordValue()</code> （别名 <code>locale_get_display_keyword_value()</code>）。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/22264">PR #22264</a>, <a target="_blank" rel="noopener" href="https://wiki.php.net/rfc/getdisplaykeyword_and_getdisplaykeywordvalue">RFC</a>)</li>
@@ -143,6 +143,7 @@
 <li><input disabled="" type="checkbox"> <em>等待披露</em></li>
 </ul>
 <h3 id="Bug-修复"><a href="#Bug-修复" class="headerlink" title="Bug 修复"></a>Bug 修复</h3><ul>
+<li>ext&#x2F;standard 修复 <code>Io\Poll</code> watcher registry 在 watcher 移除和注册失败时的状态同步。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/22760">PR #22760</a>)</li>
 <li>ext&#x2F;soap 修复 <code>xsd:hexBinary</code> 反序列化时对奇数长度十六进制字符串的误判崩溃。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/22698">PR #22698</a>)</li>
 <li>ext&#x2F;zip 避免重置 <code>ZipArchive</code> 注释时发生崩溃。（从 PHP 8.5 合并上来；<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/22652">PR #22652</a>）</li>
 <li>ext&#x2F;dom 修复 <code>Dom\DtdNamedNodeMap</code> 按维度访问时的索引溢出。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/22630">PR #22630</a>)</li>
@@ -186,6 +187,7 @@
 <li>ext&#x2F;gmp 对 <code>**</code>、<code>&lt;&lt;</code>、<code>&gt;&gt;</code> 中会损失精度的浮点数右操作数发出弃用警告。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/21945">PR #21945</a>)</li>
 </ul>
 <h3 id="其他微小改动"><a href="#其他微小改动" class="headerlink" title="其他微小改动"></a>其他微小改动</h3><ul>
+<li>ext&#x2F;intl 修正时区偏移量过大和 normalization form 校验相关的错误信息文本。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/22828">PR #22828</a>)</li>
 <li>ext&#x2F;gmp 在解析整数字符串时拒绝含 NUL 字节的字符串。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/22798">PR #22798</a>)</li>
 <li>ext&#x2F;gmp 在 <code>**</code>、<code>&lt;&lt;</code>、<code>&gt;&gt;</code> 中拒绝不在 <code>unsigned long</code> 范围内的 <code>GMP</code> 对象右操作数，避免静默截断。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/22656">PR #22656</a>)</li>
 <li><code>shmop_open()</code> 拒绝超出 <code>key_t</code> 长度的值。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/22423">PR #22423</a>)</li>
