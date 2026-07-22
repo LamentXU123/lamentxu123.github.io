@@ -4916,4 +4916,83 @@
         <category>杂七杂八的文字</category>
       </categories>
   </entry>
+  <entry>
+    <title>gmp_powm_sec 简介</title>
+    <url>/posts/2026-07-22-gmp-powm-sec/</url>
+    <content><![CDATA[<p>我在 PHP 8.6 这个版本里总共新增了 4 个函数（截至本文发出）</p>
+<ul>
+<li>locale_get_display_keyword</li>
+<li>locale_get_display_keyword_value</li>
+<li>gmp_powm_sec</li>
+<li>gmp_prevprime</li>
+</ul>
+<p>其中，我认为最值得被大家知道的，是 <code>gmp_powm_sec</code>。这篇文字将介绍 <code>gmp_powm_sec</code> 的用途，以及我为什么在新版本里推荐你使用它。</p>
+<p>这个版本之前，全世界的 PHPer 计算高精度的幂运算都是依靠 <code>gmp_powm</code>。然而，经过前沿模型的研究（感谢支持！）这个 API 具有严重的密码学安全问题。</p>
+<p>因此，对于需要考虑安全性的幂运算，请考虑升级到 PHP 8.6 并使用我的新函数 <code>gmp_powm_sec</code>。</p>
+<h1 id="函数介绍"><a href="#函数介绍" class="headerlink" title="函数介绍"></a>函数介绍</h1><p><code>gmp_powm_sec</code> 的函数签名：</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">gmp_powm_sec</span>(<span class="params">GMP|<span class="keyword">int</span>|<span class="keyword">string</span> <span class="variable">$num</span>, GMP|<span class="keyword">int</span>|<span class="keyword">string</span> <span class="variable">$exponent</span>, GMP|<span class="keyword">int</span>|<span class="keyword">string</span> <span class="variable">$modulus</span></span>): <span class="title">GMP</span> </span>&#123;&#125;</span><br></pre></td></tr></table></figure>
+
+<p>其用处是可以<em>密码学安全地</em>求 <code>($num ** $exponent) MOD $modulus</code>。<strong>当指数 <code>$exponent</code> 是私密敏感数据时，你就应该使用 <code>gmp_powm_sec</code></strong></p>
+<h1 id="gmp-powm-为什么不安全"><a href="#gmp-powm-为什么不安全" class="headerlink" title="gmp_powm 为什么不安全"></a>gmp_powm 为什么不安全</h1><p>简单的例子：RSA 加密算法里的解密过程，我们需要对私钥 d 运算。<code>c = (m ** d) MOD n</code></p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="variable">$n</span> = <span class="title function_ invoke__">gmp_init</span>(<span class="string">&#x27;0x00d0a3f8...&#x27;</span>);</span><br><span class="line"><span class="variable">$d</span> = <span class="title function_ invoke__">gmp_init</span>(<span class="string">&#x27;0x59a3e2f...&#x27;</span>);</span><br><span class="line"><span class="variable">$ciphertext</span> = <span class="title function_ invoke__">gmp_init</span>(<span class="string">&#x27;0x8f2a1b...&#x27;</span>);</span><br><span class="line"><span class="comment"># $plaintext = gmp_powm($ciphertext, $d, $n); 非常危险</span></span><br><span class="line"><span class="variable">$plaintext</span> = <span class="title function_ invoke__">gmp_powm_sec</span>(<span class="variable">$ciphertext</span>, <span class="variable">$d</span>, <span class="variable">$n</span>); <span class="comment"># 安全</span></span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>这是因为 PHP 以前的 pow 函数 <code>gmp_powm</code> 是 GNU MP 的 internal API <a href="https://gmplib.org/manual/Integer-Exponentiation#index-mpz_005fpowm"><code>mpz_powm</code></a> 的直接封装。而 <code>gmp_powm_sec</code> 则是 <a href="https://gmplib.org/manual/Integer-Exponentiation#index-mpz_005fpowm_005fsec"><code>mpz_powm_sec</code></a></p>
+<h2 id="二进制指数法"><a href="#二进制指数法" class="headerlink" title="二进制指数法"></a>二进制指数法</h2><p>我想问大家一个问题：b 的 e 次方模 M，其中 e 是一个大整数（RSA 情况下通常是 65537）。我们就假设 b 是 2 吧（虽然肯定比这个大）那也是 2 的 65537 次方。那要算 65537 次乘法。那这样的时间复杂度要算到到人类灭绝？</p>
+<p>所以数学家发明了”平方-乘”算法（Square-and-Multiply），也叫二进制指数法。即：从最高位开始，每读入一个比特位，先把当前结果平方，如果这个比特位是 1，再额外乘一个 b。</p>
+<p>现在，假设我们要计算 b 的 13 次方。13 的二进制是 1101：</p>
+<p>第 1 位是 1，平方后还是 1；乘以 b 变成 b；结果就是 b<br>第 2 位是 1，用上面的结果平方后是 b ** 2 ；乘以 b 变成 b ** 3；结果就是 b ** 3<br>第 3 位是 0，用上面的结果平方后是 b ** 6 ；不乘以 b；结果就是 b ** 6<br>第 4 位是 1，用上面的结果平方后是 b ** 12 ；乘以 b 变成 b ** 13；结果就是 b ** 13！！！</p>
+<p>是不是特别神奇好玩？！</p>
+<p>所以，我们利用二进制指数法就可以很快算出幂运算。这个算法被广泛用于各种你能想到的加密算法里。</p>
+<p>问题来了，假设现在是一个解密场景。攻击者可以输入无限次密文给服务端解密。假如服务端解密的时候是这样的：</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="variable">$n</span> = <span class="title function_ invoke__">gmp_init</span>(<span class="string">&#x27;0x00d0a3f8...&#x27;</span>);</span><br><span class="line"><span class="variable">$d</span> = <span class="title function_ invoke__">gmp_init</span>(<span class="string">&#x27;0x59a3e2f...&#x27;</span>);</span><br><span class="line"><span class="variable">$ciphertext</span> = <span class="title function_ invoke__">gmp_init</span>(<span class="string">&#x27;0x8f2a1b...&#x27;</span>); <span class="comment"># 攻击者可以任意控制的密文</span></span><br><span class="line"><span class="variable">$plaintext</span> = <span class="title function_ invoke__">gmp_powm</span>(<span class="variable">$ciphertext</span>, <span class="variable">$d</span>, <span class="variable">$n</span>); <span class="comment"># 解密出明文</span></span><br></pre></td></tr></table></figure>
+
+<p>这样，是安全的吗？显然，不是。为什么？</p>
+<p>注意到，对比特位为 1 的运算，我们是平方再乘，对比特位位 0 的运算，我们只平方。也就是说：</p>
+<p>位是 1：做 2 次大数运算（平方 + 乘法）<br>位是 0：只做 1 次大数运算（平方）</p>
+<p>还想不到？</p>
+<p>假如我说，攻击者可以测量单次解密的时间呢？</p>
+<h2 id="计时攻击"><a href="#计时攻击" class="headerlink" title="计时攻击"></a>计时攻击</h2><p>RSA 解密是计算：c 的 d 次方取模 n。其中 c 是密文，d 是私钥。普通版 <code>gmp_powm</code> 在计算时，逐位扫描私钥 d 的二进制：</p>
+<p>如果 d 的这一位是 1 → 做 “平方 + 乘法”（耗时 2 个单位）<br>如果 d 的这一位是 0 → 做 “平方”（耗时 1 个单位）</p>
+<p>攻击者只需测量每一次解密操作的时间，就能画出这样的波形：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">时间:  长    长    短    长    长    短    短    长 ...</span><br><span class="line">位:    1     1     0     1     1     0     0     1 ...</span><br></pre></td></tr></table></figure>
+
+<p>私钥 d 的二进制就这样被完整读出来了！</p>
+<h2 id="偶数模数攻击"><a href="#偶数模数攻击" class="headerlink" title="偶数模数攻击"></a>偶数模数攻击</h2><p><code>gmp_powm</code> 是通用函数，设计目标是支持任意整数模数（包括偶数）。源码 powm.c 中花了大量代码处理模数中的因子 2：</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="keyword">while</span> (UNLIKELY (mp[<span class="number">0</span>] == <span class="number">0</span>)) &#123; mp++; ncnt++; &#125;  <span class="comment">// 移除低零位</span></span><br><span class="line">cnt = <span class="number">0</span>;</span><br><span class="line"><span class="keyword">if</span> (mp[<span class="number">0</span>] % <span class="number">2</span> == <span class="number">0</span>) &#123;</span><br><span class="line">    count_trailing_zeros (cnt, mp[<span class="number">0</span>]);   <span class="comment">// 计算 2 的幂次</span></span><br><span class="line">    mpn_rshift (newmp, mp, nodd, cnt);   <span class="comment">// 右移，相当于除以 2^cnt</span></span><br><span class="line">    <span class="comment">// ... 调用 mpn_powlo 和 mpn_binvert 处理偶数部分</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这样的处理是耗时的。虽然 RSA 的模数 n 是大奇数（两个大素数相乘一定是奇数），正常情况下不会触发偶数模数分支。但是，假如攻击者可以利用 gmp 的特性构造中间值欺骗 <code>gmp_powm</code> 呢？</p>
+<p><code>gmp_powm</code> 不是只在顶层用 m 做一次模运算，它在内部会把问题拆解成多个子问题，每个子问题可能有自己的模数。</p>
+<p>具体来说，当 <code>gmp_powm</code> 在处理某些特殊形式的底数 c 和指数 e 时，内部会调用其他子函数（如 mpn_powlo），这些子函数可能会：</p>
+<ul>
+<li>从 b 或中间结果中提取低位的 2 的幂因子，构造出一个临时模数。</li>
+<li>这个临时模数是偶数（因为包含了因子 2）。</li>
+<li>然后 <code>gmp_powm</code> 递归或跳转去处理这个临时偶数模数。</li>
+</ul>
+<p>Bingo! 举个例子：</p>
+<p>假设我们正在计算 (c ** d) MOD n （d 是私钥，c是攻击者可以控制的待解密的密文）</p>
+<p>在普通版 mpz_powm 中，如果底数 c 是偶数，且指数 d 是奇数，GMP 会提取底数 c 中所有的因子 2：</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span> (bp[<span class="number">0</span>] % <span class="number">2</span> == <span class="number">0</span>) &#123;</span><br><span class="line">    <span class="comment">// 计算 b 中因子 2 的个数 bcnt</span></span><br><span class="line">    bcnt = (<span class="number">0x1213</span> &gt;&gt; ((bp[<span class="number">0</span>] &amp; <span class="number">7</span>) &lt;&lt; <span class="number">1</span>)) &amp; <span class="number">0x3</span>;</span><br><span class="line">    <span class="comment">// 如果 bcnt * d &gt;= t，则整个结果在模 n 下为 0</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在这段逻辑中，GMP 需要处理”2 的幂次”这个因子，而这个处理过程会构造一个临时模数 2 ** k 作为子问题的模数。</p>
+<p>冷知识：2 ** k 一定是偶数（我去，不早说）</p>
+<p>对于任意选择的 c，bcnt 的值是确定的。当 <code>bcnt * d &gt;= t</code> 时，整个解密的过程时间会大幅度降低。也就是说对私钥 d 的每一位，我们都可以利用这点去做布尔测信道泄露。利用好这个特性，我们可以在 O(logd) 的时间复杂度下推出完整的私钥 d。</p>
+<h2 id="负指数攻击"><a href="#负指数攻击" class="headerlink" title="负指数攻击"></a>负指数攻击</h2><p>当指数为负数时，普通版会调用 <code>mpz_invert</code> 求逆。这又是一个耗时工作。与上述同理可以导致泄露。</p>
+<h1 id="gmp-powm-sec-为什么安全"><a href="#gmp-powm-sec-为什么安全" class="headerlink" title="gmp_powm_sec 为什么安全"></a>gmp_powm_sec 为什么安全</h1><h2 id="参数校验"><a href="#参数校验" class="headerlink" title="参数校验"></a>参数校验</h2><p>由<a href="https://gmplib.org/manual/Integer-Exponentiation#index-mpz_005fpowm_005fsec">文档</a>，sec版本有：</p>
+<ul>
+<li>指数必然 &gt; 0</li>
+<li>模必然是奇数</li>
+</ul>
+<p>否则报错。从这一点上限制了很多密码学攻击的出现（如负指数攻击）。</p>
+<h2 id="废除偶指数逻辑"><a href="#废除偶指数逻辑" class="headerlink" title="废除偶指数逻辑"></a>废除偶指数逻辑</h2><figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span> (UNLIKELY ((n == <span class="number">0</span>) || (mp[<span class="number">0</span>] % <span class="number">2</span> == <span class="number">0</span>)))</span><br><span class="line">    DIVIDE_BY_ZERO;  <span class="comment">// 直接报错！</span></span><br></pre></td></tr></table></figure>
+
+<p>安全版没有任何的偶数处理逻辑。</p>
+<h2 id="常数时间"><a href="#常数时间" class="headerlink" title="常数时间"></a>常数时间</h2><p>其实，这些攻击主要的原因是时间。作为密码学攻击的常客，时间始终站在攻击者一边作为一个常见的攻击向量。sec 版本里我们对 0 和 1 的操作用同样的时间即可。</p>
+<p>指数位是 1 → 平方 + 乘法（真实乘法）<br>指数位是 0 → 平方 + 乘法（条件赋值替代实际乘法）</p>
+<p>这样我们通过故意提升指数位是 0 的时间，使 1 和 0 在时间上得到统一。攻击者就无法通过时间来泄露密钥了。</p>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>所有对密码学安全有需求的 pow 操作<em>必须</em>切换到 sec 版本。</p>
+]]></content>
+      <categories>
+        <category>其他技术文章</category>
+      </categories>
+  </entry>
 </search>
