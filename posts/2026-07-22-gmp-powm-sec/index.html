@@ -182,12 +182,11 @@
 <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="variable">$n</span> = <span class="title function_ invoke__">gmp_init</span>(<span class="string">&#x27;0x00d0a3f8...&#x27;</span>);</span><br><span class="line"><span class="variable">$d</span> = <span class="title function_ invoke__">gmp_init</span>(<span class="string">&#x27;0x59a3e2f...&#x27;</span>);</span><br><span class="line"><span class="variable">$ciphertext</span> = <span class="title function_ invoke__">gmp_init</span>(<span class="string">&#x27;0x8f2a1b...&#x27;</span>);</span><br><span class="line"><span class="comment"># $plaintext = gmp_powm($ciphertext, $d, $n); 非常危险</span></span><br><span class="line"><span class="variable">$plaintext</span> = <span class="title function_ invoke__">gmp_powm_sec</span>(<span class="variable">$ciphertext</span>, <span class="variable">$d</span>, <span class="variable">$n</span>); <span class="comment"># 安全</span></span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
 
 <p>这是因为 PHP 以前的 pow 函数 <code>gmp_powm</code> 是 GNU MP 的 internal API <a target="_blank" rel="noopener" href="https://gmplib.org/manual/Integer-Exponentiation#index-mpz_005fpowm"><code>mpz_powm</code></a> 的直接封装。而 <code>gmp_powm_sec</code> 则是 <a target="_blank" rel="noopener" href="https://gmplib.org/manual/Integer-Exponentiation#index-mpz_005fpowm_005fsec"><code>mpz_powm_sec</code></a></p>
-<h2 id="二进制指数法"><a href="#二进制指数法" class="headerlink" title="二进制指数法"></a>二进制指数法</h2><p>我想问大家一个问题：b 的 e 次方模 M，其中 e 是一个大整数（RSA 情况下通常是 65537）。我们就假设 b 是 2 吧（虽然肯定比这个大）那也是 2 的 65537 次方。那要算 65537 次乘法。那这样的时间复杂度要算到到人类灭绝？</p>
+<h2 id="二进制指数法"><a href="#二进制指数法" class="headerlink" title="二进制指数法"></a>二进制指数法</h2><p>我想问大家一个问题：b 的 e 次方模 N，其中 e 是一个大整数（RSA 情况下通常是 65537）。我们就假设 b 是 2 吧（虽然肯定比这个大）那也是 2 的 65537 次方。那要算 65537 次乘法。那这样的时间复杂度要算到到人类灭绝？</p>
 <p>所以数学家发明了”平方-乘”算法（Square-and-Multiply），也叫二进制指数法。即：从最高位开始，每读入一个比特位，先把当前结果平方，如果这个比特位是 1，再额外乘一个 b。</p>
 <p>现在，假设我们要计算 b 的 13 次方。13 的二进制是 1101：</p>
-<p>第 1 位是 1，平方后还是 1；乘以 b 变成 b；结果就是 b<br>第 2 位是 1，用上面的结果平方后是 b ** 2 ；乘以 b 变成 b ** 3；结果就是 b ** 3<br>第 3 位是 0，用上面的结果平方后是 b ** 6 ；不乘以 b；结果就是 b ** 6<br>第 4 位是 1，用上面的结果平方后是 b ** 12 ；乘以 b 变成 b ** 13；结果就是 b ** 13！！！</p>
-<p>是不是特别神奇好玩？！</p>
-<p>所以，我们利用二进制指数法就可以很快算出幂运算。这个算法被广泛用于各种你能想到的加密算法里。</p>
+<p>第 1 位是 1，平方后还是 1；乘以 b 变成 b；结果就是 b<br>第 2 位是 1，用上面的结果平方后是 b ** 2 ；乘以 b 变成 b ** 3；结果就是 b ** 3<br>第 3 位是 0，用上面的结果平方后是 b ** 6 ；不乘以 b；结果就是 b ** 6<br>第 4 位是 1，用上面的结果平方后是 b ** 12 ；乘以 b 变成 b ** 13；结果就是 b ** 13</p>
+<p>是不是特别神奇好玩？所以，我们利用二进制指数法就可以很快算出幂运算。这个算法被广泛用于各种你能想到的加密算法里。</p>
 <p>问题来了，假设现在是一个解密场景。攻击者可以输入无限次密文给服务端解密。假如服务端解密的时候是这样的：</p>
 <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="variable">$n</span> = <span class="title function_ invoke__">gmp_init</span>(<span class="string">&#x27;0x00d0a3f8...&#x27;</span>);</span><br><span class="line"><span class="variable">$d</span> = <span class="title function_ invoke__">gmp_init</span>(<span class="string">&#x27;0x59a3e2f...&#x27;</span>);</span><br><span class="line"><span class="variable">$ciphertext</span> = <span class="title function_ invoke__">gmp_init</span>(<span class="string">&#x27;0x8f2a1b...&#x27;</span>); <span class="comment"># 攻击者可以任意控制的密文</span></span><br><span class="line"><span class="variable">$plaintext</span> = <span class="title function_ invoke__">gmp_powm</span>(<span class="variable">$ciphertext</span>, <span class="variable">$d</span>, <span class="variable">$n</span>); <span class="comment"># 解密出明文</span></span><br></pre></td></tr></table></figure>
 
@@ -234,7 +233,7 @@
 <h2 id="常数时间"><a href="#常数时间" class="headerlink" title="常数时间"></a>常数时间</h2><p>其实，这些攻击主要的原因是时间。作为密码学攻击的常客，时间始终站在攻击者一边作为一个常见的攻击向量。sec 版本里我们对 0 和 1 的操作用同样的时间即可。</p>
 <p>指数位是 1 → 平方 + 乘法（真实乘法）<br>指数位是 0 → 平方 + 乘法（条件赋值替代实际乘法）</p>
 <p>这样我们通过故意提升指数位是 0 的时间，使 1 和 0 在时间上得到统一。攻击者就无法通过时间来泄露密钥了。</p>
-<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>所有对密码学安全有需求的 pow 操作<em>必须</em>切换到 sec 版本。</p>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>所有对密码学安全有需求的 pow 操作<em>必须</em>考虑升级到 PHP 8.6 并切换到 sec 版本。</p>
 
   </div>
 </article>
