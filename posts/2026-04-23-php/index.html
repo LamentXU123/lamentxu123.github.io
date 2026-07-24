@@ -244,6 +244,7 @@
 </ul>
 <h3 id="其他微小改动"><a href="#其他微小改动" class="headerlink" title="其他微小改动"></a>其他微小改动</h3><ul>
 <li>ext&#x2F;intl 修正时区偏移量过大和 normalization form 校验相关的错误信息文本。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/22828">PR #22828</a>)</li>
+<li>ext&#x2F;phar 在错误信息文本中删除关于 <code>safe mode</code> 的描述。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/22858">PR #22858</a>)</li>
 <li>ext&#x2F;gmp 在解析整数字符串时拒绝含 NUL 字节的字符串。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/22798">PR #22798</a>)</li>
 <li>ext&#x2F;gmp 在 <code>**</code>、<code>&lt;&lt;</code>、<code>&gt;&gt;</code> 中拒绝不在 <code>unsigned long</code> 范围内的 <code>GMP</code> 对象右操作数，避免静默截断。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/22656">PR #22656</a>)</li>
 <li><code>shmop_open()</code> 拒绝超出 <code>key_t</code> 长度的值。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/22423">PR #22423</a>)</li>
