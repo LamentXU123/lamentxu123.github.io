@@ -187,6 +187,7 @@
 <li>ext&#x2F;gmp 对 <code>**</code>、<code>&lt;&lt;</code>、<code>&gt;&gt;</code> 中会损失精度的浮点数右操作数发出弃用警告。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/21945">PR #21945</a>)</li>
 </ul>
 <h3 id="其他微小改动"><a href="#其他微小改动" class="headerlink" title="其他微小改动"></a>其他微小改动</h3><ul>
+<li>ext&#x2F;intl 移除对 ICU IO 库的依赖。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/22891">PR #22891</a>)</li>
 <li>ext&#x2F;intl 修正时区偏移量过大和 normalization form 校验相关的错误信息文本。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/22828">PR #22828</a>)</li>
 <li>ext&#x2F;phar 在错误信息文本中删除关于 <code>safe mode</code> 的描述。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/22858">PR #22858</a>)</li>
 <li>ext&#x2F;gmp 在解析整数字符串时拒绝含 NUL 字节的字符串。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/22798">PR #22798</a>)</li>
@@ -251,7 +252,7 @@
 <h1 id="TODO"><a href="#TODO" class="headerlink" title="TODO"></a>TODO</h1><h2 id="Zend-内核"><a href="#Zend-内核" class="headerlink" title="Zend 内核"></a>Zend 内核</h2><h3 id="新-API"><a href="#新-API" class="headerlink" title="新 API"></a>新 API</h3><ul>
 <li><input checked="" disabled="" type="checkbox"> 添加 inline 的 helper function，分别是<ul>
 <li><input checked="" disabled="" type="checkbox"> zend_bin2hex()</li>
-<li>[] <del>zend_bin2hex_upper()</del></li>
+<li><del>zend_bin2hex_upper()</del></li>
 <li><input checked="" disabled="" type="checkbox"> zend_bin2hex_str()</li>
 </ul>
 </li>
@@ -259,13 +260,13 @@
 <p>这是因为内核里有很多扩展依赖 <code>ext/hash</code>，这本身没什么问题，但是这个依赖仅仅是要调用 <code>ext/hash/php_hash</code> 的 <code>php_hash_bin2hex</code>。这些功能很简单。所以我们可以把这些 <code>bin2hex</code> 的东西做成 Zend 里内置的 API，直接给 ext 使用。这样可以避免很多 ext 依赖于 <code>ext/hash</code>。</p>
 <ul>
 <li><input checked="" disabled="" type="checkbox"> 添加 inline 的 helper function，分别是<ul>
-<li><input checked="" disabled="" type="checkbox"> zend_str_append_char_to_raw</li>
-<li><input checked="" disabled="" type="checkbox"> zend_str_concat_to_raw</li>
-<li><input checked="" disabled="" type="checkbox"> zend_str_concat3_to_raw</li>
+<li><input checked="" disabled="" type="checkbox"> zend_cstr_append_char</li>
+<li><input checked="" disabled="" type="checkbox"> zend_cstr_concat</li>
+<li><input checked="" disabled="" type="checkbox"> zend_cstr_concat3</li>
 </ul>
 </li>
 </ul>
-<p>现在，我们有很多 zend_str_* 的 helper 可以完成 zend_string 的拼接。但是对于 C char，利用这些 helper 会多进行一次内存的 allocation，导致性能下降，因此，所有对于 C char 拼接的场景我们都是用原始的 memchr 方式。这样会导致代码的可读性降低。我们可以实现这些 helper 来帮助我们进行 C char 的拼接。</p>
+<p>现在，我们有很多 zend_str_* 的 helper 可以完成 zend_string 的拼接。但是对于 C char，利用这些 helper 会多进行一次内存的 allocation，导致性能下降，因此，所有对于 C char 拼接的场景我们都是用原始的 memchr 方式。这样会导致代码的可读性降低。我们可以实现这些 helper 来帮助我们进行 C char 的拼接。<br>我们还可以在这些 helper 里融入溢出检查（拼接的时候涉及到长度的整形相加），避免长度溢出导致 bug。</p>
 <h3 id="API-改进"><a href="#API-改进" class="headerlink" title="API 改进"></a>API 改进</h3><ul>
 <li><input checked="" disabled="" type="checkbox"> 重写 <code>zend_string_concat2</code> 和 <code>zend_string_concat3</code>。这两个 inline helper 被大量使用，却没有检查字符串长度是否超出边界。理想情况下我们应该重写这些函数，在拼接前检查一下长度之和是否超出字符串最大长度以防止溢出。</li>
 <li><input disabled="" type="checkbox"> 对以下函数<ul>
