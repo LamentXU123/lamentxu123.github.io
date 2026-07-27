@@ -240,6 +240,7 @@
 <li><code>parse_str()</code> 拒绝 <code>$string</code> 中的 NUL 字节。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/21942">PR #21942</a>)</li>
 <li><code>dl()</code> 拒绝 <code>$extension_filename</code> 中的 NUL 字节。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/22358">PR #22358</a>)</li>
 <li><code>openlog()</code> 拒绝 <code>$prefix</code> 中的 NUL 字节。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/22366">PR #22366</a>)</li>
+<li><code>setlocale()</code> 拒绝 <code>$locales</code> 中的 NUL 字节。同时，禁止在 <code>$locales</code> 参数后传入数组。若 <code>$locales</code> 本身为数组，则不允许在该数组参数后额外追加其他入参。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/22843">PR #22843</a>)</li>
 <li>ext&#x2F;gmp 对 <code>**</code>、<code>&lt;&lt;</code>、<code>&gt;&gt;</code> 中会损失精度的浮点数右操作数发出弃用警告。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/21945">PR #21945</a>)</li>
 </ul>
 <h3 id="其他微小改动"><a href="#其他微小改动" class="headerlink" title="其他微小改动"></a>其他微小改动</h3><ul>
