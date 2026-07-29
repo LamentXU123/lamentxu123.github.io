@@ -250,6 +250,7 @@
 <li>ext&#x2F;gmp 对 <code>**</code>、<code>&lt;&lt;</code>、<code>&gt;&gt;</code> 中会损失精度的浮点数右操作数发出弃用警告。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/21945">PR #21945</a>)</li>
 </ul>
 <h3 id="其他微小改动"><a href="#其他微小改动" class="headerlink" title="其他微小改动"></a>其他微小改动</h3><ul>
+<li>ext&#x2F;intl 通过 intl 国际化扩展的错误处理机制，上报 <code>Collator</code> 排序比对过程中出现的 UTF-8 与 UTF-16 互相转换失败问题。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/22893">PR #22893</a>)</li>
 <li>ext&#x2F;intl 移除对 ICU IO 库的依赖。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/22891">PR #22891</a>)</li>
 <li>ext&#x2F;intl 修正时区偏移量过大和 normalization form 校验相关的错误信息文本。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/22828">PR #22828</a>)</li>
 <li>ext&#x2F;phar 在错误信息文本中删除关于 <code>safe mode</code> 的描述。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/22858">PR #22858</a>)</li>
