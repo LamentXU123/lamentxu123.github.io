@@ -182,10 +182,10 @@
 <li>ext&#x2F;zip 修复 <code>ZipArchive::getFromIndex()</code> 忽略已删除条目的 <code>FL_UNCHANGED</code> 标志。（从 PHP 8.5 合并上来；<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/21706">PR #21706</a>）</li>
 </ul>
 <h3 id="其他重大改动"><a href="#其他重大改动" class="headerlink" title="其他重大改动"></a>其他重大改动</h3><ul>
+<li>ext&#x2F;gmp 给 <code>gmp_prevprime</code> 函数添加可选的 <code>definitelyPrime</code> 参数。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/22907">PR #22907</a>)</li>
 <li>ext&#x2F;soap 改进 SOAP 标量解码失败时的错误信息，说明具体格式错误原因。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/22706">PR #22706</a>)</li>
 <li><code>linkinfo(&#39;&#39;)</code> 现在会抛出 <code>ValueError</code>。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/21793">PR #21793</a>)</li>
 <li><code>getenv()</code> 和 <code>putenv()</code> 拒绝包含 NUL 字节的参数。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/21817">PR #21817</a>)</li>
-<li>ext&#x2F;zlib 在 <code>deflate_init()</code> 和 <code>inflate_init()</code> 中使用更严格的整数选项处理。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/21841">PR #21841</a>, <a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/21860">PR #21860</a>, <a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/21909">PR #21909</a>)</li>
 <li><code>proc_open()</code> 拒绝 <code>$cwd</code> 中的 NUL 字节。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/21871">PR #21871</a>)</li>
 <li><code>parse_str()</code> 拒绝 <code>$string</code> 中的 NUL 字节。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/21942">PR #21942</a>)</li>
 <li><code>dl()</code> 拒绝 <code>$extension_filename</code> 中的 NUL 字节。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/22358">PR #22358</a>)</li>
@@ -200,6 +200,7 @@
 <li>ext&#x2F;gmp 在解析整数字符串时拒绝含 NUL 字节的字符串。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/22798">PR #22798</a>)</li>
 <li>ext&#x2F;gmp 在 <code>**</code>、<code>&lt;&lt;</code>、<code>&gt;&gt;</code> 中拒绝不在 <code>unsigned long</code> 范围内的 <code>GMP</code> 对象右操作数，避免静默截断。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/22656">PR #22656</a>)</li>
 <li><code>shmop_open()</code> 拒绝超出 <code>key_t</code> 长度的值。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/22423">PR #22423</a>)</li>
+<li>ext&#x2F;zlib 在 <code>deflate_init()</code> 和 <code>inflate_init()</code> 中使用更严格的整数选项处理。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/21841">PR #21841</a>, <a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/21860">PR #21860</a>, <a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/21909">PR #21909</a>)</li>
 <li>ext&#x2F;intl 在所有受支持的 ICU 版本上暴露 <code>Spoofchecker</code> 限制级别 API。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/22055">PR #22055</a>, <a target="_blank" rel="noopener" href="https://github.com/php/php-src/commit/edde16948a8729886b9cab0de1f69a189823bac2">commit edde169</a>)</li>
 <li><code>pcntl_exec()</code> 验证 <code>$args</code> 必须是列表数组。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/21951">PR #21951</a>)</li>
 <li>ext&#x2F;intl 对不可转为字符串的时区对象抛出 <code>TypeError</code>。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/21990">PR #21990</a>)</li>
