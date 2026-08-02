@@ -1,0 +1,433 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>LamentXU</title>
+    <link>https://lamentxu.top/</link>
+    <description>LamentXU 的开发笔记</description>
+    <language>zh-CN</language>
+    <lastBuildDate>Thu, 30 Jul 2026 19:56:20 GMT</lastBuildDate>
+    <atom:link href="https://lamentxu.top/rss.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>PHP 语言开发日志</title>
+      <link>https://lamentxu.top/posts/2026-04-23-php/</link>
+      <guid isPermaLink="true">https://lamentxu.top/posts/2026-04-23-php/</guid>
+      <pubDate>Thu, 30 Jul 2026 19:56:20 GMT</pubDate>
+      <description>作为 php core developer，我从事 php 语言的内核维护和开发工作有一段时间了。一直有很多想法和经验总是忘记。遂写一篇类似与小记的博客记录一下。</description>
+      <author>weilindu@php.net (LamentXU)</author>
+      <category>php 语言开发日志</category>
+    </item>
+    <item>
+      <title>gmp_powm_sec 简介</title>
+      <link>https://lamentxu.top/posts/2026-07-22-gmp-powm-sec/</link>
+      <guid isPermaLink="true">https://lamentxu.top/posts/2026-07-22-gmp-powm-sec/</guid>
+      <pubDate>Tue, 21 Jul 2026 16:52:00 GMT</pubDate>
+      <description>我在 PHP 8.6 这个版本里总共新增了 4 个函数（截至本文发出） locale_get_display_keyword locale_get_display_keyword_value gmp_powm_sec gmp_prevprime 其中，我认为最值得被大家知道的，是 gmp_powm_sec。这篇文字将介绍 gmp_powm_sec 的用途，以及我为什么在新版本里推荐你使用它。</description>
+      <author>weilindu@php.net (LamentXU)</author>
+      <category>其他技术文章</category>
+    </item>
+    <item>
+      <title>新时代的 PHP 真的不安全吗</title>
+      <link>https://lamentxu.top/posts/2026-07-13-php-sec-talk-script/</link>
+      <guid isPermaLink="true">https://lamentxu.top/posts/2026-07-13-php-sec-talk-script/</guid>
+      <pubDate>Sun, 12 Jul 2026 16:52:00 GMT</pubDate>
+      <description>在 2026，我不禁要问：php 语言真的如中文互联网上所说的这样不堪吗？ 不幸的是，完成这样的调研需要深入社交媒体的言论中。大部分情况下这使我生理性反胃，恶心，呕吐；甚至要过几天才能缓过来这样的精神攻击。因此这篇文字搁置了很久很久。准确的说是从 3 月份到现在，我都很难在这个主题上下笔。 然而一些所谓的“安全专家”和所谓的“漏洞研究院”简直“亡我之心不死”。其在中文互联网上的言论实在过于愚蠢。而</description>
+      <author>weilindu@php.net (LamentXU)</author>
+      <category>杂七杂八的文字</category>
+    </item>
+    <item>
+      <title>不要陷入“反AI”的炒作浪潮里</title>
+      <link>https://lamentxu.top/posts/2026-07-01-dont-fall-into-the-anti-AI-hype/</link>
+      <guid isPermaLink="true">https://lamentxu.top/posts/2026-07-01-dont-fall-into-the-anti-AI-hype/</guid>
+      <pubDate>Tue, 30 Jun 2026 16:52:00 GMT</pubDate>
+      <description>当今的程序员对 AI 编写的代码大多带有一种厌恶的情绪。或者说，我们经常看到人以 “老艺术家” 的名号贬低其他用 AI agent 实现开发任务的人。 对此，我想说：不要陷入 “反AI” 的炒作浪潮里。 人们有盲目贬低 AI 编程的动机AI 作为一个新的生产工具（是的，我不打算把它叫做智能体）极大地改变了程序员编写软件的方式。然而，我们不难发现 AI 编写代码的技术有以下几个事实： a) AI 编</description>
+      <author>weilindu@php.net (LamentXU)</author>
+      <category>杂七杂八的文字</category>
+    </item>
+    <item>
+      <title>LamentXU</title>
+      <link>https://lamentxu.top/posts/2026-06-24-18th-birthday/</link>
+      <guid isPermaLink="true">https://lamentxu.top/posts/2026-06-24-18th-birthday/</guid>
+      <pubDate>Sun, 21 Jun 2026 15:44:44 GMT</pubDate>
+      <description>LamentXU 的开发笔记</description>
+      <author>weilindu@php.net (LamentXU)</author>
+    </item>
+    <item>
+      <title>致我最好的朋友</title>
+      <link>https://lamentxu.top/posts/2026-06-02-20259045/</link>
+      <guid isPermaLink="true">https://lamentxu.top/posts/2026-06-02-20259045/</guid>
+      <pubDate>Mon, 01 Jun 2026 16:52:00 GMT</pubDate>
+      <description>一个月前，我最好的朋友猝死了。 说来惭愧，今天我踏上从武夷山回程的火车，才有时间坐下来，为这位可爱的灵魂写下一篇文章，记录他在我生命中不朽的价值。时至今日，我时常想起与他的那些时光。然而，对于轰鸣向前的所谓大厂，一个耗材的逝去又算得了什么呢？几年后，也许迈向同一个工厂的人成了我，我又如何保证不会落到</description>
+      <author>weilindu@php.net (LamentXU)</author>
+      <category>杂七杂八的文字</category>
+    </item>
+    <item>
+      <title>secpipw: 轻量，免费，强大，无摩擦的 PyPI 供应链投毒防护利器</title>
+      <link>https://lamentxu.top/posts/2026-05-29-secpipw-pypi/</link>
+      <guid isPermaLink="true">https://lamentxu.top/posts/2026-05-29-secpipw-pypi/</guid>
+      <pubDate>Fri, 29 May 2026 15:41:00 GMT</pubDate>
+      <description>今天，我怀着激动的心情发布 secpipw（以下简称 spip） 的 pre-release，ver 0.7.1。这篇文章，我们来详细介绍一下这个工具。它的官网在：https://spip.lamentxu.top/zh-cn 。文档在：https://spip.lamentxu.top/zh-cn</description>
+      <author>weilindu@php.net (LamentXU)</author>
+      <category>其他技术文章</category>
+    </item>
+    <item>
+      <title>杂感</title>
+      <link>https://lamentxu.top/posts/2026-04-05-19823505/</link>
+      <guid isPermaLink="true">https://lamentxu.top/posts/2026-04-05-19823505/</guid>
+      <pubDate>Sun, 05 Apr 2026 06:01:00 GMT</pubDate>
+      <description>最近快高考了。我呢，只要还没有停止思考，总会有点想写作的欲望。然而激烈的备考流程让我几乎无法投入时间写作，甚至连进行长时间的思考也是一种奢侈。故开一篇文章写点无所谓想到的事和感情，以记录我在成年前的那些日子。 一 昨晚梦到了故乡。 很小的时候我在农村生活，后来才进入城市。也因此我的“故乡”成为其余人</description>
+      <author>weilindu@php.net (LamentXU)</author>
+      <category>杂七杂八的文字</category>
+    </item>
+    <item>
+      <title>【续 CTF杂谈】AI狂欢下的意义，焦虑和未来</title>
+      <link>https://lamentxu.top/posts/2026-03-04-ctfai/</link>
+      <guid isPermaLink="true">https://lamentxu.top/posts/2026-03-04-ctfai/</guid>
+      <pubDate>Tue, 03 Mar 2026 16:53:00 GMT</pubDate>
+      <description>前两天看到了探姬师傅的 【CTF杂谈】AI狂欢下的意义，焦虑和未来 我想，这大概算一篇观后感。注：本文 100% 非 AI 生成。 世界是分裂的。我们说，AI 的出现意味着第三次工业革命要来了。我们又说，AI hype （AI 炒作）可能同 meta universe 或 BCI 一样成为下一次无意</description>
+      <author>weilindu@php.net (LamentXU)</author>
+      <category>杂七杂八的文字</category>
+    </item>
+    <item>
+      <title>HKCERT 2025 final 感想</title>
+      <link>https://lamentxu.top/posts/2026-02-08-hkcert-2025-final/</link>
+      <guid isPermaLink="true">https://lamentxu.top/posts/2026-02-08-hkcert-2025-final/</guid>
+      <pubDate>Sun, 08 Feb 2026 15:08:00 GMT</pubDate>
+      <description>于是我终于决定缺席了第三次模拟考试，同我唯一的一位老队友一起踏上了追逐梦想的舞台。在这里，由两个高中生组成的队伍，最终在以四个大学生组成的队伍中在香港最大的网络安全竞赛中夺得亚军。 从此，我的高中，就再没有了遗憾。我可以，也本就应该，有昂首阔步的信念，迎接高考，以及成年的自己。 遗憾贯穿人生始终，也</description>
+      <author>weilindu@php.net (LamentXU)</author>
+      <category>杂七杂八的文字</category>
+    </item>
+    <item>
+      <title>HKCERT 2025 web 部分wp</title>
+      <link>https://lamentxu.top/posts/2025-12-22-hkcert-2025-web-wp/</link>
+      <guid isPermaLink="true">https://lamentxu.top/posts/2025-12-22-hkcert-2025-web-wp/</guid>
+      <pubDate>Mon, 22 Dec 2025 10:50:00 GMT</pubDate>
+      <description>这次打的 OPEN 组。第 4，晋级。我所在的联合战队 W&amp;M 这次是 INTERNATIONAL 冠军。想想马上就能在香港见到大家还是有点激动。（不过我中六可能线下去不去还两说，唉，DSE） 写个 web wp：做出来的就写自己的，做不出来就找 W&amp;M 的复现了写。就当是记录了。H</description>
+      <author>weilindu@php.net (LamentXU)</author>
+      <category>其他技术文章</category>
+    </item>
+    <item>
+      <title>近期的一些出题小记 &amp; 闲话</title>
+      <link>https://lamentxu.top/posts/2025-12-10-19328800/</link>
+      <guid isPermaLink="true">https://lamentxu.top/posts/2025-12-10-19328800/</guid>
+      <pubDate>Wed, 10 Dec 2025 11:46:00 GMT</pubDate>
+      <description>写在前面 这篇文章不完全是 wp，也有一部分是对出题的感想，可以当成是碎碎念吧。但是为了方便师傅们看 wp 我会把两个部分分开来。 最近同时给两个比赛出了题：ISCTF 2025（新生赛） 和 Mini V&amp;N CTF 2025（V&amp;N联合战队的内部招新赛）就先写这些。以前还给一些比</description>
+      <author>weilindu@php.net (LamentXU)</author>
+      <category>杂七杂八的文字</category>
+    </item>
+    <item>
+      <title>2025-2026 年终总结</title>
+      <link>https://lamentxu.top/posts/2025-12-06-2025-2026/</link>
+      <guid isPermaLink="true">https://lamentxu.top/posts/2025-12-06-2025-2026/</guid>
+      <pubDate>Sat, 06 Dec 2025 12:01:00 GMT</pubDate>
+      <description>2025于我是很平淡的一年——好吧，它可能比去年更平淡一点。 写在前面 天气又转凉了，每年这时候流感都会找上我来。躺在床上想着也学不了什么东西了（其实是生病给了我休息的借口）于是就来照例把今年的总结写完。 记得年初，我的前桌告诉我，21世纪已经过去了四分之一。我想，作为千禧一代，我都人生居然也过完四</description>
+      <author>weilindu@php.net (LamentXU)</author>
+      <category>杂七杂八的文字</category>
+    </item>
+    <item>
+      <title>强网杯 2025 部分web wp</title>
+      <link>https://lamentxu.top/posts/2025-10-21-2025-web-wp/</link>
+      <guid isPermaLink="true">https://lamentxu.top/posts/2025-10-21-2025-web-wp/</guid>
+      <pubDate>Tue, 21 Oct 2025 13:20:00 GMT</pubDate>
+      <description>这次我就做了两个web。跟V&amp;N的兄弟们拿了个25名，勉强晋级决赛。这是V&amp;N第一次打进强网正赛。我们创造了历史。 因为我时间比较紧张，就只写我做的两题了。 Web 2.Secret Vault 一个python的web app。flask。有个go的鉴权服务器。这个服务器有个后端，</description>
+      <author>weilindu@php.net (LamentXU)</author>
+      <category>其他技术文章</category>
+    </item>
+    <item>
+      <title>Typhon: 一种pyjail自动化绕过的思路及其粗略实现</title>
+      <link>https://lamentxu.top/posts/2025-09-20-typhon-pyjail/</link>
+      <guid isPermaLink="true">https://lamentxu.top/posts/2025-09-20-typhon-pyjail/</guid>
+      <pubDate>Sat, 20 Sep 2025 13:52:00 GMT</pubDate>
+      <description>随着CTF题目的发展，越来越多的自动化解题工具诞生，使CTFer能够避开繁琐而固定的解题流程，并将精力花在真正能学到东西，有意义的环节上。 pyjail（python jail）作为一种经典的CTF题目类型，在近几年的大赛中频繁出现。然而，对于经典的WAF bypass至RCE或读文件的题目，随着时</description>
+      <author>weilindu@php.net (LamentXU)</author>
+      <category>其他技术文章</category>
+    </item>
+    <item>
+      <title>NSSCTF 4th WEB wp 全解</title>
+      <link>https://lamentxu.top/posts/2025-08-25-nssctf-4th-web-wp/</link>
+      <guid isPermaLink="true">https://lamentxu.top/posts/2025-08-25-nssctf-4th-web-wp/</guid>
+      <pubDate>Mon, 25 Aug 2025 03:00:00 GMT</pubDate>
+      <description>好简单......出题人！web跟其他方向不是一个画风的啊喂！ 手笨了没抢到血www WEB ez_signin 分析源码，可知当POST传入参数类型为dict时，不存在waf过滤： if isinstance(title, str): title = sanitize(title) query[&amp;</description>
+      <author>weilindu@php.net (LamentXU)</author>
+      <category>其他技术文章</category>
+    </item>
+    <item>
+      <title>nepctf 2025 web wp</title>
+      <link>https://lamentxu.top/posts/2025-07-27-nepctf-2025-web-wp/</link>
+      <guid isPermaLink="true">https://lamentxu.top/posts/2025-07-27-nepctf-2025-web-wp/</guid>
+      <pubDate>Sun, 27 Jul 2025 13:58:00 GMT</pubDate>
+      <description>酣畅淋漓！ 好久没有遇到这样的一场比赛了。nep的师傅出的题目质量很高。我学到了好多！好耶！ （说起来我什么时候能出出来这样的题.......） 其他方向也多少写了点，但作为web手还是主要瞄了眼web。题目质量真的很高，感谢出题人的付出！差一ak（还有一个flag最后没交上去）超有意思的一次比赛！</description>
+      <author>weilindu@php.net (LamentXU)</author>
+      <category>其他技术文章</category>
+    </item>
+    <item>
+      <title>聊聊python中的UUID安全</title>
+      <link>https://lamentxu.top/posts/2025-06-10-pythonuuid/</link>
+      <guid isPermaLink="true">https://lamentxu.top/posts/2025-06-10-pythonuuid/</guid>
+      <pubDate>Tue, 10 Jun 2025 06:04:00 GMT</pubDate>
+      <description>前两天给python提了个关于UUID安全的PR被merge了，也算是成功给3.13+的python修了个小bug。UUID已经出到第8代了。这其中有一个跟其他迭代不相同的点是：UUID的迭代并不是对上一代的优化（UUIDv5和v6除外）而是针对不同的场景提出不同的更适合的新的生成算法。也就是说选用</description>
+      <author>weilindu@php.net (LamentXU)</author>
+      <category>其他技术文章</category>
+    </item>
+    <item>
+      <title>第三届黄河流域公安院校网络安全技能挑战赛 web 全解</title>
+      <link>https://lamentxu.top/posts/2025-05-24-web/</link>
+      <guid isPermaLink="true">https://lamentxu.top/posts/2025-05-24-web/</guid>
+      <pubDate>Sat, 24 May 2025 14:32:00 GMT</pubDate>
+      <description>十分钟赶的wp。轻点喷我www。 上午看京麒去了，只有下午看了这个比赛。只看了web题。总体来说不是很难。但是因为时间太紧了导致最后的0解Java急急急急急没解出。赛后再看发现其实巨简单。 还是不能急啊（恼） 奶龙牌图片处理器2.0 上传的后缀限制的很死。对内容也做了限制。 我们能知道：内容上限制了</description>
+      <author>weilindu@php.net (LamentXU)</author>
+      <category>其他技术文章</category>
+    </item>
+    <item>
+      <title>聊聊由linecache库可能引起的RCE问题</title>
+      <link>https://lamentxu.top/posts/2025-04-14-linecacherce/</link>
+      <guid isPermaLink="true">https://lamentxu.top/posts/2025-04-14-linecacherce/</guid>
+      <pubDate>Mon, 14 Apr 2025 04:50:00 GMT</pubDate>
+      <description>近几天闲的去翻python的标准库找点乐子，偶然发现linecache里可能出现的RCE问题。于是就尝试构造了个PoC去打着玩。结果发现假如对这个库的某些函数调用不当真的可以RCE。这也许是最近发现的一个不太明显的有意思的sink点，故写一篇文字记录一下。 Proof of Concept (PoC</description>
+      <author>weilindu@php.net (LamentXU)</author>
+      <category>其他技术文章</category>
+    </item>
+    <item>
+      <title>聊聊bottle框架中由斜体字引发的模板注入（SSTI）waf bypass</title>
+      <link>https://lamentxu.top/posts/2025-04-01-bottlesstiwaf-bypass/</link>
+      <guid isPermaLink="true">https://lamentxu.top/posts/2025-04-01-bottlesstiwaf-bypass/</guid>
+      <pubDate>Tue, 01 Apr 2025 14:10:00 GMT</pubDate>
+      <description>一段时间之前我在V&amp;N群聊里跟ZianTT和infernity师傅聊bottle SSTI的时候提到过bottle可以通过斜体字进行waf的bypass。这种bypass超模的地方在于它可以直接替换SSTI利用链里的ASCII字符。这激起了我的兴趣，所以我决定往下看看。我目前发现的POC只能</description>
+      <author>weilindu@php.net (LamentXU)</author>
+      <category>其他技术文章</category>
+    </item>
+    <item>
+      <title>nctf 2025 web wp</title>
+      <link>https://lamentxu.top/posts/2025-03-29-nctf-2025-web-wp/</link>
+      <guid isPermaLink="true">https://lamentxu.top/posts/2025-03-29-nctf-2025-web-wp/</guid>
+      <pubDate>Sat, 29 Mar 2025 05:19:00 GMT</pubDate>
+      <description>这周真的很忙，sm学校还要段考我草。这CTF也是就随便糊弄糊弄了（还好web简单）。最终还是给队友大佬带上来了。极限三等（（ sqlmap_master from fastapi import FastAPI, Request from fastapi.responses import FileRe</description>
+      <author>weilindu@php.net (LamentXU)</author>
+      <category>其他技术文章</category>
+    </item>
+    <item>
+      <title>XYCTF 2025 出题人wp LamentXU</title>
+      <link>https://lamentxu.top/posts/2025-03-08-xyctf-2025-wp-lamentxu/</link>
+      <guid isPermaLink="true">https://lamentxu.top/posts/2025-03-08-xyctf-2025-wp-lamentxu/</guid>
+      <pubDate>Fri, 07 Mar 2025 16:40:00 GMT</pubDate>
+      <description>第一次给大比赛出题，出的有点烂，希望师傅们见谅&gt;_&lt; 提示：本次为完全公益性质的出题。授权任何人在任何平台复现，甚至于商用。但请务必注明作者ID：LamentXU 本次题目附件，docker，题解全部在github仓库公开，方便师傅们复现。 WEB-Signin 出题灵感 这两天翻bot</description>
+      <author>weilindu@php.net (LamentXU)</author>
+      <category>其他技术文章</category>
+    </item>
+    <item>
+      <title>VNCTF 2025 web wp</title>
+      <link>https://lamentxu.top/posts/2025-02-09-vnctf-2025-web-wp/</link>
+      <guid isPermaLink="true">https://lamentxu.top/posts/2025-02-09-vnctf-2025-web-wp/</guid>
+      <pubDate>Sun, 09 Feb 2025 04:44:00 GMT</pubDate>
+      <description>Web3看到路径穿越下key伪造jwt，也绕过沙箱弹到shell了，就剩一个提权。但这几天比较累，到后面实在是熬不动了，睡觉去了。今早起来看到环境变量提权的可能，但是最后还是没跑赢时间，导致差一题差一点就web方向第2了。 web单方向最终第10，我是前10里面唯一一个只出了三道题的。也许遗憾真的总</description>
+      <author>weilindu@php.net (LamentXU)</author>
+      <category>其他技术文章</category>
+    </item>
+    <item>
+      <title>LamentXU 2024-2025年终总结</title>
+      <link>https://lamentxu.top/posts/2025-01-26-lamentxu-2024-2025/</link>
+      <guid isPermaLink="true">https://lamentxu.top/posts/2025-01-26-lamentxu-2024-2025/</guid>
+      <pubDate>Sun, 26 Jan 2025 03:15:00 GMT</pubDate>
+      <description>下雪了。对于一个南方人来说，老家北方的雪声和爆竹味意味着年。我终于还是开始写这篇文字了。最初我创建这个博客的原因就是想记录一下自己学习成长的足迹。而这一年的经历确实很丰富，我打算学着各个大佬的样子写个总结。整理一下我这一年的成长和收获。顺便把我的一些心里话写给我亲爱的人，以及我自己。 一年来的感受</description>
+      <author>weilindu@php.net (LamentXU)</author>
+      <category>杂七杂八的文字</category>
+    </item>
+    <item>
+      <title>春秋冬季赛 web方向 除零解题外全解 wp</title>
+      <link>https://lamentxu.top/posts/2025-01-19-web-wp/</link>
+      <guid isPermaLink="true">https://lamentxu.top/posts/2025-01-19-web-wp/</guid>
+      <pubDate>Sun, 19 Jan 2025 15:00:00 GMT</pubDate>
+      <description>WP部分 这次是单人队伍，第9名，其中web方向前两天ak，第三天俩零解拼劲全力无法战胜。 easy_flask 我们从最简单的开始。 这题无过滤SSTI，但为了防止小白不会，我贴一下过程。 首先 {{7*7}} 发现输出为49，到这里确诊为flask的SSTI {{[].__class__.__b</description>
+      <author>weilindu@php.net (LamentXU)</author>
+      <category>其他技术文章</category>
+    </item>
+    <item>
+      <title>ctfshow 2025元旦渗透赛 wp</title>
+      <link>https://lamentxu.top/posts/2025-01-01-ctfshow-2025-wp/</link>
+      <guid isPermaLink="true">https://lamentxu.top/posts/2025-01-01-ctfshow-2025-wp/</guid>
+      <pubDate>Tue, 31 Dec 2024 17:10:00 GMT</pubDate>
+      <description>谁家跨年CTF啊！ 自从去年西瓜杯给CTFSHOW投了个原题（wok真的别骂了传错文件了）就一直心里有个坎过不去。今年打渗透赛的时候还是老是想起这个来（（（现在是处于戴罪立功阶段。多写点wp吧。 启程 我们的演出，开始了。(bushi 下载压缩包，有密码，ZipCracker弱密码爆破一把出。签到题</description>
+      <author>weilindu@php.net (LamentXU)</author>
+      <category>其他技术文章</category>
+    </item>
+    <item>
+      <title>国城杯 线下赛 web wp</title>
+      <link>https://lamentxu.top/posts/2024-12-22-web-wp/</link>
+      <guid isPermaLink="true">https://lamentxu.top/posts/2024-12-22-web-wp/</guid>
+      <pubDate>Sun, 22 Dec 2024 07:56:00 GMT</pubDate>
+      <description>这应该是我离各位大佬们（物理上）最近的一次。 AWDP 抽象树那题骗的分。不出来说了，招骂。 Mountain 黑盒，进去看源码。 很容易想到有display路由。进去之后同样看源码 根据提示Get fuzz一下出photo参数。传参可以读取图片。 显然这里有个任意文件读。尝试读取/etc/pass</description>
+      <author>weilindu@php.net (LamentXU)</author>
+      <category>其他技术文章</category>
+    </item>
+    <item>
+      <title>第二届CN-fnst::CTF web部分题解</title>
+      <link>https://lamentxu.top/posts/2024-12-15-cn-fnstctf-web/</link>
+      <guid isPermaLink="true">https://lamentxu.top/posts/2024-12-15-cn-fnstctf-web/</guid>
+      <pubDate>Sun, 15 Dec 2024 06:05:00 GMT</pubDate>
+      <description>新生CTF。基本自己一个人打的（感谢图寻佬给我看了俩题）。差一个misc进前20（一直在做pwn的babyheap_revenge给我调红温了（滚回web了，我再也不学pwn了呜呜呜），没想到misc一个分这么高wok，最后来不及做了嗨） 反馈一下：大量题目是原题。。。osint把取证夺舍了。mis</description>
+      <author>weilindu@php.net (LamentXU)</author>
+      <category>其他技术文章</category>
+    </item>
+    <item>
+      <title>1337 live CTF web Cat Club 单题wp</title>
+      <link>https://lamentxu.top/posts/2024-11-19-1337-live-ctf-web-cat-club-wp/</link>
+      <guid isPermaLink="true">https://lamentxu.top/posts/2024-11-19-1337-live-ctf-web-cat-club-wp/</guid>
+      <pubDate>Tue, 19 Nov 2024 13:54:00 GMT</pubDate>
+      <description>跟wgpsec打，贴wgpsec wp：https://mp.weixin.qq.com/s/xNaax4gs57QJewENxlTT5g 这次web3出的特别好，写篇wp记录一下 下载附件，审计。整个web app大致实现了一个注册登录和访问静态页面的功能。注意到用的jwt做登陆凭证。且使用的RS</description>
+      <author>weilindu@php.net (LamentXU)</author>
+      <category>其他技术文章</category>
+    </item>
+    <item>
+      <title>HKCERT 2024 部分 web wp</title>
+      <link>https://lamentxu.top/posts/2024-11-13-hkcert-2024-web-wp/</link>
+      <guid isPermaLink="true">https://lamentxu.top/posts/2024-11-13-hkcert-2024-web-wp/</guid>
+      <pubDate>Wed, 13 Nov 2024 05:39:00 GMT</pubDate>
+      <description>又是跟的wgpsec打。还是把wgpsec的wp贴一下：https://mp.weixin.qq.com/s/T7EicKJOOVcwWohy_HTClQ 因为大部分师傅都没啥时间，导致这次被迫打了全栈。最后算是水了个61名。然而我终究还是web手。其他方向学起来还是很费劲的，加上本人也很乏，所以就</description>
+      <author>weilindu@php.net (LamentXU)</author>
+      <category>其他技术文章</category>
+    </item>
+    <item>
+      <title>强网杯 2024 web pyblockly 单题wp</title>
+      <link>https://lamentxu.top/posts/2024-11-08-2024-web-pyblockly-wp/</link>
+      <guid isPermaLink="true">https://lamentxu.top/posts/2024-11-08-2024-web-pyblockly-wp/</guid>
+      <pubDate>Fri, 08 Nov 2024 10:37:00 GMT</pubDate>
+      <description>这次跟的wgpsec打。不给复现写不了wp，第一次打国内的比赛有点疏忽了。把pyblockly写详细点儿吧（pyblockly留了做题记录） 贴一下wgpsec的wp：https://mp.weixin.qq.com/s/NzZ-ZJlyCh2sk3vbNbswiw WEB几乎AK了，tql师傅们</description>
+      <author>weilindu@php.net (LamentXU)</author>
+      <category>其他技术文章</category>
+    </item>
+    <item>
+      <title>TCP1PCTF 2024 Web Hacked 单题wp</title>
+      <link>https://lamentxu.top/posts/2024-10-12-tcp1pctf-2024-web-hacked-wp/</link>
+      <guid isPermaLink="true">https://lamentxu.top/posts/2024-10-12-tcp1pctf-2024-web-hacked-wp/</guid>
+      <pubDate>Sat, 12 Oct 2024 11:37:00 GMT</pubDate>
+      <description>后来没时间看Hacked v2了（悲） 先看配置文件 # Use the official Python image as the base image FROM python:3.8-slim # Set environment variables for Flask ENV PYTHONDONT</description>
+      <author>weilindu@php.net (LamentXU)</author>
+      <category>其他技术文章</category>
+    </item>
+    <item>
+      <title>ironCTF 2024 WEB EICS1 部分wp</title>
+      <link>https://lamentxu.top/posts/2024-10-07-ironctf-2024-web-eics1-wp/</link>
+      <guid isPermaLink="true">https://lamentxu.top/posts/2024-10-07-ironctf-2024-web-eics1-wp/</guid>
+      <pubDate>Mon, 07 Oct 2024 03:58:00 GMT</pubDate>
+      <description>好耶！是第一次拿奖的CTF！（虽然说这次re手不在有点可惜） 用户名 得分 LamentTyphon 2468 Jerrythepro123 2610 Dragonkeep 483 WEB JWT Hunt Mango Loan App b64SiteViewer cerealShop MovieR</description>
+      <author>weilindu@php.net (LamentXU)</author>
+      <category>其他技术文章</category>
+    </item>
+    <item>
+      <title>CTF web漏洞合集 Python篇（2）python中的路径穿越</title>
+      <link>https://lamentxu.top/posts/2024-10-03-ctf-web-python2python/</link>
+      <guid isPermaLink="true">https://lamentxu.top/posts/2024-10-03-ctf-web-python2python/</guid>
+      <pubDate>Thu, 03 Oct 2024 12:16:00 GMT</pubDate>
+      <description>路径穿越 -- Path Traversal 0x01 成因 我们来看一段代码： from flask import Flask, request, render_template, send_file app = Flask(__name__) @app.get(&quot;/&lt;path:f</description>
+      <author>weilindu@php.net (LamentXU)</author>
+      <category>其他技术文章</category>
+    </item>
+    <item>
+      <title>CTF web漏洞合集 Python篇（1）python中的SSTI</title>
+      <link>https://lamentxu.top/posts/2024-10-01-ctf-web-python1pythonssti/</link>
+      <guid isPermaLink="true">https://lamentxu.top/posts/2024-10-01-ctf-web-python1pythonssti/</guid>
+      <pubDate>Tue, 01 Oct 2024 05:42:00 GMT</pubDate>
+      <description>写在前面 CTF web还是需要大量的沉淀的。我在最近的CTF中主打一个眼高手低（bushi）完全就是凭着以前开发的基础做题。对于很多漏洞类型缺乏掌握（或者可以说是只听说过或在wp里看过）。所以想来想去还是好好回去学一下常见的漏洞，把成因，漏洞特征，利用，常见防护及绕过都搞懂，顺便做做例题。于是还是</description>
+      <author>weilindu@php.net (LamentXU)</author>
+      <category>其他技术文章</category>
+    </item>
+    <item>
+      <title>Patriot CTF 2024 MISC 部分 wp</title>
+      <link>https://lamentxu.top/posts/2024-09-24-patriot-ctf-2024-misc-wp/</link>
+      <guid isPermaLink="true">https://lamentxu.top/posts/2024-09-24-patriot-ctf-2024-misc-wp/</guid>
+      <pubDate>Tue, 24 Sep 2024 14:23:00 GMT</pubDate>
+      <description>User Name Score LamentTyphon 922 Dragonkeep 846 Jerrythepro123 500 sanmu 1312 6s6 200 p3cd0wn 100 我们队web佬的wp：https://dragonkeeep.top/category/PatriotC</description>
+      <author>weilindu@php.net (LamentXU)</author>
+      <category>其他技术文章</category>
+    </item>
+    <item>
+      <title>CSCTF 2024 EICS1 web 部分 wp</title>
+      <link>https://lamentxu.top/posts/2024-09-04-csctf-2024-eics1-web-wp/</link>
+      <guid isPermaLink="true">https://lamentxu.top/posts/2024-09-04-csctf-2024-eics1-web-wp/</guid>
+      <pubDate>Wed, 04 Sep 2024 05:46:00 GMT</pubDate>
+      <description>开始打这种难度高的CTF了，这辈子有了 Web ZipZone Feature Unlocked Trendz Trendzzz Trendzz Web ZipZone 下载附件开工 app.py import logging import os import subprocess import u</description>
+      <author>weilindu@php.net (LamentXU)</author>
+      <category>其他技术文章</category>
+    </item>
+    <item>
+      <title>deadsecCTF 2024 cry FLAGKILLER wp</title>
+      <link>https://lamentxu.top/posts/2024-08-01-deadsecctf-2024-cry-flagkiller-wp/</link>
+      <guid isPermaLink="true">https://lamentxu.top/posts/2024-08-01-deadsecctf-2024-cry-flagkiller-wp/</guid>
+      <pubDate>Thu, 01 Aug 2024 08:16:00 GMT</pubDate>
+      <description>爆破，简单粗暴却行之有效 记一道DeadsecCTF中cry部分的题目以及其非预期解法 flag killer.py #!/usr/bin/python3 from binascii import hexlify, unhexlify def FLAG_KILLER(value): index =</description>
+      <author>weilindu@php.net (LamentXU)</author>
+      <category>其他技术文章</category>
+    </item>
+    <item>
+      <title>OSCTF 2024 EICS1 WP (web, reverse, pwn 全解，cry部分)</title>
+      <link>https://lamentxu.top/posts/2024-07-14-osctf-2024-eics1-wp-web-reverse-pwn-cry/</link>
+      <guid isPermaLink="true">https://lamentxu.top/posts/2024-07-14-osctf-2024-eics1-wp-web-reverse-pwn-cry/</guid>
+      <pubDate>Sun, 14 Jul 2024 11:49:00 GMT</pubDate>
+      <description>队伍：ElCS1 排名：24 分数：5085 pts 师傅们都tql！ User Name Score Jerrythepro123 2230 sanmu 240 Dragonkeep &amp; LamentXU 2015 6s6 400 Aly1xbot 200 这次比赛我们队的osint和mi</description>
+      <author>weilindu@php.net (LamentXU)</author>
+      <category>其他技术文章</category>
+    </item>
+    <item>
+      <title>DUCTF 2024 EICS1 beginner wp</title>
+      <link>https://lamentxu.top/posts/2024-07-07-ductf-2024-eics1-beginner-wp/</link>
+      <guid isPermaLink="true">https://lamentxu.top/posts/2024-07-07-ductf-2024-eics1-beginner-wp/</guid>
+      <pubDate>Sun, 07 Jul 2024 10:20:00 GMT</pubDate>
+      <description>所有begginer栏目题目的wp（迫真） 其他单方向的或多或少都有搞不出来的题目，对于彩笔（我）来说能打好beginner的基础就不错了 队伍名：EICS1 分数：1811 points 排名：227th place 队伍成员 LamentXU Jerrythepro123 Dragonkeep</description>
+      <author>weilindu@php.net (LamentXU)</author>
+      <category>其他技术文章</category>
+    </item>
+    <item>
+      <title>WaniCTF 2024 EICS1 Forensics wp</title>
+      <link>https://lamentxu.top/posts/2024-06-25-wanictf-2024-eics1-forensics-wp/</link>
+      <guid isPermaLink="true">https://lamentxu.top/posts/2024-06-25-wanictf-2024-eics1-forensics-wp/</guid>
+      <pubDate>Tue, 25 Jun 2024 05:37:00 GMT</pubDate>
+      <description>还不错，一个人打的取证几乎AK了 Forensics tiny_usb Surveillance_of_sus codebreaker I_wanna_be_a_streamer tiny_10px mem_search Forensics tiny_usb 简单题，AXIOM直接看就行 FLAG{</description>
+      <author>weilindu@php.net (LamentXU)</author>
+      <category>其他技术文章</category>
+    </item>
+    <item>
+      <title>vsCTF 2024 web spinner wp</title>
+      <link>https://lamentxu.top/posts/2024-06-19-vsctf-2024-web-spinner-wp/</link>
+      <guid isPermaLink="true">https://lamentxu.top/posts/2024-06-19-vsctf-2024-web-spinner-wp/</guid>
+      <pubDate>Wed, 19 Jun 2024 05:25:00 GMT</pubDate>
+      <description>vsCTF里一道很棒的web题~ 本来就菜，加上我的前端安全水平又是入门级别，这种题做起来还是很费劲的。慢慢学吧 题目附件 其中后端代码： const http = require(&apos;http&apos;); const fs = require(&apos;fs&apos;); const pa</description>
+      <author>weilindu@php.net (LamentXU)</author>
+      <category>其他技术文章</category>
+    </item>
+    <item>
+      <title>vsCTF 2024 re awa-jelly wp</title>
+      <link>https://lamentxu.top/posts/2024-06-16-vsctf-2024-re-awa-jelly-wp/</link>
+      <guid isPermaLink="true">https://lamentxu.top/posts/2024-06-16-vsctf-2024-re-awa-jelly-wp/</guid>
+      <pubDate>Sun, 16 Jun 2024 09:43:00 GMT</pubDate>
+      <description>vsCTF算我为数不多能打的国外比赛了，来记一道很有意思的reverse题目 JellyCTF has some amazing challenges on Jelly Hoshiumi (星海ジェリー), one of the few VTubers who loves CTF. Inspired</description>
+      <author>weilindu@php.net (LamentXU)</author>
+      <category>其他技术文章</category>
+    </item>
+    <item>
+      <title>R3CTF 2024 web jinjaclub wp</title>
+      <link>https://lamentxu.top/posts/2024-06-12-r3ctf-2024-web-jinjaclub-wp/</link>
+      <guid isPermaLink="true">https://lamentxu.top/posts/2024-06-12-r3ctf-2024-web-jinjaclub-wp/</guid>
+      <pubDate>Wed, 12 Jun 2024 05:21:00 GMT</pubDate>
+      <description>一个web手不看web看起取证来了（不会web），我为什么会做这样的梦 高贵的纯血web题 R3CTF是这样的，出题人只要留沙箱就可以了，而ctfer要考虑的事情就多了 呼，点进去一看发现名牌ssti还给了python源码 from jinja2.sandbox import SandboxedEn</description>
+      <author>weilindu@php.net (LamentXU)</author>
+      <category>其他技术文章</category>
+    </item>
+    <item>
+      <title>LitCTF 2024 wp</title>
+      <link>https://lamentxu.top/posts/2024-06-01-litctf-2024-wp/</link>
+      <guid isPermaLink="true">https://lamentxu.top/posts/2024-06-01-litctf-2024-wp/</guid>
+      <pubDate>Sat, 01 Jun 2024 14:21:00 GMT</pubDate>
+      <description>好简单的比赛！主要是队友大佬，早上起床开个靶机去吃饭回来队友已经把web秒到只剩下一道题了（我开着靶机队友上不去）misc也快秒完了 后来我做了一下web，一共用时29分04秒77比队友慢了一点（）） 队里没有crypto reverse和pwn手，也没什么成绩，佬们凑合着看吧，轻点喷哈~ 队伍：L</description>
+      <author>weilindu@php.net (LamentXU)</author>
+      <category>其他技术文章</category>
+    </item>
+    <item>
+      <title>XYCTF 2024 web week1 wp</title>
+      <link>https://lamentxu.top/posts/2024-04-26-xyctf-2024-web-week1-wp/</link>
+      <guid isPermaLink="true">https://lamentxu.top/posts/2024-04-26-xyctf-2024-web-week1-wp/</guid>
+      <pubDate>Fri, 26 Apr 2024 12:18:00 GMT</pubDate>
+      <description>学校要期中考试所以只能写第一周的web了（电脑被收了 悲），当时牢大那个题容器坏了，后来拿手机勉强做了一下ezclass，ezRCE，信息课上偷偷打了ezSerialize和牢大（）），各位大佬们凑合着看吧 拿手机打了两道题，实在被手机端的操作整红温了（菜就多练），再加上那个手机端的wss更是雪上加</description>
+      <author>weilindu@php.net (LamentXU)</author>
+      <category>其他技术文章</category>
+    </item>
+  </channel>
+</rss>
