@@ -203,6 +203,12 @@ async function getPostFiles() {
 
 async function parsePost({ file, slug, stat }, baseUrl) {
   const html = await fs.readFile(file, "utf8");
+  const articleSummary = extractArticleSummary(html);
+
+  if (!normalizeWhitespace(articleSummary)) {
+    return null;
+  }
+
   const relativeUrl = stripIndexHtml(`/${path.relative(root, file).replace(/\\/g, "/")}`);
   const url = `${baseUrl}${relativeUrl}`;
   const published = toDate(getMetaContent(html, "property", "article:published_time"))
@@ -218,7 +224,7 @@ async function parsePost({ file, slug, stat }, baseUrl) {
     updated,
     summary: truncateSummary(getMetaContent(html, "name", "description")
       || getMetaContent(html, "property", "og:description")
-      || extractArticleSummary(html)),
+      || articleSummary),
     categories: extractCategories(html)
   };
 }
@@ -288,8 +294,11 @@ function renderAtom(posts, baseUrl, siteDescription, siteUpdated) {
 const baseUrl = await getBaseUrl();
 const siteDescription = await getSiteDescription();
 const postFiles = await getPostFiles();
-const posts = (await Promise.all(postFiles.map((postFile) => parsePost(postFile, baseUrl))))
+const parsedPosts = await Promise.all(postFiles.map((postFile) => parsePost(postFile, baseUrl)));
+const posts = parsedPosts
+  .filter(Boolean)
   .sort((a, b) => b.published.getTime() - a.published.getTime());
+const skippedPosts = parsedPosts.length - posts.length;
 const siteUpdated = posts.reduce((latest, post) => {
   const postLatest = post.updated > post.published ? post.updated : post.published;
   return postLatest > latest ? postLatest : latest;
@@ -298,4 +307,4 @@ const siteUpdated = posts.reduce((latest, post) => {
 await fs.writeFile(path.join(root, "rss.xml"), renderRss(posts, baseUrl, siteDescription, siteUpdated), "utf8");
 await fs.writeFile(path.join(root, "atom.xml"), renderAtom(posts, baseUrl, siteDescription, siteUpdated), "utf8");
 
-console.log(`Generated rss.xml and atom.xml for ${posts.length} posts`);
+console.log(`Generated rss.xml and atom.xml for ${posts.length} posts${skippedPosts ? `, skipped ${skippedPosts} empty post${skippedPosts === 1 ? "" : "s"}` : ""}`);
