@@ -8,7 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
     <meta name="description" content="在 2026，我不禁要问：php 语言真的如中文互联网上所说的这样不堪吗？ 不幸的是，完成这样的调研需要深入社交媒体的言论中。大部分情况下这使我生理性反胃，恶心，呕吐；甚至要过几天才能缓过来这样的精神攻击。因此这篇文字搁置了很久很久。准确的说是从 3 月份到现在，我都很难在这个主题上下笔。 然而一些所谓的“安全专家”和所谓的“漏洞研究院”简直“亡我之心不死”。其在中文互联网上的言论实在过于愚蠢。而">
 <meta property="og:type" content="article">
-<meta property="og:title" content="新时代的 PHP 真的不安全吗">
+<meta property="og:title" content="所谓“高危”的 PHP 反序列化到 RCE 漏洞">
 <meta property="og:url" content="https://lamentxu.top/posts/2026-07-13-php-sec-talk-script/index.html">
 <meta property="og:site_name" content="LamentXU">
 <meta property="og:description" content="在 2026，我不禁要问：php 语言真的如中文互联网上所说的这样不堪吗？ 不幸的是，完成这样的调研需要深入社交媒体的言论中。大部分情况下这使我生理性反胃，恶心，呕吐；甚至要过几天才能缓过来这样的精神攻击。因此这篇文字搁置了很久很久。准确的说是从 3 月份到现在，我都很难在这个主题上下笔。 然而一些所谓的“安全专家”和所谓的“漏洞研究院”简直“亡我之心不死”。其在中文互联网上的言论实在过于愚蠢。而">
@@ -37,7 +37,7 @@
       
     
     <!-- title -->
-    <title>新时代的 PHP 真的不安全吗</title>
+    <title>所谓“高危”的 PHP 反序列化到 RCE 漏洞</title>
     <!-- async scripts -->
     <!-- Google Analytics -->
 
@@ -54,7 +54,6 @@
     <!-- rss -->
     
     
-      <link rel="alternate" href="/rss.xml" title="LamentXU" type="application/rss+xml" />
       <link rel="alternate" href="/atom.xml" title="LamentXU" type="application/atom+xml" />
     
 	<!-- mathjax -->
@@ -104,24 +103,20 @@
     <div id="share" style="display: none">
       <ul>
   <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://lamentxu.top/posts/2026-07-13-php-sec-talk-script/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://lamentxu.top/posts/2026-07-13-php-sec-talk-script/&text=新时代的 PHP 真的不安全吗"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://lamentxu.top/posts/2026-07-13-php-sec-talk-script/&title=新时代的 PHP 真的不安全吗"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://lamentxu.top/posts/2026-07-13-php-sec-talk-script/&is_video=false&description=新时代的 PHP 真的不安全吗"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="mailto:?subject=新时代的 PHP 真的不安全吗&body=Check out this article: https://lamentxu.top/posts/2026-07-13-php-sec-talk-script/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://lamentxu.top/posts/2026-07-13-php-sec-talk-script/&title=新时代的 PHP 真的不安全吗"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://lamentxu.top/posts/2026-07-13-php-sec-talk-script/&title=新时代的 PHP 真的不安全吗"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://lamentxu.top/posts/2026-07-13-php-sec-talk-script/&title=新时代的 PHP 真的不安全吗"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://lamentxu.top/posts/2026-07-13-php-sec-talk-script/&title=新时代的 PHP 真的不安全吗"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://lamentxu.top/posts/2026-07-13-php-sec-talk-script/&name=新时代的 PHP 真的不安全吗&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://lamentxu.top/posts/2026-07-13-php-sec-talk-script/&t=新时代的 PHP 真的不安全吗"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://lamentxu.top/posts/2026-07-13-php-sec-talk-script/&text=所谓“高危”的 PHP 反序列化到 RCE 漏洞"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://lamentxu.top/posts/2026-07-13-php-sec-talk-script/&title=所谓“高危”的 PHP 反序列化到 RCE 漏洞"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://lamentxu.top/posts/2026-07-13-php-sec-talk-script/&is_video=false&description=所谓“高危”的 PHP 反序列化到 RCE 漏洞"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=所谓“高危”的 PHP 反序列化到 RCE 漏洞&body=Check out this article: https://lamentxu.top/posts/2026-07-13-php-sec-talk-script/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://lamentxu.top/posts/2026-07-13-php-sec-talk-script/&title=所谓“高危”的 PHP 反序列化到 RCE 漏洞"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://lamentxu.top/posts/2026-07-13-php-sec-talk-script/&title=所谓“高危”的 PHP 反序列化到 RCE 漏洞"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://lamentxu.top/posts/2026-07-13-php-sec-talk-script/&title=所谓“高危”的 PHP 反序列化到 RCE 漏洞"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://lamentxu.top/posts/2026-07-13-php-sec-talk-script/&title=所谓“高危”的 PHP 反序列化到 RCE 漏洞"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://lamentxu.top/posts/2026-07-13-php-sec-talk-script/&name=所谓“高危”的 PHP 反序列化到 RCE 漏洞&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://lamentxu.top/posts/2026-07-13-php-sec-talk-script/&t=所谓“高危”的 PHP 反序列化到 RCE 漏洞"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
 </ul>
 
     </div>
     
-    
-      <div id="toc">
-        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%82%B2%E6%85%A2%EF%BC%8C%E5%81%8F%E8%A7%81%E5%92%8C%E6%97%A0%E7%9F%A5"><span class="toc-number">1.</span> <span class="toc-text">傲慢，偏见和无知</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%89%80%E8%B0%93%E2%80%9C%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E2%80%9D%E6%BC%8F%E6%B4%9E"><span class="toc-number">1.1.</span> <span class="toc-text">所谓“反序列化”漏洞</span></a></li></ol></li></ol>
-      </div>
     
   </span>
 </div>
@@ -133,7 +128,7 @@
   <header>
     
     <h1 class="posttitle p-name" itemprop="name headline">
-        新时代的 PHP 真的不安全吗
+        所谓“高危”的 PHP 反序列化到 RCE 漏洞
     </h1>
 
 
@@ -171,10 +166,7 @@
 <p>不幸的是，完成这样的调研需要深入社交媒体的言论中。大部分情况下这使我生理性反胃，恶心，呕吐；甚至要过几天才能缓过来这样的精神攻击。因此这篇文字搁置了很久很久。准确的说是从 3 月份到现在，我都很难在这个主题上下笔。</p>
 <p>然而一些所谓的“安全专家”和所谓的“漏洞研究院”简直“亡我之心不死”。其在中文互联网上的言论实在过于愚蠢。而由于互联网的本性，作为一个对网络安全感兴趣的人，一些质量不尽如人意的言论总是能到我耳朵里。</p>
 <p>我想说：大多数人都是没有自己的观点的。他们并不知道 php 语言为什么不安全，仅是人云亦云地传声。而源头的蠢人，还不知道自己的愚蠢。</p>
-<p>“Whoso would be a man must be a nonconformist.”</p>
-<h1 id="傲慢，偏见和无知"><a href="#傲慢，偏见和无知" class="headerlink" title="傲慢，偏见和无知"></a>傲慢，偏见和无知</h1><p>在解释我本人的观点之前，我不得不对一些相当成熟的愚蠢言论做一些反驳。证明一下互联网对这门语言的安全性存在的偏见。</p>
-<p>我的所有反对声音仅限技术交流，不针对任何个体，因此我不放任何的链接了。如任何人觉得被冒犯，欢迎给 php 内核做贡献把它改成你想要的样子。我发誓会去 review 的。</p>
-<h2 id="所谓“反序列化”漏洞"><a href="#所谓“反序列化”漏洞" class="headerlink" title="所谓“反序列化”漏洞"></a>所谓“反序列化”漏洞</h2><p>大家应该有听说 php 语言最近出了一个可以直接利用的 UAF 漏洞，通过构造恶意的反序列化内容加后续利用可以实现 RCE。我们可以利用它全版本来绕过 disable_functions 云云。</p>
+<p>大家应该有听说 php 语言最近出了一个可以直接利用的 UAF 漏洞，通过构造恶意的反序列化内容加后续利用可以实现 RCE。我们可以利用它全版本来绕过 disable_functions 云云。</p>
 <p>媒体把它吹上了天。外加这个漏洞又是由 AI+skills 发现的（mad-bugs）因此 AI 末日论者和反对 AI 的人都非常喜欢这个漏洞。一方面可以证明 AI 的强大，另一方面可以证明人类编写的 skill 的作用。</p>
 <p>那么好，我有几个问题，希望专家们可以回答：</p>
 <ul>
@@ -188,7 +180,6 @@
 </blockquote>
 <p>综上，这个漏洞就是最纯粹的狗屎。是的，狗屎。甚至还没有狗屎有价值。然后呢？“安全专家”们就依靠这个典型开始大肆宣扬所谓 php 末日论。痛斥核心开发者的不作为，云云。</p>
 <p>当然，我给专家们带来了一个好消息：由于我们维护者共有 0 个人在意这个所谓的漏洞（我其实是在意的）所以它在 php 8.6（至少在小于 alpha2 的版本）也是可以用的。Enjoy 吧。</p>
-<p>好了我已经生理性反胃了。我觉得去休息一下。等过两天再把这个补齐。</p>
 
   </div>
 </article>
@@ -217,32 +208,26 @@
 
     
     
-      <div id="toc-footer" style="display: none">
-        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%82%B2%E6%85%A2%EF%BC%8C%E5%81%8F%E8%A7%81%E5%92%8C%E6%97%A0%E7%9F%A5"><span class="toc-number">1.</span> <span class="toc-text">傲慢，偏见和无知</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%89%80%E8%B0%93%E2%80%9C%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E2%80%9D%E6%BC%8F%E6%B4%9E"><span class="toc-number">1.1.</span> <span class="toc-text">所谓“反序列化”漏洞</span></a></li></ol></li></ol>
-      </div>
-    
 
     <div id="share-footer" style="display: none">
       <ul>
   <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://lamentxu.top/posts/2026-07-13-php-sec-talk-script/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://lamentxu.top/posts/2026-07-13-php-sec-talk-script/&text=新时代的 PHP 真的不安全吗"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://lamentxu.top/posts/2026-07-13-php-sec-talk-script/&title=新时代的 PHP 真的不安全吗"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://lamentxu.top/posts/2026-07-13-php-sec-talk-script/&is_video=false&description=新时代的 PHP 真的不安全吗"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="mailto:?subject=新时代的 PHP 真的不安全吗&body=Check out this article: https://lamentxu.top/posts/2026-07-13-php-sec-talk-script/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://lamentxu.top/posts/2026-07-13-php-sec-talk-script/&title=新时代的 PHP 真的不安全吗"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://lamentxu.top/posts/2026-07-13-php-sec-talk-script/&title=新时代的 PHP 真的不安全吗"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://lamentxu.top/posts/2026-07-13-php-sec-talk-script/&title=新时代的 PHP 真的不安全吗"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://lamentxu.top/posts/2026-07-13-php-sec-talk-script/&title=新时代的 PHP 真的不安全吗"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://lamentxu.top/posts/2026-07-13-php-sec-talk-script/&name=新时代的 PHP 真的不安全吗&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://lamentxu.top/posts/2026-07-13-php-sec-talk-script/&t=新时代的 PHP 真的不安全吗"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://lamentxu.top/posts/2026-07-13-php-sec-talk-script/&text=所谓“高危”的 PHP 反序列化到 RCE 漏洞"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://lamentxu.top/posts/2026-07-13-php-sec-talk-script/&title=所谓“高危”的 PHP 反序列化到 RCE 漏洞"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://lamentxu.top/posts/2026-07-13-php-sec-talk-script/&is_video=false&description=所谓“高危”的 PHP 反序列化到 RCE 漏洞"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=所谓“高危”的 PHP 反序列化到 RCE 漏洞&body=Check out this article: https://lamentxu.top/posts/2026-07-13-php-sec-talk-script/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://lamentxu.top/posts/2026-07-13-php-sec-talk-script/&title=所谓“高危”的 PHP 反序列化到 RCE 漏洞"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://lamentxu.top/posts/2026-07-13-php-sec-talk-script/&title=所谓“高危”的 PHP 反序列化到 RCE 漏洞"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://lamentxu.top/posts/2026-07-13-php-sec-talk-script/&title=所谓“高危”的 PHP 反序列化到 RCE 漏洞"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://lamentxu.top/posts/2026-07-13-php-sec-talk-script/&title=所谓“高危”的 PHP 反序列化到 RCE 漏洞"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://lamentxu.top/posts/2026-07-13-php-sec-talk-script/&name=所谓“高危”的 PHP 反序列化到 RCE 漏洞&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://lamentxu.top/posts/2026-07-13-php-sec-talk-script/&t=所谓“高危”的 PHP 反序列化到 RCE 漏洞"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
 </ul>
 
     </div>
 
     <div id="actions-footer">
         <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
-        
-          <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> 目录</a>
         
         <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
         <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
