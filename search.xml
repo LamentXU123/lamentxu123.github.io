@@ -4460,7 +4460,7 @@
 </div>
 
 <h1 id="DONE"><a href="#DONE" class="headerlink" title="DONE"></a>DONE</h1><p>对于我在 php-src（php 内核）里做的所有贡献，可以在 <a href="https://github.com/php/php-src/commits?author=LamentXU123">commit list</a> 里找到。</p>
-<p>以下是我对 PHP 做过或正在推进的<strong>用户可见行为</strong>变化（不包含重构）。（更新于 2026-08-06 00:36 CST）</p>
+<p>以下是我对 PHP 做过或正在推进的<strong>用户可见行为</strong>变化（不包含重构）。（更新于 2026-08-09 00:15 CST）</p>
 <h2 id="PHP-8-6-x"><a href="#PHP-8-6-x" class="headerlink" title="PHP 8.6.x"></a>PHP 8.6.x</h2><h3 id="RFC"><a href="#RFC" class="headerlink" title="RFC"></a>RFC</h3><ul>
 <li><input checked="" disabled="" type="checkbox"> <code>trim</code> &#x2F; <code>ltrim</code> &#x2F; <code>rtrim</code> &#x2F; <code>chop</code> 支持换页符。(<a href="https://github.com/php/php-src/pull/20788">PR #20788</a>, <a href="https://wiki.php.net/rfc/trim_form_feed">RFC</a>, <a href="https://php.watch/versions/8.6/trim-form-feed">PHP.WATCH</a>)</li>
 <li><input checked="" disabled="" type="checkbox"> 为 intl 添加 <code>Locale::getDisplayKeyword()</code>（别名 <code>locale_get_display_keyword()</code>） 和 <code>Locale::getDisplayKeywordValue()</code> （别名 <code>locale_get_display_keyword_value()</code>）。(<a href="https://github.com/php/php-src/pull/22264">PR #22264</a>, <a href="https://wiki.php.net/rfc/getdisplaykeyword_and_getdisplaykeywordvalue">RFC</a>)</li>
@@ -4502,6 +4502,7 @@
 <li>ext&#x2F;intl 在 <code>IntlNumberRangeFormatter::format()</code> 中保留 64 位整数精度。(<a href="https://github.com/php/php-src/pull/22202">PR #22202</a>)</li>
 <li>ext&#x2F;intl 修复 <code>ResourceBundle</code> 禁用回退时的错误信息。(<a href="https://github.com/php/php-src/pull/22236">PR #22236</a>)</li>
 <li>ext&#x2F;standard <code>phpcredits()</code> 修复团队标题对齐问题。(<a href="https://github.com/php/php-src/pull/22501">PR #22501</a>, <a href="https://github.com/php/php-src/pull/22918">PR #22918</a>)</li>
+<li>ext&#x2F;dom 修复 <code>DOMNode::isEqualNode()</code> 比较深层嵌套 DOM 树时可能触发栈溢出的问题。（从 PHP 8.5 合并上来；<a href="https://github.com/php/php-src/pull/23140">PR #23140</a>）</li>
 <li>ext&#x2F;hash 修复 <code>php_hash.h</code> 无法被 C++ 代码包含的问题。（从 PHP 8.5 合并上来；<a href="https://github.com/php/php-src/pull/22940">PR #22940</a>）</li>
 <li>ext&#x2F;zip 避免重置 <code>ZipArchive</code> 注释时发生崩溃。（从 PHP 8.5 合并上来；<a href="https://github.com/php/php-src/pull/22652">PR #22652</a>）</li>
 <li>ext&#x2F;sockets 修复 <code>socket_setopt()</code> &#x2F; <code>socket_set_option()</code> 参数校验失败时的错误信息。（从 PHP 8.5 合并上来；<a href="https://github.com/php/php-src/pull/22772">PR #22772</a>）</li>
@@ -4567,6 +4568,7 @@
 <li>ext&#x2F;sockets 修复 <code>socket_setopt()</code> &#x2F; <code>socket_set_option()</code> 参数校验失败时的错误信息。(<a href="https://github.com/php/php-src/pull/22772">PR #22772</a>)</li>
 <li>ext&#x2F;intl 在 <code>IntlListFormatter</code> 被创建时重置错误状态。(<a href="https://github.com/php/php-src/pull/22931">PR #22931</a>)</li>
 <li>ext&#x2F;intl 修复 <code>IntlListFormatter</code> 在 <code>format()</code> 失败后的对象错误状态。(<a href="https://github.com/php/php-src/commit/946d687d8d5a18c65a547a8fbb80b93dbe3abcce">commit 946d687</a>)</li>
+<li>ext&#x2F;dom 修复 <code>DOMNode::isEqualNode()</code> 比较深层嵌套 DOM 树时可能触发栈溢出的问题。（从 PHP 8.4 合并上来；<a href="https://github.com/php/php-src/pull/23140">PR #23140</a>）</li>
 <li>ext&#x2F;hash 修复 <code>php_hash.h</code> 无法被 C++ 代码包含的问题。（从 PHP 8.4 合并上来；<a href="https://github.com/php/php-src/pull/22940">PR #22940</a>）</li>
 <li>ext&#x2F;intl 修复日历日期&#x2F;时间 API 中越界的参数位置。（从 PHP 8.4 合并上来；<a href="https://github.com/php/php-src/commit/10704f079f6087a51e3b579faca00d833141d889">commit 10704f0</a>）</li>
 <li>ext&#x2F;intl 在 <code>IntlDateFormatter</code> 错误信息中使用 <code>PATTERN</code> 常量名。（从 PHP 8.4 合并上来；<a href="https://github.com/php/php-src/commit/2d784891fff579eef86e326bf969e3cf41dc5244">commit 2d78489</a>）</li>
@@ -4587,6 +4589,7 @@
 <li>ext&#x2F;zip 避免重置 <code>ZipArchive</code> 注释时发生崩溃。（从 PHP 8.4 合并上来；<a href="https://github.com/php/php-src/pull/22652">PR #22652</a>）</li>
 </ul>
 <h2 id="PHP-8-4-x"><a href="#PHP-8-4-x" class="headerlink" title="PHP 8.4.x"></a>PHP 8.4.x</h2><h3 id="Bug-修复-2"><a href="#Bug-修复-2" class="headerlink" title="Bug 修复"></a>Bug 修复</h3><ul>
+<li>ext&#x2F;dom 修复 <code>DOMNode::isEqualNode()</code> 比较深层嵌套 DOM 树时可能触发栈溢出的问题。(<a href="https://github.com/php/php-src/pull/23140">PR #23140</a>)</li>
 <li>ext&#x2F;hash 修复 <code>php_hash.h</code> 无法被 C++ 代码包含的问题。(<a href="https://github.com/php/php-src/pull/22940">PR #22940</a>)</li>
 <li>ext&#x2F;intl 修复日历日期&#x2F;时间 API 中越界的参数位置。(<a href="https://github.com/php/php-src/commit/10704f079f6087a51e3b579faca00d833141d889">commit 10704f0</a>)</li>
 <li>ext&#x2F;intl 在 <code>IntlDateFormatter</code> 错误信息中使用 <code>PATTERN</code> 常量名。(<a href="https://github.com/php/php-src/commit/2d784891fff579eef86e326bf969e3cf41dc5244">commit 2d78489</a>)</li>
