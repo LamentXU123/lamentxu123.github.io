@@ -128,7 +128,7 @@
 </div>
 
 <h1 id="DONE"><a href="#DONE" class="headerlink" title="DONE"></a>DONE</h1><p>对于我在 php-src（php 内核）里做的所有贡献，可以在 <a target="_blank" rel="noopener" href="https://github.com/php/php-src/commits?author=LamentXU123">commit list</a> 里找到。</p>
-<p>以下是我对 PHP 做过或正在推进的<strong>用户可见行为</strong>变化（不包含重构）。（更新于 2026-08-09 00:15 CST）</p>
+<p>以下是我对 PHP 做过或正在推进的<strong>用户可见行为</strong>变化（不包含重构）。（更新于 2026-08-10 17:03 CST）</p>
 <h2 id="PHP-8-6-x"><a href="#PHP-8-6-x" class="headerlink" title="PHP 8.6.x"></a>PHP 8.6.x</h2><h3 id="RFC"><a href="#RFC" class="headerlink" title="RFC"></a>RFC</h3><ul>
 <li><input checked="" disabled="" type="checkbox"> <code>trim</code> &#x2F; <code>ltrim</code> &#x2F; <code>rtrim</code> &#x2F; <code>chop</code> 支持换页符。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/20788">PR #20788</a>, <a target="_blank" rel="noopener" href="https://wiki.php.net/rfc/trim_form_feed">RFC</a>, <a target="_blank" rel="noopener" href="https://php.watch/versions/8.6/trim-form-feed">PHP.WATCH</a>)</li>
 <li><input checked="" disabled="" type="checkbox"> 为 intl 添加 <code>Locale::getDisplayKeyword()</code>（别名 <code>locale_get_display_keyword()</code>） 和 <code>Locale::getDisplayKeywordValue()</code> （别名 <code>locale_get_display_keyword_value()</code>）。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/22264">PR #22264</a>, <a target="_blank" rel="noopener" href="https://wiki.php.net/rfc/getdisplaykeyword_and_getdisplaykeywordvalue">RFC</a>)</li>
@@ -156,6 +156,7 @@
 <li><input disabled="" type="checkbox"> <em>等待披露</em></li>
 </ul>
 <h3 id="Bug-修复"><a href="#Bug-修复" class="headerlink" title="Bug 修复"></a>Bug 修复</h3><ul>
+<li>ext&#x2F;intl 修复 <code>IntlNumberRangeFormatter::createFromSkeleton()</code> 和 <code>IntlNumberRangeFormatter::format()</code> 成功调用后仍保留旧 intl 错误状态的问题。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/23191">PR #23191</a>)</li>
 <li>ext&#x2F;intl 修复部分构建环境中 <code>std::numeric_limits</code> 未由传递包含提供而导致的编译失败。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/23072">PR #23072</a>)</li>
 <li>ext&#x2F;standard <code>phpcredits()</code> 修复 full-page HTML 输出中的页面标题错误。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/23007">PR #23007</a>)</li>
 <li>ext&#x2F;standard 修复 <code>Io\Poll</code> watcher registry 在 watcher 移除和注册失败时的状态同步。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/22760">PR #22760</a>)</li>
