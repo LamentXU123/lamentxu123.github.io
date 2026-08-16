@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="缘起trim 函数是编程语言中非常常见的一个函数，它可以消除字符串两端的空格。PHP 里，trim 是一个标准库的函数，其文档位于：https:&#x2F;&#x2F;www.php.net&#x2F;manual&#x2F;zh&#x2F;function.trim.php 事情的起因是去年，我在看 PHP 8.5 内核的源代码时，看到了 ext&#x2F;standard 里 trim 函数的实现： &#x2F;ext&#x2F;standa">
+<meta property="og:type" content="article">
+<meta property="og:title" content="PHP 的 trim，form feed，以及一道 CTF 题解">
+<meta property="og:url" content="https://lamentxu.top/posts/2026-08-17-trim-php/index.html">
+<meta property="og:site_name" content="LamentXU">
+<meta property="og:description" content="缘起trim 函数是编程语言中非常常见的一个函数，它可以消除字符串两端的空格。PHP 里，trim 是一个标准库的函数，其文档位于：https:&#x2F;&#x2F;www.php.net&#x2F;manual&#x2F;zh&#x2F;function.trim.php 事情的起因是去年，我在看 PHP 8.5 内核的源代码时，看到了 ext&#x2F;standard 里 trim 函数的实现： &#x2F;ext&#x2F;standa">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2026-08-16T16:52:00.000Z">
+<meta property="article:modified_time" content="2026-08-16T16:52:00.000Z">
+<meta property="article:author" content="LamentXU">
+<meta property="article:tag" content="CTF, Web Security, PHP, Python, Writeup">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/cnblogs-avatar.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/cnblogs-avatar.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/cnblogs-avatar.png">
+        
+      
+    
+    <!-- title -->
+    <title>PHP 的 trim，form feed，以及一道 CTF 题解</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 8.1.2"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="顶部" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/categories/php-dev/">php 语言开发日志</a></li><!--
+     --><!--
+       --><li><a href="/categories/tech/">其他技术文章</a></li><!--
+     --><!--
+       --><li><a href="/categories/miscellany/">杂七杂八的文字</a></li><!--
+     --><!--
+       --><li><a href="/search/">搜索</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        
+        <li><a class="icon" aria-label="下一篇" href="/posts/2026-04-23-php/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="返回顶部" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="分享文章" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://lamentxu.top/posts/2026-08-17-trim-php/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://lamentxu.top/posts/2026-08-17-trim-php/&text=PHP 的 trim，form feed，以及一道 CTF 题解"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://lamentxu.top/posts/2026-08-17-trim-php/&title=PHP 的 trim，form feed，以及一道 CTF 题解"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://lamentxu.top/posts/2026-08-17-trim-php/&is_video=false&description=PHP 的 trim，form feed，以及一道 CTF 题解"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=PHP 的 trim，form feed，以及一道 CTF 题解&body=Check out this article: https://lamentxu.top/posts/2026-08-17-trim-php/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://lamentxu.top/posts/2026-08-17-trim-php/&title=PHP 的 trim，form feed，以及一道 CTF 题解"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://lamentxu.top/posts/2026-08-17-trim-php/&title=PHP 的 trim，form feed，以及一道 CTF 题解"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://lamentxu.top/posts/2026-08-17-trim-php/&title=PHP 的 trim，form feed，以及一道 CTF 题解"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://lamentxu.top/posts/2026-08-17-trim-php/&title=PHP 的 trim，form feed，以及一道 CTF 题解"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://lamentxu.top/posts/2026-08-17-trim-php/&name=PHP 的 trim，form feed，以及一道 CTF 题解&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://lamentxu.top/posts/2026-08-17-trim-php/&t=PHP 的 trim，form feed，以及一道 CTF 题解"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    
+    
+      <div id="toc">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%BC%98%E8%B5%B7"><span class="toc-number">1.</span> <span class="toc-text">缘起</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%8D%E7%BB%9F%E4%B8%80%E6%80%A7%E7%9A%84%E8%AF%9E%E7%94%9F"><span class="toc-number">1.1.</span> <span class="toc-text">不统一性的诞生</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%88%A9%E7%94%A8"><span class="toc-number">2.</span> <span class="toc-text">利用</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%A7%A3%E5%86%B3"><span class="toc-number">3.</span> <span class="toc-text">解决</span></a></li></ol>
+      </div>
+    
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        PHP 的 trim，form feed，以及一道 CTF 题解
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">LamentXU</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2026-08-16T16:52:00.000Z" class="dt-published" itemprop="datePublished">2026-08-17</time>
+        
+        (Updated: <time datetime="2026-08-16T16:52:00.000Z" class="dt-updated" itemprop="dateModified">2026-08-17</time>)
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fa-solid fa-archive"></i>
+        <a class="category-link" href="/categories/tech/">其他技术文章</a>
+    </div>
+
+
+      
+
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <h1 id="缘起"><a href="#缘起" class="headerlink" title="缘起"></a>缘起</h1><p>trim 函数是编程语言中非常常见的一个函数，它可以消除字符串两端的空格。PHP 里，trim 是一个标准库的函数，其文档位于：<a target="_blank" rel="noopener" href="https://www.php.net/manual/zh/function.trim.php">https://www.php.net/manual/zh/function.trim.php</a></p>
+<p>事情的起因是去年，我在看 PHP 8.5 内核的源代码时，看到了 ext&#x2F;standard 里 trim 函数的实现：</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/php/php-src/blob/PHP-8.5/ext/standard/string.c#L612">&#x2F;ext&#x2F;standard&#x2F;string.c#L612</a></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* &#123;&#123;&#123; Strips whitespace from the beginning and end of a string */</span></span><br><span class="line">PHP_FUNCTION(trim)</span><br><span class="line">&#123;</span><br><span class="line">	php_do_trim(INTERNAL_FUNCTION_PARAM_PASSTHRU, <span class="number">3</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">/* &#125;&#125;&#125; */</span></span><br></pre></td></tr></table></figure>
+
+<p>跟进 <code>php_do_trim</code></p>
+<p><a target="_blank" rel="noopener" href="https://github.com/php/php-src/blob/PHP-8.5/ext/standard/string.c#L625">ext&#x2F;standard&#x2F;string.c#L625</a></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* &#123;&#123;&#123; php_do_trim</span></span><br><span class="line"><span class="comment"> * Base for trim(), rtrim() and ltrim() functions.</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="type">static</span> zend_always_inline <span class="type">void</span> <span class="title function_">php_do_trim</span><span class="params">(INTERNAL_FUNCTION_PARAMETERS, <span class="type">int</span> mode)</span></span><br><span class="line">&#123;</span><br><span class="line">	zend_string *str;</span><br><span class="line">	zend_string *what = <span class="literal">NULL</span>;</span><br><span class="line"></span><br><span class="line">	ZEND_PARSE_PARAMETERS_START(<span class="number">1</span>, <span class="number">2</span>)</span><br><span class="line">		Z_PARAM_STR(str)</span><br><span class="line">		Z_PARAM_OPTIONAL</span><br><span class="line">		<span class="title function_">Z_PARAM_STR</span><span class="params">(what)</span></span><br><span class="line">	<span class="title function_">ZEND_PARSE_PARAMETERS_END</span><span class="params">()</span>;</span><br><span class="line"></span><br><span class="line">	ZVAL_STR(return_value, php_trim_int(str, (what ? ZSTR_VAL(what) : <span class="literal">NULL</span>), (what ? ZSTR_LEN(what) : <span class="number">0</span>), mode));</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">/* &#125;&#125;&#125; */</span></span><br></pre></td></tr></table></figure>
+
+<p>由上，可以知道 <code>trim</code> 函数里传递给 <code>php_do_trim</code> 的第一个参数是用户输入的需要 trim 的字符串。而第二个参数 <code>mode</code> 总是 <code>3</code>。</p>
+<p>插一嘴：在编程中利用魔术数字（magic number）是很不好的行为。我在未来大概率会重构这部分的代码。大家不要学习这样的写作方式 :)</p>
+<p>其实，我们从其他两个函数 <code>rtrim</code> 和 <code>ltrim</code> 的源码里也能猜出来 <code>mode</code> 的含义</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* &#123;&#123;&#123; Removes trailing whitespace */</span></span><br><span class="line">PHP_FUNCTION(rtrim)</span><br><span class="line">&#123;</span><br><span class="line">	php_do_trim(INTERNAL_FUNCTION_PARAM_PASSTHRU, <span class="number">2</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">/* &#125;&#125;&#125; */</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/* &#123;&#123;&#123; Strips whitespace from the beginning of a string */</span></span><br><span class="line">PHP_FUNCTION(ltrim)</span><br><span class="line">&#123;</span><br><span class="line">	php_do_trim(INTERNAL_FUNCTION_PARAM_PASSTHRU, <span class="number">1</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">/* &#125;&#125;&#125; */</span></span><br></pre></td></tr></table></figure>
+
+<p>好，我们接着跟进 <code>php_do_trim</code>。可以看到函数体主要是调用了 <code>php_trim_int</code> 函数。跟进：</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/php/php-src/blob/PHP-8.5/ext/standard/string.c#L518">ext&#x2F;standard&#x2F;string.c#L518</a></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* &#123;&#123;&#123; php_trim_int()</span></span><br><span class="line"><span class="comment"> * mode 1 : trim left</span></span><br><span class="line"><span class="comment"> * mode 2 : trim right</span></span><br><span class="line"><span class="comment"> * mode 3 : trim left and right</span></span><br><span class="line"><span class="comment"> * what indicates which chars are to be trimmed. NULL-&gt;default (&#x27; \t\n\r\v\0&#x27;)</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="type">static</span> zend_always_inline zend_string *<span class="title function_">php_trim_int</span><span class="params">(zend_string *str, <span class="type">const</span> <span class="type">char</span> *what, <span class="type">size_t</span> what_len, <span class="type">int</span> mode)</span></span><br><span class="line">&#123;</span><br><span class="line">	<span class="type">const</span> <span class="type">char</span> *start = ZSTR_VAL(str);</span><br><span class="line">	<span class="type">const</span> <span class="type">char</span> *end = start + ZSTR_LEN(str);</span><br><span class="line">	<span class="type">char</span> mask[<span class="number">256</span>];</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> (what) &#123;</span><br><span class="line">		<span class="keyword">if</span> (what_len == <span class="number">1</span>) &#123;</span><br><span class="line">			<span class="type">char</span> p = *what;</span><br><span class="line">			<span class="keyword">if</span> (mode &amp; <span class="number">1</span>) &#123;</span><br><span class="line">				<span class="keyword">while</span> (start != end) &#123;</span><br><span class="line">					<span class="keyword">if</span> (*start == p) &#123;</span><br><span class="line">						start++;</span><br><span class="line">					&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">						<span class="keyword">break</span>;</span><br><span class="line">					&#125;</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="keyword">if</span> (mode &amp; <span class="number">2</span>) &#123;</span><br><span class="line">				<span class="keyword">while</span> (start != end) &#123;</span><br><span class="line">					<span class="keyword">if</span> (*(end<span class="number">-1</span>) == p) &#123;</span><br><span class="line">						end--;</span><br><span class="line">					&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">						<span class="keyword">break</span>;</span><br><span class="line">					&#125;</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">			php_charmask((<span class="type">const</span> <span class="type">unsigned</span> <span class="type">char</span> *) what, what_len, mask);</span><br><span class="line"></span><br><span class="line">			<span class="keyword">if</span> (mode &amp; <span class="number">1</span>) &#123;</span><br><span class="line">				<span class="keyword">while</span> (start != end) &#123;</span><br><span class="line">					<span class="keyword">if</span> (mask[(<span class="type">unsigned</span> <span class="type">char</span>)*start]) &#123;</span><br><span class="line">						start++;</span><br><span class="line">					&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">						<span class="keyword">break</span>;</span><br><span class="line">					&#125;</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="keyword">if</span> (mode &amp; <span class="number">2</span>) &#123;</span><br><span class="line">				<span class="keyword">while</span> (start != end) &#123;</span><br><span class="line">					<span class="keyword">if</span> (mask[(<span class="type">unsigned</span> <span class="type">char</span>)*(end<span class="number">-1</span>)]) &#123;</span><br><span class="line">						end--;</span><br><span class="line">					&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">						<span class="keyword">break</span>;</span><br><span class="line">					&#125;</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">		<span class="keyword">if</span> (mode &amp; <span class="number">1</span>) &#123;</span><br><span class="line">			<span class="keyword">while</span> (start != end) &#123;</span><br><span class="line">				<span class="type">unsigned</span> <span class="type">char</span> c = (<span class="type">unsigned</span> <span class="type">char</span>)*start;</span><br><span class="line"></span><br><span class="line">				<span class="keyword">if</span> (c &lt;= <span class="string">&#x27; &#x27;</span> &amp;&amp;</span><br><span class="line">				    (c == <span class="string">&#x27; &#x27;</span> || c == <span class="string">&#x27;\n&#x27;</span> || c == <span class="string">&#x27;\r&#x27;</span> || c == <span class="string">&#x27;\t&#x27;</span> || c == <span class="string">&#x27;\v&#x27;</span> || c == <span class="string">&#x27;\0&#x27;</span>)) &#123;</span><br><span class="line">					start++;</span><br><span class="line">				&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">					<span class="keyword">break</span>;</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">if</span> (mode &amp; <span class="number">2</span>) &#123;</span><br><span class="line">			<span class="keyword">while</span> (start != end) &#123;</span><br><span class="line">				<span class="type">unsigned</span> <span class="type">char</span> c = (<span class="type">unsigned</span> <span class="type">char</span>)*(end<span class="number">-1</span>);</span><br><span class="line"></span><br><span class="line">				<span class="keyword">if</span> (c &lt;= <span class="string">&#x27; &#x27;</span> &amp;&amp;</span><br><span class="line">				    (c == <span class="string">&#x27; &#x27;</span> || c == <span class="string">&#x27;\n&#x27;</span> || c == <span class="string">&#x27;\r&#x27;</span> || c == <span class="string">&#x27;\t&#x27;</span> || c == <span class="string">&#x27;\v&#x27;</span> || c == <span class="string">&#x27;\0&#x27;</span>)) &#123;</span><br><span class="line">					end--;</span><br><span class="line">				&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">					<span class="keyword">break</span>;</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> (ZSTR_LEN(str) == end - start) &#123;</span><br><span class="line">		<span class="keyword">return</span> zend_string_copy(str);</span><br><span class="line">	&#125; <span class="keyword">else</span> <span class="keyword">if</span> (end - start == <span class="number">0</span>) &#123;</span><br><span class="line">		<span class="keyword">return</span> ZSTR_EMPTY_ALLOC();</span><br><span class="line">	&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">		<span class="keyword">return</span> zend_string_init(start, end - start, <span class="number">0</span>);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">/* &#125;&#125;&#125; */</span></span><br></pre></td></tr></table></figure>
+
+<p>逻辑非常清楚：如果是 mode 3 的话，则循环检测字符串最左边的字符是否为空格字符，若是，删除；若不是，退出循环。再将同样的逻辑适用于字符串的右边。</p>
+<p>我们可以看到，这里被视为空格的字符串有：</p>
+<ul>
+<li>“ “： ASCII SP 字符 0x20，一个普通的空格。</li>
+<li>“\t”： ASCII HT 字符 0x09，一个制表符。</li>
+<li>“\n”： ASCII LF 字符 0x0A，一个换行符。</li>
+<li>“\r”： ASCII CR 字符 0x0D，一个回车符。</li>
+<li>“\v”： ASCII VT 字符 0x0B，一个垂直制表符。</li>
+<li>“\0”： ASCII NUL 字符 0x00，一个 NUL 字节。</li>
+</ul>
+<p>不知道大家还记不记得 Cpp 里 <code>std::isspace</code> 函数会将哪些字符视作空格。可以看他们的文档：<a target="_blank" rel="noopener" href="https://cppreference.cn/w/cpp/string/byte/isspace">https://cppreference.cn/w/cpp/string/byte/isspace</a></p>
+<p>我们可以看到，这里被视为空格的字符串有：</p>
+<ul>
+<li>“ “： ASCII SP 字符 0x20，一个普通的空格。</li>
+<li>“\t”： ASCII HT 字符 0x09，一个制表符。</li>
+<li>“\n”： ASCII LF 字符 0x0A，一个换行符。</li>
+<li>“\r”： ASCII CR 字符 0x0D，一个回车符。</li>
+<li>“\v”： ASCII VT 字符 0x0B，一个垂直制表符。</li>
+<li>“\f”： ASCII FF 字符 0x0C，一个换页符。</li>
+</ul>
+<p>有时候，真理往往隐藏在细节之中… 聪明的你，注意到区别了吗？</p>
+<h2 id="不统一性的诞生"><a href="#不统一性的诞生" class="headerlink" title="不统一性的诞生"></a>不统一性的诞生</h2><p>站在网络安全的视角来看，白盒审计的经验告诉我们：漏洞往往是由不统一性（inconsistency）导致的。身为一个程序员的直觉告诉我们，\f（form feed，0x0c） 理应被视为空格，但是却不会在 php 的 trim 里被视为空格删除。那么，假设 PHP 里的其他函数将 form feed 视作空格的同时，我们又对 trim 函数不降 form feed 视为空格的条件加以利用，是不是可能导致潜在的逻辑漏洞？</p>
+<p>我们来看 PHP 内核里的另外一个函数，<code>is_numeric</code>，文档：<a target="_blank" rel="noopener" href="https://www.php.net/manual/zh/function.is-numeric.php">https://www.php.net/manual/zh/function.is-numeric.php</a></p>
+<p><code>is_numeric</code> 函数被广泛用于检测变量是否是数字或数字字符串。当字符串的开头或结尾出现空格时，它会自动删除这些空格。我们来看看这里，form feed 有没有被视作空格字符：</p>
+<p>考虑 stub 文件：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ZEND_RAW_FENTRY(<span class="string">&quot;is_numeric&quot;</span>, zif_is_numeric, arginfo_is_numeric, ZEND_ACC_COMPILE_TIME_EVAL, frameless_function_infos_is_numeric, <span class="literal">NULL</span>)</span><br></pre></td></tr></table></figure>
+
+<p>得到，<code>is_numeric</code>实际上就是暴露了内部的 <code>_zend_is_numeric</code> 函数接口。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">static</span> zend_always_inline <span class="type">void</span> _zend_is_numeric(zval *return_value, zval *arg)</span><br><span class="line">&#123;</span><br><span class="line">	<span class="keyword">switch</span> (Z_TYPE_P(arg)) &#123;</span><br><span class="line">		<span class="keyword">case</span> IS_LONG:</span><br><span class="line">		<span class="keyword">case</span> IS_DOUBLE:</span><br><span class="line">			RETURN_TRUE;</span><br><span class="line"></span><br><span class="line">		<span class="keyword">case</span> IS_STRING:</span><br><span class="line">			<span class="keyword">if</span> (is_numeric_string(Z_STRVAL_P(arg), Z_STRLEN_P(arg), <span class="literal">NULL</span>, <span class="literal">NULL</span>, <span class="number">0</span>)) &#123;</span><br><span class="line">				RETURN_TRUE;</span><br><span class="line">			&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">				RETURN_FALSE;</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="keyword">break</span>;</span><br><span class="line"></span><br><span class="line">		<span class="keyword">default</span>:</span><br><span class="line">			RETURN_FALSE;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>那么，实际上就是 <code>is_numeric_string</code> 函数再发挥作用，跟进</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">static</span> zend_always_inline <span class="type">uint8_t</span> <span class="title function_">is_numeric_string</span><span class="params">(<span class="type">const</span> <span class="type">char</span> *str, <span class="type">size_t</span> length, zend_long *lval, <span class="type">double</span> *dval, <span class="type">bool</span> allow_errors)</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> is_numeric_string_ex(str, length, lval, dval, allow_errors, <span class="literal">NULL</span>, <span class="literal">NULL</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<p>跟进：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">static</span> zend_always_inline <span class="type">uint8_t</span> <span class="title function_">is_numeric_string_ex</span><span class="params">(<span class="type">const</span> <span class="type">char</span> *str, <span class="type">size_t</span> length, zend_long *lval,</span></span><br><span class="line"><span class="params">	<span class="type">double</span> *dval, <span class="type">bool</span> allow_errors, <span class="type">int</span> *oflow_info, <span class="type">bool</span> *trailing_data)</span></span><br><span class="line">&#123;</span><br><span class="line">	<span class="keyword">if</span> (*str &gt; <span class="string">&#x27;9&#x27;</span>) &#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> _is_numeric_string_ex(str, length, lval, dval, allow_errors, oflow_info, trailing_data);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>因此 <code>is_numeric</code> 函数内核里实际上封装了一个 <code>_is_numeric_string_ex</code>，跟进：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line">ZEND_API <span class="type">uint8_t</span> ZEND_FASTCALL _is_numeric_string_ex(<span class="type">const</span> <span class="type">char</span> *str, <span class="type">size_t</span> length, zend_long *lval,</span><br><span class="line">	<span class="type">double</span> *dval, <span class="type">bool</span> allow_errors, <span class="type">int</span> *oflow_info, <span class="type">bool</span> *trailing_data) <span class="comment">/* &#123;&#123;&#123; */</span></span><br><span class="line">&#123;</span><br><span class="line">	<span class="type">const</span> <span class="type">char</span> *ptr;</span><br><span class="line">	<span class="type">int</span> digits = <span class="number">0</span>, dp_or_e = <span class="number">0</span>;</span><br><span class="line">	<span class="type">double</span> local_dval = <span class="number">0.0</span>;</span><br><span class="line">	<span class="type">uint8_t</span> type;</span><br><span class="line">	zend_ulong tmp_lval = <span class="number">0</span>;</span><br><span class="line">	<span class="type">int</span> neg = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> (!length) &#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> (oflow_info != <span class="literal">NULL</span>) &#123;</span><br><span class="line">		*oflow_info = <span class="number">0</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">if</span> (trailing_data != <span class="literal">NULL</span>) &#123;</span><br><span class="line">		*trailing_data = <span class="literal">false</span>;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">/* Skip any whitespace</span></span><br><span class="line"><span class="comment">	 * This is much faster than the isspace() function */</span></span><br><span class="line">	<span class="keyword">while</span> (*str == <span class="string">&#x27; &#x27;</span> || *str == <span class="string">&#x27;\t&#x27;</span> || *str == <span class="string">&#x27;\n&#x27;</span> || *str == <span class="string">&#x27;\r&#x27;</span> || *str == <span class="string">&#x27;\v&#x27;</span> || *str == <span class="string">&#x27;\f&#x27;</span>) &#123;</span><br><span class="line">		str++;</span><br><span class="line">		length--;</span><br><span class="line">	&#125;</span><br><span class="line">	ptr = str;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/* 省略 */</span></span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> (ptr != str + length) &#123;</span><br><span class="line">		<span class="type">const</span> <span class="type">char</span> *endptr = ptr;</span><br><span class="line">		<span class="keyword">while</span> (*endptr == <span class="string">&#x27; &#x27;</span> || *endptr == <span class="string">&#x27;\t&#x27;</span> || *endptr == <span class="string">&#x27;\n&#x27;</span> || *endptr == <span class="string">&#x27;\r&#x27;</span> || *endptr == <span class="string">&#x27;\v&#x27;</span> || *endptr == <span class="string">&#x27;\f&#x27;</span>) &#123;</span><br><span class="line">			endptr++;</span><br><span class="line">			length--;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">if</span> (ptr != str + length) &#123;</span><br><span class="line">			<span class="keyword">if</span> (!allow_errors) &#123;</span><br><span class="line">				<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="keyword">if</span> (trailing_data != <span class="literal">NULL</span>) &#123;</span><br><span class="line">				*trailing_data = <span class="literal">true</span>;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/* 省略 */</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>看到 <code>\f</code> 了么？这里，我们要找寻的 inconsistency，终于浮出水面了。</p>
+<p>同样地，<code>intval</code>这个把字符串转为数字的函数也会自动去除字符串两端的空格，那么，不难想到这个函数也有这个问题。</p>
+<h1 id="利用"><a href="#利用" class="headerlink" title="利用"></a>利用</h1><p>考虑：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$rawRole</span> = <span class="variable">$_GET</span>[<span class="string">&#x27;role&#x27;</span>] ?? <span class="string">&#x27;&#x27;</span>;</span><br><span class="line"><span class="variable">$roleText</span> = <span class="title function_ invoke__">trim</span>(<span class="variable">$rawRole</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (<span class="variable">$roleText</span> === <span class="string">&#x27;1&#x27;</span>) &#123;</span><br><span class="line">    <span class="title function_ invoke__">http_response_code</span>(<span class="number">403</span>);</span><br><span class="line">    <span class="keyword">exit</span>(<span class="string">&#x27;admin role is forbidden&#x27;</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (!<span class="title function_ invoke__">is_numeric</span>(<span class="variable">$roleText</span>)) &#123;</span><br><span class="line">    <span class="title function_ invoke__">http_response_code</span>(<span class="number">400</span>);</span><br><span class="line">    <span class="keyword">exit</span>(<span class="string">&#x27;invalid role id&#x27;</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="variable">$roleId</span> = <span class="title function_ invoke__">intval</span>(<span class="variable">$rawRole</span>);</span><br><span class="line"><span class="title function_ invoke__">grantRole</span>(<span class="variable">$userId</span>, <span class="variable">$roleId</span>);</span><br></pre></td></tr></table></figure>
+
+<p>考虑传入 <code>?role=1%0c</code>。</p>
+<p>因为在这里，form feed（\f，%0c）不会被 <code>trim</code> 函数删除，所以得以保留；<code>&#39;1\f&#39; === &#39;1&#39;</code> 显然为假；<code>is_numeric</code> 时，由于 <code>%0c</code> 被正常视作空格，所以可以通过；<code>intval</code> 时，由于 <code>%0c</code> 被正常视作空格，所以被忽略，最后，用户就拿到了管理员权限。</p>
+<h1 id="解决"><a href="#解决" class="headerlink" title="解决"></a>解决</h1><p>解决办法很简单：在 <code>trim</code>，<code>ltrim</code>，<code>rtirm</code>，<code>chop</code>（<code>rtirm</code> 的别名）里把 form feed 加上就好了。</p>
+<p>RFC：<a target="_blank" rel="noopener" href="https://wiki.php.net/rfc/trim_form_feed">https://wiki.php.net/rfc/trim_form_feed</a></p>
+<p>全票通过，补丁已经在 PHP 8.6 落地。</p>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">首页</a></li>
+        
+          <li><a href="/categories/php-dev/">php 语言开发日志</a></li>
+        
+          <li><a href="/categories/tech/">其他技术文章</a></li>
+        
+          <li><a href="/categories/miscellany/">杂七杂八的文字</a></li>
+        
+          <li><a href="/search/">搜索</a></li>
+        
+      </ul>
+    </div>
+
+    
+    
+      <div id="toc-footer" style="display: none">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%BC%98%E8%B5%B7"><span class="toc-number">1.</span> <span class="toc-text">缘起</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%8D%E7%BB%9F%E4%B8%80%E6%80%A7%E7%9A%84%E8%AF%9E%E7%94%9F"><span class="toc-number">1.1.</span> <span class="toc-text">不统一性的诞生</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%88%A9%E7%94%A8"><span class="toc-number">2.</span> <span class="toc-text">利用</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%A7%A3%E5%86%B3"><span class="toc-number">3.</span> <span class="toc-text">解决</span></a></li></ol>
+      </div>
+    
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://lamentxu.top/posts/2026-08-17-trim-php/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://lamentxu.top/posts/2026-08-17-trim-php/&text=PHP 的 trim，form feed，以及一道 CTF 题解"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://lamentxu.top/posts/2026-08-17-trim-php/&title=PHP 的 trim，form feed，以及一道 CTF 题解"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://lamentxu.top/posts/2026-08-17-trim-php/&is_video=false&description=PHP 的 trim，form feed，以及一道 CTF 题解"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=PHP 的 trim，form feed，以及一道 CTF 题解&body=Check out this article: https://lamentxu.top/posts/2026-08-17-trim-php/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://lamentxu.top/posts/2026-08-17-trim-php/&title=PHP 的 trim，form feed，以及一道 CTF 题解"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://lamentxu.top/posts/2026-08-17-trim-php/&title=PHP 的 trim，form feed，以及一道 CTF 题解"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://lamentxu.top/posts/2026-08-17-trim-php/&title=PHP 的 trim，form feed，以及一道 CTF 题解"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://lamentxu.top/posts/2026-08-17-trim-php/&title=PHP 的 trim，form feed，以及一道 CTF 题解"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://lamentxu.top/posts/2026-08-17-trim-php/&name=PHP 的 trim，form feed，以及一道 CTF 题解&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://lamentxu.top/posts/2026-08-17-trim-php/&t=PHP 的 trim，form feed，以及一道 CTF 题解"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        
+          <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2024-2026
+    LamentXU
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/categories/php-dev/">php 语言开发日志</a></li><!--
+     --><!--
+       --><li><a href="/categories/tech/">其他技术文章</a></li><!--
+     --><!--
+       --><li><a href="/categories/miscellany/">杂七杂八的文字</a></li><!--
+     --><!--
+       --><li><a href="/search/">搜索</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板！\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功！");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>
