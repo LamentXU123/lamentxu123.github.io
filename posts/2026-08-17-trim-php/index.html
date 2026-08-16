@@ -195,7 +195,7 @@
 <li>“\f”： ASCII FF 字符 0x0C，一个换页符。</li>
 </ul>
 <p>有时候，真理往往隐藏在细节之中… 聪明的你，注意到区别了吗？</p>
-<h2 id="不统一性的诞生"><a href="#不统一性的诞生" class="headerlink" title="不统一性的诞生"></a>不统一性的诞生</h2><p>站在网络安全的视角来看，白盒审计的经验告诉我们：漏洞往往是由不统一性（inconsistency）导致的。身为一个程序员的直觉告诉我们，\f（form feed，0x0c） 理应被视为空格，但是却不会在 php 的 trim 里被视为空格删除。那么，假设 PHP 里的其他函数将 form feed 视作空格的同时，我们又对 trim 函数不降 form feed 视为空格的条件加以利用，是不是可能导致潜在的逻辑漏洞？</p>
+<h2 id="不统一性的诞生"><a href="#不统一性的诞生" class="headerlink" title="不统一性的诞生"></a>不统一性的诞生</h2><p>站在网络安全的视角来看，白盒审计的经验告诉我们：漏洞往往是由不统一性（inconsistency）导致的。身为一个程序员的直觉告诉我们，\f（form feed，0x0c） 理应被视为空格，但是却不会在 php 的 trim 里被视为空格删除。那么，假设 PHP 里的其他函数将 form feed 视作空格的同时，我们又对 trim 函数不将 form feed 视为空格的条件加以利用，是不是可能导致潜在的逻辑漏洞？</p>
 <p>我们来看 PHP 内核里的另外一个函数，<code>is_numeric</code>，文档：<a target="_blank" rel="noopener" href="https://www.php.net/manual/zh/function.is-numeric.php">https://www.php.net/manual/zh/function.is-numeric.php</a></p>
 <p><code>is_numeric</code> 函数被广泛用于检测变量是否是数字或数字字符串。当字符串的开头或结尾出现空格时，它会自动删除这些空格。我们来看看这里，form feed 有没有被视作空格字符：</p>
 <p>考虑 stub 文件：</p>
