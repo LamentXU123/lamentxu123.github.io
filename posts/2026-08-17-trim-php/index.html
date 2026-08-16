@@ -221,7 +221,7 @@
 
 <p>考虑传入 <code>?role=1%0c</code>。</p>
 <p>因为在这里，form feed（\f，%0c）不会被 <code>trim</code> 函数删除，所以得以保留；<code>&#39;1\f&#39; === &#39;1&#39;</code> 显然为假；<code>is_numeric</code> 时，由于 <code>%0c</code> 被正常视作空格，所以可以通过；<code>intval</code> 时，由于 <code>%0c</code> 被正常视作空格，所以被忽略，最后，用户就拿到了管理员权限。</p>
-<h1 id="解决"><a href="#解决" class="headerlink" title="解决"></a>解决</h1><p>解决办法很简单：在 <code>trim</code>，<code>ltrim</code>，<code>rtirm</code>，<code>chop</code>（<code>rtirm</code> 的别名）里把 form feed 加上就好了。</p>
+<h1 id="解决"><a href="#解决" class="headerlink" title="解决"></a>解决</h1><p>解决办法很简单：在 <code>trim</code>，<code>ltrim</code>，<code>rtrim</code>，<code>chop</code>（<code>rtrim</code> 的别名）里把 form feed 加上就好了。</p>
 <p>RFC：<a target="_blank" rel="noopener" href="https://wiki.php.net/rfc/trim_form_feed">https://wiki.php.net/rfc/trim_form_feed</a></p>
 <p>全票通过，补丁已经在 PHP 8.6 落地。</p>
 
