@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow, noarchive">
+  <title>You and Me</title>
+</head>
+<body>
+  <main>
+    <p class="eyebrow">Fingerstyle guitar</p>
+    <h1>You And Me（君と僕） by 松井祐贵</h1>
+    <p class="subtitle">covered by Weilin Du (LamentXU)</p>
+
+    <button id="playButton" type="button" aria-label="play" aria-pressed="false">
+      <svg class="play-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"></path></svg>
+      <svg class="pause-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 5h4v14H6zm8 0h4v14h-4z"></path></svg>
+    </button>
+    <p id="status" aria-live="polite">点击播放</p>
+    <audio id="recording" preload="metadata" src="you-and-me.m4a"></audio>
+  </main>
+
+  <script>
+    const audio = document.getElementById('recording');
+    const button = document.getElementById('playButton');
+    const status = document.getElementById('status');
+
+    function setPlaying(isPlaying) {
+      button.setAttribute('aria-pressed', String(isPlaying));
+      button.setAttribute('aria-label', isPlaying ? 'pause' : 'play');
+      status.textContent = isPlaying ? '正在播放' : '点击播放';
+    }
+
+    button.addEventListener('click', async () => {
+      if (audio.paused) {
+        try {
+          await audio.play();
+          setPlaying(true);
+        } catch {
+          status.textContent = '暂时无法播放，请稍后重试';
+        }
+      } else {
+        audio.pause();
+        setPlaying(false);
+      }
+    });
+
+    audio.addEventListener('ended', () => setPlaying(false));
+    audio.addEventListener('pause', () => setPlaying(false));
+    audio.addEventListener('play', () => setPlaying(true));
+  </script>
+</body>
+</html>
