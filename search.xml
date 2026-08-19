@@ -4461,7 +4461,10 @@
 
 <h1 id="DONE"><a href="#DONE" class="headerlink" title="DONE"></a>DONE</h1><p>对于我在 php-src（php 内核）里做的所有贡献，可以在 <a href="https://github.com/php/php-src/commits?author=LamentXU123">commit list</a> 里找到。</p>
 <p>以下是我对 PHP 做过或正在推进的<strong>用户可见行为</strong>变化（不包含重构）。（更新于 2026-08-15 02:59 CST）</p>
-<h2 id="PHP-8-6-x"><a href="#PHP-8-6-x" class="headerlink" title="PHP 8.6.x"></a>PHP 8.6.x</h2><h3 id="RFC"><a href="#RFC" class="headerlink" title="RFC"></a>RFC</h3><ul>
+<h2 id="PHP-8-7-x"><a href="#PHP-8-7-x" class="headerlink" title="PHP 8.7.x"></a>PHP 8.7.x</h2><h3 id="RFC"><a href="#RFC" class="headerlink" title="RFC"></a>RFC</h3><ul>
+<li><input disabled="" type="checkbox"> 添加 <code>IntlRelativeDateTimeFormatter</code> 类，方便用户在 PHP 里用国际化的方式表示相对时间。(<a href="https://wiki.php.net/rfc/reldateformatter">RFC</a>)</li>
+</ul>
+<h2 id="PHP-8-6-x"><a href="#PHP-8-6-x" class="headerlink" title="PHP 8.6.x"></a>PHP 8.6.x</h2><h3 id="RFC-1"><a href="#RFC-1" class="headerlink" title="RFC"></a>RFC</h3><ul>
 <li><input checked="" disabled="" type="checkbox"> <code>trim</code> &#x2F; <code>ltrim</code> &#x2F; <code>rtrim</code> &#x2F; <code>chop</code> 支持换页符。(<a href="https://github.com/php/php-src/pull/20788">PR #20788</a>, <a href="https://wiki.php.net/rfc/trim_form_feed">RFC</a>, <a href="https://php.watch/versions/8.6/trim-form-feed">PHP.WATCH</a>, <a href="https://lamentxu.top/posts/2026-08-17-trim-php/">blog</a>)</li>
 <li><input checked="" disabled="" type="checkbox"> 为 intl 添加 <code>Locale::getDisplayKeyword()</code>（别名 <code>locale_get_display_keyword()</code>） 和 <code>Locale::getDisplayKeywordValue()</code> （别名 <code>locale_get_display_keyword_value()</code>）。(<a href="https://github.com/php/php-src/pull/22264">PR #22264</a>, <a href="https://wiki.php.net/rfc/getdisplaykeyword_and_getdisplaykeywordvalue">RFC</a>)</li>
 <li><input checked="" disabled="" type="checkbox"> 弃用 <code>metaphone</code> 函数。(<a href="https://github.com/php/php-src/pull/21889">PR #21889</a>, <a href="https://wiki.php.net/rfc/deprecations_php_8_6#deprecate_metaphone_function">RFC</a>)</li>
@@ -4527,6 +4530,7 @@
 <li>ext&#x2F;intl 在 <code>IntlListFormatter</code> 被创建时重置错误状态。(从 PHP 8.5 合并上来；<a href="https://github.com/php/php-src/pull/22931">PR #22931</a>)</li>
 <li>ext&#x2F;readline 修复交互式 Shell 不会等待分页器进程退出的问题。（从 PHP 8.5 合并上来；<a href="https://github.com/php/php-src/pull/23047">PR #23047</a>）</li>
 <li>ext&#x2F;readline 修复交互式 Shell 中的类常量自动补全功能。(从 PHP 8.5 合并上来；<a href="https://github.com/php/php-src/pull/23218">PR #23218</a>)</li>
+<li>ext&#x2F;gd 修复 <code>imageaffinematrixget()</code> 和 <code>imageaffinematrixconcat</code> 报错信息中参数位置错位的问题。(从 PHP 8.5 合并上来；<a href="https://github.com/php/php-src/pull/23356">PR #23356</a>)</li>
 </ul>
 <h3 id="其他重大改动"><a href="#其他重大改动" class="headerlink" title="其他重大改动"></a>其他重大改动</h3><ul>
 <li>ext&#x2F;phar 包含文件时，仅当包含文件的文件名部分含有以结尾或点号分隔的 <code>.phar</code> 标记时，才将其解释为 Phar 归档并触发反序列化。(<a href="https://github.com/php/php-src/pull/23260">PR #23260</a>)</li>
@@ -4593,6 +4597,7 @@
 <li>ext&#x2F;zip 修复 <code>ZipArchive::getFromIndex()</code> 忽略已删除条目的 <code>FL_UNCHANGED</code> 标志。(从 PHP 8.4 合并上来；<a href="https://github.com/php/php-src/pull/21706">PR #21706</a>)</li>
 <li>ext&#x2F;zip 避免重置 <code>ZipArchive</code> 注释时发生崩溃。（从 PHP 8.4 合并上来；<a href="https://github.com/php/php-src/pull/22652">PR #22652</a>）</li>
 <li>ext&#x2F;readline 修复交互式 Shell 中的类常量自动补全功能。(从 PHP 8.4 合并上来；<a href="https://github.com/php/php-src/pull/23218">PR #23218</a>)</li>
+<li>ext&#x2F;gd 修复 <code>imageaffinematrixget()</code> 和 <code>imageaffinematrixconcat</code> 报错信息中参数位置错位的问题。(从 PHP 8.4 合并上来；<a href="https://github.com/php/php-src/pull/23356">PR #23356</a>)</li>
 </ul>
 <h2 id="PHP-8-4-x"><a href="#PHP-8-4-x" class="headerlink" title="PHP 8.4.x"></a>PHP 8.4.x</h2><h3 id="Bug-修复-2"><a href="#Bug-修复-2" class="headerlink" title="Bug 修复"></a>Bug 修复</h3><ul>
 <li>ext&#x2F;dom 修复 <code>DOMNode::isEqualNode()</code> 比较深层嵌套 DOM 树时可能触发栈溢出的问题。(<a href="https://github.com/php/php-src/pull/23140">PR #23140</a>)</li>
@@ -4614,6 +4619,7 @@
 <li>ext&#x2F;zip 修复 <code>ZipArchive::getFromIndex()</code> 忽略已删除条目的 <code>FL_UNCHANGED</code> 标志。(<a href="https://github.com/php/php-src/pull/21706">PR #21706</a>)</li>
 <li>ext&#x2F;zip 避免重置 <code>ZipArchive</code> 注释时发生崩溃。(<a href="https://github.com/php/php-src/pull/22652">PR #22652</a>)</li>
 <li>ext&#x2F;readline 修复交互式 Shell 中的类常量自动补全功能。(<a href="https://github.com/php/php-src/pull/23218">PR #23218</a>)</li>
+<li>ext&#x2F;gd 修复 <code>imageaffinematrixget()</code> 和 <code>imageaffinematrixconcat</code> 报错信息中参数位置错位的问题。(<a href="https://github.com/php/php-src/pull/23356">PR #23356</a>)</li>
 </ul>
 <h1 id="TODO"><a href="#TODO" class="headerlink" title="TODO"></a>TODO</h1><h2 id="Zend-内核"><a href="#Zend-内核" class="headerlink" title="Zend 内核"></a>Zend 内核</h2><h3 id="新-API"><a href="#新-API" class="headerlink" title="新 API"></a>新 API</h3><ul>
 <li><input checked="" disabled="" type="checkbox"> 添加 inline 的 helper function，分别是<ul>
@@ -4684,7 +4690,7 @@
 <li><p><code>declare(encoding=...)</code> 在 encoding 为 ASCII 或 UTF-8 这种不是 multibyte 的编码方式时，在 <code>zend.multibyte=0</code> 时仍会导致关于 multibyte 的 warning 出现。</p>
 </li>
 </ul>
-<h2 id="RFC-1"><a href="#RFC-1" class="headerlink" title="RFC"></a>RFC</h2><ul>
+<h2 id="RFC-2"><a href="#RFC-2" class="headerlink" title="RFC"></a>RFC</h2><ul>
 <li><input disabled="" type="checkbox"> deprecate 掉 open_basedir。（我知道听起来很疯狂。我懒得解释为什么…）</li>
 <li><input disabled="" type="checkbox"> deprecate 掉 <code>soundex</code> 函数。</li>
 <li><input disabled="" type="checkbox"> deprecate 掉 php:&#x2F;&#x2F;dechunk 的 filter。</li>
