@@ -200,6 +200,7 @@
 <li>ext&#x2F;readline 修复交互式 Shell 不会等待分页器进程退出的问题。（从 PHP 8.5 合并上来；<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/23047">PR #23047</a>）</li>
 <li>ext&#x2F;readline 修复交互式 Shell 中的类常量自动补全功能。(从 PHP 8.5 合并上来；<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/23218">PR #23218</a>)</li>
 <li>ext&#x2F;gd 修复 <code>imageaffinematrixget()</code> 和 <code>imageaffinematrixconcat</code> 报错信息中参数位置错位的问题。(从 PHP 8.5 合并上来；<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/23356">PR #23356</a>)</li>
+<li>ext&#x2F;zip 修复当 <code>ZipArchive</code> 子类保存了它自身打开的流时，该子类对象无法被垃圾回收的问题。(从 PHP 8.5 合并上来；<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/23282">PR #23282</a>)</li>
 </ul>
 <h3 id="其他重大改动"><a href="#其他重大改动" class="headerlink" title="其他重大改动"></a>其他重大改动</h3><ul>
 <li>ext&#x2F;phar 包含文件时，仅当包含文件的文件名部分含有以结尾或点号分隔的 <code>.phar</code> 标记时，才将其解释为 Phar 归档并触发反序列化。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/23260">PR #23260</a>)</li>
@@ -268,6 +269,7 @@
 <li>ext&#x2F;zip 避免重置 <code>ZipArchive</code> 注释时发生崩溃。（从 PHP 8.4 合并上来；<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/22652">PR #22652</a>）</li>
 <li>ext&#x2F;readline 修复交互式 Shell 中的类常量自动补全功能。(从 PHP 8.4 合并上来；<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/23218">PR #23218</a>)</li>
 <li>ext&#x2F;gd 修复 <code>imageaffinematrixget()</code> 和 <code>imageaffinematrixconcat</code> 报错信息中参数位置错位的问题。(从 PHP 8.4 合并上来；<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/23356">PR #23356</a>)</li>
+<li>ext&#x2F;zip 修复当 <code>ZipArchive</code> 子类保存了它自身打开的流时，该子类对象无法被垃圾回收的问题。(从 PHP 8.4 合并上来；<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/23282">PR #23282</a>)</li>
 </ul>
 <h2 id="PHP-8-4-x"><a href="#PHP-8-4-x" class="headerlink" title="PHP 8.4.x"></a>PHP 8.4.x</h2><h3 id="Bug-修复-2"><a href="#Bug-修复-2" class="headerlink" title="Bug 修复"></a>Bug 修复</h3><ul>
 <li>ext&#x2F;dom 修复 <code>DOMNode::isEqualNode()</code> 比较深层嵌套 DOM 树时可能触发栈溢出的问题。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/23140">PR #23140</a>)</li>
@@ -290,6 +292,7 @@
 <li>ext&#x2F;zip 避免重置 <code>ZipArchive</code> 注释时发生崩溃。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/22652">PR #22652</a>)</li>
 <li>ext&#x2F;readline 修复交互式 Shell 中的类常量自动补全功能。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/23218">PR #23218</a>)</li>
 <li>ext&#x2F;gd 修复 <code>imageaffinematrixget()</code> 和 <code>imageaffinematrixconcat</code> 报错信息中参数位置错位的问题。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/23356">PR #23356</a>)</li>
+<li>ext&#x2F;zip 修复当 <code>ZipArchive</code> 子类保存了它自身打开的流时，该子类对象无法被垃圾回收的问题。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/23282">PR #23282</a>)</li>
 </ul>
 <h1 id="TODO"><a href="#TODO" class="headerlink" title="TODO"></a>TODO</h1><h2 id="Zend-内核"><a href="#Zend-内核" class="headerlink" title="Zend 内核"></a>Zend 内核</h2><h3 id="新-API"><a href="#新-API" class="headerlink" title="新 API"></a>新 API</h3><ul>
 <li><input checked="" disabled="" type="checkbox"> 添加 inline 的 helper function，分别是<ul>
