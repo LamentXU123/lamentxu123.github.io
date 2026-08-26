@@ -128,7 +128,7 @@
 </div>
 
 <h1 id="DONE"><a href="#DONE" class="headerlink" title="DONE"></a>DONE</h1><p>对于我在 php-src（php 内核）里做的所有贡献，可以在 <a target="_blank" rel="noopener" href="https://github.com/php/php-src/commits?author=LamentXU123">commit list</a> 里找到。</p>
-<p>以下是我对 PHP 做过或正在推进的<strong>用户可见行为</strong>变化（不包含重构）。（更新于 2026-08-15 02:59 CST）</p>
+<p>以下是我对 PHP 做过或正在推进的<strong>用户可见行为</strong>变化（不包含重构）。（更新于 2026-08-27 00:16 CST）</p>
 <h2 id="PHP-8-7-x"><a href="#PHP-8-7-x" class="headerlink" title="PHP 8.7.x"></a>PHP 8.7.x</h2><h3 id="RFC"><a href="#RFC" class="headerlink" title="RFC"></a>RFC</h3><ul>
 <li><input disabled="" type="checkbox"> 添加 <code>IntlRelativeDateTimeFormatter</code> 类，方便用户在 PHP 里用国际化的方式表示相对时间。(<a target="_blank" rel="noopener" href="https://wiki.php.net/rfc/reldateformatter">RFC</a>)</li>
 </ul>
@@ -201,6 +201,7 @@
 <li>ext&#x2F;readline 修复交互式 Shell 中的类常量自动补全功能。(从 PHP 8.5 合并上来；<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/23218">PR #23218</a>)</li>
 <li>ext&#x2F;gd 修复 <code>imageaffinematrixget()</code> 和 <code>imageaffinematrixconcat</code> 报错信息中参数位置错位的问题。(从 PHP 8.5 合并上来；<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/23356">PR #23356</a>)</li>
 <li>ext&#x2F;zip 修复当 <code>ZipArchive</code> 子类保存了它自身打开的流时，该子类对象无法被垃圾回收的问题。(从 PHP 8.5 合并上来；<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/23282">PR #23282</a>)</li>
+<li>ext&#x2F;phar 修复访问已挂载 Phar 目录的子目录时可能触发的 use-after-free。（从 PHP 8.5 合并上来；<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/23442">PR #23442</a>）</li>
 </ul>
 <h3 id="其他重大改动"><a href="#其他重大改动" class="headerlink" title="其他重大改动"></a>其他重大改动</h3><ul>
 <li>ext&#x2F;phar 包含文件时，仅当包含文件的文件名部分含有以结尾或点号分隔的 <code>.phar</code> 标记时，才将其解释为 Phar 归档并触发反序列化。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/23260">PR #23260</a>)</li>
@@ -270,6 +271,7 @@
 <li>ext&#x2F;readline 修复交互式 Shell 中的类常量自动补全功能。(从 PHP 8.4 合并上来；<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/23218">PR #23218</a>)</li>
 <li>ext&#x2F;gd 修复 <code>imageaffinematrixget()</code> 和 <code>imageaffinematrixconcat</code> 报错信息中参数位置错位的问题。(从 PHP 8.4 合并上来；<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/23356">PR #23356</a>)</li>
 <li>ext&#x2F;zip 修复当 <code>ZipArchive</code> 子类保存了它自身打开的流时，该子类对象无法被垃圾回收的问题。(从 PHP 8.4 合并上来；<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/23282">PR #23282</a>)</li>
+<li>ext&#x2F;phar 修复访问已挂载 Phar 目录的子目录时可能触发的 use-after-free。（从 PHP 8.4 合并上来；<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/23442">PR #23442</a>）</li>
 </ul>
 <h2 id="PHP-8-4-x"><a href="#PHP-8-4-x" class="headerlink" title="PHP 8.4.x"></a>PHP 8.4.x</h2><h3 id="Bug-修复-2"><a href="#Bug-修复-2" class="headerlink" title="Bug 修复"></a>Bug 修复</h3><ul>
 <li>ext&#x2F;dom 修复 <code>DOMNode::isEqualNode()</code> 比较深层嵌套 DOM 树时可能触发栈溢出的问题。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/23140">PR #23140</a>)</li>
@@ -293,6 +295,7 @@
 <li>ext&#x2F;readline 修复交互式 Shell 中的类常量自动补全功能。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/23218">PR #23218</a>)</li>
 <li>ext&#x2F;gd 修复 <code>imageaffinematrixget()</code> 和 <code>imageaffinematrixconcat</code> 报错信息中参数位置错位的问题。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/23356">PR #23356</a>)</li>
 <li>ext&#x2F;zip 修复当 <code>ZipArchive</code> 子类保存了它自身打开的流时，该子类对象无法被垃圾回收的问题。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/23282">PR #23282</a>)</li>
+<li>ext&#x2F;phar 修复访问已挂载 Phar 目录的子目录时可能触发的 use-after-free。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/23442">PR #23442</a>)</li>
 </ul>
 <h1 id="TODO"><a href="#TODO" class="headerlink" title="TODO"></a>TODO</h1><h2 id="Zend-内核"><a href="#Zend-内核" class="headerlink" title="Zend 内核"></a>Zend 内核</h2><h3 id="新-API"><a href="#新-API" class="headerlink" title="新 API"></a>新 API</h3><ul>
 <li><input checked="" disabled="" type="checkbox"> 添加 inline 的 helper function，分别是<ul>
