@@ -34,12 +34,13 @@ jobs:
 
       - name: Commit updated stats
         run: |
-          if git diff --quiet -- php-src-stats.json; then
+          git add php-src-stats.json
+          # Check the staged file so a newly created stats file is not missed as untracked.
+          if git diff --cached --quiet -- php-src-stats.json; then
             echo "No stats changes."
             exit 0
           fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add php-src-stats.json
           git commit -m "Update php-src contribution stats"
           git push
