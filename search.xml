@@ -5123,4 +5123,200 @@
         <category>其他技术文章</category>
       </categories>
   </entry>
+  <entry>
+    <title>我在香港科技大学的第一周</title>
+    <url>/posts/2026-09-04-first-week-at-college/</url>
+    <content><![CDATA[<p>本文描述了本人在香港科技大学第一周的蠕动史。因为实在抑制不住上大学的情绪，就来 blog 里写一篇发泄。在这里，我的思绪如潮水般涌动（Here my thoughts flow down like rivers）</p>
+<h1 id="蠕动经历"><a href="#蠕动经历" class="headerlink" title="蠕动经历"></a>蠕动经历</h1><h2 id="上课和做题"><a href="#上课和做题" class="headerlink" title="上课和做题"></a>上课和做题</h2><p>我不太想写日记式的文字。所以就泛泛地讲一下。</p>
+<p>都说香港科技大学是，The Hong Kong University of Stress and Tension。但说实话，我的第一周真的没有啥压力。我们有三种课，Lab（实操）Lecture（讲座）和 Tutorial（做题）其中只有 Tutorial 要签到。换句话说，其他课去不去随你。有人告诉我第一周没有 Tutorial 所以……</p>
+<p>我看看我第一周都学些什么啊：</p>
+<ul>
+<li>python 编程入门。不得不说，第一节课真的被老师吓到了。又是什么啊你要花至少 5 小时一天在上面啊，又是什么期末均分不到 50 啊。吓死我了。结果第二节课去听发现真的就是入门…… 那还说啥了兄弟。</li>
+<li>高等数学。第一周就是高中数学。</li>
+<li>大学物理。第一周就是高中物理。</li>
+<li>大学英文。</li>
+<li>水课。</li>
+</ul>
+<h3 id="HMAW-之啊-sir-我來同你玩"><a href="#HMAW-之啊-sir-我來同你玩" class="headerlink" title="HMAW 之啊 sir 我來同你玩"></a>HMAW 之啊 sir 我來同你玩</h3><p>要说水课，无非就是签到打卡然后找个机会跑路。我们的水课是 HMAW。第一节课内容是反诈骗，然后他们直接找了警署里的条子来给我们讲课。</p>
+<p>我的意思是，看了那么多香港的警匪片，这是我第一次见真的香港条子。欸，原来刻板印象是真的！就是全程插兜加上超级拽的粤语和带有非常港式的英文口音的英语。</p>
+<p>我一直在想为什么香港的警察能给人一种特有的魅力。也许是类似于特工的感觉吧，非常酷。加上粤语本身就有一种……</p>
+<p>好了我的语言形容不出来这样的感觉了。</p>
+<h3 id="第一次记旷课！"><a href="#第一次记旷课！" class="headerlink" title="第一次记旷课！"></a>第一次记旷课！</h3><p>事情是这样的。我周四睡觉的时候看明天的课表明明是先高等数学的 Lecture，然后大学英语的 Tutorial。然后一睡觉起来发现第一节课变成大学英语了（？？）然后想到哦之前的课都是没有 Tutorial 的，那不去了（？？？）然后就接着睡觉（？？？？）然后睡醒之后就看到朋友给我发的雷霆信息。</p>
+<p>“你是不是死了啊！！！！！！！”</p>
+<p>我：？</p>
+<p>然后我洗漱了准备去上英语课（？？？？？）然后发现欸下一节课怎么是数学。然后哦哦哦上数学，然后走到英语教室去了（？？？？？？）然后到地方了发现没带文具（？？？？？？？）准备回宿舍发现学生卡没带打不开宿舍（？？？？？？？？）然后好了数学课也上不了了，花十块钱招宿管开门。回去一看，我去，大大的缺席。</p>
+<p>哪个该死的告诉我第一周没有 Tutorial？？？？？？？？？？</p>
+<h2 id="竞赛社团"><a href="#竞赛社团" class="headerlink" title="竞赛社团"></a>竞赛社团</h2><h3 id="Robot-Master（RM）"><a href="#Robot-Master（RM）" class="headerlink" title="Robot Master（RM）"></a>Robot Master（RM）</h3><p>Okay，我说 CTF 已经没有希望了，我们去打 RM 吧。看到 RM 招新我觉得我虽然没有嵌入式基础但是写了四五年 C 了怎么说进个战队应该没问题吧……</p>
+<p>然后到面试的那天，去了，到那之后人家直接问我说看过面试题了吗？</p>
+<p>我：？</p>
+<p>不是哥们，你们开卷面试啊。</p>
+<p>好吧，那我就正常闭卷面试，这个时候我已经紧张地不行了。然后第一个问题：问单核 CPU 怎么同时执行多个任务。</p>
+<p>我去！这题我会啊。我最近在 php 内核里就在干这个！然后我就从并行和并发开始讲，从 RTOS 到 Fibers，抢占式和协作式全部讲，还讲了进程线程，条件竞争，DMA。bro 已经完全沉浸在自己的艺术里了。两个面试官开始还跟着我点头，后面直接开始面露难色。哥们你是人类吗？</p>
+<p>然后第二个问题问了什么通讯协议（spi 和 cann），然后我又想，这题我会啊。我做过固件逆向！然后我又开始沉浸了……</p>
+<h3 id="CTF"><a href="#CTF" class="headerlink" title="CTF"></a>CTF</h3><p>Fair，我们还是要去看看 CTF 战队的。但是！在港科你要参与 CTF 必须要选一个课，通过了之后才能去预选。我一开始还天真的以为要写邮件申请就完了。哈哈。</p>
+<p>临近开课前一天我才发现有新生赛。然后我就想，炸鱼？然后大概花了半小时打到比第二名多了快一倍的分数就睡觉去了。</p>
+<h2 id="海边和城市？"><a href="#海边和城市？" class="headerlink" title="海边和城市？"></a>海边和城市？</h2><p>港科靠海，所以看海很容易；港科也靠着城市，所以看城市很容易。</p>
+<h3 id="城市"><a href="#城市" class="headerlink" title="城市"></a>城市</h3><p>炫目的夜色；汽车的喧嚣；街道的霓虹灯。嘈杂的人群；颓废的都市；明灭的红绿灯。</p>
+<p>香气缭绕，城市之子们（Children of Cities）在霓虹灯下漫步。</p>
+<p>香港都市的晚上，大厦反而愈来愈有活力。我和我的朋友在 Mall 下一边喝伏特加一边走着。</p>
+<p>我如同奔跑在黄昏街道上的僵尸。</p>
+<h3 id="海边"><a href="#海边" class="headerlink" title="海边"></a>海边</h3><p>香港的海边与深圳的海边没有不同。我会偶尔在背着吉他一个人去那边躺着弹琴。闭眼用手指构想白云的轮廓和天空的高度。</p>
+<h2 id="我！要！回！家！"><a href="#我！要！回！家！" class="headerlink" title="我！要！回！家！"></a>我！要！回！家！</h2><p>虽然说香港的一切都好吧，但是总觉得还是差点味道。是什么呢？</p>
+<p>我们说，思乡病（Homesick）总是在离家刚开始的几天最明显。当然，除了想家之外显然我还有几件事情要回大陆做的：</p>
+<ul>
+<li>我的耳朵旧病复发了</li>
+<li>给我的鼠标拿充电线</li>
+<li>拿机械键盘</li>
+<li>拿眼镜</li>
+<li>拿开发板</li>
+</ul>
+<p>欸，为什么你第一次去的时候不拿。答曰：忘了。</p>
+<p>当然主要还是因为想家了。我很难描述这样的感觉。总之周五上午缺席两节课之后我马上就！要！回！家！下午的课？我去我上午直接出席了 0 节干脆下午的也翘掉算了。总之我要回家。</p>
+<p>看着 91M 巴士到站那么多人跟丧尸围城一样抢着上车我就知道：看来我不是孤独的。但是，我的计划是 13：35 到站沙口，然后买 13：45 的大巴直接做到深圳湾口岸。谁知道哪个天杀的想出来，在大巴发车之前 10 分钟不允许购票了。</p>
+<p>我真去他的吧。好了，接下来别急，我们是大人了，好好想想怎么解决。</p>
+<p>当时我灵机一动啊买了 14：45 的票，因为他的票是二维码嘛，我就拿浏览器扫了一下看看它的二维码是什么</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">202609041445XXXXXXX（X代表任意英文字符）</span><br></pre></td></tr></table></figure>
+
+<p>其中 XXXXXXX 显然是票号，前面的是上车的时间。我当时就打开二维码编码器，把 X 改掉一位然后把 1445 改成 1345。当时那个扫码的来我就给他扫这个码，显然报错了，说票不存在。然后我后面还排着三十多号人。</p>
+<p>我：你们会不会做购票系统？我明明买的对的。<br>对方：（又扫了很多次）<br>我：你看我都付款了（出示微信支付）要不你把你经理叫来，或者我给他打电话？</p>
+<p>然后对方就让我上车了！哦天哪。对不起！！！</p>
+<p>然后就回家了。</p>
+<h1 id="技术上做了什么？"><a href="#技术上做了什么？" class="headerlink" title="技术上做了什么？"></a>技术上做了什么？</h1><p>有人说，你到底是去上大学的还是干嘛……</p>
+<p>好，以下是 nerd 时间。请 nerd 们做好准备我要开始讲我这周干的技术活了。</p>
+<h2 id="Lament-立项"><a href="#Lament-立项" class="headerlink" title="Lament 立项"></a>Lament 立项</h2><p>你看，很多艺术作品里搞技术的都有机械外骨骼。比如凯尔希大哥和 M3，以及伊冯大哥和塔塔。</p>
+<p>我一直非常想有一个！现在，托 php foundation 的福，我拥有这个世界上最牛逼的 AI 模型，而且基本用不完额度。</p>
+<p>所以我这一周在手搓一个 agent 集群的框架，暂时叫他 Lament，目前搭载着 fable 5.1 大哥和 Astra 大哥。让我们看看我能坚持多久。（^~^）</p>
+<h2 id="php-内核优化"><a href="#php-内核优化" class="headerlink" title="php 内核优化"></a>php 内核优化</h2><h3 id="将-php-语言的所有对单元素数组排序的性能提升-50-4"><a href="#将-php-语言的所有对单元素数组排序的性能提升-50-4" class="headerlink" title="将 php 语言的所有对单元素数组排序的性能提升 50.4%"></a>将 php 语言的所有对单元素数组排序的性能提升 50.4%</h3><p>有人可能要说了：欸，单元素数组排什么，直接返回不就好了。别急。</p>
+<p>在 php 里，排序函数（<code>sort</code>, <code>usort</code>, <code>rsort</code>, <code>rasort</code>, <code>uasort</code>, <code>asort</code>等等）的实现是靠 <code>zend_array_sort</code>，我们来看实现：</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="type">static</span> zend_always_inline <span class="type">void</span> <span class="title function_">zend_array_sort</span><span class="params">(HashTable *ht, <span class="type">bucket_compare_func_t</span> compare_func, <span class="type">bool</span> renumber)</span> &#123;</span><br><span class="line">	zend_array_sort_ex(ht, zend_sort, compare_func, renumber);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>跟进 <code>zend_array_sort_ex</code></p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line">ZEND_API <span class="type">void</span> ZEND_FASTCALL <span class="title function_">zend_array_sort_ex</span><span class="params">(HashTable *ht, <span class="type">sort_func_t</span> sort, <span class="type">bucket_compare_func_t</span> compar, <span class="type">bool</span> renumber)</span></span><br><span class="line">&#123;</span><br><span class="line">	HT_ASSERT_RC1(ht);</span><br><span class="line"></span><br><span class="line">	<span class="comment">/* Unpack the array early to avoid RCn assertion failures. */</span></span><br><span class="line">	<span class="keyword">if</span> (HT_IS_PACKED(ht)) &#123;</span><br><span class="line">		zend_hash_packed_to_hash(ht);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">/* Adding a refcount prevents the array from going away. */</span></span><br><span class="line">	GC_ADDREF(ht);</span><br><span class="line"></span><br><span class="line">	zend_hash_sort_internal(ht, sort, compar, renumber);</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> (UNEXPECTED(GC_DELREF(ht) == <span class="number">0</span>)) &#123;</span><br><span class="line">		zend_array_destroy(ht);</span><br><span class="line">	&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">		gc_check_possible_root((zend_refcounted *)ht);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这里的 <code>ht</code> 就是要排序的数组。我们很容易看到，这里为了防止 <code>RCn</code> 断言失败，我们实际上把 packed 的 array 做了一次 unpack，在使它的 ref count 加一。这是一种比较 hack 的办法，但是确实可以防止 bug。跟进 <code>zend_hash_sort_internal</code></p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="type">static</span> <span class="type">void</span> <span class="title function_">zend_hash_sort_internal</span><span class="params">(HashTable *ht, <span class="type">sort_func_t</span> sort, <span class="type">bucket_compare_func_t</span> compar, <span class="type">bool</span> renumber)</span></span><br><span class="line">&#123;</span><br><span class="line">	Bucket *p;</span><br><span class="line">	<span class="type">uint32_t</span> i, j;</span><br><span class="line"></span><br><span class="line">	IS_CONSISTENT(ht);</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> (!(ht-&gt;nNumOfElements&gt;<span class="number">1</span>) &amp;&amp; !(renumber &amp;&amp; ht-&gt;nNumOfElements&gt;<span class="number">0</span>)) &#123;</span><br><span class="line">		<span class="comment">/* Doesn&#x27;t require sorting */</span></span><br><span class="line">		<span class="keyword">return</span>;</span><br><span class="line">	&#125;</span><br><span class="line">    <span class="comment">/* 省略排序逻辑 */</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这里的 <code>sort</code> 参数是一个函数指针，指向一个排序函数。这里指向 <code>zend_sort</code>。我们看到其中逻辑有:</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="keyword">switch</span> (nmemb) &#123;</span><br><span class="line">    <span class="keyword">case</span> <span class="number">0</span>:</span><br><span class="line">    <span class="keyword">case</span> <span class="number">1</span>:</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>其中 <code>nmemb</code> 是数组的长度。也就是说在实际排序的时候我们已经对 0 长度和 1 长度数组做了特殊优化（fast-path）就是直接返回。</p>
+<p>看到 <code>zend_hash_sort_internal</code> 这里的 <code>renumber</code> 是布尔标志，表示排序后是否重新生成从 0 开始的数字索引。</p>
+<ul>
+<li>renumber &#x3D; true: 对应 <code>sort</code>, <code>rsort</code>, <code>usort</code> 等重置键名的函数。</li>
+<li>renumber &#x3D; false: 对应 <code>asort</code>, <code>arsort</code>, <code>uasort</code> 等保持原键名（关联数组关系）的函数。</li>
+</ul>
+<p>可以看到，有 <code>if (!(ht-&gt;nNumOfElements&gt;1) &amp;&amp; !(renumber &amp;&amp; ht-&gt;nNumOfElements&gt;0))</code>。这是排序的快速退出判定（Guard Clause），避免不必要的计算：</p>
+<ul>
+<li><code>!(ht-&gt;nNumOfElements &gt; 1)</code>: 如果元素数量为 0 或 1，元素之间无需重新比对排序。</li>
+<li><code>!(renumber &amp;&amp; ht-&gt;nNumOfElements &gt; 0)</code>: 如果只有一个元素（nNumOfElements &#x3D;&#x3D; 1），虽然不需要“排序”，但如果 renumber 为 true，依然需要进入后续逻辑去把该元素的键名重写为 0；只有当 renumber 为 false 且元素量不超过 1 时，才可以直接 return。</li>
+</ul>
+<p>有人说，啥意思，啥键名重写为 0，你在说什么。</p>
+<p>这就不得不提到 php 里臭名昭著的“特性”了：</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="variable">$array</span> = [<span class="string">&#x27;key&#x27;</span> =&gt; <span class="number">42</span>];</span><br><span class="line"><span class="title function_ invoke__">sort</span>(<span class="variable">$array</span>);</span><br><span class="line"></span><br><span class="line"><span class="title function_ invoke__">var_dump</span>(<span class="variable">$array</span>);</span><br><span class="line"><span class="comment">// [0 =&gt; 42]</span></span><br></pre></td></tr></table></figure>
+
+<p>假如这里的 <code>array</code> 是 <code>packed</code> 的，就是没有键只有值（类似于 <code>[1, 2, 3, 4]</code>）那自然无所谓。但是有时候数组是 <code>unpacked</code> 或者 <code>mixed</code>，就是存在自定义键（<code>[&#39;name&#39; =&gt; &#39;PHP&#39;,10 =&gt; &#39;value&#39;,]</code>）这时候，一部分排序函数会把键覆盖成自然数列（1，2，3，4…）对值做排序。一部分不会。会的那部分 <code>renumber</code> 就是 <code>true</code>。</p>
+<p>排序函数除了排序，其实还做了其他的事情。所以如果 <code>renumber</code> 是 <code>true</code> 我们还要对单元素数组做排序的流程，只是我们实际上不在乎排序本身罢了。</p>
+<p>到这里，聪明的你看出来哪里可以优化了吗？</p>
+<p>是的！既然单元素数组这一种情况不需要实际上做排序，我们就完全不需要考虑在 <code>zend_array_sort_ex</code> 里把 packed array 展开！实际上单元素数组的排序流程非常快，大部分的性能都消耗在 (un)packing 上。</p>
+<p>比如说，我们现在有一个数组 <code>[42]</code></p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="variable">$array</span> = [<span class="number">42</span>];</span><br><span class="line"><span class="title function_ invoke__">sort</span>(<span class="variable">$array</span>);</span><br></pre></td></tr></table></figure>
+
+<p>调用链是</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">sort()</span><br><span class="line">  └─ php_sort()</span><br><span class="line">      └─ zend_array_sort()</span><br><span class="line">          └─ zend_array_sort_ex()</span><br><span class="line">              ├─ packed → mixed HashTable</span><br><span class="line">              ├─ GC_ADDREF()</span><br><span class="line">              ├─ zend_hash_sort_internal()</span><br><span class="line">              │   ├─ zend_sort(1 element)  // 实际不做比较，这里直接 fast-path 掉了，直接返回。</span><br><span class="line">              │   ├─ 重编号</span><br><span class="line">              │   └─ mixed → packed</span><br><span class="line">              └─ GC_DELREF()</span><br></pre></td></tr></table></figure>
+
+<p>所以真正的排序器从来不会被调用。问题在于，在到达 <code>zend_sort</code> 之前，<code>zend_array_sort_ex</code> 已经做了大量工作。</p>
+<p>我们的 <code>[42]</code> 最初是 packed array，只需要连续存储 zval：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">arPacked:</span><br><span class="line">+---------+</span><br><span class="line">| zval 42 |</span><br><span class="line">+---------+</span><br></pre></td></tr></table></figure>
+
+<p>为了安全执行可能调用用户代码的比较器，我们的 <code>zend_array_sort_ex</code> 先调用：<code>zend_hash_packed_to_hash(ht);</code></p>
+<p>它会：</p>
+<ul>
+<li>分配 mixed HashTable 内存；</li>
+<li>把每个 zval 扩展为 Bucket；</li>
+<li>补充数字键 h 和 key；</li>
+<li>释放旧 packed 存储；</li>
+<li>重建哈希索引。</li>
+</ul>
+<p>在典型 64 位平台上：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">sizeof(zval)   ≈ 16 bytes</span><br><span class="line">sizeof(Bucket) ≈ 32 bytes</span><br></pre></td></tr></table></figure>
+
+<p>而 HashTable 最小容量通常是 8，所以即使只有一个元素，也会产生明显的固定分配与初始化成本。</p>
+<p>接下来：<code>GC_ADDREF(ht);</code></p>
+<p>这是为了防止排序器执行用户代码时把正在排序的数组释放掉。</p>
+<p>例如，多元素 <code>usort</code> 的 callback 理论上可以执行任意 PHP 代码。排序期间必须保证 HashTable 仍然存活。</p>
+<p>但单元素时 <code>zend_sort</code> 根本不会调用排序器（被 fast-path 直接返回了），因此这层保护没有必要。</p>
+<p>还没完。<code>sort</code>, <code>rsort</code>, <code>usort</code> 排序完要重新编号键。旧路径排序结束后还需要：</p>
+<ul>
+<li>设置每个 Bucket 的数字键；</li>
+<li>释放字符串键；</li>
+<li>设置 nNextFreeElement；</li>
+<li>再分配 packed 存储；</li>
+<li>把 Bucket 中的 zval 拷回 packed array；</li>
+<li>释放 mixed HashTable。</li>
+</ul>
+<p>结果就是：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">packed → mixed → 什么都没比较 → packed</span><br></pre></td></tr></table></figure>
+
+<p>这里有思路了之后就很好改了，我们看diff。</p>
+<p><img src="/image.png" alt="image"></p>
+<p>如果元素个数小于 1，直接跳过从 <code>zend_array_sort_ex</code> 到 <code>zend_hash_sort_internal</code> 的过程直接执行 <code>zend_hash_sort_internal</code>。这里使用<code>zend_hash_sort_ex</code>函数。它的实现是：</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line">ZEND_API <span class="type">void</span> ZEND_FASTCALL <span class="title function_">zend_hash_sort_ex</span><span class="params">(HashTable *ht, <span class="type">sort_func_t</span> sort, <span class="type">bucket_compare_func_t</span> compar, <span class="type">bool</span> renumber)</span></span><br><span class="line">&#123;</span><br><span class="line">	HT_ASSERT_RC1(ht);</span><br><span class="line">	zend_hash_sort_internal(ht, sort, compar, renumber);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>所以约等于直接调用 <code>zend_hash_sort_internal</code> (只有一个断言语句) 这样就没那么多事情了。</p>
+<p><img src="/image-1.png" alt="image2"></p>
+<p>首先我们保留原来的行为，如果数组的长度是 0，那不管怎么样直接返回。</p>
+<p>然后我们在 <code>zend_hash_sort_internal</code> 里面再做一个优化。还记得我们说的 <code>renumber</code> 行为吗？如果有 <code>renumber</code> 我们再排序，因为除了排序还有事情要做。没有我们干脆返回得了……吗？</p>
+<p>不行，不够快。我们希望对 <code>renumber=true</code> 的单元素数组也优化！我们来想：<code>renumber=true</code> 的时候，只有当数组是 unpacked 的情况下才要重写吧，如果这个数组本来就没有键，那还做什么重写？这跟 <code>renumber</code> 根本就无关。假如数组是 unpacked 且只有一个元素，就应该直接返回。</p>
+<p>所以我们创建这样一个 fast-path:</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span> (sort == zend_sort &amp;&amp; HT_IS_PACKED(ht) &amp;&amp; HT_IS_WITHOUT_HOLES(ht)) &#123;</span><br><span class="line">	<span class="comment">/* The single element already has the expected index. */</span></span><br><span class="line">	ht-&gt;nInternalPointer = <span class="number">0</span>;</span><br><span class="line">	ht-&gt;nNextFreeElement = <span class="number">1</span>;</span><br><span class="line">	<span class="keyword">return</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>如果排序函数是 <code>zend_sort</code>（一般都是），且被排序的数组是 packed 的，也就是没有自定义键（<code>HT_IS_PACKED(ht)</code>）理论上就可以跳过覆盖键的逻辑直接返回！</p>
+<p>有人可能会问：<code>HT_IS_WITHOUT_HOLES(ht)</code> 是啥意思。</p>
+<p>packed 并不一定意味着当前键已经是连续的。如：</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="variable">$array</span> = [<span class="number">10</span>, <span class="number">20</span>];</span><br><span class="line"><span class="keyword">unset</span>(<span class="variable">$array</span>[<span class="number">0</span>]);</span><br><span class="line"><span class="title function_ invoke__">sort</span>(<span class="variable">$array</span>);</span><br></pre></td></tr></table></figure>
+
+<p>这个时候，其实在内核里 array 的第一个元素 <code>10</code> 虽然被删了，但是它变成了一个洞（HOLE）。这时虽然只剩一个元素，但内核里 <code>20</code> 仍然位于索引 1（索引 0 是个洞）所以仅检查数组只有一个元素是不够的。我们很容易就知道，我们的 fast-path 只能适用于没有洞的数组。所以用 <code>HT_IS_WITHOUT_HOLES</code> 宏检测这个数组有没有洞。</p>
+<p>最终我们终于得出了我们 fast-path 的条件：<code>ht-&gt;nNumOfElements == 1 &amp;&amp; sort == zend_sort &amp;&amp; HT_IS_PACKED(ht) &amp;&amp; HT_IS_WITHOUT_HOLES(ht)</code></p>
+<p>OKAY! 接下来呢？直接返回吗？肯定是不行的。我们还需要设置两个量。</p>
+<p>首先：</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line">nInternalPointer = <span class="number">0</span></span><br></pre></td></tr></table></figure>
+
+<p>这是因为排序操作会重置数组内部指针。而走不走 fast-path 我们都希望重置这个指针。所以必须在返回前重置它。我们来看：</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="variable">$array</span> = [<span class="number">42</span>];</span><br><span class="line"><span class="title function_ invoke__">next</span>(<span class="variable">$array</span>);</span><br><span class="line"></span><br><span class="line"><span class="title function_ invoke__">sort</span>(<span class="variable">$array</span>);</span><br><span class="line"></span><br><span class="line"><span class="title function_ invoke__">var_dump</span>(<span class="title function_ invoke__">key</span>(<span class="variable">$array</span>)); <span class="comment">// int(0)</span></span><br></pre></td></tr></table></figure>
+
+<p>如果 fast path 只是直接 return，这里会错误地继续处于无效位置。</p>
+<p>其次</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line">nNextFreeElement = <span class="number">1</span></span><br></pre></td></tr></table></figure>
+
+<p>通俗地讲，这个字段决定：</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="variable">$array</span>[] = <span class="variable">$value</span>;</span><br></pre></td></tr></table></figure>
+
+<p>的时候使用哪个数字键。</p>
+<p>即使数组 packed、无洞且只有一个元素，nNextFreeElement 仍然可能大于 1：</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="variable">$array</span> = [<span class="number">42</span>];</span><br><span class="line"><span class="variable">$array</span>[<span class="number">10</span>] = <span class="number">99</span>;</span><br><span class="line"><span class="keyword">unset</span>(<span class="variable">$array</span>[<span class="number">10</span>]);</span><br></pre></td></tr></table></figure>
+
+<p>此时：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">nNumUsed         = 1</span><br><span class="line">nNumOfElements   = 1</span><br><span class="line">nNextFreeElement = 11</span><br></pre></td></tr></table></figure>
+
+<p>数组已经重新成为 packed 且无洞，但 next-free index 仍可能保留为 11。</p>
+<p>sort() 具有重新编号语义，所以排序后：</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="title function_ invoke__">sort</span>(<span class="variable">$array</span>);</span><br><span class="line"><span class="variable">$array</span>[] = <span class="number">43</span>;</span><br></pre></td></tr></table></figure>
+
+<p>必须得到：</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line">[</span><br><span class="line">    <span class="number">0</span> =&gt; <span class="number">42</span>,</span><br><span class="line">    <span class="number">1</span> =&gt; <span class="number">43</span>,</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+
+<p>而不是</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line">[</span><br><span class="line">    <span class="number">0</span> =&gt; <span class="number">42</span>,</span><br><span class="line">    <span class="number">11</span> =&gt; <span class="number">43</span>,</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+
+<p>因此，我们必须手动设置 <code>nNextFreeElement = 1</code>。</p>
+<p>以上，大功告成！我们可以观测到 <code>sort([42])</code> 这一行代码有 50% 的性能提升！PR 已经 merge：<a href="https://github.com/php/php-src/pull/23550">https://github.com/php/php-src/pull/23550</a></p>
+<h3 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h3><p>以上是一个大工程，花了我很多时间。在这之外我还做了一些改动。比如去除了 OpenSSL 测试里的锁文件（CONFLICTS）允许它们并行，然后毫不意外地触发了一大堆条件竞争问题。你以为我又捅娄子了？No，我把条件竞争全部修完了（笑）。这下好了，反而是大大提升了 OpenSSL 插件的测试性能。</p>
+<p>我还在 php 基金会官网发表了一篇 blog。见：<a href="https://github.com/ThePHPF/thephp.foundation/pull/319">https://github.com/ThePHPF/thephp.foundation/pull/319</a></p>
+<p>好了肯定还有别的但是我写累了就这样吧。</p>
+<h1 id="结语"><a href="#结语" class="headerlink" title="结语"></a>结语</h1><p>写不动了。但是还是家里睡得舒服。哈哈。</p>
+]]></content>
+      <categories>
+        <category>杂七杂八的文字</category>
+      </categories>
+  </entry>
 </search>
