@@ -5258,12 +5258,12 @@
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">packed → mixed → 什么都没比较 → packed</span><br></pre></td></tr></table></figure>
 
 <p>这里有思路了之后就很好改了，我们看diff。</p>
-<p><img src="/image.png" alt="image"></p>
+<p><img src="/images/first-week-at-college-sort-fast-path.png" alt="image"></p>
 <p>如果元素个数小于 1，直接跳过从 <code>zend_array_sort_ex</code> 到 <code>zend_hash_sort_internal</code> 的过程直接执行 <code>zend_hash_sort_internal</code>。这里使用<code>zend_hash_sort_ex</code>函数。它的实现是：</p>
 <figure class="highlight c"><table><tr><td class="code"><pre><span class="line">ZEND_API <span class="type">void</span> ZEND_FASTCALL <span class="title function_">zend_hash_sort_ex</span><span class="params">(HashTable *ht, <span class="type">sort_func_t</span> sort, <span class="type">bucket_compare_func_t</span> compar, <span class="type">bool</span> renumber)</span></span><br><span class="line">&#123;</span><br><span class="line">	HT_ASSERT_RC1(ht);</span><br><span class="line">	zend_hash_sort_internal(ht, sort, compar, renumber);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>所以约等于直接调用 <code>zend_hash_sort_internal</code> (只有一个断言语句) 这样就没那么多事情了。</p>
-<p><img src="/image-1.png" alt="image2"></p>
+<p><img src="/images/first-week-at-college-single-element-fast-path.png" alt="image2"></p>
 <p>首先我们保留原来的行为，如果数组的长度是 0，那不管怎么样直接返回。</p>
 <p>然后我们在 <code>zend_hash_sort_internal</code> 里面再做一个优化。还记得我们说的 <code>renumber</code> 行为吗？如果有 <code>renumber</code> 我们再排序，因为除了排序还有事情要做。没有我们干脆返回得了……吗？</p>
 <p>不行，不够快。我们希望对 <code>renumber=true</code> 的单元素数组也优化！我们来想：<code>renumber=true</code> 的时候，只有当数组是 unpacked 的情况下才要重写吧，如果这个数组本来就没有键，那还做什么重写？这跟 <code>renumber</code> 根本就无关。假如数组是 unpacked 且只有一个元素，就应该直接返回。</p>
@@ -5309,7 +5309,7 @@
 <figure class="highlight php"><table><tr><td class="code"><pre><span class="line">[</span><br><span class="line">    <span class="number">0</span> =&gt; <span class="number">42</span>,</span><br><span class="line">    <span class="number">11</span> =&gt; <span class="number">43</span>,</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
 
 <p>因此，我们必须手动设置 <code>nNextFreeElement = 1</code>。</p>
-<p>以上，大功告成！我们可以观测到 <code>sort([42])</code> 这一行代码有 50% 的性能提升！PR 已经 merge：<a href="https://github.com/php/php-src/pull/23550">https://github.com/php/php-src/pull/23550</a></p>
+<p>以上，大功告成！我们可以观测到 <code>sort([42])</code> 这一行代码有 50% 的性能提升！<a href="https://github.com/php/php-src/pull/23550">PR</a> 已经 merge。</p>
 <h3 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h3><p>以上是一个大工程，花了我很多时间。在这之外我还做了一些改动。比如去除了 OpenSSL 测试里的锁文件（CONFLICTS）允许它们并行，然后毫不意外地触发了一大堆条件竞争问题。你以为我又捅娄子了？No，我把条件竞争全部修完了（笑）。这下好了，反而是大大提升了 OpenSSL 插件的测试性能。</p>
 <p>我还在 php 基金会官网发表了一篇 blog。见：<a href="https://github.com/ThePHPF/thephp.foundation/pull/319">https://github.com/ThePHPF/thephp.foundation/pull/319</a></p>
 <p>好了肯定还有别的但是我写累了就这样吧。</p>
