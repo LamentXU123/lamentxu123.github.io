@@ -128,7 +128,7 @@
 </div>
 
 <h1 id="DONE"><a href="#DONE" class="headerlink" title="DONE"></a>DONE</h1><p>对于我在 php-src（php 内核）里做的所有贡献，可以在 <a target="_blank" rel="noopener" href="https://github.com/php/php-src/commits?author=LamentXU123">commit list</a> 里找到。</p>
-<p>以下是我对 PHP 做过或正在推进的<strong>用户可见行为</strong>变化（不包含重构）。（更新于 2026-08-28 01:13 CST）</p>
+<p>以下是我对 PHP 做过或正在推进的<strong>用户可见行为</strong>变化（不包含重构）。（更新于 2026-09-04 00:20 CST）</p>
 <h2 id="PHP-8-7-x"><a href="#PHP-8-7-x" class="headerlink" title="PHP 8.7.x"></a>PHP 8.7.x</h2><h3 id="RFC"><a href="#RFC" class="headerlink" title="RFC"></a>RFC</h3><ul>
 <li><input disabled="" type="checkbox"> 添加 <code>IntlRelativeDateTimeFormatter</code> 类，方便用户在 PHP 里用国际化的方式表示相对时间。(<a target="_blank" rel="noopener" href="https://wiki.php.net/rfc/reldateformatter">RFC</a>)</li>
 </ul>
@@ -237,6 +237,7 @@
 <li>ext&#x2F;gd 修复 <code>imageaffinematrixget()</code> 对 <code>$options</code> 参数强制校验文档声明的 <code>array|float</code> 类型，否则抛出 <code>TypeError</code>。（<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/23384">PR #23384</a>）</li>
 </ul>
 <h3 id="性能优化"><a href="#性能优化" class="headerlink" title="性能优化"></a>性能优化</h3><ul>
+<li>Zend 将所有对单元素数组的排序性能提升 50%。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/23550">PR #23550</a>)</li>
 <li>ext&#x2F;gd 将 <code>imagegrabscreen</code> 和 <code>imagegrabwindow</code> 的性能提升到原来的约 814 倍。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/23485">PR #23485</a>)</li>
 <li>ext&#x2F;intl 完成一批小优化。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/22069">PR #22069</a>)</li>
 <li>ext&#x2F;zip 在已知数组大小时预先初始化数组。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/21572">PR #21572</a>)</li>
