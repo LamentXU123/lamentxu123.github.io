@@ -5214,7 +5214,7 @@
 <p>这就不得不提到 php 里臭名昭著的“特性”了：</p>
 <figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="variable">$array</span> = [<span class="string">&#x27;key&#x27;</span> =&gt; <span class="number">42</span>];</span><br><span class="line"><span class="title function_ invoke__">sort</span>(<span class="variable">$array</span>);</span><br><span class="line"></span><br><span class="line"><span class="title function_ invoke__">var_dump</span>(<span class="variable">$array</span>);</span><br><span class="line"><span class="comment">// [0 =&gt; 42]</span></span><br></pre></td></tr></table></figure>
 
-<p>假如这里的 <code>array</code> 是 <code>packed</code> 的，就是没有键只有值（类似于 <code>[1, 2, 3, 4]</code>）那自然无所谓。但是有时候数组是 <code>unpacked</code> 或者 <code>mixed</code>，就是存在自定义键（<code>[&#39;name&#39; =&gt; &#39;PHP&#39;,10 =&gt; &#39;value&#39;,]</code>）这时候，一部分排序函数会把键覆盖成自然数列（1，2，3，4…）对值做排序。一部分不会。会的那部分 <code>renumber</code> 就是 <code>true</code>。</p>
+<p>假如这里的 <code>array</code> 是 <code>packed</code> 的，就是没有键只有值（类似于 <code>[1, 2, 3, 4]</code>）那自然无所谓。但是有时候数组是 <code>unpacked</code> 或者 <code>mixed</code>，就是存在自定义键（<code>[&#39;name&#39; =&gt; &#39;PHP&#39;,10 =&gt; &#39;value&#39;,]</code>）这时候，一部分排序函数会把键覆盖成自然数列（0, 1，2，3，4…）对值做排序。一部分不会。会的那部分 <code>renumber</code> 就是 <code>true</code>。</p>
 <p>排序函数除了排序，其实还做了其他的事情。所以如果 <code>renumber</code> 是 <code>true</code> 我们还要对单元素数组做排序的流程，只是我们实际上不在乎排序本身罢了。</p>
 <p>到这里，聪明的你看出来哪里可以优化了吗？</p>
 <p>是的！既然单元素数组这一种情况不需要实际上做排序，我们就完全不需要考虑在 <code>zend_array_sort_ex</code> 里把 packed array 展开！实际上单元素数组的排序流程非常快，大部分的性能都消耗在 (un)packing 上。</p>
