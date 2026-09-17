@@ -14,7 +14,7 @@
 <meta property="og:description" content="作为 php core developer，我从事 php 语言的内核维护和开发工作有一段时间了。一直有很多想法和经验总是忘记。遂写一篇类似与小记的博客记录一下。">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2026-07-30T19:56:20.827Z">
-<meta property="article:modified_time" content="2026-09-15T17:01:00.000Z">
+<meta property="article:modified_time" content="2026-09-17T08:33:00.000Z">
 <meta property="article:author" content="LamentXU">
 <meta property="article:tag" content="CTF, Web Security, PHP, Python, Writeup">
 <meta name="twitter:card" content="summary">
@@ -141,7 +141,7 @@
       
         <time datetime="2026-07-30T19:56:20.827Z" class="dt-published" itemprop="datePublished">2026-07-31</time>
         
-        (Updated: <time datetime="2026-09-15T17:01:00.000Z" class="dt-updated" itemprop="dateModified">2026-09-16</time>)
+        (Updated: <time datetime="2026-09-17T08:33:00.000Z" class="dt-updated" itemprop="dateModified">2026-09-17</time>)
         
       
     </div>
@@ -184,7 +184,7 @@
 </div>
 
 <h1 id="DONE"><a href="#DONE" class="headerlink" title="DONE"></a>DONE</h1><p>对于我在 php-src（php 内核）里做的所有贡献，可以在 <a target="_blank" rel="noopener" href="https://github.com/php/php-src/commits?author=LamentXU123">commit list</a> 里找到。</p>
-<p>以下是我对 PHP 做过或正在推进的<strong>用户可见行为</strong>变化（不包含重构）。（更新于 2026-09-16 01:01 CST）</p>
+<p>以下是我对 PHP 做过或正在推进的<strong>用户可见行为</strong>变化（不包含重构）。（更新于 2026-09-17 16:33 CST）</p>
 <h2 id="PHP-8-7-x"><a href="#PHP-8-7-x" class="headerlink" title="PHP 8.7.x"></a>PHP 8.7.x</h2><h3 id="RFC"><a href="#RFC" class="headerlink" title="RFC"></a>RFC</h3><ul>
 <li><input disabled="" type="checkbox"> 添加 <code>IntlRelativeDateTimeFormatter</code> 类，方便用户在 PHP 里用国际化的方式表示相对时间。(<a target="_blank" rel="noopener" href="https://wiki.php.net/rfc/reldateformatter">RFC</a>)</li>
 </ul>
@@ -294,6 +294,11 @@
 <li>ext&#x2F;gd 修复 <code>imageaffinematrixget()</code> 对 <code>$options</code> 参数强制校验文档声明的 <code>array|float</code> 类型，否则抛出 <code>TypeError</code>。（<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/23384">PR #23384</a>）</li>
 </ul>
 <h3 id="性能优化"><a href="#性能优化" class="headerlink" title="性能优化"></a>性能优化</h3><ul>
+<li>ext&#x2F;standard <code>stat()</code>、<code>lstat()</code> 和 <code>fstat()</code> 预先分配返回结果数组，减少构造文件状态信息时的扩容和哈希检查开销。（<a target="_blank" rel="noopener" href="https://github.com/php/php-src/commit/9687652b3f6b306feb9b26f1c99d810252c8e61b">commit 9687652</a>）</li>
+<li>ext&#x2F;standard <code>error_get_last()</code> 使用已知的新键构造错误信息数组，减少键更新时不必要的哈希检查。（<a target="_blank" rel="noopener" href="https://github.com/php/php-src/commit/6541e8331b592cee878fd2ad392653508b9409a6">commit 6541e83</a>）</li>
+<li>ext&#x2F;standard <code>getopt()</code> 使用已知的新键插入选项结果，减少解析命令行选项时的哈希检查开销。（<a target="_blank" rel="noopener" href="https://github.com/php/php-src/commit/f0ed2c5890cc0c955c7a4ef99ba77ecd69584459">commit f0ed2c5</a>）</li>
+<li>ext&#x2F;standard <code>fgetcsv()</code> 和 <code>str_getcsv()</code> 在解析 CSV 字段时使用追加新元素的插入路径，减少数组插入开销。（<a target="_blank" rel="noopener" href="https://github.com/php/php-src/commit/a318ae825185d17cd529fe0fe5a3f8159f910d3a">commit a318ae8</a>）</li>
+<li>ext&#x2F;standard <code>array_change_key_case()</code> 复制整数键时使用已知的新键插入路径，提升数组键转换性能。（<a target="_blank" rel="noopener" href="https://github.com/php/php-src/commit/1849f03afc7d1c87d9f25000e8fa5f33b3f35faf">commit 1849f03</a>）</li>
 <li>ext&#x2F;standard <code>str_repeat()</code> 在 multiplier 为 1 时直接复用输入字符串，避免不必要的字符串分配和拷贝，提升性能。（<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/23681">PR #23681</a>, <a target="_blank" rel="noopener" href="https://github.com/php/php-src/commit/93fd714daa6b32372d6b7c913433c386054455c7">commit 93fd714</a>)</li>
 <li>ext&#x2F;standard <code>addcslashes()</code> 在生成八进制转义时改为手动写入三位八进制字符，减少 <code>snprintf</code> 开销，提升性能。（<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/23680">PR #23680</a>, <a target="_blank" rel="noopener" href="https://github.com/php/php-src/commit/2101993133e849f3e84da9c478126cc7cb791996">commit 2101993</a>)</li>
 <li>ext&#x2F;mbstring <code>mb_str_pad()</code> 使用倍增拷贝策略拼接填充内容，降低重复拷贝次数提高性能。（<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/23667">PR #23667</a>, <a target="_blank" rel="noopener" href="https://github.com/php/php-src/commit/ae62043aa340871abfeea8568565d23d8b42f35a">commit ae62043</a>)</li>
@@ -302,7 +307,10 @@
 <li>ext&#x2F;standard <code>explode()</code> 在负向 <code>limit</code> 分支上提升性能，内层用 <code>ZVAL_STRINGL_FAST()</code> 替代 <code>ZVAL_STRINGL</code>，减少一次 <code>emalloc + memcpy + free</code> 的成本。（<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/23631">PR #23631</a>, <a target="_blank" rel="noopener" href="https://github.com/php/php-src/commit/ac53f14223b4cda3199675878113f82de4d1717a">commit ac53f14</a>)</li>
 <li>Zend 将所有对单元素数组的排序性能提升 50%。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/23550">PR #23550</a>)</li>
 <li>ext&#x2F;gd 将 <code>imagegrabscreen</code> 和 <code>imagegrabwindow</code> 的性能提升到原来的约 814 倍。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/23485">PR #23485</a>)</li>
-<li>ext&#x2F;intl 完成一批小优化。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/22069">PR #22069</a>)</li>
+<li>ext&#x2F;intl <code>intlcal_get_available_locales()</code> 和 <code>IntlCalendar::getAvailableLocales()</code> 预先分配返回数组，减少获取可用 locale 列表时的扩容开销。（<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/22069">PR #22069</a>, <a target="_blank" rel="noopener" href="https://github.com/php/php-src/commit/900797e54fb8d21a761205e5788b9275dc1c7c0e">commit 900797e</a>）</li>
+<li>ext&#x2F;intl <code>datefmt_localtime()</code> 和 <code>IntlDateFormatter::localtime()</code> 预先分配固定大小的返回数组，减少日期解析结果构造时的扩容开销。（<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/22069">PR #22069</a>, <a target="_blank" rel="noopener" href="https://github.com/php/php-src/commit/900797e54fb8d21a761205e5788b9275dc1c7c0e">commit 900797e</a>）</li>
+<li>ext&#x2F;intl <code>locale_get_primary_language()</code>、<code>locale_get_script()</code>、<code>locale_get_region()</code> 和 <code>locale_canonicalize()</code> 复用 ICU 返回值的已知长度，减少重复的字符串长度计算。（<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/22069">PR #22069</a>, <a target="_blank" rel="noopener" href="https://github.com/php/php-src/commit/900797e54fb8d21a761205e5788b9275dc1c7c0e">commit 900797e</a>）</li>
+<li>ext&#x2F;intl <code>locale_get_keywords()</code>、<code>locale_parse()</code> 和 <code>locale_filter_matches()</code> 复用已知的 locale 字符串长度，减少重复计算和不必要的内存分配。（<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/22069">PR #22069</a>, <a target="_blank" rel="noopener" href="https://github.com/php/php-src/commit/900797e54fb8d21a761205e5788b9275dc1c7c0e">commit 900797e</a>）</li>
 <li>ext&#x2F;zip 在已知数组大小时预先初始化数组。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/21572">PR #21572</a>)</li>
 <li>ext&#x2F;uri 预先初始化错误数组。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/21560">PR #21560</a>)</li>
 <li>ext&#x2F;uri 优化 RFC3986 解析中的字符串分配。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/21550">PR #21550</a>)</li>
