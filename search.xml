@@ -5335,4 +5335,278 @@
         <category>杂七杂八的文字</category>
       </categories>
   </entry>
+  <entry>
+    <title>最近对 PHP 语言的标准库实现的一些优化</title>
+    <url>/posts/2026-09-18-recent-various-optimizations-to-the-php-core/</url>
+    <content><![CDATA[<p>我的人生只有两种状态：得到了暂时想要得到的时候的无聊和得不到暂时想要得到的时候的痛苦。可以说，我在痛苦之外的时间都很无聊；我在无聊之外的时候都很痛苦。</p>
+<p>人啊，总是听了很多大道理又过不好这一生。我们都说要走自己的路。然而，谁又能真正地不在意其他的人眼光呢？</p>
+<p>也许，大人的世界是没有委屈的。你看，有时不论你怎么反思，你都无法得出一个能让所有人满意的人格。我们必然要经历莫名其妙的误会。</p>
+<p>有人说，在 AI 时代下懂得技术的人都会流露着一些傲气；有人说，在 AI 时代下不懂得技术的人都会流露着一些愚蠢。</p>
+<p>有人说，往往说话最多的是最愚蠢的；有人说，不懂表达的是最无用的。</p>
+<p>有人不正直，永远将真实的评价藏在身后；有人不自谦，永远认为身边的人都不尊重他；然而，大多数时候我们要和这样的人合作。</p>
+<p>人从来不是单面的。没有好人和坏人。每个人都有自己的优点和缺点。没素质的人可以善良，善良的人也可以虚伪。只通过扣帽子的办法给每个人贴上单独的标签，是不可取的。</p>
+<p>我好像跑题了。</p>
+<p>最近我读完了 PHP 内核的标准库源码。好，我们接下来看看我在这次旅程中顺便做了什么样的改动。</p>
+<h1 id="利用倍数复制法优化-str-pad-和-mb-str-pad"><a href="#利用倍数复制法优化-str-pad-和-mb-str-pad" class="headerlink" title="利用倍数复制法优化 str_pad 和 mb_str_pad"></a>利用倍数复制法优化 <code>str_pad</code> 和 <code>mb_str_pad</code></h1><p><code>str_pad</code> 函数可以将字符串用指定字符填充至所需要的长度。其操作类似于 python 中的 <code>ljust</code> 和 <code>rjust</code>。</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="title function_ invoke__">str_pad</span>(<span class="keyword">string</span> <span class="variable">$string</span>, <span class="keyword">int</span> <span class="variable">$length</span>, <span class="keyword">string</span> <span class="variable">$pad_string</span> = <span class="string">&quot; &quot;</span>, <span class="keyword">int</span> <span class="variable">$pad_type</span> = STR_PAD_RIGHT): <span class="keyword">string</span></span><br></pre></td></tr></table></figure>
+
+<p>如 <code>str_pad(&quot;abc&quot;, 8, &quot;xy&quot;, STR_PAD_RIGHT);</code> 这一行代码，意思就是将 <code>abc</code> 这个字符串用 <code>xy</code> 从右边填充到长度 8，输出 <code>abcxyxyx</code>。</p>
+<p>其在内核中主要以以下代码实现：</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="type">static</span> <span class="type">void</span> <span class="title function_">php_str_pad_fill</span><span class="params">(zend_string *result, <span class="type">size_t</span> pad_chars, <span class="type">const</span> <span class="type">char</span> *pad_str, <span class="type">size_t</span> pad_str_len)</span> &#123;</span><br><span class="line">	<span class="type">char</span> *p = ZSTR_VAL(result) + ZSTR_LEN(result);</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> (pad_str_len == <span class="number">1</span>) &#123;</span><br><span class="line">		<span class="built_in">memset</span>(p, pad_str[<span class="number">0</span>], pad_chars);</span><br><span class="line">		ZSTR_LEN(result) += pad_chars;</span><br><span class="line">		<span class="keyword">return</span>;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="type">const</span> <span class="type">char</span> *end = p + pad_chars;</span><br><span class="line">	<span class="keyword">while</span> (p + pad_str_len &lt;= end) &#123;</span><br><span class="line">		p = zend_mempcpy(p, pad_str, pad_str_len);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> (p &lt; end) &#123;</span><br><span class="line">		<span class="built_in">memcpy</span>(p, pad_str, end - p);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	ZSTR_LEN(result) += pad_chars;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>其中 result 是一个指向字符串的指针，可以当成是返回时用的缓冲区；pad_chars 代表了总共需要填充多少个字节；pad_str 是指向填充时使用的字符串的常量指针；pad_str_len 表示前者的长度。</p>
+<p>以 <code>str_pad(&quot;abc&quot;, 8, &quot;xy&quot;, STR_PAD_RIGHT);</code> 为例，上述函数的变量的值就是：pad_chars 是 5，pad_str 是 “xy”，pad_str_len 是 2。当这个函数返回后，就会得到 <code>xyxyx</code>（这时 result 的值就是 <code>xyxyx</code>），我们再把 <code>xyxyx</code> 和原始字符串 <code>abc</code> 拼在一起，就得到了正确的返回值 <code>abcxyxyx</code>。</p>
+<p>简单易懂不是吗（^~^）</p>
+<p>我们来看看这段代码的逻辑。首先是一个快速路径优化（fast-path optimization）</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span> (pad_str_len == <span class="number">1</span>) &#123;</span><br><span class="line">	<span class="built_in">memset</span>(p, pad_str[<span class="number">0</span>], pad_chars);</span><br><span class="line">	ZSTR_LEN(result) += pad_chars;</span><br><span class="line">	<span class="keyword">return</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>如果填充使用的字节长度是 1，就直接复制需要数量的该字符，直接返回就好。这时候就有人要问了：不应该所有的都是这样吗？为什么只有 1 可以呢？</p>
+<p>因为，填充时使用的字符串的长度不一定是待填充长度的整数倍。只有在填充时使用的字符串长度是 1 的时候，才能保证前面的条件成立。试想我们用 <code>abc</code> 填充 7 个字符，我们就不能直接分配 7 个字节这么多内存再直接填充了，因为 <code>abc</code> 的长度是 3，我们最后应该填充的是 <code>abcabcab</code> 而不是 <code>abcabcabc</code>，直接复制三份 <code>abc</code> 会导致内存的越界写。我们来看 php 内核是怎么处理这种大多数情况的：</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="type">const</span> <span class="type">char</span> *end = p + pad_chars;</span><br><span class="line"><span class="keyword">while</span> (p + pad_str_len &lt;= end) &#123;</span><br><span class="line">	p = zend_mempcpy(p, pad_str, pad_str_len);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (p &lt; end) &#123;</span><br><span class="line">	<span class="built_in">memcpy</span>(p, pad_str, end - p);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">ZSTR_LEN(result) += pad_chars;</span><br></pre></td></tr></table></figure>
+
+<p>简单粗暴啊。我们直接开一个循环。当剩余的长度大于或等于待填充字符串的长度时，我们循环向缓冲区拷贝待填充字符串；当剩余的长度小于待填充字符串的长度时，我们就从待填充的字符串的尾部减去相应长度的字符，再拷贝进缓冲区。随后，返回缓冲区。</p>
+<p>正在阅读这段代码的你，有什么优化的想法吗？</p>
+<p>假设我们要用 <code>ab</code> 这个字符串填充 1 MiB 的长度，那我们要循环五十多万次。循环的时间复杂度    <code>O(+∞)</code></p>
+<p>开个玩笑，<code>O(pad_chars)</code>。严格上来说我们要循环 <code>pad_chars/pad_str_len</code> 次。</p>
+<p>这个时候就轮到我们大显身手了！</p>
+<p>我们来想，假设我们用 <code>ab</code> 填充 1000 个字节。</p>
+<p>第 1 次填充的时候：缓冲区是 <code>ab</code><br>第 2 次填充的时候：缓冲区是 <code>abab</code><br>第 3 次填充的时候：缓冲区是 <code>ababab</code><br>第 4 次填充的时候：缓冲区是 <code>abababab</code><br>第 n (n&lt;&#x3D;512) 次填充的时候：缓冲区是 <code>ab</code> 与 n 的积</p>
+<p>注意到，这里可以用对数的方法进行优化。我们在每次拷贝时，不从待填充的字符串拷贝，而是将<strong>缓冲区本身</strong>拷贝到缓冲区里。</p>
+<p>第 1 次填充的时候：缓冲区是 <code>ab</code><br>第 2 次填充的时候：缓冲区是 <code>abab</code><br>第 3 次填充的时候：缓冲区是 <code>abababab</code><br>第 3 次填充的时候：缓冲区是 <code>abababababababab</code><br>第 n (n&lt;&#x3D;10) 次填充的时候：缓冲区是 <code>ab</code> 的 n 次方</p>
+<p>我们只需要检测缓冲区的长度是否小于剩余的长度即可。若不小于，继续循环填充；若小于，则再从<strong>缓冲区的开头复制剩余长度的字符即可</strong>。</p>
+<p>倘若我们填充 1027 个长度的 <code>ab</code>。第 10 次循环结束后，缓冲区是：</p>
+<p><code>ab</code> * 1024</p>
+<p>此时，我们计算剩余长度 1037 - 1024 &#x3D; 3。从缓冲区开头复制 3 个字符，也就是 <code>aba</code>，拷贝到缓冲区末尾即可。</p>
+<p>代码实现：</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="type">static</span> <span class="type">void</span> <span class="title function_">php_str_pad_fill</span><span class="params">(zend_string *result, <span class="type">size_t</span> pad_chars, <span class="type">const</span> <span class="type">char</span> *pad_str, <span class="type">size_t</span> pad_str_len)</span> &#123;</span><br><span class="line">	<span class="type">char</span> *p = ZSTR_VAL(result) + ZSTR_LEN(result);</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> (pad_str_len == <span class="number">1</span>) &#123;</span><br><span class="line">		<span class="built_in">memset</span>(p, pad_str[<span class="number">0</span>], pad_chars);</span><br><span class="line">		ZSTR_LEN(result) += pad_chars;</span><br><span class="line">		<span class="keyword">return</span>;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="type">const</span> <span class="type">char</span> *start = p;</span><br><span class="line">	<span class="type">const</span> <span class="type">char</span> *end = p + pad_chars;</span><br><span class="line">	<span class="type">size_t</span> len = MIN(pad_str_len, pad_chars);</span><br><span class="line">	p = zend_mempcpy(p, pad_str, len);</span><br><span class="line"></span><br><span class="line">	<span class="comment">/* Double the filled area on each iteration. */</span></span><br><span class="line">	<span class="keyword">while</span> (p &lt; end) &#123;</span><br><span class="line">		len = MIN(p - start, end - p);</span><br><span class="line">		p = zend_mempcpy(p, start, len);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	ZSTR_LEN(result) += pad_chars;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这样我们把循环次数讲到了 O(log(pad_chars)&#x2F;log2)。假设我们要填充 1 MiB 的 <code>ab</code>，原来需要五十多万次内存操作，现在仅仅需要 20 次！新实现先写入一份模式（不足一份则只写所需部分），之后从已填区域复制 <code>min(已填长度, 剩余长度)</code> 字节，直到完成。最后一次复制可以自然覆盖不足整轮长度的尾部，左右填充的外层规则不变。</p>
+<p>至此，观察到极大的性能提升。由于原本循环次数是 <code>pad_chars/pad_str_len</code>，现在变成了 <code>log(pad_chars/pad_str_len)/log2</code>，提升的程度随 <code>pad_chars</code> 正相关，随 <code>pad_str_len</code> 负相关。</p>
+<table>
+<thead>
+<tr>
+<th>模式</th>
+<th align="right">目标长度</th>
+<th align="right">调用次数</th>
+<th align="right">优化前</th>
+<th align="right">优化后</th>
+<th align="right">单次耗时减少</th>
+<th align="right">速度倍数</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>ab</code></td>
+<td align="right">1 KiB</td>
+<td align="right">100,000</td>
+<td align="right">51.786 ms</td>
+<td align="right">7.368 ms</td>
+<td align="right">85.77%</td>
+<td align="right">7.03×</td>
+</tr>
+<tr>
+<td><code>ab</code></td>
+<td align="right">1 MiB</td>
+<td align="right">150</td>
+<td align="right">73.701 ms</td>
+<td align="right">3.326 ms</td>
+<td align="right">95.49%</td>
+<td align="right">22.16×</td>
+</tr>
+<tr>
+<td><code>abcde</code></td>
+<td align="right">1 MiB</td>
+<td align="right">150</td>
+<td align="right">35.517 ms</td>
+<td align="right">2.966 ms</td>
+<td align="right">91.65%</td>
+<td align="right">11.97×</td>
+</tr>
+</tbody></table>
+<p>同样的我们把相似的策略应用于 <code>mb_str_pad</code> 上。原代码：</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="keyword">for</span> (<span class="type">size_t</span> i = <span class="number">0</span>; i &lt; full_left_pad_copies; i++, buffer += ZSTR_LEN(pad)) &#123;</span><br><span class="line">	<span class="built_in">memcpy</span>(buffer, ZSTR_VAL(pad), ZSTR_LEN(pad));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>更改后采用指数的复制模式。另外注意到 <code>mb_str_pad</code> 并没有应用上面介绍的对填充字符长度等于一时的 fast-path optimization，这里顺便加上。</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="type">static</span> <span class="type">char</span> *<span class="title function_">php_mb_str_pad_fill</span><span class="params">(<span class="type">char</span> *buffer, <span class="type">const</span> zend_string *pad, <span class="type">size_t</span> pad_bytes)</span></span><br><span class="line">&#123;</span><br><span class="line">	<span class="keyword">if</span> (pad_bytes == <span class="number">0</span>) &#123;</span><br><span class="line">		<span class="keyword">return</span> buffer;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">if</span> (ZSTR_LEN(pad) == <span class="number">1</span>) &#123;</span><br><span class="line">		<span class="built_in">memset</span>(buffer, ZSTR_VAL(pad)[<span class="number">0</span>], pad_bytes);</span><br><span class="line">		<span class="keyword">return</span> buffer + pad_bytes;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="type">const</span> <span class="type">char</span> *start = buffer;</span><br><span class="line">	<span class="type">const</span> <span class="type">char</span> *end = buffer + pad_bytes;</span><br><span class="line">	buffer = zend_mempcpy(buffer, ZSTR_VAL(pad), ZSTR_LEN(pad));</span><br><span class="line"></span><br><span class="line">	<span class="comment">/* Double the filled area on each iteration. */</span></span><br><span class="line">	<span class="keyword">while</span> (buffer &lt; end) &#123;</span><br><span class="line">		<span class="type">size_t</span> len = MIN(buffer - start, end - buffer);</span><br><span class="line">		buffer = zend_mempcpy(buffer, start, len);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> buffer;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>随后调用即可。</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line">buffer = php_mb_str_pad_fill(buffer, pad, full_left_pad_bytes);</span><br></pre></td></tr></table></figure>
+
+<p>对于 str_pad：<a href="https://github.com/php/php-src/pull/23661">PR</a><br>对于 mb_str_pad：<a href="https://github.com/php/php-src/pull/23667/">PR</a></p>
+<h1 id="直接通过位运算生成三位八进制转义优化-addcslashes"><a href="#直接通过位运算生成三位八进制转义优化-addcslashes" class="headerlink" title="直接通过位运算生成三位八进制转义优化 addcslashes"></a>直接通过位运算生成三位八进制转义优化 <code>addcslashes</code></h1><p>请看 VCR：</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line">PHPAPI zend_string *<span class="title function_">php_addcslashes_str</span><span class="params">(<span class="type">const</span> <span class="type">char</span> *str, <span class="type">size_t</span> len, <span class="type">const</span> <span class="type">char</span> *what, <span class="type">size_t</span> wlength)</span></span><br><span class="line">&#123;</span><br><span class="line">	<span class="type">char</span> flags[<span class="number">256</span>];</span><br><span class="line">	<span class="type">char</span> *target;</span><br><span class="line">	<span class="type">const</span> <span class="type">char</span> *source, *end;</span><br><span class="line">	<span class="type">char</span> c;</span><br><span class="line">	<span class="type">size_t</span>  newlen;</span><br><span class="line">	zend_string *new_str = zend_string_safe_alloc(<span class="number">4</span>, len, <span class="number">0</span>, <span class="number">0</span>);</span><br><span class="line"></span><br><span class="line">	php_charmask((<span class="type">const</span> <span class="type">unsigned</span> <span class="type">char</span> *) what, wlength, flags);</span><br><span class="line"></span><br><span class="line">	<span class="keyword">for</span> (source = str, end = source + len, target = ZSTR_VAL(new_str); source &lt; end; source++) &#123;</span><br><span class="line">		c = *source;</span><br><span class="line">		<span class="keyword">if</span> (flags[(<span class="type">unsigned</span> <span class="type">char</span>)c]) &#123;</span><br><span class="line">			<span class="keyword">if</span> ((<span class="type">unsigned</span> <span class="type">char</span>) c &lt; <span class="number">32</span> || (<span class="type">unsigned</span> <span class="type">char</span>) c &gt; <span class="number">126</span>) &#123;</span><br><span class="line">				*target++ = <span class="string">&#x27;\\&#x27;</span>;</span><br><span class="line">				<span class="keyword">switch</span> (c) &#123;</span><br><span class="line">					<span class="keyword">case</span> <span class="string">&#x27;\n&#x27;</span>: *target++ = <span class="string">&#x27;n&#x27;</span>; <span class="keyword">break</span>;</span><br><span class="line">					<span class="keyword">case</span> <span class="string">&#x27;\t&#x27;</span>: *target++ = <span class="string">&#x27;t&#x27;</span>; <span class="keyword">break</span>;</span><br><span class="line">					<span class="keyword">case</span> <span class="string">&#x27;\r&#x27;</span>: *target++ = <span class="string">&#x27;r&#x27;</span>; <span class="keyword">break</span>;</span><br><span class="line">					<span class="keyword">case</span> <span class="string">&#x27;\a&#x27;</span>: *target++ = <span class="string">&#x27;a&#x27;</span>; <span class="keyword">break</span>;</span><br><span class="line">					<span class="keyword">case</span> <span class="string">&#x27;\v&#x27;</span>: *target++ = <span class="string">&#x27;v&#x27;</span>; <span class="keyword">break</span>;</span><br><span class="line">					<span class="keyword">case</span> <span class="string">&#x27;\b&#x27;</span>: *target++ = <span class="string">&#x27;b&#x27;</span>; <span class="keyword">break</span>;</span><br><span class="line">					<span class="keyword">case</span> <span class="string">&#x27;\f&#x27;</span>: *target++ = <span class="string">&#x27;f&#x27;</span>; <span class="keyword">break</span>;</span><br><span class="line">					<span class="keyword">default</span>: target += <span class="built_in">snprintf</span>(target, <span class="number">4</span>, <span class="string">&quot;%03o&quot;</span>, (<span class="type">unsigned</span> <span class="type">char</span>) c);</span><br><span class="line">				&#125;</span><br><span class="line">				<span class="keyword">continue</span>;</span><br><span class="line">			&#125;</span><br><span class="line">			*target++ = <span class="string">&#x27;\\&#x27;</span>;</span><br><span class="line">		&#125;</span><br><span class="line">		*target++ = c;</span><br><span class="line">	&#125;</span><br><span class="line">	*target = <span class="number">0</span>;</span><br><span class="line">	newlen = target - ZSTR_VAL(new_str);</span><br><span class="line">	<span class="keyword">if</span> (newlen &lt; len * <span class="number">4</span>) &#123;</span><br><span class="line">		new_str = zend_string_truncate(new_str, newlen, <span class="number">0</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> new_str;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>注意到 </p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="keyword">default</span>: target += <span class="built_in">snprintf</span>(target, <span class="number">4</span>, <span class="string">&quot;%03o&quot;</span>, (<span class="type">unsigned</span> <span class="type">char</span>)</span><br></pre></td></tr></table></figure>
+
+<p>这一行很有意思。它的功能是输入一个字节 <code>c(0~255)</code>，输出固定 3 位带前导 0 的八进制 ASCII 字符串，例如 <code>c=5</code> → <code>&quot;005&quot;</code>；<code>c=0xFF</code> → <code>&quot;377&quot;</code>。</p>
+<p>考虑需要八进制转义的字节，其数值范围只有 0～255，格式固定为三位八进制数字。旧实现对每个这样的字节调用 <code>snprintf(..., &quot;%03o&quot;, ...)</code>，仍需经过通用格式解析和整数格式化。</p>
+<p>这里直接给出我的新实现：</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="keyword">default</span>:</span><br><span class="line">	<span class="comment">/* Write the byte as three octal digits, including leading zeros. */</span></span><br><span class="line">	*target++ = ((<span class="type">unsigned</span> <span class="type">char</span>) c &gt;&gt; <span class="number">6</span>) + <span class="string">&#x27;0&#x27;</span>;</span><br><span class="line">	*target++ = (((<span class="type">unsigned</span> <span class="type">char</span>) c &gt;&gt; <span class="number">3</span>) &amp; <span class="number">7</span>) + <span class="string">&#x27;0&#x27;</span>;</span><br><span class="line">	*target++ = ((<span class="type">unsigned</span> <span class="type">char</span>) c &amp; <span class="number">7</span>) + <span class="string">&#x27;0&#x27;</span>;</span><br></pre></td></tr></table></figure>
+
+<p>用了一点点小 hack，不要在意。这才是 C 语言该有的样子魂淡。总之我们通过位移和掩码的的手段分别提取出高，中，低三组位。取位前转为 <code>unsigned char</code>，避免 128～255 的字节被符号扩展。</p>
+<table>
+<thead>
+<tr>
+<th>场景</th>
+<th align="right">优化前（ns&#x2F;次）</th>
+<th align="right">优化后（ns&#x2F;次）</th>
+<th align="right">耗时减少</th>
+<th align="right">更快轮数</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1 个 NUL，转义列表为 NUL</td>
+<td align="right">108.33</td>
+<td align="right">67.13</td>
+<td align="right">+39.05%</td>
+<td align="right">9&#x2F;9</td>
+</tr>
+<tr>
+<td>32 个 NUL</td>
+<td align="right">1270.14</td>
+<td align="right">128.24</td>
+<td align="right">+89.93%</td>
+<td align="right">9&#x2F;9</td>
+</tr>
+<tr>
+<td>4,096 个 NUL</td>
+<td align="right">148128.66</td>
+<td align="right">8427.66</td>
+<td align="right">+94.33%</td>
+<td align="right">9&#x2F;9</td>
+</tr>
+<tr>
+<td>0～255 全部字节，全部选中</td>
+<td align="right">6568.54</td>
+<td align="right">553.70</td>
+<td align="right">+91.55%</td>
+<td align="right">9&#x2F;9</td>
+</tr>
+</tbody></table>
+<p>单个 NUL 的耗时减少 39.05%；32 B &#x2F; 4 KiB 全 NUL 场景分别减少 89.93% &#x2F; 94.33%。</p>
+<p>对应提交：<a href="https://github.com/php/php-src/commit/2101993133e849f3e84da9c478126cc7cb791996"><code>2101993</code></a>；<a href="https://github.com/php/php-src/pull/23680">PR #23680</a>。</p>
+<h1 id="重复一次直接复用输入字符串优化-str-repeat"><a href="#重复一次直接复用输入字符串优化-str-repeat" class="headerlink" title="重复一次直接复用输入字符串优化 str_repeat"></a>重复一次直接复用输入字符串优化 <code>str_repeat</code></h1><p>最能看懂的一集。我们都知道 <code>str_repeat</code> 函数的功能是复制字符串。假设我们只需要复制 1 次。那么是不是就可以什么都不做直接返回？是的。</p>
+<p>直接在原实现的开头加入</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span> (mult == <span class="number">1</span>) &#123;</span><br><span class="line">	RETURN_STR_COPY(input_str);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<table>
+<thead>
+<tr>
+<th>场景</th>
+<th align="right">优化前（ns&#x2F;次）</th>
+<th align="right">优化后（ns&#x2F;次）</th>
+<th align="right">耗时减少</th>
+<th align="right">更快轮数</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>32 B × 1</td>
+<td align="right">120.16</td>
+<td align="right">87.60</td>
+<td align="right">+28.42%</td>
+<td align="right">9&#x2F;9</td>
+</tr>
+<tr>
+<td>4 KiB × 1</td>
+<td align="right">285.32</td>
+<td align="right">87.15</td>
+<td align="right">+71.13%</td>
+<td align="right">9&#x2F;9</td>
+</tr>
+<tr>
+<td>64 KiB × 1</td>
+<td align="right">5198.10</td>
+<td align="right">87.45</td>
+<td align="right">+98.31%</td>
+<td align="right">9&#x2F;9</td>
+</tr>
+<tr>
+<td>1 MiB × 1</td>
+<td align="right">106521.36</td>
+<td align="right">86.30</td>
+<td align="right">+99.92%</td>
+<td align="right">9&#x2F;9</td>
+</tr>
+</tbody></table>
+<p>虽然此处因为 refcount 变化（由于 COW 语义，我们只能返回该字符串的拷贝）导致 JIT 无法准确预测该函数返回值的 refcount，但是相较于这个快速路径而言可以忽略。除此之外未观测到回退场景。</p>
+<p>对应提交：<a href="https://github.com/php/php-src/commit/93fd714daa6b32372d6b7c913433c386054455c7"><code>93fd714</code></a>；<a href="https://github.com/php/php-src/pull/23681">PR #23681</a>。</p>
+<h1 id="通过复用空串与单字节字符串优化-explode"><a href="#通过复用空串与单字节字符串优化-explode" class="headerlink" title="通过复用空串与单字节字符串优化 explode"></a>通过复用空串与单字节字符串优化 <code>explode</code></h1><figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="title function_ invoke__">explode</span>(<span class="keyword">string</span> <span class="variable">$separator</span>, <span class="keyword">string</span> <span class="variable">$string</span>, <span class="keyword">int</span> <span class="variable">$limit</span> = PHP_INT_MAX): <span class="keyword">array</span></span><br></pre></td></tr></table></figure>
+
+<p>当 <code>limit</code> 为负数时，返回分割完成后，剔除最后 <code>abs(limit)</code> 个元素剩下的数组。</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="variable">$text</span> = <span class="string">&quot;line1\nline2\nline3\n&quot;</span>;</span><br><span class="line"><span class="variable">$lines</span> = <span class="title function_ invoke__">explode</span>(<span class="string">&quot;\n&quot;</span>, <span class="variable">$text</span>, <span class="number">0</span>);</span><br><span class="line"><span class="comment">// $lines === [&quot;line1&quot;,&quot;line2&quot;,&quot;line3&quot;, &quot;&quot;]</span></span><br><span class="line"><span class="variable">$lines</span> = <span class="title function_ invoke__">explode</span>(<span class="string">&quot;\n&quot;</span>, <span class="variable">$text</span>, -<span class="number">1</span>);</span><br><span class="line"><span class="comment">// $lines === [&quot;line1&quot;,&quot;line2&quot;,&quot;line3&quot;]</span></span><br></pre></td></tr></table></figure>
+
+<p>负数 limit 表示去掉最后若干个分段；这一分支先记录分隔位置，再创建需要返回的字符串。当需要返回的字符串只有一个长度的时候，可以应用一个 Zend 内部的优化。</p>
+<p>我们看到源代码：</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line">PHPAPI <span class="type">void</span> <span class="title function_">php_explode_negative_limit</span><span class="params">(<span class="type">const</span> zend_string *delim, zend_string *str, zval *return_value, zend_long limit)</span></span><br><span class="line">&#123;</span><br><span class="line"><span class="meta">#<span class="keyword">define</span> EXPLODE_ALLOC_STEP 64</span></span><br><span class="line">	<span class="type">const</span> <span class="type">char</span> *p1 = ZSTR_VAL(str);</span><br><span class="line">	<span class="type">const</span> <span class="type">char</span> *endp = ZSTR_VAL(str) + ZSTR_LEN(str);</span><br><span class="line">	<span class="type">const</span> <span class="type">char</span> *p2 = php_memnstr(ZSTR_VAL(str), ZSTR_VAL(delim), ZSTR_LEN(delim), endp);</span><br><span class="line">	zval  tmp;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> (p2 == <span class="literal">NULL</span>) &#123;</span><br><span class="line">		<span class="comment">/*</span></span><br><span class="line"><span class="comment">		do nothing since limit &lt;= -1, thus if only one chunk - 1 + (limit) &lt;= 0</span></span><br><span class="line"><span class="comment">		by doing nothing we return empty array</span></span><br><span class="line"><span class="comment">		*/</span></span><br><span class="line">	&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">		<span class="type">size_t</span> allocated = EXPLODE_ALLOC_STEP, found = <span class="number">0</span>;</span><br><span class="line">		zend_long i, to_return;</span><br><span class="line">		<span class="type">const</span> <span class="type">char</span> **positions = emalloc(allocated * <span class="keyword">sizeof</span>(<span class="type">char</span> *));</span><br><span class="line"></span><br><span class="line">		positions[found++] = p1;</span><br><span class="line">		<span class="keyword">do</span> &#123;</span><br><span class="line">			<span class="keyword">if</span> (found &gt;= allocated) &#123;</span><br><span class="line">				allocated = found + EXPLODE_ALLOC_STEP;<span class="comment">/* make sure we have enough memory */</span></span><br><span class="line">				positions = erealloc(ZEND_VOIDP(positions), allocated*<span class="keyword">sizeof</span>(<span class="type">char</span> *));</span><br><span class="line">			&#125;</span><br><span class="line">			positions[found++] = p1 = p2 + ZSTR_LEN(delim);</span><br><span class="line">			p2 = php_memnstr(p1, ZSTR_VAL(delim), ZSTR_LEN(delim), endp);</span><br><span class="line">		&#125; <span class="keyword">while</span> (p2 != <span class="literal">NULL</span>);</span><br><span class="line"></span><br><span class="line">		to_return = limit + found;</span><br><span class="line">		<span class="comment">/* limit is at least -1 therefore no need of bounds checking : i will be always less than found */</span></span><br><span class="line">		<span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; to_return; i++) &#123; <span class="comment">/* this checks also for to_return &gt; 0 */</span></span><br><span class="line">			ZVAL_STRINGL(&amp;tmp, positions[i], (positions[i+<span class="number">1</span>] - ZSTR_LEN(delim)) - positions[i]);</span><br><span class="line">			zend_hash_next_index_insert_new(Z_ARRVAL_P(return_value), &amp;tmp);</span><br><span class="line">		&#125;</span><br><span class="line">		efree((<span class="type">void</span> *)positions);</span><br><span class="line">	&#125;</span><br><span class="line"><span class="meta">#<span class="keyword">undef</span> EXPLODE_ALLOC_STEP</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>改动将循环中的 <code>ZVAL_STRINGL()</code> 换成 <code>ZVAL_STRINGL_FAST()</code>。</p>
+<figure class="highlight diff"><table><tr><td class="code"><pre><span class="line">		for (i = 0; i &lt; to_return; i++) &#123; /* this checks also for to_return &gt; 0 */</span><br><span class="line"><span class="deletion">-			ZVAL_STRINGL(&amp;tmp, positions[i], (positions[i+1] - ZSTR_LEN(delim)) - positions[i]);</span></span><br><span class="line"><span class="addition">+			ZVAL_STRINGL_FAST(&amp;tmp, positions[i], (positions[i+1] - ZSTR_LEN(delim)) - positions[i]);</span></span><br><span class="line">			zend_hash_next_index_insert_new(Z_ARRVAL_P(return_value), &amp;tmp);</span><br><span class="line">		&#125;</span><br></pre></td></tr></table></figure>
+
+<p>我们看到 <code>ZVAL_STRINGL_FAST</code> 宏的逻辑:</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span> (len &gt; <span class="number">1</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> zend_string_init(str, len, <span class="number">0</span>); <span class="comment">// 原来的路径</span></span><br><span class="line">&#125; <span class="keyword">else</span> <span class="keyword">if</span> (len == <span class="number">0</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> zend_empty_string;            <span class="comment">// 复用空字符串</span></span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> ZSTR_CHAR((zend_uchar) *str);  <span class="comment">// 复用单字节字符串</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>长度为 0 时复用全局空字符串，长度为 1 时复用对应字节的 interned 字符串；长度大于 1 时仍分配并复制，就是原来的那个路径。</p>
+<p>因此，省去分配、复制和释放的收益针对空片段与单字节片段，并不是任意长度片段都能省掉一次分配。单字节包括 NUL、0x80 等二进制值，并不限于 ASCII。结果数组和位置表仍然需要内存，函数也仍需扫描输入。</p>
+<p>当 limit 为负数时，有：</p>
+<table>
+<thead>
+<tr>
+<th>片段内容</th>
+<th align="right">优化前（ms&#x2F;次）</th>
+<th align="right">优化后（ms&#x2F;次）</th>
+<th align="right">配对耗时减少</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>全部空串</td>
+<td align="right">2.626</td>
+<td align="right">0.703</td>
+<td align="right">72.14%</td>
+</tr>
+<tr>
+<td>单字节 ASCII</td>
+<td align="right">1.811</td>
+<td align="right">0.743</td>
+<td align="right">60.47%</td>
+</tr>
+</tbody></table>
+<p><code>explode</code> 返回值中空串和长度为一的项越多，收益越大。</p>
+<p>对应提交：<a href="https://github.com/php/php-src/commit/ac53f14223b4cda3199675878113f82de4d1717a"><code>ac53f14</code></a>；<a href="https://github.com/php/php-src/pull/23631">PR #23631</a>。</p>
+<h1 id="预分配装文件信息的数组优化-stat-lstat-fstat"><a href="#预分配装文件信息的数组优化-stat-lstat-fstat" class="headerlink" title="预分配装文件信息的数组优化 stat, lstat, fstat"></a>预分配装文件信息的数组优化 <code>stat</code>, <code>lstat</code>, <code>fstat</code></h1><p>这三个函数用于取得文件信息，例如大小、权限和修改时间。<code>stat()</code> 根据路径查询，<code>fstat()</code> 查询已经打开的文件；<code>lstat()</code> 与 <code>stat()</code> 类似，但遇到符号链接时查询链接本身。</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="variable">$info</span> = <span class="title function_ invoke__">stat</span>(<span class="string">&#x27;example.txt&#x27;</span>); <span class="comment">// 文件存在且查询成功时</span></span><br><span class="line"><span class="keyword">echo</span> <span class="variable">$info</span>[<span class="string">&#x27;size&#x27;</span>];         <span class="comment">// 文件大小，也可以通过 $info[7] 读取</span></span><br></pre></td></tr></table></figure>
+
+<p>为了兼容两种取值方式，返回数组同时有数字标签和文字标签，总共 26 个条目。这里的“标签”就是 PHP 数组的<strong>键</strong>，例如上面的 <code>7</code> 和 <code>&#39;size&#39;</code>。</p>
+<p>看原实现：</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line">PHPAPI <span class="type">void</span> <span class="title function_">php_fstat</span><span class="params">(php_stream *stream, zval *return_value)</span></span><br><span class="line">&#123;</span><br><span class="line">	php_stream_statbuf stat_ssb;</span><br><span class="line">	zval stat_dev, stat_ino, stat_mode, stat_nlink, stat_uid, stat_gid, stat_rdev,</span><br><span class="line">		 stat_size, stat_atime, stat_mtime, stat_ctime, stat_blksize, stat_blocks;</span><br><span class="line">	<span class="type">char</span> *stat_sb_names[<span class="number">13</span>] = &#123;</span><br><span class="line">		<span class="string">&quot;dev&quot;</span>, <span class="string">&quot;ino&quot;</span>, <span class="string">&quot;mode&quot;</span>, <span class="string">&quot;nlink&quot;</span>, <span class="string">&quot;uid&quot;</span>, <span class="string">&quot;gid&quot;</span>, <span class="string">&quot;rdev&quot;</span>,</span><br><span class="line">		<span class="string">&quot;size&quot;</span>, <span class="string">&quot;atime&quot;</span>, <span class="string">&quot;mtime&quot;</span>, <span class="string">&quot;ctime&quot;</span>, <span class="string">&quot;blksize&quot;</span>, <span class="string">&quot;blocks&quot;</span></span><br><span class="line">	&#125;;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> (php_stream_stat(stream, &amp;stat_ssb)) &#123;</span><br><span class="line">		RETURN_FALSE;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	array_init(return_value);</span><br><span class="line"></span><br><span class="line">	ZVAL_LONG(&amp;stat_dev, stat_ssb.sb.st_dev);</span><br><span class="line">	ZVAL_LONG(&amp;stat_ino, stat_ssb.sb.st_ino);</span><br><span class="line">	ZVAL_LONG(&amp;stat_mode, stat_ssb.sb.st_mode);</span><br><span class="line">	ZVAL_LONG(&amp;stat_nlink, stat_ssb.sb.st_nlink);</span><br><span class="line">	ZVAL_LONG(&amp;stat_uid, stat_ssb.sb.st_uid);</span><br><span class="line">	ZVAL_LONG(&amp;stat_gid, stat_ssb.sb.st_gid);</span><br><span class="line"><span class="meta">#<span class="keyword">ifdef</span> HAVE_STRUCT_STAT_ST_RDEV</span></span><br><span class="line">	ZVAL_LONG(&amp;stat_rdev, stat_ssb.sb.st_rdev);</span><br><span class="line"><span class="meta">#<span class="keyword">else</span></span></span><br><span class="line">	ZVAL_LONG(&amp;stat_rdev, <span class="number">-1</span>);</span><br><span class="line"><span class="meta">#<span class="keyword">endif</span></span></span><br><span class="line">	ZVAL_LONG(&amp;stat_size, stat_ssb.sb.st_size);</span><br><span class="line">	ZVAL_LONG(&amp;stat_atime, stat_ssb.sb.st_atime);</span><br><span class="line">	ZVAL_LONG(&amp;stat_mtime, stat_ssb.sb.st_mtime);</span><br><span class="line">	ZVAL_LONG(&amp;stat_ctime, stat_ssb.sb.st_ctime);</span><br><span class="line"><span class="meta">#<span class="keyword">ifdef</span> HAVE_STRUCT_STAT_ST_BLKSIZE</span></span><br><span class="line">	ZVAL_LONG(&amp;stat_blksize, stat_ssb.sb.st_blksize);</span><br><span class="line"><span class="meta">#<span class="keyword">else</span></span></span><br><span class="line">	ZVAL_LONG(&amp;stat_blksize,<span class="number">-1</span>);</span><br><span class="line"><span class="meta">#<span class="keyword">endif</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">ifdef</span> HAVE_STRUCT_STAT_ST_BLOCKS</span></span><br><span class="line">	ZVAL_LONG(&amp;stat_blocks, stat_ssb.sb.st_blocks);</span><br><span class="line"><span class="meta">#<span class="keyword">else</span></span></span><br><span class="line">	ZVAL_LONG(&amp;stat_blocks,<span class="number">-1</span>);</span><br><span class="line"><span class="meta">#<span class="keyword">endif</span></span></span><br><span class="line">	<span class="comment">/* Store numeric indexes in proper order */</span></span><br><span class="line">	zend_hash_next_index_insert(Z_ARRVAL_P(return_value), &amp;stat_dev);</span><br><span class="line">	zend_hash_next_index_insert(Z_ARRVAL_P(return_value), &amp;stat_ino);</span><br><span class="line">	zend_hash_next_index_insert(Z_ARRVAL_P(return_value), &amp;stat_mode);</span><br><span class="line">	zend_hash_next_index_insert(Z_ARRVAL_P(return_value), &amp;stat_nlink);</span><br><span class="line">	zend_hash_next_index_insert(Z_ARRVAL_P(return_value), &amp;stat_uid);</span><br><span class="line">	zend_hash_next_index_insert(Z_ARRVAL_P(return_value), &amp;stat_gid);</span><br><span class="line">	zend_hash_next_index_insert(Z_ARRVAL_P(return_value), &amp;stat_rdev);</span><br><span class="line">	zend_hash_next_index_insert(Z_ARRVAL_P(return_value), &amp;stat_size);</span><br><span class="line">	zend_hash_next_index_insert(Z_ARRVAL_P(return_value), &amp;stat_atime);</span><br><span class="line">	zend_hash_next_index_insert(Z_ARRVAL_P(return_value), &amp;stat_mtime);</span><br><span class="line">	zend_hash_next_index_insert(Z_ARRVAL_P(return_value), &amp;stat_ctime);</span><br><span class="line">	zend_hash_next_index_insert(Z_ARRVAL_P(return_value), &amp;stat_blksize);</span><br><span class="line">	zend_hash_next_index_insert(Z_ARRVAL_P(return_value), &amp;stat_blocks);</span><br><span class="line">    <span class="comment">/* 后面省略 */</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>旧实现从小容量数组开始，先放数字键，再放文字键。数组装不下时需要扩大空间；加入文字键时，还需要换成能够按名称查找的存储形式。</p>
+<p>可是问题是，我们早早就知道这个数组有 26 个元素了。为啥还要等动态扩容。直接分配一个 26 个 zval 需要的内存不就完了。</p>
+<figure class="highlight diff"><table><tr><td class="code"><pre><span class="line"><span class="deletion">-	array_init(return_value);</span></span><br><span class="line"><span class="addition">+   array_init_size(return_value, 2 * (sizeof(stat_sb_names) / sizeof(*stat_sb_names)));</span></span><br><span class="line"><span class="addition">+	zend_hash_real_init_mixed(Z_ARRVAL_P(return_value));</span></span><br></pre></td></tr></table></figure>
+
+<p>然后我们用相应的 <code>*_new()</code> API 就好了。这里总的 diff：</p>
+<figure class="highlight diff"><table><tr><td class="code"><pre><span class="line">PHPAPI void php_fstat(php_stream *stream, zval *return_value)</span><br><span class="line">&#123;</span><br><span class="line">	php_stream_statbuf stat_ssb;</span><br><span class="line">	zval stat_dev, stat_ino, stat_mode, stat_nlink, stat_uid, stat_gid, stat_rdev,</span><br><span class="line">		 stat_size, stat_atime, stat_mtime, stat_ctime, stat_blksize, stat_blocks;</span><br><span class="line"><span class="deletion">-	char *stat_sb_names[13] = &#123;</span></span><br><span class="line"><span class="addition">+   char *stat_sb_names[] = &#123;</span></span><br><span class="line">		&quot;dev&quot;, &quot;ino&quot;, &quot;mode&quot;, &quot;nlink&quot;, &quot;uid&quot;, &quot;gid&quot;, &quot;rdev&quot;,</span><br><span class="line">		&quot;size&quot;, &quot;atime&quot;, &quot;mtime&quot;, &quot;ctime&quot;, &quot;blksize&quot;, &quot;blocks&quot;</span><br><span class="line">	&#125;;</span><br><span class="line"></span><br><span class="line">	if (php_stream_stat(stream, &amp;stat_ssb)) &#123;</span><br><span class="line">		RETURN_FALSE;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line"><span class="deletion">-	array_init(return_value);</span></span><br><span class="line"><span class="addition">+   array_init_size(return_value, 2 * (sizeof(stat_sb_names) / sizeof(*stat_sb_names)));</span></span><br><span class="line"><span class="addition">+	zend_hash_real_init_mixed(Z_ARRVAL_P(return_value));</span></span><br><span class="line"></span><br><span class="line">	ZVAL_LONG(&amp;stat_dev, stat_ssb.sb.st_dev);</span><br><span class="line">	ZVAL_LONG(&amp;stat_ino, stat_ssb.sb.st_ino);</span><br><span class="line">	ZVAL_LONG(&amp;stat_mode, stat_ssb.sb.st_mode);</span><br><span class="line">	ZVAL_LONG(&amp;stat_nlink, stat_ssb.sb.st_nlink);</span><br><span class="line">	ZVAL_LONG(&amp;stat_uid, stat_ssb.sb.st_uid);</span><br><span class="line">	ZVAL_LONG(&amp;stat_gid, stat_ssb.sb.st_gid);</span><br><span class="line">#ifdef HAVE_STRUCT_STAT_ST_RDEV</span><br><span class="line">	ZVAL_LONG(&amp;stat_rdev, stat_ssb.sb.st_rdev);</span><br><span class="line">#else</span><br><span class="line">	ZVAL_LONG(&amp;stat_rdev, -1);</span><br><span class="line">#endif</span><br><span class="line">	ZVAL_LONG(&amp;stat_size, stat_ssb.sb.st_size);</span><br><span class="line">	ZVAL_LONG(&amp;stat_atime, stat_ssb.sb.st_atime);</span><br><span class="line">	ZVAL_LONG(&amp;stat_mtime, stat_ssb.sb.st_mtime);</span><br><span class="line">	ZVAL_LONG(&amp;stat_ctime, stat_ssb.sb.st_ctime);</span><br><span class="line">#ifdef HAVE_STRUCT_STAT_ST_BLKSIZE</span><br><span class="line">	ZVAL_LONG(&amp;stat_blksize, stat_ssb.sb.st_blksize);</span><br><span class="line">#else</span><br><span class="line">	ZVAL_LONG(&amp;stat_blksize,-1);</span><br><span class="line">#endif</span><br><span class="line">#ifdef HAVE_STRUCT_STAT_ST_BLOCKS</span><br><span class="line">	ZVAL_LONG(&amp;stat_blocks, stat_ssb.sb.st_blocks);</span><br><span class="line">#else</span><br><span class="line">	ZVAL_LONG(&amp;stat_blocks,-1);</span><br><span class="line">#endif</span><br><span class="line">	/* Store numeric indexes in proper order */</span><br><span class="line"><span class="deletion">-	zend_hash_next_index_insert(Z_ARRVAL_P(return_value), &amp;stat_dev);</span></span><br><span class="line"><span class="deletion">-	zend_hash_next_index_insert(Z_ARRVAL_P(return_value), &amp;stat_ino);</span></span><br><span class="line"><span class="deletion">-	zend_hash_next_index_insert(Z_ARRVAL_P(return_value), &amp;stat_mode);</span></span><br><span class="line"><span class="deletion">-	zend_hash_next_index_insert(Z_ARRVAL_P(return_value), &amp;stat_nlink);</span></span><br><span class="line"><span class="deletion">-	zend_hash_next_index_insert(Z_ARRVAL_P(return_value), &amp;stat_uid);</span></span><br><span class="line"><span class="deletion">-	zend_hash_next_index_insert(Z_ARRVAL_P(return_value), &amp;stat_gid);</span></span><br><span class="line"><span class="deletion">-	zend_hash_next_index_insert(Z_ARRVAL_P(return_value), &amp;stat_rdev);</span></span><br><span class="line"><span class="deletion">-	zend_hash_next_index_insert(Z_ARRVAL_P(return_value), &amp;stat_size);</span></span><br><span class="line"><span class="deletion">-	zend_hash_next_index_insert(Z_ARRVAL_P(return_value), &amp;stat_atime);</span></span><br><span class="line"><span class="deletion">-	zend_hash_next_index_insert(Z_ARRVAL_P(return_value), &amp;stat_mtime);</span></span><br><span class="line"><span class="deletion">-	zend_hash_next_index_insert(Z_ARRVAL_P(return_value), &amp;stat_ctime);</span></span><br><span class="line"><span class="deletion">-	zend_hash_next_index_insert(Z_ARRVAL_P(return_value), &amp;stat_blksize);</span></span><br><span class="line"><span class="deletion">-	zend_hash_next_index_insert(Z_ARRVAL_P(return_value), &amp;stat_blocks);</span></span><br><span class="line"><span class="addition">+   zend_hash_next_index_insert_new(Z_ARRVAL_P(return_value), &amp;stat_dev);</span></span><br><span class="line"><span class="addition">+	zend_hash_next_index_insert_new(Z_ARRVAL_P(return_value), &amp;stat_ino);</span></span><br><span class="line"><span class="addition">+	zend_hash_next_index_insert_new(Z_ARRVAL_P(return_value), &amp;stat_mode);</span></span><br><span class="line"><span class="addition">+	zend_hash_next_index_insert_new(Z_ARRVAL_P(return_value), &amp;stat_nlink);</span></span><br><span class="line"><span class="addition">+	zend_hash_next_index_insert_new(Z_ARRVAL_P(return_value), &amp;stat_uid);</span></span><br><span class="line"><span class="addition">+	zend_hash_next_index_insert_new(Z_ARRVAL_P(return_value), &amp;stat_gid);</span></span><br><span class="line"><span class="addition">+	zend_hash_next_index_insert_new(Z_ARRVAL_P(return_value), &amp;stat_rdev);</span></span><br><span class="line"><span class="addition">+	zend_hash_next_index_insert_new(Z_ARRVAL_P(return_value), &amp;stat_size);</span></span><br><span class="line"><span class="addition">+	zend_hash_next_index_insert_new(Z_ARRVAL_P(return_value), &amp;stat_atime);</span></span><br><span class="line"><span class="addition">+	zend_hash_next_index_insert_new(Z_ARRVAL_P(return_value), &amp;stat_mtime);</span></span><br><span class="line"><span class="addition">+	zend_hash_next_index_insert_new(Z_ARRVAL_P(return_value), &amp;stat_ctime);</span></span><br><span class="line"><span class="addition">+	zend_hash_next_index_insert_new(Z_ARRVAL_P(return_value), &amp;stat_blksize);</span></span><br><span class="line"><span class="addition">+	zend_hash_next_index_insert_new(Z_ARRVAL_P(return_value), &amp;stat_blocks);</span></span><br><span class="line">    /* 后面省略 */</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这样，我们大概能对三个函数观测到 <code>10%~15%</code> 左右的性能提升。</p>
+<h1 id="优化-重构-pathinfo"><a href="#优化-重构-pathinfo" class="headerlink" title="优化 &amp; 重构 pathinfo"></a>优化 &amp; 重构 <code>pathinfo</code></h1><p>这个花了我三天时间。绝对可以单独写一篇 blog 了。但是因为我已经要写力竭了我直接上结果吧。</p>
+<p>优化后的 bench：</p>
+<p>pathinfo(‘&#x2F;var&#x2F;www&#x2F;html&#x2F;index.php’, PATHINFO_BASENAME)：较原来的运行时间低 46%<br>pathinfo(‘&#x2F;var&#x2F;www&#x2F;html&#x2F;index.php’, PATHINFO_EXTENSION)：较原来的运行时间低 35%<br>pathinfo(‘&#x2F;var&#x2F;www&#x2F;html&#x2F;index.php’, PATHINFO_FILENAME)：较原来的运行时间低 40%<br>pathinfo(‘&#x2F;var&#x2F;www&#x2F;html&#x2F;README’, PATHINFO_FILENAME)：较原来的运行时间低52% (这是因为 README 没有扩展名，在我的重写里还会剩下一次内存分配)</p>
+<p>主要是我整个把这个函数重写了。优化了非常多地方，讲肯定是讲不完的 :)</p>
+<ul>
+<li><a href="https://github.com/php/php-src/pull/23726">PR #23726</a></li>
+<li><a href="https://github.com/php/php-src/commit/c9e2bc0">合并提交 c9e2bc0</a></li>
+</ul>
+<h1 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h1><p>还有一些乱七八糟的小优化。这些优化都测不出来明显的性能差距了，就看个乐吧：</p>
+<ul>
+<li>ext&#x2F;standard <code>error_get_last()</code> 使用已知的新键构造错误信息数组，减少键更新时不必要的哈希检查。（<a href="https://github.com/php/php-src/commit/6541e8331b592cee878fd2ad392653508b9409a6">commit 6541e83</a>）</li>
+<li>ext&#x2F;standard <code>getopt()</code> 使用已知的新键插入选项结果，减少解析命令行选项时的哈希检查开销。（<a href="https://github.com/php/php-src/commit/f0ed2c5890cc0c955c7a4ef99ba77ecd69584459">commit f0ed2c5</a>）</li>
+<li>ext&#x2F;standard <code>fgetcsv()</code> 和 <code>str_getcsv()</code> 在解析 CSV 字段时使用追加新元素的插入路径，减少数组插入开销。（<a href="https://github.com/php/php-src/commit/a318ae825185d17cd529fe0fe5a3f8159f910d3a">commit a318ae8</a>）</li>
+<li>ext&#x2F;standard <code>array_change_key_case()</code> 复制整数键时使用已知的新键插入路径，提升数组键转换性能。（<a href="https://github.com/php/php-src/commit/1849f03afc7d1c87d9f25000e8fa5f33b3f35faf">commit 1849f03</a>）</li>
+</ul>
+<h1 id="结尾"><a href="#结尾" class="headerlink" title="结尾"></a>结尾</h1><p>写力竭了。既然人的一生必然是痛苦的，不如活在当下，去享受身边的美好。</p>
+<p>让我们去海边走一圈！</p>
+]]></content>
+      <categories>
+        <category>其他技术文章</category>
+      </categories>
+  </entry>
 </search>
