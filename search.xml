@@ -5547,20 +5547,20 @@
 <table>
 <thead>
 <tr>
-<th>片段内容</th>
+<th>benchmark 调用</th>
 <th align="right">优化前（ms&#x2F;次）</th>
 <th align="right">优化后（ms&#x2F;次）</th>
 <th align="right">配对耗时减少</th>
 </tr>
 </thead>
 <tbody><tr>
-<td>全部空串</td>
+<td><code>explode(&quot;,&quot;, str_repeat(&quot;,&quot;, 100000), -1)</code></td>
 <td align="right">2.626</td>
 <td align="right">0.703</td>
 <td align="right">72.14%</td>
 </tr>
 <tr>
-<td>单字节 ASCII</td>
+<td><code>explode(&quot;,&quot;, str_repeat(&quot;a,&quot;, 100000), -1)</code></td>
 <td align="right">1.811</td>
 <td align="right">0.743</td>
 <td align="right">60.47%</td>
