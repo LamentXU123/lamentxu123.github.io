@@ -190,7 +190,7 @@
 <p>假设我们要用 <code>ab</code> 这个字符串填充 1 MiB 的长度，那我们要循环五十多万次。循环的时间复杂度    <code>O(+∞)</code></p>
 <p>开个玩笑，<code>O(pad_chars/pad_str_len)</code>。严格上来说我们要循环 <code>pad_chars/pad_str_len</code> 次。</p>
 <p>这个时候就轮到我们大显身手了！</p>
-<p>我们来想，假设我们用 <code>ab</code> 填充 1000 个字节。</p>
+<p>我们来想，假设我们用 <code>ab</code> 填充 1024 个字节。</p>
 <p>第 1 次填充的时候：缓冲区是 <code>ab</code><br>第 2 次填充的时候：缓冲区是 <code>abab</code><br>第 3 次填充的时候：缓冲区是 <code>ababab</code><br>第 4 次填充的时候：缓冲区是 <code>abababab</code><br>第 n (n&lt;&#x3D;512) 次填充的时候：缓冲区是 <code>ab</code> 与 n 的积</p>
 <p>注意到，这里可以用对数的方法进行优化。我们在每次拷贝时，不从待填充的字符串拷贝，而是将<strong>缓冲区本身</strong>拷贝到缓冲区里。</p>
 <p>第 1 次填充的时候：缓冲区是 <code>ab</code><br>第 2 次填充的时候：缓冲区是 <code>abab</code><br>第 3 次填充的时候：缓冲区是 <code>abababab</code><br>第 3 次填充的时候：缓冲区是 <code>abababababababab</code><br>第 n (n&lt;&#x3D;10) 次填充的时候：缓冲区是 <code>ab</code> 的 n 次方</p>
