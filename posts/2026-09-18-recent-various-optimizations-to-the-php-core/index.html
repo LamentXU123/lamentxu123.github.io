@@ -14,7 +14,7 @@
 <meta property="og:description" content="我的人生只有两种状态：得到了暂时想要得到的时候的无聊和得不到暂时想要得到的时候的痛苦。可以说，我在痛苦之外的时间都很无聊；我在无聊之外的时候都很痛苦。 人啊，总是听了很多大道理又过不好这一生。我们都说要走自己的路。然而，谁又能真正地不在意其他的人眼光呢？ 也许，大人的世界是没有委屈的。你看，有时不论你怎么反思，你都无法得出一个能让所有人满意的人格。我们必然要经历莫名其妙的误会。 有人说，在 AI">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2026-09-17T16:52:00.000Z">
-<meta property="article:modified_time" content="2026-09-17T16:52:00.000Z">
+<meta property="article:modified_time" content="2026-09-18T09:29:00.000Z">
 <meta property="article:author" content="LamentXU">
 <meta property="article:tag" content="CTF, Web Security, PHP, Python, Writeup">
 <meta name="twitter:card" content="summary">
@@ -139,7 +139,7 @@
       
         <time datetime="2026-09-17T16:52:00.000Z" class="dt-published" itemprop="datePublished">2026-09-18</time>
         
-        (Updated: <time datetime="2026-09-17T16:52:00.000Z" class="dt-updated" itemprop="dateModified">2026-09-18</time>)
+        (Updated: <time datetime="2026-09-18T09:29:00.000Z" class="dt-updated" itemprop="dateModified">2026-09-18</time>)
         
       
     </div>
@@ -272,28 +272,28 @@
 </tr>
 </thead>
 <tbody><tr>
-<td>1 个 NUL，转义列表为 NUL</td>
+<td><code>addcslashes(&quot;\0&quot;, &quot;\0&quot;)</code></td>
 <td align="right">108.33</td>
 <td align="right">67.13</td>
 <td align="right">+39.05%</td>
 <td align="right">9&#x2F;9</td>
 </tr>
 <tr>
-<td>32 个 NUL</td>
+<td><code>addcslashes(str_repeat(&quot;\0&quot;, 32), &quot;\0&quot;)</code></td>
 <td align="right">1270.14</td>
 <td align="right">128.24</td>
 <td align="right">+89.93%</td>
 <td align="right">9&#x2F;9</td>
 </tr>
 <tr>
-<td>4,096 个 NUL</td>
+<td><code>addcslashes(str_repeat(&quot;\0&quot;, 4096), &quot;\0&quot;)</code></td>
 <td align="right">148128.66</td>
 <td align="right">8427.66</td>
 <td align="right">+94.33%</td>
 <td align="right">9&#x2F;9</td>
 </tr>
 <tr>
-<td>0～255 全部字节，全部选中</td>
+<td><code>addcslashes(implode(&quot;&quot;, array_map(&quot;chr&quot;, range(0, 255))), implode(&quot;&quot;, array_map(&quot;chr&quot;, range(0, 255))))</code></td>
 <td align="right">6568.54</td>
 <td align="right">553.70</td>
 <td align="right">+91.55%</td>
@@ -317,28 +317,28 @@
 </tr>
 </thead>
 <tbody><tr>
-<td>32 B × 1</td>
+<td><code>str_repeat(str_repeat(&quot;x&quot;, 32), 1)</code></td>
 <td align="right">120.16</td>
 <td align="right">87.60</td>
 <td align="right">+28.42%</td>
 <td align="right">9&#x2F;9</td>
 </tr>
 <tr>
-<td>4 KiB × 1</td>
+<td><code>str_repeat(str_repeat(&quot;x&quot;, 4 * 1024), 1)</code></td>
 <td align="right">285.32</td>
 <td align="right">87.15</td>
 <td align="right">+71.13%</td>
 <td align="right">9&#x2F;9</td>
 </tr>
 <tr>
-<td>64 KiB × 1</td>
+<td><code>str_repeat(str_repeat(&quot;x&quot;, 64 * 1024), 1)</code></td>
 <td align="right">5198.10</td>
 <td align="right">87.45</td>
 <td align="right">+98.31%</td>
 <td align="right">9&#x2F;9</td>
 </tr>
 <tr>
-<td>1 MiB × 1</td>
+<td><code>str_repeat(str_repeat(&quot;x&quot;, 1024 * 1024), 1)</code></td>
 <td align="right">106521.36</td>
 <td align="right">86.30</td>
 <td align="right">+99.92%</td>
@@ -406,7 +406,7 @@
 <p>这样，我们大概能对三个函数观测到 <code>10%~15%</code> 左右的性能提升。</p>
 <h1 id="优化-重构-pathinfo"><a href="#优化-重构-pathinfo" class="headerlink" title="优化 &amp; 重构 pathinfo"></a>优化 &amp; 重构 <code>pathinfo</code></h1><p>这个花了我三天时间。绝对可以单独写一篇 blog 了。但是因为我已经要写力竭了我直接上结果吧。</p>
 <p>优化后的 bench：</p>
-<p>pathinfo(‘&#x2F;var&#x2F;www&#x2F;html&#x2F;index.php’, PATHINFO_BASENAME)：较原来的运行时间低 46%<br>pathinfo(‘&#x2F;var&#x2F;www&#x2F;html&#x2F;index.php’, PATHINFO_EXTENSION)：较原来的运行时间低 35%<br>pathinfo(‘&#x2F;var&#x2F;www&#x2F;html&#x2F;index.php’, PATHINFO_FILENAME)：较原来的运行时间低 40%<br>pathinfo(‘&#x2F;var&#x2F;www&#x2F;html&#x2F;README’, PATHINFO_FILENAME)：较原来的运行时间低52% (这是因为 README 没有扩展名，在我的重写里还会省下一次内存分配)</p>
+<p><code>pathinfo(&#39;/var/www/html/index.php&#39;, PATHINFO_BASENAME)</code>：较原来的运行时间低 46%<br><code>pathinfo(&#39;/var/www/html/index.php&#39;, PATHINFO_EXTENSION)</code>：较原来的运行时间低 35%<br><code>pathinfo(&#39;/var/www/html/index.php&#39;, PATHINFO_FILENAME)</code>：较原来的运行时间低 40%<br><code>pathinfo(&#39;/var/www/html/README&#39;, PATHINFO_FILENAME)</code>：较原来的运行时间低 52%（这是因为 README 没有扩展名，在我的重写里还会省下一次内存分配）</p>
 <p>主要是我整个把这个函数重写了。优化了非常多地方，讲肯定是讲不完的 :)</p>
 <ul>
 <li><a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/23726">PR #23726</a></li>
