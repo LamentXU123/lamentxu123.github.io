@@ -5385,8 +5385,7 @@
 <table>
 <thead>
 <tr>
-<th>模式</th>
-<th align="right">目标长度</th>
+<th>代码</th>
 <th align="right">调用次数</th>
 <th align="right">优化前</th>
 <th align="right">优化后</th>
@@ -5395,8 +5394,7 @@
 </tr>
 </thead>
 <tbody><tr>
-<td><code>ab</code></td>
-<td align="right">1 KiB</td>
+<td><code>str_pad(&quot;&quot;, 1024, &quot;ab&quot;)</code></td>
 <td align="right">100,000</td>
 <td align="right">51.786 ms</td>
 <td align="right">7.368 ms</td>
@@ -5404,8 +5402,7 @@
 <td align="right">7.03×</td>
 </tr>
 <tr>
-<td><code>ab</code></td>
-<td align="right">1 MiB</td>
+<td><code>str_pad(&quot;&quot;, 1024*1024, &quot;ab&quot;)</code></td>
 <td align="right">150</td>
 <td align="right">73.701 ms</td>
 <td align="right">3.326 ms</td>
@@ -5413,8 +5410,7 @@
 <td align="right">22.16×</td>
 </tr>
 <tr>
-<td><code>abcde</code></td>
-<td align="right">1 MiB</td>
+<td><code>str_pad(&quot;&quot;, 1024*1024, &quot;abcde&quot;)</code></td>
 <td align="right">150</td>
 <td align="right">35.517 ms</td>
 <td align="right">2.966 ms</td>
