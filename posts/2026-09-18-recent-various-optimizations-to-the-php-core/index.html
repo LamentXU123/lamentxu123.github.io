@@ -410,7 +410,7 @@
 <p>这样，我们大概能对三个函数观测到 <code>10%~15%</code> 左右的性能提升。</p>
 <h1 id="优化-重构-pathinfo"><a href="#优化-重构-pathinfo" class="headerlink" title="优化 &amp; 重构 pathinfo"></a>优化 &amp; 重构 <code>pathinfo</code></h1><p>这个花了我三天时间。绝对可以单独写一篇 blog 了。但是因为我已经要写力竭了我直接上结果吧。</p>
 <p>优化后的 bench：</p>
-<p>pathinfo(‘&#x2F;var&#x2F;www&#x2F;html&#x2F;index.php’, PATHINFO_BASENAME)：较原来的运行时间低 46%<br>pathinfo(‘&#x2F;var&#x2F;www&#x2F;html&#x2F;index.php’, PATHINFO_EXTENSION)：较原来的运行时间低 35%<br>pathinfo(‘&#x2F;var&#x2F;www&#x2F;html&#x2F;index.php’, PATHINFO_FILENAME)：较原来的运行时间低 40%<br>pathinfo(‘&#x2F;var&#x2F;www&#x2F;html&#x2F;README’, PATHINFO_FILENAME)：较原来的运行时间低52% (这是因为 README 没有扩展名，在我的重写里还会剩下一次内存分配)</p>
+<p>pathinfo(‘&#x2F;var&#x2F;www&#x2F;html&#x2F;index.php’, PATHINFO_BASENAME)：较原来的运行时间低 46%<br>pathinfo(‘&#x2F;var&#x2F;www&#x2F;html&#x2F;index.php’, PATHINFO_EXTENSION)：较原来的运行时间低 35%<br>pathinfo(‘&#x2F;var&#x2F;www&#x2F;html&#x2F;index.php’, PATHINFO_FILENAME)：较原来的运行时间低 40%<br>pathinfo(‘&#x2F;var&#x2F;www&#x2F;html&#x2F;README’, PATHINFO_FILENAME)：较原来的运行时间低52% (这是因为 README 没有扩展名，在我的重写里还会省下一次内存分配)</p>
 <p>主要是我整个把这个函数重写了。优化了非常多地方，讲肯定是讲不完的 :)</p>
 <ul>
 <li><a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/23726">PR #23726</a></li>
