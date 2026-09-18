@@ -5471,13 +5471,6 @@
 <td align="right">+94.33%</td>
 <td align="right">9&#x2F;9</td>
 </tr>
-<tr>
-<td><code>addcslashes(implode(&quot;&quot;, array_map(&quot;chr&quot;, range(0, 255))), implode(&quot;&quot;, array_map(&quot;chr&quot;, range(0, 255))))</code></td>
-<td align="right">6568.54</td>
-<td align="right">553.70</td>
-<td align="right">+91.55%</td>
-<td align="right">9&#x2F;9</td>
-</tr>
 </tbody></table>
 <p>单个 NUL 的耗时减少 39.05%；32 B &#x2F; 4 KiB 全 NUL 场景分别减少 89.93% &#x2F; 94.33%。</p>
 <p>对应提交：<a href="https://github.com/php/php-src/commit/2101993133e849f3e84da9c478126cc7cb791996"><code>2101993</code></a>；<a href="https://github.com/php/php-src/pull/23680">PR #23680</a>。</p>
