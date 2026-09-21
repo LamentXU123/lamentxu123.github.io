@@ -14,7 +14,7 @@
 <meta property="og:description" content="作为 php core developer，我从事 php 语言的内核维护和开发工作有一段时间了。一直有很多想法和经验总是忘记。遂写一篇类似与小记的博客记录一下。">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2026-07-30T19:56:20.827Z">
-<meta property="article:modified_time" content="2026-09-19T16:03:00.000Z">
+<meta property="article:modified_time" content="2026-09-21T14:33:00.000Z">
 <meta property="article:author" content="LamentXU">
 <meta property="article:tag" content="CTF, Web Security, PHP, Python, Writeup">
 <meta name="twitter:card" content="summary">
@@ -141,7 +141,7 @@
       
         <time datetime="2026-07-30T19:56:20.827Z" class="dt-published" itemprop="datePublished">2026-07-31</time>
         
-        (Updated: <time datetime="2026-09-19T16:03:00.000Z" class="dt-updated" itemprop="dateModified">2026-09-20</time>)
+        (Updated: <time datetime="2026-09-21T14:33:00.000Z" class="dt-updated" itemprop="dateModified">2026-09-21</time>)
         
       
     </div>
@@ -184,7 +184,7 @@
 </div>
 
 <h1 id="DONE"><a href="#DONE" class="headerlink" title="DONE"></a>DONE</h1><p>对于我在 php-src（php 内核）里做的所有贡献，可以在 <a target="_blank" rel="noopener" href="https://github.com/php/php-src/commits?author=LamentXU123">commit list</a> 里找到。</p>
-<p>以下是我对 PHP 做过或正在推进的<strong>用户可见行为</strong>变化（不包含重构）。（更新于 2026-09-20 00:03 CST）</p>
+<p>以下是我对 PHP 做过或正在推进的<strong>用户可见行为</strong>变化（不包含重构）。（更新于 2026-09-21 22:33 CST）</p>
 <h2 id="PHP-8-7-x"><a href="#PHP-8-7-x" class="headerlink" title="PHP 8.7.x"></a>PHP 8.7.x</h2><h3 id="RFC"><a href="#RFC" class="headerlink" title="RFC"></a>RFC</h3><ul>
 <li><input disabled="" type="checkbox"> 添加 <code>IntlRelativeDateTimeFormatter</code> 类，方便用户在 PHP 里用国际化的方式表示相对时间。(<a target="_blank" rel="noopener" href="https://wiki.php.net/rfc/reldateformatter">RFC</a>)</li>
 </ul>
@@ -294,6 +294,7 @@
 <li>ext&#x2F;gd 修复 <code>imageaffinematrixget()</code> 对 <code>$options</code> 参数强制校验文档声明的 <code>array|float</code> 类型，否则抛出 <code>TypeError</code>。（<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/23384">PR #23384</a>）</li>
 </ul>
 <h3 id="性能优化"><a href="#性能优化" class="headerlink" title="性能优化"></a>性能优化</h3><ul>
+<li>ext&#x2F;standard <code>array_column()</code> 对空输入提前返回，在未指定列和索引时直接使用 packed array 快速复制，并将数字字符串键的规范化移出主循环，提升常见列提取场景的性能。（<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/23786">PR #23786</a>, <a target="_blank" rel="noopener" href="https://github.com/php/php-src/commit/5d24c8bd60558bb41dbcdbe1fb3a8fb2799426f2">merge commit 5d24c8b</a>）</li>
 <li>ext&#x2F;intl <code>IntlChar::enumCharTypes()</code> 优化字符类型枚举的回调处理，直接传递 <code>FCC</code>，减少不必要的回调上下文包装。（<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/23748">PR #23748</a>, <a target="_blank" rel="noopener" href="https://github.com/php/php-src/commit/305a60b0d2d3bbf2b2091e68199950c4d42b3739">merge commit 305a60b</a>）</li>
 <li>ext&#x2F;standard <code>pathinfo()</code> 重用已生成的 basename，并共享 <code>PATHINFO_ALL</code> 中扩展名和文件名的末尾点查找，提升 <code>PATHINFO_BASENAME</code>、<code>PATHINFO_EXTENSION</code> 和 <code>PATHINFO_FILENAME</code> 的性能；对无扩展名文件的 <code>PATHINFO_FILENAME</code> 还可避免一次内存分配。（<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/23726">PR #23726</a>, <a target="_blank" rel="noopener" href="https://github.com/php/php-src/commit/c9e2bc0683306574c2c18d9f2055782918d5657e">commit c9e2bc0</a>）</li>
 <li>ext&#x2F;standard <code>stat()</code>、<code>lstat()</code> 和 <code>fstat()</code> 预先分配返回结果数组，减少构造文件状态信息时的扩容和哈希检查开销。（<a target="_blank" rel="noopener" href="https://github.com/php/php-src/commit/9687652b3f6b306feb9b26f1c99d810252c8e61b">commit 9687652</a>）</li>
