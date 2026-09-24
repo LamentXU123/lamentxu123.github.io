@@ -4569,9 +4569,16 @@
 </div>
 
 <h1 id="DONE"><a href="#DONE" class="headerlink" title="DONE"></a>DONE</h1><p>对于我在 php-src（php 内核）里做的所有贡献，可以在 <a href="https://github.com/php/php-src/commits?author=LamentXU123">commit list</a> 里找到。</p>
-<p>以下是我对 PHP 做过或正在推进的<strong>用户可见行为</strong>变化（不包含重构）。（更新于 2026-09-23 13:59 CST）</p>
+<p>以下是我对 PHP 做过或正在推进的<strong>用户可见行为</strong>变化（不包含重构）。（更新于 2026-09-25 01:36 CST）</p>
 <h2 id="PHP-8-7-x"><a href="#PHP-8-7-x" class="headerlink" title="PHP 8.7.x"></a>PHP 8.7.x</h2><h3 id="RFC"><a href="#RFC" class="headerlink" title="RFC"></a>RFC</h3><ul>
 <li><input disabled="" type="checkbox"> 添加 <code>IntlRelativeDateTimeFormatter</code> 类，方便用户在 PHP 里用国际化的方式表示相对时间。(<a href="https://wiki.php.net/rfc/reldateformatter">RFC</a>)</li>
+</ul>
+<h3 id="Bug-修复"><a href="#Bug-修复" class="headerlink" title="Bug 修复"></a>Bug 修复</h3><ul>
+<li>ext&#x2F;curl 保持回调接收者和闭包在回调执行完成前存活，允许 cURL 回调替换或清除自身，避免过早释放对象。（<a href="https://github.com/php/php-src/pull/23863">PR #23863</a>, <a href="https://github.com/php/php-src/commit/9e7117f20f506c4b1022561e4ddb3d2cb6b42d8d">commit 9e7117f</a>）</li>
+<li>ext&#x2F;intl 让 <code>IntlChar::enumCharNames()</code> 在回调抛出异常时停止枚举并正确传播异常，之后仍可继续使用该 API。（<a href="https://github.com/php/php-src/pull/23866">PR #23866</a>, <a href="https://github.com/php/php-src/commit/5dfd11b1b0de6d066868ea6384d42d1aacc3b93d">commit 5dfd11b</a>）</li>
+</ul>
+<h3 id="性能优化"><a href="#性能优化" class="headerlink" title="性能优化"></a>性能优化</h3><ul>
+<li>ext&#x2F;standard <code>array_map()</code> 在 callback 为 <code>null</code> 的多数组 zip 场景中使用 packed array 填充结果行，并对空输入提前返回，减少哈希插入和中间数组构造开销。（<a href="https://github.com/php/php-src/pull/23809">PR #23809</a>, <a href="https://github.com/php/php-src/commit/82d91d49d839cf611f578df7d6ff013d10926cd8">merge commit 82d91d4</a>）</li>
 </ul>
 <h2 id="PHP-8-6-x"><a href="#PHP-8-6-x" class="headerlink" title="PHP 8.6.x"></a>PHP 8.6.x</h2><h3 id="RFC-1"><a href="#RFC-1" class="headerlink" title="RFC"></a>RFC</h3><ul>
 <li><input checked="" disabled="" type="checkbox"> <code>trim</code> &#x2F; <code>ltrim</code> &#x2F; <code>rtrim</code> &#x2F; <code>chop</code> 支持换页符。(<a href="https://github.com/php/php-src/pull/20788">PR #20788</a>, <a href="https://wiki.php.net/rfc/trim_form_feed">RFC</a>, <a href="https://php.watch/versions/8.6/trim-form-feed">PHP.WATCH</a>, <a href="https://lamentxu.top/posts/2026-08-17-trim-php/">blog</a>)</li>
@@ -4599,7 +4606,8 @@
 <li><input disabled="" type="checkbox"> <em>等待披露</em></li>
 <li><input disabled="" type="checkbox"> <em>等待披露</em></li>
 </ul>
-<h3 id="Bug-修复"><a href="#Bug-修复" class="headerlink" title="Bug 修复"></a>Bug 修复</h3><ul>
+<h3 id="Bug-修复-1"><a href="#Bug-修复-1" class="headerlink" title="Bug 修复"></a>Bug 修复</h3><ul>
+<li>ext&#x2F;curl 保持回调接收者和闭包在回调执行完成前存活，允许 cURL 回调替换或清除自身，避免过早释放对象。（<a href="https://github.com/php/php-src/pull/23863">PR #23863</a>, <a href="https://github.com/php/php-src/commit/9e7117f20f506c4b1022561e4ddb3d2cb6b42d8d">commit 9e7117f</a>）</li>
 <li>Zend 修复数组重哈希或压缩空洞时未正确迁移内部指针与多个 <code>foreach</code> 迭代器，导致嵌套按引用遍历跳过元素的问题。（仅保留在 PHP 8.6，已从 PHP 8.4 和 PHP 8.5 回退；<a href="https://github.com/php/php-src/pull/23607">PR #23607</a>）</li>
 <li>ext&#x2F;intl 修复 <code>IntlNumberRangeFormatter::createFromSkeleton()</code> 和 <code>IntlNumberRangeFormatter::format()</code> 成功调用后仍保留旧 intl 错误状态的问题。(<a href="https://github.com/php/php-src/pull/23191">PR #23191</a>)</li>
 <li>ext&#x2F;intl 修复部分构建环境中 <code>std::numeric_limits</code> 未由传递包含提供而导致的编译失败。(<a href="https://github.com/php/php-src/pull/23072">PR #23072</a>)</li>
@@ -4678,8 +4686,7 @@
 <li><code>sleep()</code> 和 <code>usleep()</code> 现在拒绝超出平台上限的值，修复无符号整数溢出。(<a href="https://github.com/php/php-src/pull/22619">PR #22619</a>)</li>
 <li>ext&#x2F;gd 修复 <code>imageaffinematrixget()</code> 对 <code>$options</code> 参数强制校验文档声明的 <code>array|float</code> 类型，否则抛出 <code>TypeError</code>。（<a href="https://github.com/php/php-src/pull/23384">PR #23384</a>）</li>
 </ul>
-<h3 id="性能优化"><a href="#性能优化" class="headerlink" title="性能优化"></a>性能优化</h3><ul>
-<li>ext&#x2F;standard <code>array_map()</code> 在 callback 为 <code>null</code> 的多数组 zip 场景中使用 packed array 填充结果行，并对空输入提前返回，减少哈希插入和中间数组构造开销。（<a href="https://github.com/php/php-src/pull/23809">PR #23809</a>, <a href="https://github.com/php/php-src/commit/82d91d49d839cf611f578df7d6ff013d10926cd8">merge commit 82d91d4</a>）</li>
+<h3 id="性能优化-1"><a href="#性能优化-1" class="headerlink" title="性能优化"></a>性能优化</h3><ul>
 <li>ext&#x2F;standard <code>array_column()</code> 对空输入提前返回，在未指定列和索引时直接使用 packed array 快速复制，并将数字字符串键的规范化移出主循环，提升常见列提取场景的性能。（<a href="https://github.com/php/php-src/pull/23786">PR #23786</a>, <a href="https://github.com/php/php-src/commit/5d24c8bd60558bb41dbcdbe1fb3a8fb2799426f2">merge commit 5d24c8b</a>）</li>
 <li>ext&#x2F;intl <code>IntlChar::enumCharTypes()</code> 优化字符类型枚举的回调处理，直接传递 <code>FCC</code>，减少不必要的回调上下文包装。（<a href="https://github.com/php/php-src/pull/23748">PR #23748</a>, <a href="https://github.com/php/php-src/commit/305a60b0d2d3bbf2b2091e68199950c4d42b3739">merge commit 305a60b</a>）</li>
 <li>ext&#x2F;standard <code>pathinfo()</code> 重用已生成的 basename，并共享 <code>PATHINFO_ALL</code> 中扩展名和文件名的末尾点查找，提升 <code>PATHINFO_BASENAME</code>、<code>PATHINFO_EXTENSION</code> 和 <code>PATHINFO_FILENAME</code> 的性能；对无扩展名文件的 <code>PATHINFO_FILENAME</code> 还可避免一次内存分配。（<a href="https://github.com/php/php-src/pull/23726">PR #23726</a>, <a href="https://github.com/php/php-src/commit/c9e2bc0683306574c2c18d9f2055782918d5657e">commit c9e2bc0</a>）</li>
@@ -4707,7 +4714,7 @@
 <li>ext&#x2F;json 优化美化输出时的缩进逻辑。(<a href="https://github.com/php/php-src/pull/21474">PR #21474</a>)</li>
 <li>ext&#x2F;phar 优化 Phar 目录流中的临时字符串处理。(<a href="https://github.com/php/php-src/pull/22374">PR #22374</a>)</li>
 </ul>
-<h2 id="PHP-8-5-x"><a href="#PHP-8-5-x" class="headerlink" title="PHP 8.5.x"></a>PHP 8.5.x</h2><h3 id="Bug-修复-1"><a href="#Bug-修复-1" class="headerlink" title="Bug 修复"></a>Bug 修复</h3><ul>
+<h2 id="PHP-8-5-x"><a href="#PHP-8-5-x" class="headerlink" title="PHP 8.5.x"></a>PHP 8.5.x</h2><h3 id="Bug-修复-2"><a href="#Bug-修复-2" class="headerlink" title="Bug 修复"></a>Bug 修复</h3><ul>
 <li>ext&#x2F;sockets 修复 <code>socket_setopt()</code> &#x2F; <code>socket_set_option()</code> 参数校验失败时的错误信息。(<a href="https://github.com/php/php-src/pull/22772">PR #22772</a>)</li>
 <li>ext&#x2F;intl 在 <code>IntlListFormatter</code> 被创建时重置错误状态。(<a href="https://github.com/php/php-src/pull/22931">PR #22931</a>)</li>
 <li>ext&#x2F;intl 修复 <code>IntlListFormatter</code> 在 <code>format()</code> 失败后的对象错误状态。(<a href="https://github.com/php/php-src/commit/946d687d8d5a18c65a547a8fbb80b93dbe3abcce">commit 946d687</a>)</li>
@@ -4737,7 +4744,7 @@
 <li>ext&#x2F;phar 修复访问已挂载 Phar 目录的子目录时可能触发的 use-after-free。（从 PHP 8.4 合并上来；<a href="https://github.com/php/php-src/pull/23442">PR #23442</a>）</li>
 <li>ext&#x2F;phar 修复原生 Phar manifest 含有重复文件名时泄漏文件名和元数据的问题。（从 PHP 8.4 合并上来；<a href="https://github.com/php/php-src/pull/23479">PR #23479</a>）</li>
 </ul>
-<h2 id="PHP-8-4-x"><a href="#PHP-8-4-x" class="headerlink" title="PHP 8.4.x"></a>PHP 8.4.x</h2><h3 id="Bug-修复-2"><a href="#Bug-修复-2" class="headerlink" title="Bug 修复"></a>Bug 修复</h3><ul>
+<h2 id="PHP-8-4-x"><a href="#PHP-8-4-x" class="headerlink" title="PHP 8.4.x"></a>PHP 8.4.x</h2><h3 id="Bug-修复-3"><a href="#Bug-修复-3" class="headerlink" title="Bug 修复"></a>Bug 修复</h3><ul>
 <li>ext&#x2F;dom 修复 <code>DOMNode::isEqualNode()</code> 比较深层嵌套 DOM 树时可能触发栈溢出的问题。(<a href="https://github.com/php/php-src/pull/23140">PR #23140</a>)</li>
 <li>ext&#x2F;hash 修复 <code>php_hash.h</code> 无法被 C++ 代码包含的问题。(<a href="https://github.com/php/php-src/pull/22940">PR #22940</a>)</li>
 <li>ext&#x2F;intl 修复日历日期&#x2F;时间 API 中越界的参数位置。(<a href="https://github.com/php/php-src/commit/10704f079f6087a51e3b579faca00d833141d889">commit 10704f0</a>)</li>
@@ -4790,7 +4797,7 @@
 </li>
 </ul>
 <p>用 <code>zval_try_get_*</code> 替换 <code>zval_get_*</code>。<code>zval_get_*</code>系列的函数，比如 <code>zval_get_long</code>，会直接强制把 <code>zval</code> 类型的参数转化为 <code>long</code>。这个强转甚至是静默的。所以在我看来任何人都不应该用这个函数（它应该被 deprecated）。我们应当审计所有该函数的应用场景并换成更严格的 <code>zval_try_get_*</code>，以在强制转换时抛出 TypeError&#x2F;ValueError。</p>
-<h2 id="性能优化-1"><a href="#性能优化-1" class="headerlink" title="性能优化"></a>性能优化</h2><ul>
+<h2 id="性能优化-2"><a href="#性能优化-2" class="headerlink" title="性能优化"></a>性能优化</h2><ul>
 <li><input disabled="" type="checkbox"> 对以下函数<ul>
 <li><input checked="" disabled="" type="checkbox"> 优化 ext&#x2F;zip php_zip_glob</li>
 <li><input checked="" disabled="" type="checkbox"> 优化 ext&#x2F;zip php_zip_pcre</li>
