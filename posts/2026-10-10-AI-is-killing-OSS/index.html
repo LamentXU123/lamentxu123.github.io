@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="我从今年年初开始使用各种 AI coding 工具。现在，我决定重新回去手写代码。 我这里说的 “回去” 手写代码，不是指兴趣上回去手写。我有写代码的兴趣：编程是我一生中遇到的最快乐的事情。不论如何，手写代码都是我的兴趣爱好。然而，我的意思是在做项目时把 codex 卸载，真正回去手写代码。 我认可 AI 给软件工程带来的效率提升。*我并不是一个反对进步的人。*然而，就 coding 这一点而言，">
+<meta property="og:type" content="article">
+<meta property="og:title" content="AI 正在杀死开源">
+<meta property="og:url" content="https://lamentxu.top/posts/2026-10-10-AI-is-killing-OSS/index.html">
+<meta property="og:site_name" content="LamentXU">
+<meta property="og:description" content="我从今年年初开始使用各种 AI coding 工具。现在，我决定重新回去手写代码。 我这里说的 “回去” 手写代码，不是指兴趣上回去手写。我有写代码的兴趣：编程是我一生中遇到的最快乐的事情。不论如何，手写代码都是我的兴趣爱好。然而，我的意思是在做项目时把 codex 卸载，真正回去手写代码。 我认可 AI 给软件工程带来的效率提升。*我并不是一个反对进步的人。*然而，就 coding 这一点而言，">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2026-10-09T16:52:00.000Z">
+<meta property="article:modified_time" content="2026-10-10T09:29:00.000Z">
+<meta property="article:author" content="LamentXU">
+<meta property="article:tag" content="CTF, Web Security, PHP, Python, Writeup">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/cnblogs-avatar.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/cnblogs-avatar.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/cnblogs-avatar.png">
+        
+      
+    
+    <!-- title -->
+    <title>AI 正在杀死开源</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 8.1.2"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="顶部" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/categories/php-dev/">php 语言开发日志</a></li><!--
+     --><!--
+       --><li><a href="/categories/tech/">其他技术文章</a></li><!--
+     --><!--
+       --><li><a href="/categories/miscellany/">杂七杂八的文字</a></li><!--
+     --><!--
+       --><li><a href="/search/">搜索</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        
+        <li><a class="icon" aria-label="下一篇" href="/posts/2026-09-18-recent-various-optimizations-to-the-php-core/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="返回顶部" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="分享文章" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://lamentxu.top/posts/2026-10-10-AI-is-killing-OSS/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://lamentxu.top/posts/2026-10-10-AI-is-killing-OSS/&text=AI 正在杀死开源"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://lamentxu.top/posts/2026-10-10-AI-is-killing-OSS/&title=AI 正在杀死开源"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://lamentxu.top/posts/2026-10-10-AI-is-killing-OSS/&is_video=false&description=AI 正在杀死开源"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=AI 正在杀死开源&body=Check out this article: https://lamentxu.top/posts/2026-10-10-AI-is-killing-OSS/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://lamentxu.top/posts/2026-10-10-AI-is-killing-OSS/&title=AI 正在杀死开源"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://lamentxu.top/posts/2026-10-10-AI-is-killing-OSS/&title=AI 正在杀死开源"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://lamentxu.top/posts/2026-10-10-AI-is-killing-OSS/&title=AI 正在杀死开源"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://lamentxu.top/posts/2026-10-10-AI-is-killing-OSS/&title=AI 正在杀死开源"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://lamentxu.top/posts/2026-10-10-AI-is-killing-OSS/&name=AI 正在杀死开源&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://lamentxu.top/posts/2026-10-10-AI-is-killing-OSS/&t=AI 正在杀死开源"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    
+    
+      <div id="toc">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BA%BA%E4%BB%AC%EF%BC%8C%E6%88%91%E4%BB%AC"><span class="toc-number">1.</span> <span class="toc-text">人们，我们</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E4%BA%BA%E7%B1%BB%E8%B4%A1%E7%8C%AE%E8%80%85"><span class="toc-number">1.1.</span> <span class="toc-text">为什么要人类贡献者</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E9%97%AE%E9%A2%98"><span class="toc-number">1.2.</span> <span class="toc-text">网络安全问题</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BB%A5%E5%90%8E%E6%80%8E%E4%B9%88%E5%8A%9E%EF%BC%9F"><span class="toc-number">2.</span> <span class="toc-text">以后怎么办？</span></a></li></ol>
+      </div>
+    
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        AI 正在杀死开源
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">LamentXU</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2026-10-09T16:52:00.000Z" class="dt-published" itemprop="datePublished">2026-10-10</time>
+        
+        (Updated: <time datetime="2026-10-10T09:29:00.000Z" class="dt-updated" itemprop="dateModified">2026-10-10</time>)
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fa-solid fa-archive"></i>
+        <a class="category-link" href="/categories/miscellany/">杂七杂八的文字</a>
+    </div>
+
+
+      
+
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <p>我从今年年初开始使用各种 AI coding 工具。现在，我决定重新回去手写代码。</p>
+<p>我这里说的 “回去” 手写代码，不是指兴趣上回去手写。我有写代码的兴趣：编程是我一生中遇到的最快乐的事情。不论如何，手写代码都是我的兴趣爱好。然而，我的意思是在做项目时把 codex 卸载，真正回去手写代码。</p>
+<p>我认可 AI 给软件工程带来的效率提升。*我并不是一个反对进步的人。*然而，就 coding 这一点而言，对于所有我真正在意的代码库（即，如果我上班了我肯定还是会用 AI 对待公司项目的）我不认为 AI 能带来效率上的提升。反而，它给人带来了一种虚假的进步感。</p>
+<p>这就是为什么我说 AI 正在杀死开源。好像我们有比以往多数倍的 PR 数量，项目进步的速度得到了提升。但是，由于 AI coding 本身存在的问题，我们最终都需要人类来 review 一个 PR 是否可以合入。也就是说，维护者也正在面对比以往大数倍的工作量。</p>
+<p>我对 AI 编程有很大的怨气。这很大程度上是因为作为一个开源项目的维护者（i.e. PHP 内核维护者），我每天要面对 ~10 个纯粹 AI 编写的 PR。</p>
+<h1 id="人们，我们"><a href="#人们，我们" class="headerlink" title="人们，我们"></a>人们，我们</h1><h2 id="为什么要人类贡献者"><a href="#为什么要人类贡献者" class="headerlink" title="为什么要人类贡献者"></a>为什么要人类贡献者</h2><p>有人说，现在的 AI 模型已经足够强大，review 起来不应该都质量很高吗？错了。从写 PR 的角度，我们只需要</p>
+<p>“Hey chat, find a optimization&#x2F;bug in the code base.”</p>
+<p>或者，</p>
+<p>“Hey chat, make me a PR. Make no mistake.”</p>
+<p>但是从 reviewer 的角度来看，要考虑的事情就很多了。</p>
+<p>首先，AI 写的内容是否符合项目规范？目前我看到的 AI PR 的通病是总是有有数不清的未被文档记录的行为，或者干脆就直接不写文档。</p>
+<p>其次是 overtesting 和 undertesting。AI 并不知道自己的 patch 会影响多大的范围，与现有的功能冲突怎样，因此在编写回归测试时总是遗漏情况，抑或是变得极度偏执，好像要把所有情况都反复测试三次。</p>
+<p>AI 没有品味。它不知道一个好的修复是什么样子的。假设现在我要在一个 code base 的每个函数开头都重置一次错误状态。AI 会直接写八百个 if-branch 在每个函数开头。同时，AI 执迷于硬编码内容；执迷于拆分文件，即使一个文件里可能只有几行；执迷于给自己的每行代码都写三行注释，即使变量名和代码逻辑本身已经足够清晰；这个列举还能再走下去。</p>
+<p>就这样，还有很多人天天反对 human-in-the-loop，希望让 AI 审核 AI。哦，天哪。</p>
+<p>综上，AI 写的代码在没有人类审核的前提下，质量不足以直接合入任何一个 serious 的代码库。这个时候有人要说了，那人类贡献者难道不这样吗？会。但是人类会成长，AI 不会。你可以告诉人类以后别这样写，但是你无法告诉 AI。多新鲜呐？</p>
+<p>一个人类在一次 PR 里没写 NEWS 文件，第二次就知道写了；<br>一个人类在一次 PR 里没用已有的内部 API，第二次就知道用了；<br>…</p>
+<p>AI 做得到吗？</p>
+<p>我很喜欢之前有人提出的贡献者扑克（contributor poker）概念。本质上，如果你只是要报告一个 bug 或建议一个 feature，那移步 issues 就好了。往往，引导一个贡献者在 PR 里把东西做好需要付出的精力是远大于自己写一遍的。那我干嘛不自己把这玩意做了？是因为我相信你，贡献者，能在这里学习并在以后的 PR 里变得更好，然后成为新的维护者。维护者每一次花时间去 review newcomer 的 PR 都是在赌，赌注是自己的时间和精力。</p>
+<p>AI 的泛滥让本就不平衡赌桌变得无法再进行下去了。所以，我还要去参与一个一定会输的 poker 吗？</p>
+<h2 id="网络安全问题"><a href="#网络安全问题" class="headerlink" title="网络安全问题"></a>网络安全问题</h2><p>AI 在攻防上变得极为恐怖，这已经是不争的事实了。每一代新模型的发布都会引起一波漏洞的浪潮。这引出了几个问题：</p>
+<p>首先是廉价漏洞的泛滥。</p>
+<p>其次是，最新的模型永远被控制在毫无道德的公司手上。</p>
+<p>不言而喻，一目了然。</p>
+<h1 id="以后怎么办？"><a href="#以后怎么办？" class="headerlink" title="以后怎么办？"></a>以后怎么办？</h1><p>所以不，为了我的身心健康，我不会参与这样的赌局。我不会接受任何纯粹 AI 的 PR。你可以使用 AI 去帮助你完成 PR。你可以用它优化你的工作流（我正在这样做）但是完整 AI 的 PR 我会全部 &gt; &#x2F;dev&#x2F;null。</p>
+<p>我知道这是逃避。我只是怕了。</p>
+<p>啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊！！！！！！！</p>
+<p>我热爱开源，因此我选择让步。在我的热爱被消磨殆尽之前为这个社区做更多有意义的事情。</p>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">首页</a></li>
+        
+          <li><a href="/categories/php-dev/">php 语言开发日志</a></li>
+        
+          <li><a href="/categories/tech/">其他技术文章</a></li>
+        
+          <li><a href="/categories/miscellany/">杂七杂八的文字</a></li>
+        
+          <li><a href="/search/">搜索</a></li>
+        
+      </ul>
+    </div>
+
+    
+    
+      <div id="toc-footer" style="display: none">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BA%BA%E4%BB%AC%EF%BC%8C%E6%88%91%E4%BB%AC"><span class="toc-number">1.</span> <span class="toc-text">人们，我们</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E4%BA%BA%E7%B1%BB%E8%B4%A1%E7%8C%AE%E8%80%85"><span class="toc-number">1.1.</span> <span class="toc-text">为什么要人类贡献者</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E9%97%AE%E9%A2%98"><span class="toc-number">1.2.</span> <span class="toc-text">网络安全问题</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BB%A5%E5%90%8E%E6%80%8E%E4%B9%88%E5%8A%9E%EF%BC%9F"><span class="toc-number">2.</span> <span class="toc-text">以后怎么办？</span></a></li></ol>
+      </div>
+    
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://lamentxu.top/posts/2026-10-10-AI-is-killing-OSS/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://lamentxu.top/posts/2026-10-10-AI-is-killing-OSS/&text=AI 正在杀死开源"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://lamentxu.top/posts/2026-10-10-AI-is-killing-OSS/&title=AI 正在杀死开源"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://lamentxu.top/posts/2026-10-10-AI-is-killing-OSS/&is_video=false&description=AI 正在杀死开源"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=AI 正在杀死开源&body=Check out this article: https://lamentxu.top/posts/2026-10-10-AI-is-killing-OSS/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://lamentxu.top/posts/2026-10-10-AI-is-killing-OSS/&title=AI 正在杀死开源"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://lamentxu.top/posts/2026-10-10-AI-is-killing-OSS/&title=AI 正在杀死开源"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://lamentxu.top/posts/2026-10-10-AI-is-killing-OSS/&title=AI 正在杀死开源"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://lamentxu.top/posts/2026-10-10-AI-is-killing-OSS/&title=AI 正在杀死开源"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://lamentxu.top/posts/2026-10-10-AI-is-killing-OSS/&name=AI 正在杀死开源&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://lamentxu.top/posts/2026-10-10-AI-is-killing-OSS/&t=AI 正在杀死开源"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        
+          <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2024-2026
+    LamentXU
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/categories/php-dev/">php 语言开发日志</a></li><!--
+     --><!--
+       --><li><a href="/categories/tech/">其他技术文章</a></li><!--
+     --><!--
+       --><li><a href="/categories/miscellany/">杂七杂八的文字</a></li><!--
+     --><!--
+       --><li><a href="/search/">搜索</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板！\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功！");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>
