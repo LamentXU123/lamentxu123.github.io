@@ -338,132 +338,70 @@
 <li>ext&#x2F;phar 优化 Phar 目录流中的临时字符串处理。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/22374">PR #22374</a>)</li>
 </ul>
 <h2 id="PHP-8-5-x"><a href="#PHP-8-5-x" class="headerlink" title="PHP 8.5.x"></a>PHP 8.5.x</h2><h3 id="Bug-修复-2"><a href="#Bug-修复-2" class="headerlink" title="Bug 修复"></a>Bug 修复</h3><ul>
-<li><p>ext&#x2F;curl 保持回调接收者和闭包在回调执行完成前存活，允许 cURL 回调替换或清除自身，避免过早释放对象。（从 PHP 8.4 合并上来；<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/23863">PR #23863</a>, <a target="_blank" rel="noopener" href="https://github.com/php/php-src/commit/9e7117f20f506c4b1022561e4ddb3d2cb6b42d8d">commit 9e7117f</a>）</p>
-</li>
-<li><p>ext&#x2F;sockets 修复 <code>socket_setopt()</code> &#x2F; <code>socket_set_option()</code> 参数校验失败时的错误信息。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/22772">PR #22772</a>)</p>
-</li>
-<li><p>ext&#x2F;intl 在 <code>IntlListFormatter</code> 被创建时重置错误状态。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/22931">PR #22931</a>)</p>
-</li>
-<li><p>ext&#x2F;intl 修复 <code>IntlListFormatter</code> 在 <code>format()</code> 失败后的对象错误状态。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/commit/946d687d8d5a18c65a547a8fbb80b93dbe3abcce">commit 946d687</a>)</p>
-</li>
-<li><p>ext&#x2F;readline 修复交互式 Shell 不会等待分页器进程退出的问题。（<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/23047">PR #23047</a>）</p>
-</li>
-<li><p>ext&#x2F;dom 修复 <code>DOMNode::isEqualNode()</code> 比较深层嵌套 DOM 树时可能触发栈溢出的问题。（从 PHP 8.4 合并上来；<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/23140">PR #23140</a>）</p>
-</li>
-<li><p>ext&#x2F;hash 修复 <code>php_hash.h</code> 无法被 C++ 代码包含的问题。（从 PHP 8.4 合并上来；<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/22940">PR #22940</a>）</p>
-</li>
-<li><p>ext&#x2F;intl 修复日历日期&#x2F;时间 API 中越界的参数位置。（从 PHP 8.4 合并上来；<a target="_blank" rel="noopener" href="https://github.com/php/php-src/commit/10704f079f6087a51e3b579faca00d833141d889">commit 10704f0</a>）</p>
-</li>
-<li><p>ext&#x2F;intl 在 <code>IntlDateFormatter</code> 错误信息中使用 <code>PATTERN</code> 常量名。（从 PHP 8.4 合并上来；<a target="_blank" rel="noopener" href="https://github.com/php/php-src/commit/2d784891fff579eef86e326bf969e3cf41dc5244">commit 2d78489</a>）</p>
-</li>
-<li><p>ext&#x2F;intl 修复未初始化日历参数的参数位置。（从 PHP 8.4 合并上来；<a target="_blank" rel="noopener" href="https://github.com/php/php-src/commit/27d593e546c86a3aebe02b926d06f4e5dd7dd71f">commit 27d593e</a>）</p>
-</li>
-<li><p>ext&#x2F;soap 修复解码 SOAP 数组索引时的整数溢出。（从 PHP 8.4 合并上来；<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/21963">PR #21963</a>）</p>
-</li>
-<li><p>ext&#x2F;phar 在 <code>Phar::addEmptyDir()</code> 中更正确地保留 <code>.phar</code> 魔术目录。（从 PHP 8.4 合并上来；<a target="_blank" rel="noopener" href="https://github.com/php/php-src/commit/3064540134148ca469c4757ec658d690d8cd90b3">commit 3064540</a>）</p>
-</li>
-<li><p>ext&#x2F;intl 为无效显示类型同步 <code>IntlTimeZone</code> 对象错误状态。（从 PHP 8.4 合并上来；<a target="_blank" rel="noopener" href="https://github.com/php/php-src/commit/9e68cf888ac8c8620349d684495c3c4ed52daabe">commit 9e68cf8</a>）</p>
-</li>
-<li><p>ext&#x2F;intl 保持 <code>Spoofchecker</code> 限制级别 API 的 ICU 53 版本保护。（从 PHP 8.4 合并上来；<a target="_blank" rel="noopener" href="https://github.com/php/php-src/commit/edde16948a8729886b9cab0de1f69a189823bac2">commit edde169</a>）</p>
-</li>
-<li><p>ext&#x2F;opcache 修复有类型按值返回时未解开引用包装的问题。（从 PHP 8.4 合并上来；<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/21973">PR #21973</a>）</p>
-</li>
-<li><p>ext&#x2F;intl 修复 <code>transliterator_transliterate()</code> 错误信息中的参数位置。（从 PHP 8.4 合并上来；<a target="_blank" rel="noopener" href="https://github.com/php/php-src/commit/d8e741838a534d30e9e329c25d90592d988398a7">commit d8e7418</a>）</p>
-</li>
-<li><p>ext&#x2F;phar 拒绝格式错误的 ZIP 额外字段，避免剩余长度下溢。（从 PHP 8.4 合并上来；<a target="_blank" rel="noopener" href="https://github.com/php/php-src/commit/657f0d6b21d1af9f1c0d80f890b42b09b04c9880">commit 657f0d6</a>, <a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/22330">PR #22330</a>）</p>
-</li>
-<li><p>ext&#x2F;intl 让 <code>Locale::lookup()</code> 和 <code>locale_lookup()</code> 在语言标签无效时返回 <code>null</code>，而不是回退到默认 locale。(从 PHP 8.4 合并上来；<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/22306">PR #22306</a>)</p>
-</li>
-<li><p>ext&#x2F;intl 让 <code>Collator::__construct()</code> 和 <code>Spoofchecker::__construct()</code> 在重复构造已初始化对象时抛出 <code>Error</code>，避免覆盖 ICU 句柄造成内存泄漏。（从 PHP 8.4 合并上来；<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/22386">PR #22386</a>）</p>
-</li>
-<li><p>ext&#x2F;intl 让 <code>IntlListFormatter::__construct()</code> 在重复构造已初始化对象时抛出 <code>Error</code>，避免覆盖 ICU 句柄造成内存泄漏。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/22394">PR #22394</a>)</p>
-</li>
-<li><p>ext&#x2F;phar 修复以 <code>.phar</code> 为前缀但不是魔术目录的目录处理。（从 PHP 8.4 合并上来；<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/22372">PR #22372</a>）</p>
-</li>
-<li><p><code>base_convert()</code> 修复较小缓冲区长度下的转换结果错误。(从 PHP 8.4 合并上来；<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/22406">PR #22406</a>)</p>
-</li>
-<li><p>ext&#x2F;zip 修复 <code>ZipArchive::getFromIndex()</code> 忽略已删除条目的 <code>FL_UNCHANGED</code> 标志。(从 PHP 8.4 合并上来；<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/21706">PR #21706</a>)</p>
-</li>
-<li><p>ext&#x2F;zip 避免重置 <code>ZipArchive</code> 注释时发生崩溃。（从 PHP 8.4 合并上来；<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/22652">PR #22652</a>）</p>
-</li>
-<li><p>ext&#x2F;readline 修复交互式 Shell 中的类常量自动补全功能。(从 PHP 8.4 合并上来；<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/23218">PR #23218</a>)</p>
-</li>
-<li><p>ext&#x2F;gd 修复 <code>imageaffinematrixget()</code> 和 <code>imageaffinematrixconcat</code> 报错信息中参数位置错位的问题。(从 PHP 8.4 合并上来；<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/23356">PR #23356</a>)</p>
-</li>
-<li><p>ext&#x2F;zip 修复当 <code>ZipArchive</code> 子类保存了它自身打开的流时，该子类对象无法被垃圾回收的问题。(从 PHP 8.4 合并上来；<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/23282">PR #23282</a>)</p>
-</li>
-<li><p>ext&#x2F;phar 修复访问已挂载 Phar 目录的子目录时可能触发的 use-after-free。（从 PHP 8.4 合并上来；<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/23442">PR #23442</a>）</p>
-</li>
-<li><p>ext&#x2F;phar 修复原生 Phar manifest 含有重复文件名时泄漏文件名和元数据的问题。（从 PHP 8.4 合并上来；<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/23479">PR #23479</a>）</p>
-</li>
-<li><p>ext&#x2F;intl 修复 <code>grapheme_strstr()</code> 和 <code>grapheme_stristr()</code> 在匹配位置之前包含补充平面字符时返回错误子串的问题，涵盖两种 <code>beforeNeedle</code> 模式。（从 PHP 8.4 合并上来；<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/24012">PR #24012</a>）</p>
-</li>
-<li><p>ext&#x2F;intl 修复 <code>grapheme_strstr()</code> 和 <code>grapheme_strpos()</code> 漏掉 Unicode 规范等价匹配的问题，并避免字素搜索在空字符串中查找非空字符串时产生 ICU 错误。（从 PHP 8.4 合并上来；<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/24029">PR #24029</a>）</p>
-</li>
-<li><p>ext&#x2F;intl 修复 <code>grapheme_strrpos()</code> 和 <code>grapheme_strripos()</code> 在使用负偏移量时漏掉重叠匹配的问题。（从 PHP 8.4 合并上来；<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/24028">PR #24028</a>）</p>
-</li>
-<li><p>ext&#x2F;readline 修复 <code>readline_info()</code> 在 <code>completion_append_character</code> 含有非 ASCII 字节时可能崩溃的问题。（从 PHP 8.4 合并上来；<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/24263">PR #24263</a>）</p>
-</li>
+<li>ext&#x2F;curl 保持回调接收者和闭包在回调执行完成前存活，允许 cURL 回调替换或清除自身，避免过早释放对象。（从 PHP 8.4 合并上来；<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/23863">PR #23863</a>, <a target="_blank" rel="noopener" href="https://github.com/php/php-src/commit/9e7117f20f506c4b1022561e4ddb3d2cb6b42d8d">commit 9e7117f</a>）</li>
+<li>ext&#x2F;sockets 修复 <code>socket_setopt()</code> &#x2F; <code>socket_set_option()</code> 参数校验失败时的错误信息。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/22772">PR #22772</a>)</li>
+<li>ext&#x2F;intl 在 <code>IntlListFormatter</code> 被创建时重置错误状态。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/22931">PR #22931</a>)</li>
+<li>ext&#x2F;intl 修复 <code>IntlListFormatter</code> 在 <code>format()</code> 失败后的对象错误状态。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/commit/946d687d8d5a18c65a547a8fbb80b93dbe3abcce">commit 946d687</a>)</li>
+<li>ext&#x2F;readline 修复交互式 Shell 不会等待分页器进程退出的问题。（<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/23047">PR #23047</a>）</li>
+<li>ext&#x2F;dom 修复 <code>DOMNode::isEqualNode()</code> 比较深层嵌套 DOM 树时可能触发栈溢出的问题。（从 PHP 8.4 合并上来；<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/23140">PR #23140</a>）</li>
+<li>ext&#x2F;hash 修复 <code>php_hash.h</code> 无法被 C++ 代码包含的问题。（从 PHP 8.4 合并上来；<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/22940">PR #22940</a>）</li>
+<li>ext&#x2F;intl 修复日历日期&#x2F;时间 API 中越界的参数位置。（从 PHP 8.4 合并上来；<a target="_blank" rel="noopener" href="https://github.com/php/php-src/commit/10704f079f6087a51e3b579faca00d833141d889">commit 10704f0</a>）</li>
+<li>ext&#x2F;intl 在 <code>IntlDateFormatter</code> 错误信息中使用 <code>PATTERN</code> 常量名。（从 PHP 8.4 合并上来；<a target="_blank" rel="noopener" href="https://github.com/php/php-src/commit/2d784891fff579eef86e326bf969e3cf41dc5244">commit 2d78489</a>）</li>
+<li>ext&#x2F;intl 修复未初始化日历参数的参数位置。（从 PHP 8.4 合并上来；<a target="_blank" rel="noopener" href="https://github.com/php/php-src/commit/27d593e546c86a3aebe02b926d06f4e5dd7dd71f">commit 27d593e</a>）</li>
+<li>ext&#x2F;soap 修复解码 SOAP 数组索引时的整数溢出。（从 PHP 8.4 合并上来；<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/21963">PR #21963</a>）</li>
+<li>ext&#x2F;phar 在 <code>Phar::addEmptyDir()</code> 中更正确地保留 <code>.phar</code> 魔术目录。（从 PHP 8.4 合并上来；<a target="_blank" rel="noopener" href="https://github.com/php/php-src/commit/3064540134148ca469c4757ec658d690d8cd90b3">commit 3064540</a>）</li>
+<li>ext&#x2F;intl 为无效显示类型同步 <code>IntlTimeZone</code> 对象错误状态。（从 PHP 8.4 合并上来；<a target="_blank" rel="noopener" href="https://github.com/php/php-src/commit/9e68cf888ac8c8620349d684495c3c4ed52daabe">commit 9e68cf8</a>）</li>
+<li>ext&#x2F;intl 保持 <code>Spoofchecker</code> 限制级别 API 的 ICU 53 版本保护。（从 PHP 8.4 合并上来；<a target="_blank" rel="noopener" href="https://github.com/php/php-src/commit/edde16948a8729886b9cab0de1f69a189823bac2">commit edde169</a>）</li>
+<li>ext&#x2F;opcache 修复有类型按值返回时未解开引用包装的问题。（从 PHP 8.4 合并上来；<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/21973">PR #21973</a>）</li>
+<li>ext&#x2F;intl 修复 <code>transliterator_transliterate()</code> 错误信息中的参数位置。（从 PHP 8.4 合并上来；<a target="_blank" rel="noopener" href="https://github.com/php/php-src/commit/d8e741838a534d30e9e329c25d90592d988398a7">commit d8e7418</a>）</li>
+<li>ext&#x2F;phar 拒绝格式错误的 ZIP 额外字段，避免剩余长度下溢。（从 PHP 8.4 合并上来；<a target="_blank" rel="noopener" href="https://github.com/php/php-src/commit/657f0d6b21d1af9f1c0d80f890b42b09b04c9880">commit 657f0d6</a>, <a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/22330">PR #22330</a>）</li>
+<li>ext&#x2F;intl 让 <code>Locale::lookup()</code> 和 <code>locale_lookup()</code> 在语言标签无效时返回 <code>null</code>，而不是回退到默认 locale。(从 PHP 8.4 合并上来；<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/22306">PR #22306</a>)</li>
+<li>ext&#x2F;intl 让 <code>Collator::__construct()</code> 和 <code>Spoofchecker::__construct()</code> 在重复构造已初始化对象时抛出 <code>Error</code>，避免覆盖 ICU 句柄造成内存泄漏。（从 PHP 8.4 合并上来；<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/22386">PR #22386</a>）</li>
+<li>ext&#x2F;intl 让 <code>IntlListFormatter::__construct()</code> 在重复构造已初始化对象时抛出 <code>Error</code>，避免覆盖 ICU 句柄造成内存泄漏。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/22394">PR #22394</a>)</li>
+<li>ext&#x2F;phar 修复以 <code>.phar</code> 为前缀但不是魔术目录的目录处理。（从 PHP 8.4 合并上来；<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/22372">PR #22372</a>）</li>
+<li><code>base_convert()</code> 修复较小缓冲区长度下的转换结果错误。(从 PHP 8.4 合并上来；<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/22406">PR #22406</a>)</li>
+<li>ext&#x2F;zip 修复 <code>ZipArchive::getFromIndex()</code> 忽略已删除条目的 <code>FL_UNCHANGED</code> 标志。(从 PHP 8.4 合并上来；<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/21706">PR #21706</a>)</li>
+<li>ext&#x2F;zip 避免重置 <code>ZipArchive</code> 注释时发生崩溃。（从 PHP 8.4 合并上来；<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/22652">PR #22652</a>）</li>
+<li>ext&#x2F;readline 修复交互式 Shell 中的类常量自动补全功能。(从 PHP 8.4 合并上来；<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/23218">PR #23218</a>)</li>
+<li>ext&#x2F;gd 修复 <code>imageaffinematrixget()</code> 和 <code>imageaffinematrixconcat</code> 报错信息中参数位置错位的问题。(从 PHP 8.4 合并上来；<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/23356">PR #23356</a>)</li>
+<li>ext&#x2F;zip 修复当 <code>ZipArchive</code> 子类保存了它自身打开的流时，该子类对象无法被垃圾回收的问题。(从 PHP 8.4 合并上来；<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/23282">PR #23282</a>)</li>
+<li>ext&#x2F;phar 修复访问已挂载 Phar 目录的子目录时可能触发的 use-after-free。（从 PHP 8.4 合并上来；<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/23442">PR #23442</a>）</li>
+<li>ext&#x2F;phar 修复原生 Phar manifest 含有重复文件名时泄漏文件名和元数据的问题。（从 PHP 8.4 合并上来；<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/23479">PR #23479</a>）</li>
+<li>ext&#x2F;intl 修复 <code>grapheme_strstr()</code> 和 <code>grapheme_stristr()</code> 在匹配位置之前包含补充平面字符时返回错误子串的问题，涵盖两种 <code>beforeNeedle</code> 模式。（从 PHP 8.4 合并上来；<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/24012">PR #24012</a>）</li>
+<li>ext&#x2F;intl 修复 <code>grapheme_strstr()</code> 和 <code>grapheme_strpos()</code> 漏掉 Unicode 规范等价匹配的问题，并避免字素搜索在空字符串中查找非空字符串时产生 ICU 错误。（从 PHP 8.4 合并上来；<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/24029">PR #24029</a>）</li>
+<li>ext&#x2F;intl 修复 <code>grapheme_strrpos()</code> 和 <code>grapheme_strripos()</code> 在使用负偏移量时漏掉重叠匹配的问题。（从 PHP 8.4 合并上来；<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/24028">PR #24028</a>）</li>
+<li>ext&#x2F;readline 修复 <code>readline_info()</code> 在 <code>completion_append_character</code> 含有非 ASCII 字节时可能崩溃的问题。（从 PHP 8.4 合并上来；<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/24263">PR #24263</a>）</li>
 </ul>
 <h2 id="PHP-8-4-x"><a href="#PHP-8-4-x" class="headerlink" title="PHP 8.4.x"></a>PHP 8.4.x</h2><h3 id="Bug-修复-3"><a href="#Bug-修复-3" class="headerlink" title="Bug 修复"></a>Bug 修复</h3><ul>
-<li><p>ext&#x2F;curl 保持回调接收者和闭包在回调执行完成前存活，允许 cURL 回调替换或清除自身，避免过早释放对象。（<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/23863">PR #23863</a>, <a target="_blank" rel="noopener" href="https://github.com/php/php-src/commit/9e7117f20f506c4b1022561e4ddb3d2cb6b42d8d">commit 9e7117f</a>）</p>
-</li>
-<li><p>ext&#x2F;dom 修复 <code>DOMNode::isEqualNode()</code> 比较深层嵌套 DOM 树时可能触发栈溢出的问题。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/23140">PR #23140</a>)</p>
-</li>
-<li><p>ext&#x2F;hash 修复 <code>php_hash.h</code> 无法被 C++ 代码包含的问题。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/22940">PR #22940</a>)</p>
-</li>
-<li><p>ext&#x2F;intl 修复日历日期&#x2F;时间 API 中越界的参数位置。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/commit/10704f079f6087a51e3b579faca00d833141d889">commit 10704f0</a>)</p>
-</li>
-<li><p>ext&#x2F;intl 在 <code>IntlDateFormatter</code> 错误信息中使用 <code>PATTERN</code> 常量名。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/commit/2d784891fff579eef86e326bf969e3cf41dc5244">commit 2d78489</a>)</p>
-</li>
-<li><p>ext&#x2F;intl 修复未初始化日历参数的参数位置。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/commit/27d593e546c86a3aebe02b926d06f4e5dd7dd71f">commit 27d593e</a>)</p>
-</li>
-<li><p>ext&#x2F;soap 修复解码 SOAP 数组索引时的整数溢出。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/21963">PR #21963</a>)</p>
-</li>
-<li><p>ext&#x2F;phar 在 <code>Phar::addEmptyDir()</code> 中更正确地保留 <code>.phar</code> 魔术目录。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/commit/3064540134148ca469c4757ec658d690d8cd90b3">commit 3064540</a>)</p>
-</li>
-<li><p>ext&#x2F;intl 为无效显示类型同步 <code>IntlTimeZone</code> 对象错误状态。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/commit/9e68cf888ac8c8620349d684495c3c4ed52daabe">commit 9e68cf8</a>)</p>
-</li>
-<li><p>ext&#x2F;intl 保持 <code>Spoofchecker</code> 限制级别 API 的 ICU 53 版本保护。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/commit/edde16948a8729886b9cab0de1f69a189823bac2">commit edde169</a>)</p>
-</li>
-<li><p>ext&#x2F;opcache 修复有类型按值返回时未解开引用包装的问题。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/21973">PR #21973</a>)</p>
-</li>
-<li><p>ext&#x2F;intl 修复 <code>transliterator_transliterate()</code> 错误信息中的参数位置。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/commit/d8e741838a534d30e9e329c25d90592d988398a7">commit d8e7418</a>)</p>
-</li>
-<li><p>ext&#x2F;phar 拒绝格式错误的 ZIP 额外字段，避免剩余长度下溢。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/commit/657f0d6b21d1af9f1c0d80f890b42b09b04c9880">commit 657f0d6</a>, <a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/22330">PR #22330</a>)</p>
-</li>
-<li><p>ext&#x2F;intl 让 <code>Locale::lookup()</code> 和 <code>locale_lookup()</code> 在语言标签无效时返回 <code>null</code>，而不是回退到默认 locale。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/22306">PR #22306</a>)</p>
-</li>
-<li><p>ext&#x2F;intl 让 <code>Collator::__construct()</code> 和 <code>Spoofchecker::__construct()</code> 在重复构造已初始化对象时抛出 <code>Error</code>，避免覆盖 ICU 句柄造成内存泄漏。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/22386">PR #22386</a>)</p>
-</li>
-<li><p>ext&#x2F;phar 修复以 <code>.phar</code> 为前缀但不是魔术目录的目录处理。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/22372">PR #22372</a>)</p>
-</li>
-<li><p><code>base_convert()</code> 修复较小缓冲区长度下的转换结果错误。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/22406">PR #22406</a>)</p>
-</li>
-<li><p>ext&#x2F;zip 修复 <code>ZipArchive::getFromIndex()</code> 忽略已删除条目的 <code>FL_UNCHANGED</code> 标志。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/21706">PR #21706</a>)</p>
-</li>
-<li><p>ext&#x2F;zip 避免重置 <code>ZipArchive</code> 注释时发生崩溃。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/22652">PR #22652</a>)</p>
-</li>
-<li><p>ext&#x2F;readline 修复交互式 Shell 中的类常量自动补全功能。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/23218">PR #23218</a>)</p>
-</li>
-<li><p>ext&#x2F;gd 修复 <code>imageaffinematrixget()</code> 和 <code>imageaffinematrixconcat</code> 报错信息中参数位置错位的问题。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/23356">PR #23356</a>)</p>
-</li>
-<li><p>ext&#x2F;zip 修复当 <code>ZipArchive</code> 子类保存了它自身打开的流时，该子类对象无法被垃圾回收的问题。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/23282">PR #23282</a>)</p>
-</li>
-<li><p>ext&#x2F;phar 修复访问已挂载 Phar 目录的子目录时可能触发的 use-after-free。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/23442">PR #23442</a>)</p>
-</li>
-<li><p>ext&#x2F;phar 修复原生 Phar manifest 含有重复文件名时泄漏文件名和元数据的问题。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/23479">PR #23479</a>)</p>
-</li>
-<li><p>ext&#x2F;intl 修复 <code>grapheme_strstr()</code> 和 <code>grapheme_stristr()</code> 在匹配位置之前包含补充平面字符时返回错误子串的问题，涵盖两种 <code>beforeNeedle</code> 模式。（<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/24012">PR #24012</a>）</p>
-</li>
-<li><p>ext&#x2F;intl 修复 <code>grapheme_strstr()</code> 和 <code>grapheme_strpos()</code> 漏掉 Unicode 规范等价匹配的问题，并避免字素搜索在空字符串中查找非空字符串时产生 ICU 错误。（<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/24029">PR #24029</a>）</p>
-</li>
-<li><p>ext&#x2F;intl 修复 <code>grapheme_strrpos()</code> 和 <code>grapheme_strripos()</code> 在使用负偏移量时漏掉重叠匹配的问题。（<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/24028">PR #24028</a>）</p>
-</li>
-<li><p>ext&#x2F;intl 修复 <code>grapheme_extract()</code> 从多字节 UTF-8 字符内部开始提取时返回错误的 <code>$next</code> 字节偏移量的问题。（<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/24160">PR #24160</a>）</p>
-</li>
-<li><p>ext&#x2F;readline 修复 <code>readline_info()</code> 在 <code>completion_append_character</code> 含有非 ASCII 字节时可能崩溃的问题。（<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/24263">PR #24263</a>）</p>
-</li>
+<li>ext&#x2F;curl 保持回调接收者和闭包在回调执行完成前存活，允许 cURL 回调替换或清除自身，避免过早释放对象。（<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/23863">PR #23863</a>, <a target="_blank" rel="noopener" href="https://github.com/php/php-src/commit/9e7117f20f506c4b1022561e4ddb3d2cb6b42d8d">commit 9e7117f</a>）</li>
+<li>ext&#x2F;dom 修复 <code>DOMNode::isEqualNode()</code> 比较深层嵌套 DOM 树时可能触发栈溢出的问题。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/23140">PR #23140</a>)</li>
+<li>ext&#x2F;hash 修复 <code>php_hash.h</code> 无法被 C++ 代码包含的问题。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/22940">PR #22940</a>)</li>
+<li>ext&#x2F;intl 修复日历日期&#x2F;时间 API 中越界的参数位置。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/commit/10704f079f6087a51e3b579faca00d833141d889">commit 10704f0</a>)</li>
+<li>ext&#x2F;intl 在 <code>IntlDateFormatter</code> 错误信息中使用 <code>PATTERN</code> 常量名。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/commit/2d784891fff579eef86e326bf969e3cf41dc5244">commit 2d78489</a>)</li>
+<li>ext&#x2F;intl 修复未初始化日历参数的参数位置。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/commit/27d593e546c86a3aebe02b926d06f4e5dd7dd71f">commit 27d593e</a>)</li>
+<li>ext&#x2F;soap 修复解码 SOAP 数组索引时的整数溢出。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/21963">PR #21963</a>)</li>
+<li>ext&#x2F;phar 在 <code>Phar::addEmptyDir()</code> 中更正确地保留 <code>.phar</code> 魔术目录。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/commit/3064540134148ca469c4757ec658d690d8cd90b3">commit 3064540</a>)</li>
+<li>ext&#x2F;intl 为无效显示类型同步 <code>IntlTimeZone</code> 对象错误状态。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/commit/9e68cf888ac8c8620349d684495c3c4ed52daabe">commit 9e68cf8</a>)</li>
+<li>ext&#x2F;intl 保持 <code>Spoofchecker</code> 限制级别 API 的 ICU 53 版本保护。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/commit/edde16948a8729886b9cab0de1f69a189823bac2">commit edde169</a>)</li>
+<li>ext&#x2F;opcache 修复有类型按值返回时未解开引用包装的问题。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/21973">PR #21973</a>)</li>
+<li>ext&#x2F;intl 修复 <code>transliterator_transliterate()</code> 错误信息中的参数位置。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/commit/d8e741838a534d30e9e329c25d90592d988398a7">commit d8e7418</a>)</li>
+<li>ext&#x2F;phar 拒绝格式错误的 ZIP 额外字段，避免剩余长度下溢。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/commit/657f0d6b21d1af9f1c0d80f890b42b09b04c9880">commit 657f0d6</a>, <a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/22330">PR #22330</a>)</li>
+<li>ext&#x2F;intl 让 <code>Locale::lookup()</code> 和 <code>locale_lookup()</code> 在语言标签无效时返回 <code>null</code>，而不是回退到默认 locale。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/22306">PR #22306</a>)</li>
+<li>ext&#x2F;intl 让 <code>Collator::__construct()</code> 和 <code>Spoofchecker::__construct()</code> 在重复构造已初始化对象时抛出 <code>Error</code>，避免覆盖 ICU 句柄造成内存泄漏。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/22386">PR #22386</a>)</li>
+<li>ext&#x2F;phar 修复以 <code>.phar</code> 为前缀但不是魔术目录的目录处理。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/22372">PR #22372</a>)</li>
+<li><code>base_convert()</code> 修复较小缓冲区长度下的转换结果错误。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/22406">PR #22406</a>)</li>
+<li>ext&#x2F;zip 修复 <code>ZipArchive::getFromIndex()</code> 忽略已删除条目的 <code>FL_UNCHANGED</code> 标志。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/21706">PR #21706</a>)</li>
+<li>ext&#x2F;zip 避免重置 <code>ZipArchive</code> 注释时发生崩溃。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/22652">PR #22652</a>)</li>
+<li>ext&#x2F;readline 修复交互式 Shell 中的类常量自动补全功能。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/23218">PR #23218</a>)</li>
+<li>ext&#x2F;gd 修复 <code>imageaffinematrixget()</code> 和 <code>imageaffinematrixconcat</code> 报错信息中参数位置错位的问题。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/23356">PR #23356</a>)</li>
+<li>ext&#x2F;zip 修复当 <code>ZipArchive</code> 子类保存了它自身打开的流时，该子类对象无法被垃圾回收的问题。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/23282">PR #23282</a>)</li>
+<li>ext&#x2F;phar 修复访问已挂载 Phar 目录的子目录时可能触发的 use-after-free。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/23442">PR #23442</a>)</li>
+<li>ext&#x2F;phar 修复原生 Phar manifest 含有重复文件名时泄漏文件名和元数据的问题。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/23479">PR #23479</a>)</li>
+<li>ext&#x2F;intl 修复 <code>grapheme_strstr()</code> 和 <code>grapheme_stristr()</code> 在匹配位置之前包含补充平面字符时返回错误子串的问题，涵盖两种 <code>beforeNeedle</code> 模式。（<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/24012">PR #24012</a>）</li>
+<li>ext&#x2F;intl 修复 <code>grapheme_strstr()</code> 和 <code>grapheme_strpos()</code> 漏掉 Unicode 规范等价匹配的问题，并避免字素搜索在空字符串中查找非空字符串时产生 ICU 错误。（<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/24029">PR #24029</a>）</li>
+<li>ext&#x2F;intl 修复 <code>grapheme_strrpos()</code> 和 <code>grapheme_strripos()</code> 在使用负偏移量时漏掉重叠匹配的问题。（<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/24028">PR #24028</a>）</li>
+<li>ext&#x2F;intl 修复 <code>grapheme_extract()</code> 从多字节 UTF-8 字符内部开始提取时返回错误的 <code>$next</code> 字节偏移量的问题。（<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/24160">PR #24160</a>）</li>
+<li>ext&#x2F;readline 修复 <code>readline_info()</code> 在 <code>completion_append_character</code> 含有非 ASCII 字节时可能崩溃的问题。（<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/24263">PR #24263</a>）</li>
 </ul>
 <h1 id="TODO"><a href="#TODO" class="headerlink" title="TODO"></a>TODO</h1><h2 id="Zend-内核"><a href="#Zend-内核" class="headerlink" title="Zend 内核"></a>Zend 内核</h2><h3 id="新-API"><a href="#新-API" class="headerlink" title="新 API"></a>新 API</h3><ul>
 <li><input checked="" disabled="" type="checkbox"> 添加 inline 的 helper function，分别是<ul>
