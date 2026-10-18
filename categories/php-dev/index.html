@@ -131,7 +131,14 @@
 <p>以下是我对 PHP 做过或正在推进的<strong>用户可见行为</strong>变化（不包含重构）。（更新于 2026-10-13 00:49 CST）</p>
 <h2 id="PHP-8-7-x"><a href="#PHP-8-7-x" class="headerlink" title="PHP 8.7.x"></a>PHP 8.7.x</h2><h3 id="RFC"><a href="#RFC" class="headerlink" title="RFC"></a>RFC</h3><ul>
 <li><input disabled="" type="checkbox"> 使 <code>ini_get_all</code> 函数大小写不敏感 (<a target="_blank" rel="noopener" href="https://wiki.php.net/rfc/case_insensitive_ini_get_all">RFC</a>)</li>
-<li><input checked="" disabled="" type="checkbox"> 添加 <code>IntlRelativeDateTimeFormatter</code> 类，方便用户在 PHP 里用国际化的方式表示相对时间。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/23514">PR</a>, <a target="_blank" rel="noopener" href="https://wiki.php.net/rfc/reldateformatter">RFC</a>)</li>
+<li><input checked="" disabled="" type="checkbox"> 添加 <code>IntlRelativeDateTimeFormatter</code> 类，方便用户在 PHP 里用国际化的方式表示相对时间。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/23514">PR #23514</a>, <a target="_blank" rel="noopener" href="https://wiki.php.net/rfc/reldateformatter">RFC</a>)</li>
+</ul>
+<h3 id="新的函数-类-接口"><a href="#新的函数-类-接口" class="headerlink" title="新的函数&#x2F;类&#x2F;接口"></a>新的函数&#x2F;类&#x2F;接口</h3><ul>
+<li>intl<ul>
+<li><code>IntlRelativeDateTimeFormatter</code> (<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/23514">PR #23514</a>, <a target="_blank" rel="noopener" href="https://wiki.php.net/rfc/reldateformatter">RFC</a>)</li>
+<li><code>Transliterator::toRules()</code> (<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/24384">PR #24384</a>)</li>
+</ul>
+</li>
 </ul>
 <h3 id="Bug-修复"><a href="#Bug-修复" class="headerlink" title="Bug 修复"></a>Bug 修复</h3><ul>
 <li>ext&#x2F;zip 修复 <code>ZipArchive::registerCancelCallback()</code> 的取消回调在 PHP 关闭阶段返回无效类型时可能导致的断言失败，并安全处理返回值转换和析构期间的 bailout。（从 PHP 8.6 合并上来；<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/23914">PR #23914</a>, <a target="_blank" rel="noopener" href="https://github.com/php/php-src/commit/85a8601e684aaac055298ddb0991ab61a280c8f6">merge commit 85a8601</a>）</li>
@@ -152,7 +159,7 @@
 <li><input checked="" disabled="" type="checkbox"> 为 intl 添加 <code>Locale::getDisplayKeyword()</code>（别名 <code>locale_get_display_keyword()</code>） 和 <code>Locale::getDisplayKeywordValue()</code> （别名 <code>locale_get_display_keyword_value()</code>）。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/22264">PR #22264</a>, <a target="_blank" rel="noopener" href="https://wiki.php.net/rfc/getdisplaykeyword_and_getdisplaykeywordvalue">RFC</a>)</li>
 <li><input checked="" disabled="" type="checkbox"> 弃用 <code>metaphone</code> 函数。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/21889">PR #21889</a>, <a target="_blank" rel="noopener" href="https://wiki.php.net/rfc/deprecations_php_8_6#deprecate_metaphone_function">RFC</a>)</li>
 </ul>
-<h3 id="新的函数-类-接口"><a href="#新的函数-类-接口" class="headerlink" title="新的函数&#x2F;类&#x2F;接口"></a>新的函数&#x2F;类&#x2F;接口</h3><ul>
+<h3 id="新的函数-类-接口-1"><a href="#新的函数-类-接口-1" class="headerlink" title="新的函数&#x2F;类&#x2F;接口"></a>新的函数&#x2F;类&#x2F;接口</h3><ul>
 <li><p>gmp</p>
 <ul>
 <li><code>gmp_powm_sec</code> (<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/22852">PR #22852</a>, <a href="https://lamentxu.top/posts/2026-07-22-gmp-powm-sec/">blog</a>)</li>
