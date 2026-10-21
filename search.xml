@@ -4975,7 +4975,7 @@
 <blockquote>
 <p>Warning: This directive can be circumvented and should not be considered a sufficient security measure for shared hosting environments.</p>
 </blockquote>
-<p>综上，这个漏洞就是最纯粹的狗屎。是的，狗屎。甚至还没有狗屎有价值。然后呢？“安全专家”们就依靠这个典型开始大肆宣扬所谓 php 末日论。痛斥核心开发者的不作为，云云。</p>
+<p>综上，这个漏洞就是最纯粹的狗屎。然后呢？“安全专家”们就依靠这个典型开始大肆宣扬所谓 php 末日论。痛斥核心开发者的不作为，云云。</p>
 <p>当然，我给专家们带来了一个好消息：由于我们维护者共有 0 个人在意这个所谓的漏洞（我其实是在意的）所以它在 php 8.6（至少在小于 alpha2 的版本）也是可以用的。Enjoy 吧。</p>
 ]]></content>
       <categories>
