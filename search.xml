@@ -5670,7 +5670,7 @@
   <entry>
     <title>How to Calculate 0.1 Plus 0.2 Correctly in PHP?</title>
     <url>/posts/2026-09-11-how-to-calculate-0-point-1-plus-0-point-2-correctly-in-php/</url>
-    <content><![CDATA[<p>本文同样由我（Weilin Du）发布于 <a href="https://thephp.foundation/blog/2026/09/11/how-to-calculate-0-point-1-plus-0-point-2-correctly-in-php/">PHP 基金会官网</a>。</p>
+    <content><![CDATA[<p>本文同样由我发布于 <a href="https://thephp.foundation/blog/2026/09/11/how-to-calculate-0-point-1-plus-0-point-2-correctly-in-php/">PHP 基金会官网</a>。</p>
 <p>Quick quiz before you read:</p>
 <figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="title function_ invoke__">var_dump</span>(<span class="number">0.1</span> + <span class="number">0.2</span> === <span class="number">0.3</span>);</span><br></pre></td></tr></table></figure>
 
