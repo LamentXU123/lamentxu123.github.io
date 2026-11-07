@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="PHP 是互联网的基础。 我无数次想向所有人证明这句话。可是，我们都知道当一个道理本身正确且影响范围足够广，那么往往就不需要劳烦人来证明，时间迟早会给出自己的答案。 PHP2Shell 刚出来的这几天，我已经在很多集会讲过这玩意的技术细节了。而且，网络上很多专家对此的分析已经很详尽，可以参考鸟哥的博客。可以说，前人之述备矣；而且我也说累了。所以让我来写一篇漫谈，讲讲技术之外的东西。 对于这次事件，">
+<meta property="og:type" content="article">
+<meta property="og:title" content="PHP2shell 漫谈">
+<meta property="og:url" content="https://lamentxu.top/posts/2026-11-08-php2shell/index.html">
+<meta property="og:site_name" content="LamentXU">
+<meta property="og:description" content="PHP 是互联网的基础。 我无数次想向所有人证明这句话。可是，我们都知道当一个道理本身正确且影响范围足够广，那么往往就不需要劳烦人来证明，时间迟早会给出自己的答案。 PHP2Shell 刚出来的这几天，我已经在很多集会讲过这玩意的技术细节了。而且，网络上很多专家对此的分析已经很详尽，可以参考鸟哥的博客。可以说，前人之述备矣；而且我也说累了。所以让我来写一篇漫谈，讲讲技术之外的东西。 对于这次事件，">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2026-11-07T16:52:00.000Z">
+<meta property="article:modified_time" content="2026-11-08T09:29:00.000Z">
+<meta property="article:author" content="LamentXU">
+<meta property="article:tag" content="CTF, Web Security, PHP, Python, Writeup">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/cnblogs-avatar.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/cnblogs-avatar.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/cnblogs-avatar.png">
+        
+      
+    
+    <!-- title -->
+    <title>PHP2shell 漫谈</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 8.1.2"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="顶部" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/categories/php-dev/">php 语言开发日志</a></li><!--
+     --><!--
+       --><li><a href="/categories/tech/">其他技术文章</a></li><!--
+     --><!--
+       --><li><a href="/categories/miscellany/">杂七杂八的文字</a></li><!--
+     --><!--
+       --><li><a href="/talks/">公开演讲</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        
+        <li><a class="icon" aria-label="下一篇" href="/posts/2026-10-10-AI-is-killing-OSS/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="返回顶部" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="分享文章" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://lamentxu.top/posts/2026-11-08-php2shell/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://lamentxu.top/posts/2026-11-08-php2shell/&text=PHP2shell 漫谈"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://lamentxu.top/posts/2026-11-08-php2shell/&title=PHP2shell 漫谈"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://lamentxu.top/posts/2026-11-08-php2shell/&is_video=false&description=PHP2shell 漫谈"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=PHP2shell 漫谈&body=Check out this article: https://lamentxu.top/posts/2026-11-08-php2shell/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://lamentxu.top/posts/2026-11-08-php2shell/&title=PHP2shell 漫谈"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://lamentxu.top/posts/2026-11-08-php2shell/&title=PHP2shell 漫谈"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://lamentxu.top/posts/2026-11-08-php2shell/&title=PHP2shell 漫谈"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://lamentxu.top/posts/2026-11-08-php2shell/&title=PHP2shell 漫谈"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://lamentxu.top/posts/2026-11-08-php2shell/&name=PHP2shell 漫谈&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://lamentxu.top/posts/2026-11-08-php2shell/&t=PHP2shell 漫谈"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    
+    
+      <div id="toc">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%AC%AC%E4%B8%80%E6%AC%A1%E5%8F%97%E5%88%B0%E9%87%8D%E8%A7%86%EF%BC%8Chuh%EF%BC%9F"><span class="toc-number">1.</span> <span class="toc-text">第一次受到重视，huh？</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%BF%81%E7%A7%BB%E5%88%B0%E6%96%B0%E7%89%88%E6%9C%AC%EF%BC%8C%E5%88%B0%E5%BA%95%E6%98%AF%E5%A2%9E%E5%8A%A0%E4%BA%86%E5%8F%AF%E7%BB%B4%E6%8A%A4%E6%80%A7%EF%BC%8C%E8%BF%98%E6%98%AF%E9%99%8D%E4%BD%8E%E4%BA%86%EF%BC%9F"><span class="toc-number">2.</span> <span class="toc-text">迁移到新版本，到底是增加了可维护性，还是降低了？</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#AI"><span class="toc-number">3.</span> <span class="toc-text">AI</span></a></li></ol>
+      </div>
+    
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        PHP2shell 漫谈
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">LamentXU</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2026-11-07T16:52:00.000Z" class="dt-published" itemprop="datePublished">2026-11-08</time>
+        
+        (Updated: <time datetime="2026-11-08T09:29:00.000Z" class="dt-updated" itemprop="dateModified">2026-11-08</time>)
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fa-solid fa-archive"></i>
+        <a class="category-link" href="/categories/miscellany/">杂七杂八的文字</a>
+    </div>
+
+
+      
+
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <p>PHP 是互联网的基础。</p>
+<p>我无数次想向所有人证明这句话。可是，我们都知道当一个道理本身正确且影响范围足够广，那么往往就不需要劳烦人来证明，时间迟早会给出自己的答案。</p>
+<p>PHP2Shell 刚出来的这几天，我已经在很多集会讲过这玩意的技术细节了。而且，网络上很多专家对此的分析已经很详尽，可以参考<a target="_blank" rel="noopener" href="https://www.laruence.com/2026/10/22/7686.html">鸟哥的博客</a>。可以说，前人之述备矣；而且我也说累了。所以让我来写一篇漫谈，讲讲技术之外的东西。</p>
+<p>对于这次事件，我有几个想法，想与大家聊聊。我的思绪从这里开始。</p>
+<h1 id="第一次受到重视，huh？"><a href="#第一次受到重视，huh？" class="headerlink" title="第一次受到重视，huh？"></a>第一次受到重视，huh？</h1><p>你看，我做 PHP 内核开发这样长时间，从来没有受到这样高的“宠爱”。PHP2Shell 出来之前，我和我维护的项目永远是沉默的；出来之后，不仅我每天收到的垃圾贡献激增，我本人也受到了相当多的集会或者合作邀请。也许是因为在发出公告到补丁正式发布中间的一天，php 内核的最后一个 commit 是我的 patch 吧。因为当天我们所有人都不许做 push，所以我的名字就在上面挂了一天。所有在那时试图从 Github 下载 php 源码的人都能看到我 :)</p>
+<p>于是我就陷入了大忙碌时代。期中考试，上课，作业，学校的机器人竞赛，组里的项目，开源日常工作，准备各种 talk，各种 CTF 竞赛（是的，我还在打，希望 12 月我能在南京给我在的队伍卫冕强网拟态冠军，谁知道呢？）。连轴转。一周熬两个通宵；四十多个小时不睡觉；靠红牛保持清醒；靠安眠药强制睡眠，再等闹钟把我叫醒。</p>
+<blockquote>
+<p>很充实嘛，小超人？</p>
+</blockquote>
+<p>这个时候就有人说了：这样累，你赚了多少呢？天哪，居然是零耶。</p>
+<p>我想说，很多人对开源的看法都是高度功利的，所以他们理解不了为什么有人能为了一个 bug 能被 patch 跟 PR 的 author 较真到三点半。</p>
+<p>这让我想起了我在上海交通大学的面试。</p>
+<p>面试官问我：你在 php 内核里的代码贡献大概是多少行呢？</p>
+<p>我说，一万多？</p>
+<p>他说：一万多，那你只能算是一个中等的参与者。</p>
+<p>我不服，我说，我很多的时间和精力其实都花在审阅其他人的代码上，而且代码行数本身说明不了什么。</p>
+<p>他说：那你解释一下零一背包问题吧。</p>
+<p>我：？</p>
+<p>然后我的面试就挂了。从那次之后，我就再也不敢在其他人面前轻易提起我的年龄和我的开源贡献。</p>
+<p>你看，我不知道背包问题怎么做，但是这不妨碍我自愿把我的时间和精力花在开源上。说实话，这么多年，我从来没有在实际的项目里遇到过背包问题。</p>
+<p>大部分人的逻辑是，你说你做了很多开源，那你肯定就是说你很牛逼，那我就要问你算法问题，你答不出来你就是吹牛逼，你答上来了也不能说明什么。反正只要我知道一个东西，你不知道，那你说你做开源你就是吹牛逼，那你就被我揭穿了，我好优越。</p>
+<p>问题是，有些人做开源，就是因为喜欢开源。</p>
+<p>这就像是很多 AI 信徒说，不要写代码啦，你看，AI 都能生成很好的代码云云。</p>
+<p>问题是，有些人写代码，就是因为喜欢写代码。</p>
+<p>回到这次的事件里，很多人在 PHP2Shell 之后才突然发现我每天都在 php 内核里 commit，然后就要说。啊很羡慕你能去各种各样的集会，啊你一定很厉害吧，你能不能也给我搞个这样的经历，云云。</p>
+<p>我想说的是，我不在乎关注。我甚至讨厌关注。我每天都能在社交平台上看到一个新的开源 “天才少年” 被造神毁神。我想，要是哪天我也被搞成这样，那我不如死掉好了。换句话说，即使没有关注，即使没有赞助，我也会一直做下去的。</p>
+<p><em>因为我太可怜了，我就他妈喜欢这一个东西。</em></p>
+<h1 id="迁移到新版本，到底是增加了可维护性，还是降低了？"><a href="#迁移到新版本，到底是增加了可维护性，还是降低了？" class="headerlink" title="迁移到新版本，到底是增加了可维护性，还是降低了？"></a>迁移到新版本，到底是增加了可维护性，还是降低了？</h1><p>由于 PHP 目前的最低支持版本是 8.2.x，8.2 以下的版本都不会收到任何相关的安全补丁更新。也就是说，PHP2Shell “逼着” 大家都开始升级 PHP。</p>
+<p>这还真是应了那句老话：</p>
+<blockquote>
+<p>To make the good better, make the evil worse.</p>
+</blockquote>
+<p>如果没有这样糟糕的漏洞，你的 PHP 会变得先进吗？</p>
+<p>我们经常说，上游软件的每一次大版本更新都必然伴随着 BC Break（Backward Complicity Break, 向后不兼容性）。所以盲目地升级软件会降低软件的可维护性，因为你不知道哪里有个坑哪天给你爆了。</p>
+<p>可是，我们经常说，可维护性是为了明天？</p>
+<p>你看，人们在描述可维护性的时候，往往忽略了上游支持这一项很关键的元素。由于开源软件的维护者精力有限，我们往往只能给最新的几个版本提供支持。我们在考虑是否要升级的时候，往往只会考虑新版本本身相较于旧版本的不同，如</p>
+<ul>
+<li>新的功能是不是有用？</li>
+<li>新的性能优化对项目能不能带来显著提升？</li>
+<li>新的 bug fix 对项目是不是关键？</li>
+</ul>
+<p>以上三条往往是不足以驱动一个老项目升级的。然而这次事件让所有人知道，维持你的软件版本较新不仅有这些好处，同时开发团队还会给你提供免费的安全支持。</p>
+<p>不要浪费这样的支持。对于标题中的问题：与其等着必然会出现的严重安全问题再手忙脚乱地升级，不如平时就把最新的版本跟进好，这样反而能带来更好的可维护性。</p>
+<h1 id="AI"><a href="#AI" class="headerlink" title="AI"></a>AI</h1><p>讲几个事实：</p>
+<ol>
+<li>PHP2Shell 的发现者 Ryan A. 仅用了 GPT 5.6 就发现了这个漏洞。那么现在拥有 Astra 的各位 vibe coder 们，能挖到这样的漏洞吗？注意，Ryan A. 对 PHP 内核一直都有相当的理解。</li>
+<li>本漏洞的一部分在 2024 年来自 OSTIF 的一次审计中就已经被发现，只不过因为无法证明危害没有被修复。因此，请不要把功劳都放到 AI 上。</li>
+<li>由于本漏洞在负责任披露的流程中被泄露，才导致我们手忙脚乱地在 10.21 当天放出公告。可是当天互联网上出现了大量 AI slopper 们生成复现了该漏洞，那么各位安全研究员们，你们根据这些 AI slop 复现出来了吗？</li>
+</ol>
+<p>AI 的出现导致所有人都可以用 5 块钱在 10 分钟内声称自己找到了漏洞，并且给出看似正确的证明。这导致不负责任披露现象横行，安全由严肃的领域逐渐变成儿戏。同时，AI slop 的泛滥导致真正的漏洞研究无法进行；错误的修复方案广泛传播；同时，引起了人们无尽地恐慌。</p>
+<p>我累了，睡觉吧。就写到这里，我已经五十多个小时没有睡觉了，现在，我再吃一颗安眠药……</p>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">首页</a></li>
+        
+          <li><a href="/categories/php-dev/">php 语言开发日志</a></li>
+        
+          <li><a href="/categories/tech/">其他技术文章</a></li>
+        
+          <li><a href="/categories/miscellany/">杂七杂八的文字</a></li>
+        
+          <li><a href="/talks/">公开演讲</a></li>
+        
+      </ul>
+    </div>
+
+    
+    
+      <div id="toc-footer" style="display: none">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%AC%AC%E4%B8%80%E6%AC%A1%E5%8F%97%E5%88%B0%E9%87%8D%E8%A7%86%EF%BC%8Chuh%EF%BC%9F"><span class="toc-number">1.</span> <span class="toc-text">第一次受到重视，huh？</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%BF%81%E7%A7%BB%E5%88%B0%E6%96%B0%E7%89%88%E6%9C%AC%EF%BC%8C%E5%88%B0%E5%BA%95%E6%98%AF%E5%A2%9E%E5%8A%A0%E4%BA%86%E5%8F%AF%E7%BB%B4%E6%8A%A4%E6%80%A7%EF%BC%8C%E8%BF%98%E6%98%AF%E9%99%8D%E4%BD%8E%E4%BA%86%EF%BC%9F"><span class="toc-number">2.</span> <span class="toc-text">迁移到新版本，到底是增加了可维护性，还是降低了？</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#AI"><span class="toc-number">3.</span> <span class="toc-text">AI</span></a></li></ol>
+      </div>
+    
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://lamentxu.top/posts/2026-11-08-php2shell/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://lamentxu.top/posts/2026-11-08-php2shell/&text=PHP2shell 漫谈"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://lamentxu.top/posts/2026-11-08-php2shell/&title=PHP2shell 漫谈"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://lamentxu.top/posts/2026-11-08-php2shell/&is_video=false&description=PHP2shell 漫谈"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=PHP2shell 漫谈&body=Check out this article: https://lamentxu.top/posts/2026-11-08-php2shell/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://lamentxu.top/posts/2026-11-08-php2shell/&title=PHP2shell 漫谈"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://lamentxu.top/posts/2026-11-08-php2shell/&title=PHP2shell 漫谈"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://lamentxu.top/posts/2026-11-08-php2shell/&title=PHP2shell 漫谈"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://lamentxu.top/posts/2026-11-08-php2shell/&title=PHP2shell 漫谈"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://lamentxu.top/posts/2026-11-08-php2shell/&name=PHP2shell 漫谈&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://lamentxu.top/posts/2026-11-08-php2shell/&t=PHP2shell 漫谈"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        
+          <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2024-2026
+    LamentXU
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/categories/php-dev/">php 语言开发日志</a></li><!--
+     --><!--
+       --><li><a href="/categories/tech/">其他技术文章</a></li><!--
+     --><!--
+       --><li><a href="/categories/miscellany/">杂七杂八的文字</a></li><!--
+     --><!--
+       --><li><a href="/talks/">公开演讲</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板！\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功！");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>
