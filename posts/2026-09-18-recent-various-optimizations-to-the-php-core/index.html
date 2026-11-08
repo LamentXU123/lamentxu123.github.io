@@ -187,7 +187,7 @@
 <p>我们来想，假设我们用 <code>ab</code> 填充 1024 个字节。</p>
 <p>第 1 次填充的时候：缓冲区是 <code>ab</code><br>第 2 次填充的时候：缓冲区是 <code>abab</code><br>第 3 次填充的时候：缓冲区是 <code>ababab</code><br>第 4 次填充的时候：缓冲区是 <code>abababab</code><br>第 n (n&lt;&#x3D;512) 次填充的时候：缓冲区是 <code>ab</code> 与 n 的积</p>
 <p>注意到，这里可以用对数的方法进行优化。我们在每次拷贝时，不从待填充的字符串拷贝，而是将<strong>缓冲区本身</strong>拷贝到缓冲区里。</p>
-<p>第 1 次填充的时候：缓冲区是 <code>ab</code><br>第 2 次填充的时候：缓冲区是 <code>abab</code><br>第 3 次填充的时候：缓冲区是 <code>abababab</code><br>第 3 次填充的时候：缓冲区是 <code>abababababababab</code><br>第 n (n&lt;&#x3D;10) 次填充的时候：缓冲区是 <code>ab</code> 的 n 次方</p>
+<p>第 1 次填充的时候：缓冲区是 <code>ab</code><br>第 2 次填充的时候：缓冲区是 <code>abab</code><br>第 3 次填充的时候：缓冲区是 <code>abababab</code><br>第 4 次填充的时候：缓冲区是 <code>abababababababab</code><br>第 n (n&lt;&#x3D;10) 次填充的时候：缓冲区是 <code>ab</code> 的 n 次方</p>
 <p>我们只需要检测缓冲区的长度是否小于剩余的长度即可。若不小于，继续循环填充；若小于，则再从<strong>缓冲区的开头复制剩余长度的字符即可</strong>。</p>
 <p>倘若我们填充 1027 个长度的 <code>ab</code>。第 10 次循环结束后，缓冲区是：</p>
 <p><code>ab</code> * 1024</p>
@@ -249,7 +249,7 @@
 <p>注意到 </p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">default</span>: target += <span class="built_in">snprintf</span>(target, <span class="number">4</span>, <span class="string">&quot;%03o&quot;</span>, (<span class="type">unsigned</span> <span class="type">char</span>)</span><br></pre></td></tr></table></figure>
 
-<p>这一行很有意思。它的功能是输入一个字节 <code>c(0~255)</code>，输出固定 3 位带前导 0 的八进制 ASCII 字符串，例如 <code>c=5</code> → <code>&quot;005&quot;</code>；<code>c=0xFF</code> → <code>&quot;377&quot;</code>。</p>
+<p>这一行很有意思。它的功能是输入一个字节 <code>c(0~255)</code>，输出固定 3 位带前导 0 的八进制 ASCII 字符串，例如 <code>c=5</code> 变成 <code>&quot;005&quot;</code>；<code>c=0xFF</code> 变成 <code>&quot;377&quot;</code>。</p>
 <p>考虑需要八进制转义的字节，其数值范围只有 0～255，格式固定为三位八进制数字。旧实现对每个这样的字节调用 <code>snprintf(..., &quot;%03o&quot;, ...)</code>，仍需经过通用格式解析和整数格式化。</p>
 <p>这里直接给出我的新实现：</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">default</span>:</span><br><span class="line">	<span class="comment">/* Write the byte as three octal digits, including leading zeros. */</span></span><br><span class="line">	*target++ = ((<span class="type">unsigned</span> <span class="type">char</span>) c &gt;&gt; <span class="number">6</span>) + <span class="string">&#x27;0&#x27;</span>;</span><br><span class="line">	*target++ = (((<span class="type">unsigned</span> <span class="type">char</span>) c &gt;&gt; <span class="number">3</span>) &amp; <span class="number">7</span>) + <span class="string">&#x27;0&#x27;</span>;</span><br><span class="line">	*target++ = ((<span class="type">unsigned</span> <span class="type">char</span>) c &amp; <span class="number">7</span>) + <span class="string">&#x27;0&#x27;</span>;</span><br></pre></td></tr></table></figure>
