@@ -132,7 +132,7 @@
 </div>
 
 <h1 id="DONE"><a href="#DONE" class="headerlink" title="DONE"></a>DONE</h1><p>对于我在 php-src（php 内核）里做的所有贡献，可以在 <a target="_blank" rel="noopener" href="https://github.com/php/php-src/commits?author=LamentXU123">commit list</a> 里找到。</p>
-<p>以下是我对 PHP 做过或正在推进的<strong>用户可见行为</strong>变化（不包含重构）。（更新于 2026-11-19 17:43 CST）</p>
+<p>以下是我对 PHP 做过或正在推进的<strong>用户可见行为</strong>变化（不包含重构）。（更新于 2026-11-21 03:14 CST）</p>
 <h2 id="PHP-8-7-x"><a href="#PHP-8-7-x" class="headerlink" title="PHP 8.7.x"></a>PHP 8.7.x</h2><h3 id="RFC"><a href="#RFC" class="headerlink" title="RFC"></a>RFC</h3><ul>
 <li><input checked="" disabled="" type="checkbox"> 使 <code>ini_get_all</code> 函数大小写不敏感 (<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/25448">PR #25448</a>, <a target="_blank" rel="noopener" href="https://wiki.php.net/rfc/case_insensitive_ini_get_all">RFC</a>)</li>
 <li><input checked="" disabled="" type="checkbox"> 添加 <code>IntlRelativeDateTimeFormatter</code> 类，方便用户在 PHP 里用国际化的方式表示相对时间。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/23514">PR #23514</a>, <a target="_blank" rel="noopener" href="https://wiki.php.net/rfc/reldateformatter">RFC</a>)</li>
@@ -364,6 +364,7 @@
 <li>ext&#x2F;intl 修复 <code>Locale::lookup()</code> 和 <code>locale_lookup()</code> 在语言标签列表为空时忽略指定的默认 locale 并返回空字符串的问题。（从 PHP 8.4 合并上来；<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/25462">PR #25462</a>）</li>
 </ul>
 <h2 id="PHP-8-4-x"><a href="#PHP-8-4-x" class="headerlink" title="PHP 8.4.x"></a>PHP 8.4.x</h2><h3 id="Bug-修复-3"><a href="#Bug-修复-3" class="headerlink" title="Bug 修复"></a>Bug 修复</h3><ul>
+<li>ext&#x2F;opcache 修复 SCCP 在向部分数组解包时错误传播常量、将已有元素错误替换为展开数组值的问题。（进行中；<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/25508">PR #25508</a>）</li>
 <li>ext&#x2F;curl 保持回调接收者和闭包在回调执行完成前存活，允许 cURL 回调替换或清除自身，避免过早释放对象。（<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/23863">PR #23863</a>, <a target="_blank" rel="noopener" href="https://github.com/php/php-src/commit/9e7117f20f506c4b1022561e4ddb3d2cb6b42d8d">commit 9e7117f</a>）</li>
 <li>ext&#x2F;dom 修复 <code>DOMNode::isEqualNode()</code> 比较深层嵌套 DOM 树时可能触发栈溢出的问题。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/23140">PR #23140</a>)</li>
 <li>ext&#x2F;hash 修复 <code>php_hash.h</code> 无法被 C++ 代码包含的问题。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/22940">PR #22940</a>)</li>
