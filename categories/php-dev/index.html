@@ -132,7 +132,7 @@
 </div>
 
 <h1 id="DONE"><a href="#DONE" class="headerlink" title="DONE"></a>DONE</h1><p>对于我在 php-src（php 内核）里做的所有贡献，可以在 <a target="_blank" rel="noopener" href="https://github.com/php/php-src/commits?author=LamentXU123">commit list</a> 里找到。</p>
-<p>以下是我对 PHP 做过或正在推进的<strong>用户可见行为</strong>变化（不包含重构）。（更新于 2026-11-24 00:51 CST）</p>
+<p>以下是我对 PHP 做过或正在推进的<strong>用户可见行为</strong>变化（不包含重构）。（更新于 2026-11-25 04:56 CST）</p>
 <h2 id="PHP-8-7-x"><a href="#PHP-8-7-x" class="headerlink" title="PHP 8.7.x"></a>PHP 8.7.x</h2><h3 id="RFC"><a href="#RFC" class="headerlink" title="RFC"></a>RFC</h3><ul>
 <li><input checked="" disabled="" type="checkbox"> 使 <code>ini_get_all</code> 函数大小写不敏感 (<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/25448">PR #25448</a>, <a target="_blank" rel="noopener" href="https://wiki.php.net/rfc/case_insensitive_ini_get_all">RFC</a>)</li>
 <li><input checked="" disabled="" type="checkbox"> 添加 <code>IntlRelativeDateTimeFormatter</code> 类，方便用户在 PHP 里用国际化的方式表示相对时间。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/23514">PR #23514</a>, <a target="_blank" rel="noopener" href="https://wiki.php.net/rfc/reldateformatter">RFC</a>)</li>
@@ -156,9 +156,9 @@
 </li>
 </ul>
 <h3 id="Bug-修复"><a href="#Bug-修复" class="headerlink" title="Bug 修复"></a>Bug 修复</h3><ul>
+<li>ext&#x2F;intl 修复 <code>UConverter::setSubstChars()</code> 可能截断替换字符串长度的问题，现在会拒绝超过 127 字节的替换字符串。（<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/25708">PR #25708</a>）</li>
 <li>ext&#x2F;standard 修复 <code>quoted_printable_decode()</code> 在输入包含 NUL 字节时提前截断、无法继续解码后续内容的问题。（<a target="_blank" rel="noopener" href="https://github.com/php/php-src/commit/ba8c7aa4772fb9852c4b413cee55d30bc416c2c3">commit ba8c7aa</a>）</li>
 <li>ext&#x2F;intl 让 <code>IntlChar::enumCharNames()</code> 在回调抛出异常时停止枚举并正确传播异常，之后仍可继续使用该 API。（<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/23866">PR #23866</a>, <a target="_blank" rel="noopener" href="https://github.com/php/php-src/commit/5dfd11b1b0de6d066868ea6384d42d1aacc3b93d">commit 5dfd11b</a>）</li>
-<li>ext&#x2F;intl 修复 <code>IntlCalendar::setTime()</code> 接受非有限时间戳的问题。传入 <code>NAN</code>、<code>INF</code> 或 <code>-INF</code> 时报告 <code>U_ILLEGAL_ARGUMENT_ERROR</code>，并保留原时间戳。（从 PHP 8.6 合并上来，<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/25668">PR #25668</a>）</li>
 <li>Zend 修复 VM 生成器在关闭操作码特化时读取未定义变量的问题，并为 TAILCALL 模式下的未定义操作码生成正确的空处理器。（从 PHP 8.6 合并上来；<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/25579">PR #25579</a>）</li>
 <li>ext&#x2F;fileinfo 修复 TrueType 字体在 magic 数据库更新后丢失 <code>font/ttf</code> MIME 类型和 <code>ttf/tte</code> 扩展名识别的问题，并去除普通字体描述中错误的 FontKit 标记。（从 PHP 8.6 合并上来；<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/25063">PR #25063</a>）</li>
 <li>ext&#x2F;fileinfo 修复 HWPX 归档中包含 PNG 或 Markdown 文件名时被误判为 OOXML 的问题，使 MIME 类型正确返回 <code>application/x-hwp+zip</code>。（从 PHP 8.6 合并上来；<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/25105">PR #25105</a>）</li>
@@ -174,6 +174,7 @@
 <li>ext&#x2F;zip 在 Windows 配置阶段拒绝已知有问题的 libzip 1.3.1、1.7.0、1.12 和 1.12.0，与 Unix 的版本检查保持一致。（从 PHP 8.6 合并上来；<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/24371">PR #24371</a>）</li>
 <li>ext&#x2F;intl 修复 <code>Locale::lookup()</code> 和 <code>locale_lookup()</code> 在语言标签列表为空时忽略指定的默认 locale 并返回空字符串的问题。（从 PHP 8.6 合并上来；<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/25462">PR #25462</a>）</li>
 <li>ext&#x2F;opcache 修复 SCCP 在向编译期只能确定部分内容的数组解包时错误推断整数键，导致读取已有元素时可能得到错误值的问题。（从 PHP 8.6 合并上来；<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/25508">PR #25508</a>）</li>
+<li>ext&#x2F;intl 修复 <code>MessageFormatter::setPattern()</code> 拒绝无效模式后丢失原有模式的问题，使后续 <code>format()</code> 仍按原模式格式化。（从 PHP 8.6 合并上来，<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/25642">PR #25642</a>）</li>
 </ul>
 <h3 id="性能优化"><a href="#性能优化" class="headerlink" title="性能优化"></a>性能优化</h3><ul>
 <li>ext&#x2F;opcache 的 SCCP 优化 <code>array_key_exists()</code>，让布尔键和整数值浮点键在编译期折叠为常量结果，减少运行时计算。（<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/25436">PR #25436</a>, <a target="_blank" rel="noopener" href="https://github.com/php/php-src/commit/6fe61c8">merge commit 6fe61c8</a>）</li>
@@ -207,7 +208,6 @@
 <li>ext&#x2F;fileinfo 修复 TrueType 字体在 magic 数据库更新后丢失 <code>font/ttf</code> MIME 类型和 <code>ttf/tte</code> 扩展名识别的问题，并去除普通字体描述中错误的 FontKit 标记。（<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/25063">PR #25063</a>）</li>
 <li>ext&#x2F;fileinfo 修复 HWPX 归档中包含 PNG 或 Markdown 文件名时被误判为 OOXML 的问题，使 MIME 类型正确返回 <code>application/x-hwp+zip</code>。（<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/25105">PR #25105</a>）</li>
 <li>ext&#x2F;zip 修复 <code>ZipArchive::registerCancelCallback()</code> 的取消回调在 PHP 关闭阶段返回无效类型时可能导致的断言失败，并安全处理返回值转换和析构期间的 bailout。（<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/23914">PR #23914</a>, <a target="_blank" rel="noopener" href="https://github.com/php/php-src/commit/f3db5d60f3951eb880723f30bd8cb0d989d1d6a6">commit f3db5d6</a>）</li>
-<li>ext&#x2F;intl 修复 <code>IntlCalendar::setTime()</code> 接受非有限时间戳的问题。传入 <code>NAN</code>、<code>INF</code> 或 <code>-INF</code> 时报告 <code>U_ILLEGAL_ARGUMENT_ERROR</code>，并保留原时间戳。（从 PHP 8.5 合并上来，<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/25668">PR #25668</a>）</li>
 <li>Zend 修复 VM 生成器在关闭操作码特化时读取未定义变量的问题，并为 TAILCALL 模式下的未定义操作码生成正确的空处理器。（从 PHP 8.5 合并上来；<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/25579">PR #25579</a>）</li>
 <li>ext&#x2F;curl 保持回调接收者和闭包在回调执行完成前存活，允许 cURL 回调替换或清除自身，避免过早释放对象。（从 PHP 8.5 合并上来；<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/23863">PR #23863</a>, <a target="_blank" rel="noopener" href="https://github.com/php/php-src/commit/9e7117f20f506c4b1022561e4ddb3d2cb6b42d8d">commit 9e7117f</a>）</li>
 <li>Zend 修复数组重哈希或压缩空洞时未正确迁移内部指针与多个 <code>foreach</code> 迭代器，导致嵌套按引用遍历跳过元素的问题。（仅保留在 PHP 8.6，已从 PHP 8.4 和 PHP 8.5 回退；<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/23607">PR #23607</a>）</li>
@@ -265,6 +265,7 @@
 <li>ext&#x2F;zip 在 Windows 配置阶段拒绝已知有问题的 libzip 1.3.1、1.7.0、1.12 和 1.12.0，与 Unix 的版本检查保持一致。（从 PHP 8.5 合并上来；<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/24371">PR #24371</a>）</li>
 <li>ext&#x2F;intl 修复 <code>Locale::lookup()</code> 和 <code>locale_lookup()</code> 在语言标签列表为空时忽略指定的默认 locale 并返回空字符串的问题。（从 PHP 8.5 合并上来；<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/25462">PR #25462</a>）</li>
 <li>ext&#x2F;opcache 修复 SCCP 在向编译期只能确定部分内容的数组解包时错误推断整数键，导致读取已有元素时可能得到错误值的问题。（从 PHP 8.5 合并上来；<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/25508">PR #25508</a>）</li>
+<li>ext&#x2F;intl 修复 <code>MessageFormatter::setPattern()</code> 拒绝无效模式后丢失原有模式的问题，使后续 <code>format()</code> 仍按原模式格式化。（从 PHP 8.5 合并上来，<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/25642">PR #25642</a>）</li>
 </ul>
 <h3 id="其他重大改动"><a href="#其他重大改动" class="headerlink" title="其他重大改动"></a>其他重大改动</h3><ul>
 <li>ext&#x2F;phar 包含文件时，仅当包含文件的文件名部分含有以结尾或点号分隔的 <code>.phar</code> 标记时，才将其解释为 Phar 归档并触发反序列化。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/23260">PR #23260</a>)</li>
@@ -328,7 +329,6 @@
 </ul>
 <h2 id="PHP-8-5-x"><a href="#PHP-8-5-x" class="headerlink" title="PHP 8.5.x"></a>PHP 8.5.x</h2><h3 id="Bug-修复-2"><a href="#Bug-修复-2" class="headerlink" title="Bug 修复"></a>Bug 修复</h3><ul>
 <li>Zend 修复 VM 生成器在关闭操作码特化时读取未定义变量的问题，并为 TAILCALL 模式下的未定义操作码生成正确的空处理器。（<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/25579">PR #25579</a>）</li>
-<li>ext&#x2F;intl 修复 <code>IntlCalendar::setTime()</code> 接受非有限时间戳的问题。传入 <code>NAN</code>、<code>INF</code> 或 <code>-INF</code> 时报告 <code>U_ILLEGAL_ARGUMENT_ERROR</code>，并保留原时间戳。（从 PHP 8.4 合并上来，<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/25668">PR #25668</a>）</li>
 <li>ext&#x2F;curl 保持回调接收者和闭包在回调执行完成前存活，允许 cURL 回调替换或清除自身，避免过早释放对象。（从 PHP 8.4 合并上来；<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/23863">PR #23863</a>, <a target="_blank" rel="noopener" href="https://github.com/php/php-src/commit/9e7117f20f506c4b1022561e4ddb3d2cb6b42d8d">commit 9e7117f</a>）</li>
 <li>ext&#x2F;sockets 修复 <code>socket_setopt()</code> &#x2F; <code>socket_set_option()</code> 参数校验失败时的错误信息。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/22772">PR #22772</a>)</li>
 <li>ext&#x2F;intl 在 <code>IntlListFormatter</code> 被创建时重置错误状态。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/22931">PR #22931</a>)</li>
@@ -368,9 +368,10 @@
 <li>ext&#x2F;zip 在 Windows 配置阶段拒绝已知有问题的 libzip 1.3.1、1.7.0、1.12 和 1.12.0，与 Unix 的版本检查保持一致。（从 PHP 8.4 合并上来；<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/24371">PR #24371</a>）</li>
 <li>ext&#x2F;intl 修复 <code>Locale::lookup()</code> 和 <code>locale_lookup()</code> 在语言标签列表为空时忽略指定的默认 locale 并返回空字符串的问题。（从 PHP 8.4 合并上来；<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/25462">PR #25462</a>）</li>
 <li>ext&#x2F;opcache 修复 SCCP 在向编译期只能确定部分内容的数组解包时错误推断整数键，导致读取已有元素时可能得到错误值的问题。（从 PHP 8.4 合并上来；<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/25508">PR #25508</a>）</li>
+<li>ext&#x2F;intl 修复 <code>MessageFormatter::setPattern()</code> 拒绝无效模式后丢失原有模式的问题，使后续 <code>format()</code> 仍按原模式格式化。（从 PHP 8.4 合并上来，<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/25642">PR #25642</a>）</li>
 </ul>
 <h2 id="PHP-8-4-x"><a href="#PHP-8-4-x" class="headerlink" title="PHP 8.4.x"></a>PHP 8.4.x</h2><h3 id="Bug-修复-3"><a href="#Bug-修复-3" class="headerlink" title="Bug 修复"></a>Bug 修复</h3><ul>
-<li>ext&#x2F;intl 修复 <code>IntlCalendar::setTime()</code> 接受非有限时间戳的问题。传入 <code>NAN</code>、<code>INF</code> 或 <code>-INF</code> 时报告 <code>U_ILLEGAL_ARGUMENT_ERROR</code>，并保留原时间戳。（<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/25668">PR #25668</a>，<a target="_blank" rel="noopener" href="https://github.com/php/php-src/commit/c93b3d151f50a30dceb41744a42d42a76ef002c8">commit c93b3d1</a>）</li>
+<li>ext&#x2F;intl 修复 <code>MessageFormatter::setPattern()</code> 拒绝无效模式后丢失原有模式的问题，使后续 <code>format()</code> 仍按原模式格式化。（<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/25642">PR #25642</a>）</li>
 <li>ext&#x2F;opcache 修复 SCCP 在向编译期只能确定部分内容的数组解包时错误推断整数键，导致读取已有元素时可能得到错误值的问题。（<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/25508">PR #25508</a>）</li>
 <li>ext&#x2F;curl 保持回调接收者和闭包在回调执行完成前存活，允许 cURL 回调替换或清除自身，避免过早释放对象。（<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/23863">PR #23863</a>, <a target="_blank" rel="noopener" href="https://github.com/php/php-src/commit/9e7117f20f506c4b1022561e4ddb3d2cb6b42d8d">commit 9e7117f</a>）</li>
 <li>ext&#x2F;dom 修复 <code>DOMNode::isEqualNode()</code> 比较深层嵌套 DOM 树时可能触发栈溢出的问题。(<a target="_blank" rel="noopener" href="https://github.com/php/php-src/pull/23140">PR #23140</a>)</li>
